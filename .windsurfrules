@@ -1,0 +1,10 @@
+# Windsurf Cascade Rules (.windsurfrules)
+
+Always adhere to the universal agent rules defined in `AGENTS.md`.
+
+- **Initial Context**: Always read and incorporate `00-Mapa-de-Contenido-Principal.md` at the start of any conversation.
+- **Continuous Maintenance**: Whenever modules, groups, units, or key files are created, updated, renamed, or deleted, update `00-Mapa-de-Contenido-Principal.md` and bump its YAML `actualizado` date.
+- **SSOT**: Do not duplicate curricular content between modules and groups. Use Obsidian wikilinks and transclusions.
+- **Concepts vs Apuntes**: Theoretical base material is **conceptos** (`02-Conceptos/`, `tipo: concepto`). Full notes for students are **apuntes** and must be generated using `.agents/skills/generar-apuntes/SKILL.md` (HTML -> PDF).
+
+

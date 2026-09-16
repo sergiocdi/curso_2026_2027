@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentación del Módulo de Redes Locales - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   SISTEMA PROFESIONAL DE PRESENTACIONES DE AULA - CIFP AVILÉS (FP)
+   Formato 16:9 Panorámico · Navegación Teclado / PDI · Modo Impresión PDF A4
+   Docente: Sergio Capdevila Díez
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Paleta Corporativa Modo Aula */
+  --bg-dark: #0b1120;
+  --bg-slide: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #27354f;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --primary: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent-blue: #60a5fa;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-purple: #c084fc;
+  --accent-red: #f87171;
+
+  --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(56, 189, 248, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* 1. BARRA DE PROGRESO */
+#progress-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  width: 0%;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+/* 2. VIEWPORT Y CONTENEDOR 16:9 */
+#presentation-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+}
+
+.slide {
+  position: absolute;
+  width: 94vw;
+  max-width: 1440px;
+  height: 84vh;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 40px 52px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-light);
+  opacity: 0;
+  transform: translateY(8px) scale(0.995);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3. PORTADA INSTITUCIONAL (SLIDE 1) */
+.slide-cover {
+  background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+              linear-gradient(135deg, #0f172a 0%, #070d18 100%);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.cover-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inst-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.inst-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cover-logo-box {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cover-logo-box img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-body {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cover-badge-unit {
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1px solid #7dd3fc;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  color: #cbd5e1;
+  max-width: 980px;
+  line-height: 1.45;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.cover-meta-item span {
+  font-size: 14px;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+/* 4. ENCABEZADO DE DIAPOSITIVAS ESTÁNDAR */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.slide-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slide-tag, .slide-badge {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 19px;
+  color: var(--text-muted);
+}
+
+.slide-header-logo {
+  background: #ffffff;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.slide-header-logo img {
+  height: 36px;
+  width: auto;
+}
+
+/* 5. CONTENIDO DE DIAPOSITIVA */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+/* Layouts en rejilla */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-primary);
+}
+
+.card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-desc {
+  font-size: 18px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.highlight-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 5px solid var(--primary);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+}
+
+.warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 5px solid var(--accent-amber);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: #fef08a;
+}
+
+.concept-box {
+  background: rgba(52, 211, 153, 0.08);
+  border-left: 5px solid var(--accent-emerald);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: #a7f3d0;
+}
+
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+ul.bullet-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 18.5px;
+  line-height: 1.55;
+}
+
+ul.bullet-list li::before {
+  content: "➜";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Tablas */
+table.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+table.slide-table th, table.slide-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+table.slide-table th {
+  background: #1e293b;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+table.slide-table tr:nth-child(even) td {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* Código */
+pre.code-block {
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #38bdf8;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+/* 6. PIE DE DIAPOSITIVA */
+.slide-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-author {
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-author span.dot {
+  color: var(--primary);
+}
+
+.slide-counter {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+/* 7. CONTROLES FLOTANTES */
+#controls {
+  height: 52px;
+  background: #090d16;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.control-btn {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+  background: var(--border);
+  color: #ffffff;
+}
+
+/* 8. MODO IMPRESIÓN (PDF A4 LANDSCAPE - CERO PÁGINAS EN BLANCO) */
+@page {
+  size: 297mm 210mm; /* A4 Landscape */
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: auto !important;
+    display: block !important;
+  }
+
+  #progress-bar,
+  #controls,
+  #nav-controls,
+  .controls-overlay,
+  .controls,
+  nav,
+  .nav-btn,
+  .control-btn,
+  .btn-nav,
+  #keyboard-hints,
+  .keyboard-hint {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+
+  #presentation-viewport {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .slide {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    box-sizing: border-box !important;
+    aspect-ratio: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    opacity: 1 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 10mm 16mm 8mm 16mm !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Ajustes optimizados para maquetación impresa A4 Apaisada */
+  .slide-cover {
+    padding: 14mm 20mm 12mm 20mm !important;
+  }
+
+  .cover-header {
+    padding-bottom: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .cover-title {
+    font-size: 30px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .cover-subtitle {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+  }
+
+  .cover-meta-grid {
+    padding: 10px 16px !important;
+    gap: 10px !important;
+  }
+
+  .cover-meta-item strong {
+    font-size: 10px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .cover-meta-item span {
+    font-size: 12.5px !important;
+  }
+
+  .slide-header {
+    padding-bottom: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .slide-tag, .slide-badge {
+    font-size: 11px !important;
+    padding: 2px 10px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .slide-title {
+    font-size: 25px !important;
+    line-height: 1.25 !important;
+  }
+
+  .slide-subtitle {
+    font-size: 15px !important;
+    margin-top: 2px !important;
+    line-height: 1.35 !important;
+  }
+
+  .slide-header-logo {
+    padding: 3px 10px !important;
+  }
+
+  .slide-header-logo img {
+    height: 30px !important;
+  }
+
+  .slide-content, .slide-body {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .grid-2 {
+    gap: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .grid-3 {
+    gap: 14px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .card {
+    padding: 12px 16px !important;
+    border-radius: 10px !important;
+    gap: 6px !important;
+  }
+
+  .card-title {
+    font-size: 18px !important;
+    margin-bottom: 3px !important;
+    line-height: 1.3 !important;
+  }
+
+  .card-badge {
+    font-size: 11.5px !important;
+    padding: 2px 10px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .card-desc {
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  .bullet-list {
+    gap: 5px !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .bullet-list li {
+    font-size: 14.5px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .step-card {
+    padding: 12px 16px !important;
+    gap: 14px !important;
+  }
+
+  .step-badge {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    font-size: 15px !important;
+  }
+
+  .highlight-box, .warning-box, .concept-box {
+    padding: 12px 16px !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+    border-radius: 8px !important;
+  }
+
+  .slide-footer {
+    margin-top: auto !important;
+    padding-top: 6px !important;
+    font-size: 12px !important;
+    flex-shrink: 0 !important;
+    border-top: 1px solid var(--border) !important;
+  }
+
+  .slide-counter {
+    padding: 2px 8px !important;
+    font-size: 12px !important;
+  }
+
+  .cover-logo-box, .slide-header-logo {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor Principal de la Presentación -->
+  <main id="presentation-viewport">
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL                                      -->
+    <!-- ================================================================== -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">CURSO 2026 - 2027 · SMR 1º · GUÍA DOCENTE DE INICIO</div>
+        <h1 class="cover-title">Módulo Profesional de Redes Locales</h1>
+        <p class="cover-subtitle">Guía docente del curso, objetivos de aprendizaje, temporalización por trimestres, metodología de aula y taller, sistema de evaluación y normas de comienzo de curso.</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>Redes Locales (Código 0225)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo y Régimen</strong>
+          <span>1º SMR (Grado Medio) · Presencial</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Carga Lectiva</strong>
+          <span>200 horas anuales (6 h/semana)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Espacios Docentes</strong>
+          <span>Aula de Informática & Taller de Redes</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Docente Titular</strong>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>RA1, RA2, RA3, RA4 y RA5 (100% Curricular)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 2: BIENVENIDA Y VISIÓN GENERAL                               -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-2" data-title="Visión General del Módulo">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bienvenida · Redes Locales</span>
+          <h2 class="slide-title">¿De qué trata este módulo y por qué es fundamental?</h2>
+          <p class="slide-subtitle">La infraestructura de comunicaciones es la columna vertebral de cualquier entorno informático profesional.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">OBJETIVO PROFESIONAL</div>
+            <h3 class="card-title">🔌 Dominar las Redes de Comunicaciones</h3>
+            <p class="card-desc">
+              Ningún ordenador o servidor trabaja aislado hoy en día. Aprenderéis cómo viajan los datos por cables de cobre, fibra óptica y ondas Wi-Fi, cómo se organizan lógicamente mediante el protocolo IP y cómo se configuran conmutadores y encaminadores empresariales.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">COMPETENCIA LABORAL</div>
+            <h3 class="card-title">💼 Salidas Profesionales Directas</h3>
+            <p class="card-desc">
+              Al finalizar 1º SMR seréis capaces de instalar cableado estructurado, montar armarios rack, conmutar redes locales segmentadas con VLANs, calcular direccionamiento IP y diagnosticar averías reales en empresas y centros de datos.
+            </p>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          💡 <strong>El perfil del técnico SMR:</strong> Un profesional de sistemas debe saber diagnosticar qué falla cuando un equipo "no tiene red", interpretar un mapa de red y garantizar que los servicios corporativos funcionen sin cortes.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">02 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 3: MARCO CURRICULAR Y RAs                                    -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-3" data-title="Resultados de Aprendizaje">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Currículo Oficial · LOMLOE</span>
+          <h2 class="slide-title">Los 5 Resultados de Aprendizaje (RAs) del Módulo</h2>
+          <p class="slide-subtitle">Competencias oficiales que evaluaremos y acreditaremos a lo largo de los tres trimestres.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">BLOQUE BÁSICO Y FÍSICO</div>
+            <h3 class="card-title">Fundamentos y Cableado</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>RA1 (15%):</strong> Reconocimiento de la estructura y elementos de las redes locales y modelos de referencia (OSI y TCP/IP).</li>
+                <li><strong>RA2 (20%):</strong> Despliegue de cableado estructurado, racks, rosetas, patch panels y medios guiados y no guiados.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">BLOQUE LÓGICO Y GESTIÓN</div>
+            <h3 class="card-title">Dispositivos, Conmutación y Averías</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>RA3 (25%):</strong> Interconexión de equipos en redes cableadas y Wi-Fi, switches, routers y direccionamiento IP.</li>
+                <li><strong>RA4 (20%):</strong> Configuración y segmentación de redes mediante VLANs, servicios DHCP/DNS y enrutamiento.</li>
+                <li><strong>RA5 (20%):</strong> Diagnóstico de averías, monitorización con analizadores (Wireshark) y mantenimiento.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          🎯 <strong>Evaluación Curricular:</strong> Para aprobar el módulo es necesario demostrar la superación individual de cada uno de los 5 RAs (calificación mínima ≥ 4.0 en cada uno y media global ≥ 5.0).
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">03 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 4: 1ER TRIMESTRE (PARTE 1) - CIMIENTOS Y CABLEADO            -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-4" data-title="1er Trimestre (Parte 1)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Plan de Trabajo · 1er Trimestre (I)</span>
+          <h2 class="slide-title">1er Trimestre: Cimientos Físicos y Cableado en Taller</h2>
+          <p class="slide-subtitle">Fundamentos teóricos, magnitudes de transmisión y montaje físico de cableado estructurado.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">15 HORAS · RA1</div>
+            <h3 class="card-title">UD01 · Introducción a las Redes Locales</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Concepto de telecomunicación y magnitudes de datos (bits, Bytes, Mbps, MB/s).</li>
+                <li>Clasificación de redes por extensión geográfica: de PAN y LAN a MAN y WAN.</li>
+                <li>Topologías físicas (estrella, bus, anillo, malla) y modos de transmisión (Simplex, Half y Full Duplex).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">30 HORAS · RA1, RA2</div>
+            <h3 class="card-title">UD02 · Elementos y Espacios Físicos</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Estándares de cableado estructurado (EIA/TIA 568A y 568B) y categorías Cat 6/6A.</li>
+                <li>Fibra óptica (monomodo y multimodo) y medios de transmisión guiados.</li>
+                <li>Conectorización manual: clavijas RJ-45 macho, rosetas hembra (keystones) y patch panels.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          🛠️ <strong>Prácticas Puntuales de Taller:</strong> Durante la UD02 realizaremos sesiones específicas de taller para que cada alumno aprenda la conectorización manual de cables y certifique con tester sus propios latiguillos y rosetas.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">04 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 5: 1ER TRIMESTRE (PARTE 2) - MODELOS Y PACKET TRACER        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-5" data-title="1er Trimestre (Parte 2)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Plan de Trabajo · 1er Trimestre (II)</span>
+          <h2 class="slide-title">1er Trimestre: Modelos de Referencia y Simulación</h2>
+          <p class="slide-subtitle">Arquitectura en capas (OSI y TCP/IP), dispositivos de red y arranque con Cisco Packet Tracer.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">20 HORAS · RA1</div>
+            <h3 class="card-title">UD03 · Modelos de Referencia (OSI y TCP/IP)</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Las 7 capas del modelo OSI frente a las 4 capas del modelo de Internet TCP/IP.</li>
+                <li>Flujo de encapsulamiento y desencapsulamiento de datos.</li>
+                <li>Unidades de datos de protocolo (PDUs): datos, segmentos, paquetes, tramas y bits.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">25 HORAS · RA1, RA3</div>
+            <h3 class="card-title">UD04 · Dispositivos y Cisco Packet Tracer</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Tarjetas de red (NICs), repetidores, conmutadores (switches) y encaminadores (routers).</li>
+                <li>Introducción intensiva al software de simulación profesional <strong>Cisco Packet Tracer</strong>.</li>
+                <li>Diseño, conexión e inspección de tráfico de topologías virtuales en el aula con PCs.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          🌐 <strong>Simulación Digital de Alto Nivel:</strong> Packet Tracer os permitirá crear escenarios de red complejos sin riesgo de averiar equipamiento, visualizando el viaje de cada trama en tiempo real.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">05 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 6: 2º TRIMESTRE - SUBNETTING Y WI-FI                        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-6" data-title="2º Trimestre">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Plan de Trabajo · 2º Trimestre (60 h)</span>
+          <h2 class="slide-title">2º Trimestre: Direccionamiento IP y Redes Inalámbricas</h2>
+          <p class="slide-subtitle">Cálculo de subredes (subnetting), interfaces lógicas, IPv6 y despliegue de redes Wi-Fi empresariales.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--warning);">
+            <div class="card-badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">35 HORAS · RA3 · HITO CLAVE</div>
+            <h3 class="card-title">UD05 · Protocolo IP y Cálculo de Subredes</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Estructura IPv4, notación decimal con puntos y conversión binaria.</li>
+                <li>Clases de red, direccionamiento privado (RFC 1918) y máscara de subred.</li>
+                <li><strong>Subnetting (cálculo de subredes):</strong> Dirección de red, broadcast y rangos de hosts.</li>
+                <li>⭐ <strong>Examen de Subnetting:</strong> Prueba individual decisiva de cálculo numérico de IP.</li>
+                <li>Estructura básica y formato del protocolo <strong>IPv6</strong>.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">25 HORAS · RA3</div>
+            <h3 class="card-title">UD06 · Redes Inalámbricas y Mixtas</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Estándares IEEE 802.11 (Wi-Fi 5, Wi-Fi 6 / 802.11ax) y bandas de frecuencia (2.4, 5 y 6 GHz).</li>
+                <li>Topologías Ad-Hoc e Infraestructura (BSS, ESS) y roaming.</li>
+                <li>Seguridad inalámbrica: cifrados WPA2 y WPA3 Personal y Enterprise (servidor RADIUS).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          ⭐ <strong>Hito Central del 2º Trimestre:</strong> El <strong>Examen de Subnetting</strong> es una prueba individual fundamental para cualquier técnico en redes. Trabajaremos multitud de ejercicios guiados hasta que calculéis direcciones IP con total soltura.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">06 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 7: 3ER TRIMESTRE - CONMUTACIÓN, VLANS Y AVERÍAS              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-7" data-title="3er Trimestre">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Plan de Trabajo · 3er Trimestre (50 h)</span>
+          <h2 class="slide-title">3er Trimestre: Conmutación Avanzada, VLANs y Averías</h2>
+          <p class="slide-subtitle">Segmentación corporativa con VLANs, enrutamiento inter-VLAN, servicios de red y diagnóstico.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">30 HORAS · RA4 · HITO FINAL</div>
+            <h3 class="card-title">UD07 · Interconexión, VLANs y Servicios</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Configuración de switches Cisco mediante terminal de comandos (CLI).</li>
+                <li>Segmentación de redes virtuales con <strong>VLANs</strong> y enlaces troncales <strong>802.1Q</strong>.</li>
+                <li>Enrutamiento inter-VLAN con router ("Router-on-a-Stick").</li>
+                <li>Configuración de servicios esenciales de red: <strong>DHCP</strong> y <strong>DNS</strong>.</li>
+                <li>⭐ <strong>Examen Final de Packet Tracer:</strong> Maqueta integral de red empresarial.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">20 HORAS · RA5</div>
+            <h3 class="card-title">UD08 · Mantenimiento y Resolución de Incidencias</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Metodología profesional de resolución de averías (<em>Troubleshooting</em>).</li>
+                <li>Comandos de diagnóstico en Windows y Linux (<code>ping</code>, <code>traceroute</code>, <code>netstat</code>, <code>nslookup</code>).</li>
+                <li>Captura y análisis profundo de paquetes con <strong>Wireshark</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          🚀 <strong>Culminación Práctica:</strong> En el tercer trimestre pondréis a prueba todo lo aprendido diseñando redes empresariales completas y resolviendo problemas reales de conectividad.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">07 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 8: METODOLOGÍA (PARTE 1) - AULA DE INFORMÁTICA              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-8" data-title="Metodología (Parte 1)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Metodología Docente · Aula</span>
+          <h2 class="slide-title">¿Cómo trabajaremos el día a día en el Aula?</h2>
+          <p class="slide-subtitle">Dinámica habitual de trabajo con ordenadores individuales y simulación constante.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">PUESTO INDIVIDUAL</div>
+            <h3 class="card-title">💻 1. Trabajo Diario en el Ordenador</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Cada alumno dispondrá de su propio puesto de ordenador en el aula de informática.</li>
+                <li>Explicaciones teóricas concisas (15-20 min) con pizarra digital interactiva.</li>
+                <li>Trabajo guiado e individual (60-70 min) resolviendo ejercicios técnicos y supuestos prácticos.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">LABORATORIO VIRTUAL</div>
+            <h3 class="card-title">🌐 2. Cisco Packet Tracer y Software</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Uso diario de Cisco Packet Tracer como entorno de experimentación y simulación de redes.</li>
+                <li>Análisis de tráfico real y protocolos mediante el analizador Wireshark.</li>
+                <li>Investigación técnica en Internet: consulta de normativas oficiales y fichas de fabricantes.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          ⏱️ <strong>Estructura de una sesión habitual de 2 horas:</strong><br>
+          1️⃣ <strong>Explicación técnica (15-20 min):</strong> Concepto clave, comandos o demostración en PDI.<br>
+          2️⃣ <strong>Trabajo práctico en PC (65-75 min):</strong> Resolución guiada del boletín o simulacro en Packet Tracer.<br>
+          3️⃣ <strong>Puesta en común y dudas (10-15 min):</strong> Corrección colectiva y resolución de dificultades detectadas.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">08 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 9: METODOLOGÍA (PARTE 2) - TALLER Y ENTREGABLES              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-9" data-title="Metodología (Parte 2)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Metodología Docente · Taller y Entregas</span>
+          <h2 class="slide-title">Sesiones de Taller Físico y Prácticas Entregables</h2>
+          <p class="slide-subtitle">Montaje puntual en taller de cables y evaluación continua mediante entregas de aula.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">MONTAJE FÍSICO</div>
+            <h3 class="card-title">🧰 Sesiones Puntuales de Taller</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>No iremos al taller en todas las clases:</strong> Acudiremos de forma puntual para sesiones prácticas de montaje físico y cableado.</li>
+                <li>Aprenderéis a crimpar conectores RJ-45 macho, rosetas hembra y conexionar paneles en armario rack.</li>
+                <li>Comprobación física con comprobadores y tester de red para verificar la continuidad par a par.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--warning);">
+            <div class="card-badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">TRABAJO CONTINUO</div>
+            <h3 class="card-title">📋 Prácticas Entregables de Aula</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>Boletines de ejercicios:</strong> Problemas de cálculo de unidades, topologías y análisis lógico.</li>
+                <li><strong>Búsqueda de especificaciones:</strong> Búsqueda de hardware de fabricantes y comparativas de precios.</li>
+                <li><strong>Memorias técnicas y archivos <code>.pkt</code>:</strong> Documentación ordenada y maquetas de red evaluadas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          📅 <strong>Planificación de Taller:</strong> Los días específicos de taller se anunciarán previamente en el aula virtual para preparar las herramientas, batas/ropa adecuada y organizar los puestos de trabajo.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">09 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 10: EVALUACIÓN (PARTE 1) - TEORÍA Y ENTREGABLES              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-10" data-title="Evaluación (Parte 1)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Evaluación Oficial (I)</span>
+          <h2 class="slide-title">Evaluación: Exámenes Tipo Test y Prácticas Continuas</h2>
+          <p class="slide-subtitle">La base teórica indispensable combinada con el trabajo continuado en el aula virtual.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">TEORÍA Y PROTOCOLOS</div>
+            <h3 class="card-title">📝 Exámenes Teóricos Tipo Test</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Pruebas periódicas objetivas tipo test para evaluar conceptos técnicos, estándares y protocolos de red.</li>
+                <li>Preguntas sobre modelos OSI y TCP/IP, medios guiados, tramas Ethernet y direccionamiento.</li>
+                <li>Garantizan el dominio de la base teórica indispensable antes de pasar a la configuración avanzada.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">EVALUACIÓN CONTINUA</div>
+            <h3 class="card-title">📂 Prácticas Entregables de Aula</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>Boletines de ejercicios y supuestos:</strong> Cálculos de unidades, topologías y análisis de redes.</li>
+                <li><strong>Búsqueda de especificaciones:</strong> Fichas de fabricantes y componentes de red.</li>
+                <li><strong>Creación de memorias técnicas:</strong> Documentación ordenada, esquemas y diagramas.</li>
+                <li><strong>Simulacros en Packet Tracer:</strong> Maquetas entregables evaluadas tema a tema.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          📈 <strong>El valor de la constancia:</strong> La evaluación continua premia el trabajo constante sesión a sesión. Quien entrega sus prácticas en plazo y con rigor adquiere una base sólida para superar sin dificultad los exámenes.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">10 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 11: EVALUACIÓN (PARTE 2) - HITOS PRÁCTICOS Y NOTA FINAL      -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-11" data-title="Evaluación (Parte 2)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Evaluación Oficial (II)</span>
+          <h2 class="slide-title">Hitos Prácticos Clave y Criterios de Superación</h2>
+          <p class="slide-subtitle">Los dos grandes exámenes prácticos del curso y los requisitos para aprobar el módulo.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-top: 4px solid var(--warning);">
+            <div class="card-badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">2º TRIMESTRE · INDIVIDUAL</div>
+            <h3 class="card-title">⭐ Examen de Subnetting</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Prueba individual de cálculo de direccionamiento IP y división en subredes.</li>
+                <li>Cálculo de direcciones de red, broadcast, máscaras de subred y rangos útiles de hosts.</li>
+                <li>Se realiza en ordenador o papel sin calculadoras con cálculo binario automático.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">3ER TRIMESTRE · INTEGRAL</div>
+            <h3 class="card-title">⭐ Examen Final de Packet Tracer</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Montaje, configuración y verificación de una infraestructura de red empresarial completa desde cero.</li>
+                <li>Configuración de switches, VLANs, enlace troncal, router inter-VLAN y servicios DHCP.</li>
+                <li>Comprobación final de conectividad extremo a extremo.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          ⚠️ <strong>Requisitos de Superación Oficial:</strong> Se requiere una <strong>nota global media ≥ 5.0</strong> y haber superado cada uno de los 5 Resultados de Aprendizaje (calificación individual ≥ 4.0). Si un RA queda por debajo de 4.0, el alumno deberá recuperarlo.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">11 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 12: NORMAS ACADÉMICAS (PARTE 1) - ASISTENCIA Y FALTAS        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-12" data-title="Normas Académicas (Parte 1)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Normativa Académica (I)</span>
+          <h2 class="slide-title">Asistencia Obligatoria y Evaluación Continua</h2>
+          <p class="slide-subtitle">La asistencia regular es el factor número uno de éxito en un ciclo presencial de FP.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">RÉGIMEN PRESENCIAL</div>
+            <h3 class="card-title">🕒 Asistencia Regular (200 Horas)</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>El módulo es <strong>100% presencial</strong> (6 horas semanales). Cada sesión práctica es acumulativa.</li>
+                <li>La puntualidad es obligatoria: llegar tarde interrumpe las explicaciones iniciales y el trabajo del grupo.</li>
+                <li>Cada falta de asistencia queda registrada diariamente en la plataforma oficial del centro.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--accent-red);">
+            <div class="card-badge" style="background: rgba(248, 113, 113, 0.2); color: var(--accent-red);">LÍMITE NORMATIVO</div>
+            <h3 class="card-title">⚠️ Pérdida de Evaluación Continua</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Según la normativa de FP del Principado de Asturias, acumular un <strong>15% de faltas no justificadas (30 horas)</strong> conlleva la pérdida del derecho a evaluación continua.</li>
+                <li>Perder la continua implica ir directamente a una prueba final global teórica y práctica en junio.</li>
+                <li>Las faltas deben justificarse formalmente en jefatura de estudios en un <strong>plazo máximo de 48 horas</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          📌 <strong>Justificación formal:</strong> Solo se consideran justificadas las faltas con documento oficial acreditativo (médico, deber público inexcusable o examen oficial) entregado en los plazos reglamentarios.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">12 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 13: NORMAS ACADÉMICAS (PARTE 2) - ENTREGAS Y RECUPERACIÓN    -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-13" data-title="Normas Académicas (Parte 2)">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Normativa Académica (II)</span>
+          <h2 class="slide-title">Plazos de Entrega y Mecanismos de Recuperación</h2>
+          <p class="slide-subtitle">Condiciones para la entrega de prácticas y oportunidades para superar materias pendientes.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--warning);">
+            <div class="card-badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">RIGOR EN PLAZOS</div>
+            <h3 class="card-title">📅 Entregas en el Aula Virtual</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Todas las prácticas (boletines, memorias, búsquedas y maquetas <code>.pkt</code>) se entregan por la plataforma oficial.</li>
+                <li><strong>Entregas fuera de plazo:</strong> Se penalizan con un <strong>20% por cada día de retraso no justificado</strong> (máximo 3 días).</li>
+                <li>Pasados 3 días de la fecha límite, la práctica constará como no entregada (calificación 0).</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">OPORTUNIDADES</div>
+            <h3 class="card-title">🔄 Mecanismos de Recuperación</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Al finalizar cada trimestre se realizará una prueba de recuperación de los RAs y exámenes no alcanzados.</li>
+                <li>Las prácticas deficientes podrán corregirse y reenviarse tras la retroalimentación del profesor.</li>
+                <li><strong>Convocatoria Ordinaria (Junio):</strong> Examen global para los alumnos con RAs pendientes al final del curso.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          🤝 <strong>Compromiso y apoyo continuo:</strong> Si tenéis dificultades con cualquier concepto (como el subnetting o Packet Tracer), pedid ayuda de inmediato en clase o en tutorías. Resolver las dudas al día evita acumular retrasos.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">13 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 14: ESPACIOS Y NORMAS DE TALLER                              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-14" data-title="Espacios y Normas de Taller">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Espacios y Convivencia</span>
+          <h2 class="slide-title">Espacios Docentes, Puestos y Normas de Taller</h2>
+          <p class="slide-subtitle">Cuidado del material, convivencia profesional y seguridad en el taller de redes.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">AULA DE INFORMÁTICA</div>
+            <h3 class="card-title">🖥️ Puesto Individual y Equipos</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>A cada alumno se le asignará un puesto fijo con su PC de aula. Es responsable del cuidado de su equipo.</li>
+                <li>Prohibido desconectar cables de red o alimentación sin indicación expresa del profesor.</li>
+                <li>Prohibido comer o beber junto a los ordenadores de clase.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--warning);">
+            <div class="card-badge" style="background: rgba(245, 158, 11, 0.2); color: var(--warning);">TALLER DE REDES</div>
+            <h3 class="card-title">🧰 Seguridad y Orden en el Taller</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Uso responsable de herramientas de corte y crimpado (crimpadora, pelacables, crimpadora de impacto).</li>
+                <li>Recogida obligatoria de recortes de cable de par trenzado y restos plásticos al finalizar la práctica.</li>
+                <li>Armarios rack: manipular con cuidado los paneles de parcheo y latiguillos organizados.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          🧹 <strong>Hábito profesional:</strong> Un técnico de redes se distingue por el orden en sus montajes y armarios. Un puesto recogido y limpio es un estándar de calidad laboral indispensable.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">14 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 15: CANALES Y MATERIALES                                     -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-15" data-title="Canales y Software">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Recursos y Comunicación</span>
+          <h2 class="slide-title">Canales de Comunicación y Software Necesario</h2>
+          <p class="slide-subtitle">Vías de contacto oficiales y herramientas digitales que utilizaremos en el curso.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">CANALES OFICIALES</div>
+            <h3 class="card-title">📬 Comunicación con el Profesor</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>Aula Virtual Moodle / Teams del CIFP Avilés:</strong> Canal oficial para avisos, entrega de boletines y calificaciones.</li>
+                <li><strong>Correo corporativo Educastur:</strong> Vía formal para tutorías o consultas justificativas.</li>
+                <li>Tutorías individuales presenciales: concertadas previamente para dudas complejas.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">SOFTWARE RECOMENDADO</div>
+            <h3 class="card-title">💻 Programas Gratuitos para Casa</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li><strong>Cisco Packet Tracer (v8.x):</strong> Descarga gratuita con cuenta NetAcad para practicar simulaciones.</li>
+                <li><strong>Wireshark:</strong> Analizador de paquetes de código abierto para ver tráfico real.</li>
+                <li>Procesador de textos (LibreOffice / MS Word) para la redacción de memorias técnicas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          🌐 <strong>Cuenta Cisco NetAcad:</strong> Durante los primeros días de clase tramitaremos vuestra cuenta institucional en Cisco Networking Academy para que tengáis acceso oficial al software y cursos complementarios.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">15 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 16: CLAVES PARA EL ÉXITO EN 1º SMR                          -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-16" data-title="Claves para el Éxito">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Orientación Docente</span>
+          <h2 class="slide-title">Las 4 Claves para Aprobar y Destacar en Redes</h2>
+          <p class="slide-subtitle">Pautas prácticas para aprovechar al máximo el año y construir vuestro futuro profesional.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <h3 class="card-title" style="color: var(--primary);">1️⃣ Práctica Constante en Ordenador</h3>
+            <p class="card-desc">
+              Redes Locales no se aprende memorizando, sino configurando. Montad vuestras propias topologías en Packet Tracer, rompedlas deliberadamente y resolved el fallo.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--secondary);">
+            <h3 class="card-title" style="color: var(--secondary);">2️⃣ Cero Dudas en el Cálculo de Subredes</h3>
+            <p class="card-desc">
+              El subnetting es la base de todo lo posterior. Si tenéis cualquier duda en los cálculos binarios de la UD05, preguntad de inmediato; se asimila practicando con constancia.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--accent);">
+            <h3 class="card-title" style="color: var(--accent);">3️⃣ Rigor y Limpieza en el Taller</h3>
+            <p class="card-desc">
+              Un conector bien crimpado a la primera ahorra horas de averías fantasma en el mundo laboral. La paciencia y el método son virtudes técnicas de primer orden.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid var(--warning);">
+            <h3 class="card-title" style="color: var(--warning);">4️⃣ Trabajo Continuado en Plazo</h3>
+            <p class="card-desc">
+              Llevar los boletines y maquetas al día os asegurará una calificación excelente en continua y os liberará de agobios en los periodos de exámenes trimestrales.
+            </p>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          🚀 <strong>Actitud proactiva:</strong> Quien tiene curiosidad por saber cómo viajan los datos y se atreve a probar en la terminal de comandos se convierte en un gran técnico de redes.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">16 / 17</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 17: HOJA DE RUTA INMEDIATA Y BIENVENIDA                      -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-17" data-title="Primeros Pasos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">¡Comenzamos!</span>
+          <h2 class="slide-title">Hoja de Ruta Inmediata para Esta Primera Semana</h2>
+          <p class="slide-subtitle">Los tres primeros pasos prácticos con los que arrancamos el curso de Redes Locales.</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="Logo CIFP">
+        </div>
+      </header>
+
+      <div class="slide-content">
+        <div class="grid-3">
+          <div class="card" style="border-top: 4px solid var(--primary);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--primary);">PASO 1</div>
+            <h3 class="card-title">📋 Cuestionario Inicial</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Rellenar el documento digital en Word con las preguntas de perfil y la prueba diagnóstica.</li>
+                <li><strong>No cuenta para nota:</strong> Sirve para adaptar el ritmo a vuestro punto de partida.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--secondary);">
+            <div class="card-badge" style="background: rgba(129, 140, 248, 0.2); color: var(--secondary);">PASO 2</div>
+            <h3 class="card-title">🖥️ Puestos de Aula</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Asignación oficial de puestos y ordenadores individuales en el aula.</li>
+                <li>Comprobación de usuarios de acceso y verificación de Cisco Packet Tracer en los PCs.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card" style="border-top: 4px solid var(--accent);">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.2); color: var(--accent);">PASO 3</div>
+            <h3 class="card-title">🚀 Arranque UD01</h3>
+            <div class="card-desc">
+              <ul class="bullet-list">
+                <li>Comenzamos con la <strong>UT1: Caracterización de Redes</strong>.</li>
+                <li>Conceptos fundamentales, magnitudes de transmisión y primeros boletines prácticos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="concept-box" style="text-align: center; font-size: 17px; font-weight: 600;">
+          🎉 ¡Bienvenidos al CIFP Avilés y al módulo de Redes Locales! Tenéis por delante un curso intensivo, formativo y muy práctico. ¡Aprovechad el trabajo diario en el aula y contad con todo mi apoyo!
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (0225) · 1º SMR</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">17 / 17</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Barra de Controles Inferior para PDI y Teclado -->
+  <nav id="controls">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <button class="control-btn" id="btn-prev" title="Diapositiva Anterior (Flecha Izquierda)">‹ Anterior</button>
+      <button class="control-btn" id="btn-next" title="Diapositiva Siguiente (Flecha Derecha / Espacio)">Siguiente ›</button>
+      <span style="font-size: 13px; color: var(--text-muted); margin-left: 8px;" id="slide-info-counter">1 / 17</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="keyboard-hint" style="font-size: 12px; color: var(--text-muted);">Usa <strong>Espacio</strong> / <strong>Flechas</strong> para navegar · <strong>F</strong> pantalla completa</span>
+      <button class="control-btn" id="btn-fullscreen" title="Pantalla Completa (F)">⛶ Pantalla Completa</button>
+      <button class="control-btn" id="btn-print" title="Exportar o Imprimir a PDF (P)">🖨️ PDF</button>
+    </div>
+  </nav>
+
+  <!-- Lógica Interactiva (PDI, Pantalla Completa y Teclado) -->
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const slideInfo = document.getElementById('slide-info-counter');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0 || index >= totalSlides) return;
+        slides[currentIndex].classList.remove('active');
+        currentIndex = index;
+        slides[currentIndex].classList.add('active');
+
+        // Update progress bar
+        const progress = ((currentIndex + 1) / totalSlides) * 100;
+        progressBar.style.width = progress + '%';
+
+        // Update counter
+        slideInfo.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+
+        // Update button states
+        btnPrev.disabled = (currentIndex === 0);
+        btnNext.disabled = (currentIndex === totalSlides - 1);
+        btnPrev.style.opacity = (currentIndex === 0) ? '0.5' : '1';
+        btnNext.style.opacity = (currentIndex === totalSlides - 1) ? '0.5' : '1';
+      }
+
+      function nextSlide() {
+        if (currentIndex < totalSlides - 1) updateSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        if (currentIndex > 0) updateSlide(currentIndex - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => console.log(err));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      btnPrev.addEventListener('click', prevSlide);
+      btnNext.addEventListener('click', nextSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          if (e.ctrlKey) return;
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchEndX - touchStartX;
+        if (diffX < -50) nextSlide();
+        if (diffX > 50) prevSlide();
+      }, { passive: true });
+
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

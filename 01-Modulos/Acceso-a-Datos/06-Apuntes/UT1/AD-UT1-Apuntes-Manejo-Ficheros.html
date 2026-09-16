@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT1: Manejo de Ficheros (Texto, Binarios y XML) - Acceso a Datos (DAM2)</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE APUNTES DOCENTES - FORMACIÓN PROFESIONAL (FP)
+   CIFP Avilés · Departamento de Informática
+   Optimizado para visualización web y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, "Courier New", monospace;
+  
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #0284c7;
+  --primary-50: #f0f9ff;
+  
+  --accent-blue: #2563eb;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #93c5fd;
+
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+  --accent-amber-border: #fcd34d;
+
+  --accent-emerald: #059669;
+  --accent-emerald-bg: #f0fdf4;
+  --accent-emerald-border: #86efac;
+
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #faf5ff;
+  --accent-purple-border: #d8b4fe;
+
+  --accent-rose: #e11d48;
+  --accent-rose-bg: #fff1f2;
+  --accent-rose-border: #fecdd3;
+
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #f8fafc;
+  line-height: 1.68;
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 44px 52px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 1. Cabecera Institucional */
+.doc-header {
+  border-bottom: 3px solid var(--primary-800);
+  padding-bottom: 22px;
+  margin-bottom: 28px;
+}
+
+.doc-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.badge-fp {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-blue-border);
+}
+
+.doc-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 15.5px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  font-size: 12.5px;
+}
+
+.meta-item strong {
+  display: block;
+  color: var(--primary-700);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+/* 2. Índice Temático */
+.toc-box {
+  background: var(--primary-50);
+  border: 1px solid var(--accent-blue-border);
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 32px;
+}
+
+.toc-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary-900);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-list {
+  list-style-type: decimal;
+  padding-left: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 20px;
+  font-size: 13.5px;
+}
+
+.toc-list a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.toc-list a:hover {
+  text-decoration: underline;
+}
+
+/* 3. Títulos y Secciones */
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary-900);
+  margin-top: 36px;
+  margin-bottom: 14px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 .section-num {
+  background: var(--primary-800);
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--primary-800);
+  margin-top: 22px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--primary-700);
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+p {
+  margin-bottom: 12px;
+  color: #334155;
+  text-align: justify;
+}
+
+ul, ol {
+  margin-bottom: 14px;
+  padding-left: 22px;
+  color: #334155;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* 4. Cajas Didácticas (Callouts) */
+.callout {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+  border-left: 4px solid;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.callout-header {
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.callout-concept {
+  background-color: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: #1e3a8a;
+}
+.callout-concept .callout-header { color: #1d4ed8; }
+
+.callout-warning {
+  background-color: var(--accent-amber-bg);
+  border-color: var(--accent-amber);
+  color: #78350f;
+}
+.callout-warning .callout-header { color: #b45309; }
+
+.callout-danger {
+  background-color: var(--accent-rose-bg);
+  border-color: var(--accent-rose);
+  color: #881337;
+}
+.callout-danger .callout-header { color: #be123c; }
+
+.callout-pro {
+  background-color: var(--accent-emerald-bg);
+  border-color: var(--accent-emerald);
+  color: #064e3b;
+}
+.callout-pro .callout-header { color: #047857; }
+
+.callout-activity {
+  background-color: var(--accent-purple-bg);
+  border-color: var(--accent-purple);
+  color: #4c1d95;
+}
+.callout-activity .callout-header { color: #6d28d9; }
+
+/* 5. Bloques de Código */
+.code-card {
+  background: var(--code-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.code-header {
+  background: #1e293b;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 6px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.code-header .lang {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.52;
+  padding: 14px 18px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+p code, li code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+}
+
+/* 6. Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 9px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background: #f1f5f9;
+  color: var(--primary-900);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--color-border);
+}
+
+tr:nth-child(even) td { background: #fafafa; }
+
+/* 7. Lista de preguntas y glosario */
+.questions-list {
+  list-style: none;
+  counter-reset: question-counter;
+  padding-left: 0;
+}
+
+.questions-list li {
+  counter-increment: question-counter;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-blue);
+  font-size: 13.5px;
+}
+
+.questions-list li::before {
+  content: "Pregunta " counter(question-counter) ": ";
+  font-weight: 700;
+  color: var(--accent-blue);
+}
+
+.glossary-term {
+  font-weight: 700;
+  color: var(--primary-900);
+}
+
+/* 8. Reglas de Impresión A4 Portrait */
+@page {
+  size: A4 portrait;
+  margin: 16mm 14mm 18mm 14mm;
+}
+
+@media print {
+  body {
+    background: #ffffff !important;
+    font-size: 9.5pt !important;
+    line-height: 1.45 !important;
+    color: #000000 !important;
+  }
+  .document-container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+  .page-break {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
+  .no-break, .callout, .code-card, table, tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  h2, h3 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  pre {
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    font-size: 8pt !important;
+    padding: 8px 10px !important;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- ==================================================================== -->
+  <!-- CABECERA INSTITUCIONAL Y DATOS TÉCNICOS                              -->
+  <!-- ==================================================================== -->
+  <header class="doc-header">
+    <div class="doc-top-bar">
+      <span>CIFP Avilés · Departamento de Informática</span>
+      <span class="badge-fp">FP Grado Superior · DAM2</span>
+    </div>
+    <h1 class="doc-title">UT1: Manejo de Ficheros (Texto, Binarios y XML)</h1>
+    <div class="doc-subtitle">Manual Técnico y Didáctico de Persistencia Física, Flujos I/O e Intercambio de Datos en Java</div>
+    
+    <div class="doc-meta-grid">
+      <div class="meta-item">
+        <strong>Módulo Formativo</strong>
+        Acceso a Datos (0486)
+      </div>
+      <div class="meta-item">
+        <strong>Unidad de Trabajo</strong>
+        UT1 / UD01 (30 Horas)
+      </div>
+      <div class="meta-item">
+        <strong>Resultados de Aprendizaje</strong>
+        RA1 (CE1.a, CE1.b, CE1.c, CE1.d, CE1.e)
+      </div>
+      <div class="meta-item">
+        <strong>Profesor</strong>
+        Sergio Capdevila Díez (Curso 2026-2027)
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================================================================== -->
+  <!-- ÍNDICE TEMÁTICO DE LA UNIDAD                                         -->
+  <!-- ==================================================================== -->
+  <nav class="toc-box">
+    <div class="toc-title">📋 Estructura Didáctica de la Unidad</div>
+    <ol class="toc-list">
+      <li><a href="#sec-intro">1. Introducción Contextualizada</a></li>
+      <li><a href="#sec-fundamentos">2. Conceptos Fundamentales de I/O</a></li>
+      <li><a href="#sec-desarrollo">3. Desarrollo Progresivo de Contenidos</a></li>
+      <li><a href="#sec-ejemplos">4. Ejemplos Prácticos Graduados</a></li>
+      <li><a href="#sec-codigo">5. Ejemplos de Código Funcional Paso a Paso</a></li>
+      <li><a href="#sec-errores">6. Errores Habituales y Soluciones Técnicas</a></li>
+      <li><a href="#sec-buenas-practicas">7. Buenas Prácticas de la Industria</a></li>
+      <li><a href="#sec-comparativa">8. Matrices Comparativas de Tecnologías</a></li>
+      <li><a href="#sec-resumen">9. Resumen Clave de la Unidad</a></li>
+      <li><a href="#sec-competencias">10. Conceptos que Debes Dominar</a></li>
+      <li><a href="#sec-glosario-preguntas">11. Glosario y Preguntas de Repaso</a></li>
+    </ol>
+  </nav>
+
+  <!-- ==================================================================== -->
+  <!-- 1. INTRODUCCIÓN                                                      -->
+  <!-- ==================================================================== -->
+  <section id="sec-intro">
+    <h2><span class="section-num">1</span> Introducción Contextualizada</h2>
+
+    <p>
+      En cualquier sistema de software profesional, los datos almacenados en variables o estructuras de memoria RAM desaparecen en cuanto la aplicación finaliza o el servidor se reinicia. Para garantizar que la información sobreviva en el tiempo, es imprescindible implementar mecanismos de <strong>persistencia</strong> en medios no volátiles (discos duros HDD, unidades SSD o sistemas de almacenamiento en red).
+    </p>
+
+    <div class="callout callout-pro">
+      <div class="callout-header">🏭 Utilidad en el Mundo Profesional</div>
+      <p>
+        Aunque en proyectos avanzados la persistencia principal recae en motores de bases de datos relacionales o NoSQL, el manejo de ficheros sigue siendo el núcleo insustituible para:
+        <br>• <strong>Registros del sistema (Logs)</strong>: Auditoría y monitorización continua de eventos en servidores de aplicaciones.
+        <br>• <strong>Ficheros de configuración</strong>: Parámetros de arranque en formatos <code>.properties</code>, <code>.env</code> o <code>.yaml</code>.
+        <br>• <strong>Exportación masiva e ingesta ETL</strong>: Migración e intercambio de información mediante ficheros tabulares CSV.
+        <br>• <strong>Intercambio B2B y facturación electrónica</strong>: Facturae (XML) e integración interbancaria.
+      </p>
+    </div>
+
+    <p>
+      <strong>¿Qué conocimientos previos necesitas?</strong> Para abordar con éxito esta unidad únicamente requieres conocimientos consolidados de Programación en Java de 1º curso: orientación a objetos (clases, constructores y métodos), uso de colecciones básicas (<code>List</code>, <code>Map</code>) y gestión estructurada de excepciones mediante bloques <code>try-catch</code>.
+    </p>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 2. CONCEPTOS FUNDAMENTALES                                           -->
+  <!-- ==================================================================== -->
+  <section id="sec-fundamentos">
+    <h2><span class="section-num">2</span> Conceptos Fundamentales de I/O</h2>
+
+    <h3>2.1. El Concepto Intuitivo de Flujo (Stream)</h3>
+    <p>
+      Imagina una tubería de agua que conecta un depósito con tu casa. Tú no recibes todo el depósito de golpe en un único instante; el agua fluye de manera continua gota a gota o litro a litro a través de la tubería.
+    </p>
+    <p>
+      En informática, un <strong>Stream (Flujo)</strong> funciona con esa misma metáfora: es un canal de comunicación unidireccional por el que viaja una secuencia ordenada de datos entre tu programa Java y un recurso externo (un fichero en disco, un puerto de red o la consola). Si el flujo va hacia el programa, hablamos de un <strong>flujo de entrada (Input / Read)</strong>; si los datos salen desde el programa hacia el almacenamiento, es un <strong>flujo de salida (Output / Write)</strong>.
+    </p>
+
+    <div class="callout callout-concept">
+      <div class="callout-header">💡 Idea Clave: Dos Familias de Flujos en Java</div>
+      <p>
+        Java divide estrictamente sus flujos de entrada/salida en dos jerarquías principales:
+        <br><strong>1. Flujos de Bytes (8 bits)</strong>: Clases base <code>InputStream</code> y <code>OutputStream</code>. Diseñadas para datos binarios puros (imágenes, audio, ficheros compilados o tipos de datos primitivos).
+        <br><strong>2. Flujos de Caracteres (Unicode)</strong>: Clases base <code>Reader</code> y <code>Writer</code>. Diseñadas específicamente para texto humano, gestionando automáticamente la traducción entre caracteres y bytes según un juego de caracteres.
+      </p>
+    </div>
+
+    <h3>2.2. Juegos de Caracteres (Charsets) y el Problema del Mojibake</h3>
+    <p>
+      En la memoria RAM, Java almacena los caracteres usando internamente <strong>UTF-16</strong> (2 bytes por carácter). Sin embargo, al guardar texto en disco o enviarlo por la red, esos caracteres deben traducirse a secuencias de bytes según una tabla de equivalencias llamada <strong>Charset</strong>.
+    </p>
+    <p>
+      El estándar indiscutible de la industria global es <strong>UTF-8</strong> (1 byte para caracteres ingleses ASCII y de 2 a 4 bytes para tildes, eñes y caracteres internacionales). Si guardas un fichero en Windows asumiendo el juego por defecto (habitualmente <code>Windows-1252</code> o <code>ISO-8859-1</code>) y lo lees en un servidor Linux configurado en UTF-8 sin especificar el Charset, se producirá <strong>Mojibake</strong>: la corrupción visual de caracteres (ej. "CanciÃ³n" en vez de "Canción").
+    </p>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 3. DESARROLLO PROGRESIVO DE CONTENIDOS                               -->
+  <!-- ==================================================================== -->
+  <section id="sec-desarrollo">
+    <h2><span class="section-num">3</span> Desarrollo Progresivo de Contenidos</h2>
+
+    <p>
+      Avanzaremos a lo largo de 4 modelos tecnológicos de persistencia en disco, desde el texto plano hasta los lenguajes estructurados de intercambio.
+    </p>
+
+    <h3>3.1. Ficheros de Texto Plano: java.io Tradicional vs Java NIO.2</h3>
+    <p>
+      En el paquete clásico <code>java.io</code>, para trabajar con texto usamos <code>FileReader</code> y <code>FileWriter</code>. Sin embargo, acceder directamente al disco por cada carácter individual resulta extremadamente lento. Para solucionarlo, aplicamos el <strong>Patrón Decorador</strong> envolviendo el flujo con un búfer de memoria intermedia:
+    </p>
+    <ul>
+      <li><code>BufferedReader</code>: Almacena fragmentos del fichero en memoria RAM y ofrece el método <code>readLine()</code>, que recupera una línea completa de texto de forma eficiente.</li>
+      <li><code>BufferedWriter</code>: Retiene las escrituras en memoria hasta llenar un bloque y ofrece <code>newLine()</code>, garantizando el salto de línea adecuado al sistema operativo subyacente.</li>
+      <li><code>PrintWriter</code>: Extiende las capacidades de escritura facilitando métodos de formateo avanzado como <code>printf()</code> y <code>println()</code> sin lanzar excepciones comprobadas.</li>
+    </ul>
+
+    <div class="callout callout-pro">
+      <div class="callout-header">⚡ La API Moderna: Java NIO.2 (java.nio.file)</div>
+      <p>
+        A partir de Java 7 y consolidada en las versiones modernas (Java 17 / 21 LTS), la API <strong>NIO.2</strong> sustituye al clásico <code>File</code> por dos abstracciones superiores:
+        <br>• <code>java.nio.file.Path</code>: Representación inmutable de una ruta en el sistema de archivos (ej. <code>Path.of("datos", "ventas.csv")</code>).
+        <br>• <code>java.nio.file.Files</code>: Clase de utilidad estática que permite leer o escribir ficheros pequeños en una sola línea (<code>Files.readString()</code>, <code>Files.writeString()</code>) o procesar ficheros masivos de millones de líneas sin saturar la RAM mediante streams reactivos evaluados de forma perezosa (<code>Files.lines()</code>).
+      </p>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 1.1 a 1.5</div>
+      <p>
+        Abre tu IDE de clase (Eclipse) y realiza las actividades <strong>1.1 (Conversión de Charsets)</strong>, <strong>1.2 (Normalización con Buffers)</strong> y <strong>1.5 (Procesamiento de Logs masivos con NIO.2)</strong> detalladas en el <a href="../../03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula.html">Cuaderno de Actividades de Aula</a>.
+      </p>
+    </div>
+
+    <h3>3.2. Ficheros Binarios de Tipos Simples y Acceso Aleatorio (RandomAccessFile)</h3>
+    <p>
+      Cuando no necesitamos que los datos sean legibles por humanos en un bloc de notas, el formato binario aporta dos ventajas imbatibles: <strong>mínimo tamaño en disco</strong> y <strong>velocidad extrema</strong>.
+    </p>
+    <ul>
+      <li><code>DataOutputStream</code> y <code>DataInputStream</code>: Permiten escribir y leer directamente tipos de datos primitivos de Java (<code>writeInt()</code>, <code>writeDouble()</code>, <code>writeUTF()</code>) en formato binario estandarizado e independiente de la arquitectura del procesador.</li>
+      <li>
+        <strong>RandomAccessFile (RAF)</strong>: A diferencia de los streams secuenciales (donde para leer el byte 1.000 debes pasar obligatoriamente por los 999 anteriores), <code>RandomAccessFile</code> se comporta como un gran array de bytes persistido en disco. Dispone de un <strong>puntero de lectura/escritura</strong> que podemos mover libremente a cualquier posición con <code>seek(long posicion)</code>.
+      </li>
+    </ul>
+
+    <div class="callout callout-concept">
+      <div class="callout-header">💡 El Secreto del Acceso Aleatorio: Registros de Longitud Fija</div>
+      <p>
+        Para que <code>seek()</code> pueda saltar de forma instantánea a un registro concreto sin recorrer el fichero, <strong>todos los registros deben ocupar exactamente el mismo número de bytes</strong>.
+        <br><em>Ejemplo:</em> Si cada registro de un empleado mide <code>4 bytes (ID) + 40 bytes (Nombre) + 8 bytes (Sueldo) = 52 bytes</code>, el registro número $N$ comenzará exactamente en la posición de memoria física:
+        $$\text{Posición en disco} = (N - 1) \times 52$$
+      </p>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 2.1 y 2.2</div>
+      <p>
+        Desarrolla en Eclipse la <strong>Actividad 2.2</strong> del Cuaderno de Aula: cálculo de saltos de puntero y modificación directa de stock mediante <code>RandomAccessFile</code> en modo <code>"rw"</code>.
+      </p>
+    </div>
+
+    <h3>3.3. Serialización de Objetos en Java</h3>
+    <p>
+      Guardar un objeto complejo atributo a atributo con tipos primitivos resulta tedioso y propenso a errores. La <strong>Serialización</strong> es el mecanismo nativo de Java para transformar automáticamente un objeto en memoria (junto con todo su grafo de referencias) en una secuencia de bytes para su almacenamiento o transmisión por red.
+    </p>
+    <ul>
+      <li><strong>Interfaz <code>java.io.Serializable</code></strong>: Es una interfaz marcadora (no define métodos). Indicar que una clase la implementa autoriza a la Máquina Virtual a inspeccionar y guardar sus campos privados.</li>
+      <li><strong>Palabra clave <code>transient</code></strong>: Aplicada a un atributo, indica que no debe ser serializado (útil para contraseñas en texto claro, conexiones abiertas de red o campos temporales calculados).</li>
+      <li><strong>Identificador <code>serialVersionUID</code></strong>: Un número de versión estático (<code>private static final long serialVersionUID = 1L;</code>). Garantiza que la clase que deserializa el objeto sea compatible con la versión con la que se guardó. Si no se declara explícitamente, Java genera uno dinámico y cualquier cambio menor en la clase impedirá recuperar los datos antiguos (lanzando <code>InvalidClassException</code>).</li>
+    </ul>
+
+    <div class="callout callout-warning">
+      <div class="callout-header">⚠️ La Trampa del Append en ObjectOutputStream</div>
+      <p>
+        Cada vez que instancias un <code>ObjectOutputStream</code>, este escribe automáticamente una <strong>cabecera mágica de 4 bytes</strong> (<code>0xACED 0005</code>) al principio del fichero.
+        Si abres un fichero existente en modo append (añadir al final) con el constructor estándar, escribirá una segunda cabecera en mitad del archivo. Al leer posteriormente con <code>ObjectInputStream</code>, la lectura fallará catastróficamente al llegar a ese punto lanzando:
+        <br><code>java.io.StreamCorruptedException: invalid type code: AC</code>.
+        <br><strong>Solución profesional:</strong> Crear una clase que herede de <code>ObjectOutputStream</code> y sobreescriba el método <code>writeStreamHeader()</code> dejándolo vacío para omitir la cabecera cuando el fichero ya contenga datos.
+      </p>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 3.1 y 3.2</div>
+      <p>
+        Implementa la clase <code>MiObjectOutputStream</code> en la <strong>Actividad 3.2</strong> del Cuaderno de Aula para permitir añadir registros a un fichero de clientes serializado sin corromperlo.
+      </p>
+    </div>
+
+    <h3>3.4. Procesamiento de Ficheros Estructurados XML</h3>
+    <p>
+      El lenguaje XML (<em>eXtensible Markup Language</em>) organiza la información en un árbol jerárquico de elementos con etiquetas de apertura y cierre, atributos y texto. En el entorno empresarial de desarrollo Java coexisten tres modelos estándar para su tratamiento:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Modelo XML</th>
+          <th>Tipo de API</th>
+          <th>Consumo de Memoria</th>
+          <th>Ventajas Principales</th>
+          <th>Cuándo Utilizarlo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DOM (Document Object Model)</strong></td>
+          <td>Árbol en memoria</td>
+          <td><strong>Alto</strong> ($\approx 4\times$ el tamaño del archivo)</td>
+          <td>Lectura/escritura bidireccional, navegación libre y soporte XPath.</td>
+          <td>Documentos pequeños o medianos (&lt; 15 MB) donde se requiere modificar o reordenar nodos.</td>
+        </tr>
+        <tr>
+          <td><strong>SAX (Simple API for XML)</strong></td>
+          <td>Orientado a eventos (Push)</td>
+          <td><strong>Mínimo</strong> (prácticamente cero)</td>
+          <td>Velocidad máxima, no carga el documento en memoria.</td>
+          <td>Lectura de grandes ficheros masivos de datos (ej. catálogos de 500 MB o volcados de facturación).</td>
+        </tr>
+        <tr>
+          <td><strong>JAXB (Java Architecture for XML Binding)</strong></td>
+          <td>Mapeo Objeto-XML</td>
+          <td><strong>Moderado</strong> (ligado al POJO)</td>
+          <td>Convierte clases Java a XML (<em>Marshalling</em>) y viceversa (<em>Unmarshalling</em>) de forma transparente mediante anotaciones.</td>
+          <td>Servicios web SOAP, pasarelas de pago y consumo de APIs de negocio basadas en XML.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 4. EJEMPLOS PRÁCTICOS GRADUADOS                                      -->
+  <!-- ==================================================================== -->
+  <section id="sec-ejemplos" class="page-break">
+    <h2><span class="section-num">4</span> Ejemplos Prácticos Graduados</h2>
+
+    <h3>4.1. Nivel Básico: Escritura Atómica con Java NIO.2</h3>
+    <p>
+      Supuesto: Guardar los parámetros de conexión de una aplicación de taller en un archivo local sin necesidad de gestionar bucles ni flujos manuales.
+    </p>
+    <div class="code-card">
+      <div class="code-header"><span>EjemploBásico_NIO2.java</span><span class="lang">Java</span></div>
+      <pre><code>import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+
+public class EjemploBasicoNIO2 {
+    public static void main(String[] args) {
+        Path rutaConfig = Path.of("config", "app.properties");
+        String contenido = "servidor=localhost\npuerto=3306\nusuario=root\n";
+
+        try {
+            // Aseguramos la existencia de la carpeta 'config'
+            if (Files.notExists(rutaConfig.getParent())) {
+                Files.createDirectories(rutaConfig.getParent());
+            }
+
+            // Escribe la cadena en una sola operación atómica en UTF-8
+            Files.writeString(rutaConfig, contenido, 
+                              StandardOpenOption.CREATE, 
+                              StandardOpenOption.TRUNCATE_EXISTING);
+            
+            System.out.println("Configuración guardada correctamente en: " + rutaConfig.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error al acceder al disco: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+
+    <h3>4.2. Nivel Intermedio: Ingesta y Filtrado de un Fichero CSV de Ventas</h3>
+    <p>
+      Supuesto: Leer un archivo <code>ventas.csv</code> con miles de registros de formato <code>ID;PRODUCTO;PRECIO;UNIDADES</code>, descartar la cabecera y calcular la facturación total únicamente de los productos de precio superior a 50€.
+    </p>
+    <div class="code-card">
+      <div class="code-header"><span>ProcesadorVentasCSV.java</span><span class="lang">Java</span></div>
+      <pre><code>import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+
+public class ProcesadorVentasCSV {
+    public static void main(String[] args) {
+        Path csvPath = Path.of("datos", "ventas.csv");
+
+        // try-with-resources asegura el cierre del fichero al terminar el stream
+        try (Stream<String> lineas = Files.lines(csvPath)) {
+            double total = lineas
+                .skip(1) // Omitimos la fila de cabecera (ID;PRODUCTO;...)
+                .filter(linea -> !linea.isBlank())
+                .map(linea -> linea.split(";"))
+                .filter(tokens -> tokens.length >= 4)
+                .mapToDouble(tokens -> {
+                    double precio = Double.parseDouble(tokens[2].trim());
+                    int cantidad = Integer.parseInt(tokens[3].trim());
+                    return (precio > 50.0) ? (precio * cantidad) : 0.0;
+                })
+                .sum();
+
+            System.out.printf("Facturación total de artículos premium (>50€): %.2f €%n", total);
+        } catch (IOException e) {
+            System.err.println("Error I/O procesando el fichero CSV: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+
+    <h3>4.3. Nivel Profesional: Actualización In-Situ con RandomAccessFile</h3>
+    <p>
+      Supuesto: Modificar directamente el saldo de una cuenta bancaria almacenada en un archivo de registros binarios de longitud fija sin reescribir el archivo ni cargarlo en memoria.
+    </p>
+    <div class="code-card">
+      <div class="code-header"><span>GestorCuentasRAF.java</span><span class="lang">Java</span></div>
+      <pre><code>import java.io.RandomAccessFile;
+import java.io.IOException;
+
+public class GestorCuentasRAF {
+    // Estructura: ID (int: 4 bytes) + Saldo (double: 8 bytes) = 12 bytes por registro
+    private static final int TAM_REGISTRO = 12;
+
+    public static boolean actualizarSaldo(String archivoPath, int numeroCuenta, double nuevoSaldo) {
+        try (RandomAccessFile raf = new RandomAccessFile(archivoPath, "rw")) {
+            long posicionByte = (long) (numeroCuenta - 1) * TAM_REGISTRO;
+
+            // Verificamos si la cuenta existe dentro del límite actual del fichero
+            if (posicionByte + TAM_REGISTRO > raf.length()) {
+                System.err.println("La cuenta nº " + numeroCuenta + " no existe.");
+                return false;
+            }
+
+            // Saltamos el ID (4 bytes) y posicionamos el puntero en el saldo
+            raf.seek(posicionByte + 4);
+            raf.writeDouble(nuevoSaldo);
+            return true;
+        } catch (IOException e) {
+            System.err.println("Fallo de acceso aleatorio: " + e.getMessage());
+            return false;
+        }
+    }
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 5. ERRORES HABITUALES Y SOLUCIONES TÉCNICAS                          -->
+  <!-- ==================================================================== -->
+  <section id="sec-errores">
+    <h2><span class="section-num">5</span> Errores Habituales y Soluciones Técnicas</h2>
+
+    <div class="callout callout-danger">
+      <div class="callout-header">❌ Error 1: Fugas de Recursos y Bloqueo de Ficheros en el SO</div>
+      <p>
+        <strong>¿Qué ocurre?</strong> Abrir un flujo con <code>new FileReader()</code> y cerrarlo manualmente al final del método con <code>fr.close()</code>. Si ocurre una excepción intermedia, la línea del <code>close()</code> nunca llega a ejecutarse.
+        <br><strong>¿Por qué es grave?</strong> En Windows el fichero queda bloqueado por el proceso Java, impidiendo que nadie más lo borre o renombre. En servidores Linux, se agotan los descriptores de fichero del sistema operativo (<em>Too many open files</em>).
+        <br><strong>Solución profesional:</strong> Utilizar siempre <code>try-with-resources</code>. Cualquier objeto que implemente <code>AutoCloseable</code> se cerrará de forma garantizada al salir del bloque, incluso ante fallos graves.
+      </p>
+    </div>
+
+    <div class="callout callout-danger">
+      <div class="callout-header">❌ Error 2: Escribir Strings en RAF con Longitud Variable</div>
+      <p>
+        <strong>¿Qué ocurre?</strong> Escribir cadenas con <code>writeUTF(texto)</code> en un fichero de acceso aleatorio y asumir que el registro siempre ocupará los mismos bytes.
+        <br><strong>¿Por qué falla?</strong> <code>writeUTF()</code> escribe 2 bytes con la longitud de la cadena y después los bytes reales del texto. Si guardas "Ana" ocupa 5 bytes, pero si guardas "Alejandro" ocupa 11 bytes. Al hacer <code>seek((N-1)*tam)</code>, el puntero aterrizará en mitad de un número provocando lecturas absurdas.
+        <br><strong>Solución profesional:</strong> Fijar siempre una longitud máxima de caracteres (rellenando con espacios en blanco o usando <code>StringBuffer.setLength()</code>).
+      </p>
+    </div>
+
+    <div class="callout callout-danger">
+      <div class="callout-header">❌ Error 3: Procesar XML Masivos con DOM provocando OutOfMemoryError</div>
+      <p>
+        <strong>¿Qué ocurre?</strong> Intentar parsear un fichero XML de 200 MB descargado de la Agencia Tributaria utilizando <code>DocumentBuilder.parse()</code>.
+        <br><strong>¿Por qué falla?</strong> La especificación DOM crea en memoria un objeto Java completo para cada nodo, atributo y fragmento de texto. Un archivo XML de 200 MB requiere típicamente entre 800 MB y 1.2 GB de memoria RAM libre, colapsando la Máquina Virtual.
+        <br><strong>Solución profesional:</strong> Usar siempre un parser de flujo como <strong>SAX</strong> o <strong>StAX</strong> para ficheros de gran tamaño.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 6. BUENAS PRÁCTICAS DE LA INDUSTRIA                                  -->
+  <!-- ==================================================================== -->
+  <section id="sec-buenas-practicas">
+    <h2><span class="section-num">6</span> Buenas Prácticas de la Industria</h2>
+
+    <div class="callout callout-pro">
+      <div class="callout-header">📋 Niveles de Cumplimiento Técnico</div>
+      <p>
+        En el desarrollo de software corporativo distinguimos tres categorías claras de diseño en persistencia física:
+      </p>
+      <ul>
+        <li>
+          <strong>Obligatorio (Para que el código sea admitido en producción)</strong>:
+          <br>• Especificar siempre el juego de caracteres: <code>StandardCharsets.UTF_8</code>.
+          <br>• Envolver todos los flujos de I/O en bloques <code>try-with-resources</code>.
+          <br>• Utilizar <code>Path.of()</code> o constructores que usen separadores agnósticos (<code>File.separator</code>); nunca usar barras invertidas de Windows a fuego como <code>"C:\\datos\\fichero.txt"</code>.
+        </li>
+        <li>
+          <strong>Altamente Recomendable (Calidad y Mantenibilidad)</strong>:
+          <br>• Bufferizar siempre las operaciones de entrada/salida de bajo nivel.
+          <br>• Definir siempre de forma explícita el <code>private static final long serialVersionUID</code> en todas las clases serializables.
+          <br>• Separar las rutas físicas del código de negocio mediante ficheros de propiedades o variables de entorno.
+        </li>
+        <li>
+          <strong>Estándar de la Industria (Arquitectura)</strong>:
+          <br>• No bloquear el hilo principal de la aplicación durante operaciones I/O intensivas (usar I/O asíncrono o procesamiento reactivo con NIO.2).
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 7. RESUMEN CLAVE DE LA UNIDAD                                        -->
+  <!-- ==================================================================== -->
+  <section id="sec-resumen">
+    <h2><span class="section-num">7</span> Resumen Clave de la Unidad</h2>
+
+    <p>
+      Conceptos esenciales para repasar antes de cualquier prueba de evaluación o entrega de proyecto:
+    </p>
+    <ul>
+      <li><strong>Streams</strong>: Flujos de datos unidireccionales. Se dividen en flujos de <em>Bytes</em> (<code>InputStream</code>/<code>OutputStream</code>) y flujos de <em>Caracteres</em> (<code>Reader</code>/<code>Writer</code>).</li>
+      <li><strong>UTF-8</strong>: Es el juego de caracteres universal que debe especificarse siempre para evitar corrupción de tildes o caracteres especiales al migrar entre sistemas operativos.</li>
+      <li><strong>Java NIO.2</strong>: API moderna basada en <code>Path</code> y métodos de utilidad en <code>Files</code> que simplifica drásticamente el código y ofrece streams funcionales con <code>Files.lines()</code>.</li>
+      <li><strong>RandomAccessFile</strong>: Permite leer y modificar datos saltando libremente por el fichero mediante su puntero con <code>seek()</code>; requiere registros de longitud constante.</li>
+      <li><strong>Serialización</strong>: Almacenamiento nativo de objetos mediante <code>ObjectOutputStream</code>. Exige implementar <code>Serializable</code>, definir <code>serialVersionUID</code> y usar <code>transient</code> para omitir datos confidenciales.</li>
+      <li><strong>XML</strong>: Utiliza <strong>DOM</strong> para ficheros pequeños que necesitan navegación completa en árbol, <strong>SAX</strong> para ingesta rápida de ficheros gigantes con consumo nulo de memoria, y <strong>JAXB</strong> para mapear POJOs a XML mediante anotaciones.</li>
+    </ul>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 8. CONCEPTOS QUE DEBES DOMINAR                                       -->
+  <!-- ==================================================================== -->
+  <section id="sec-competencias">
+    <h2><span class="section-num">8</span> Conceptos que Debes Dominar</h2>
+
+    <p>Al concluir el estudio de esta unidad de trabajo, debes ser capaz de:</p>
+    <ul>
+      <li>✔️ <strong>Comprender</strong> la diferencia fundamental entre flujos de bytes y flujos de caracteres.</li>
+      <li>✔️ <strong>Justificar</strong> por qué es indispensable usar codificación UTF-8 en cualquier aplicación Java moderna.</li>
+      <li>✔️ <strong>Saber utilizar</strong> <code>BufferedReader</code>, <code>BufferedWriter</code> y <code>PrintWriter</code> para procesar texto plano.</li>
+      <li>✔️ <strong>Dominar</strong> la clase <code>Files</code> de NIO.2 para lectura y escritura atómica y filtrado funcional de ficheros masivos.</li>
+      <li>✔️ <strong>Ser capaz de calcular</strong> la posición exacta en bytes de un registro en <code>RandomAccessFile</code> y actualizar su contenido sin corromper el resto.</li>
+      <li>✔️ <strong>Implementar</strong> correctamente la serialización de clases con <code>serialVersionUID</code> y campos <code>transient</code>.</li>
+      <li>✔️ <strong>Resolver</strong> el problema de la doble cabecera en ficheros serializados mediante una subclase especializada de <code>ObjectOutputStream</code>.</li>
+      <li>✔️ <strong>Identificar</strong> cuándo aplicar un parser DOM, un parser SAX o mapeo JAXB según el volumen de datos y los requisitos de memoria del sistema.</li>
+    </ul>
+  </section>
+
+  <!-- ==================================================================== -->
+  <!-- 9. GLOSARIO TÉCNICO Y PREGUNTAS DE REPASO                           -->
+  <!-- ==================================================================== -->
+  <section id="sec-glosario-preguntas" class="page-break">
+    <h2><span class="section-num">9</span> Glosario Técnico y Preguntas de Repaso</h2>
+
+    <h3>Glosario de Términos Clave</h3>
+    <ul>
+      <li><span class="glossary-term">Stream (Flujo):</span> Secuencia ordenada de bytes o caracteres transmitida de forma continua entre un emisor y un receptor.</li>
+      <li><span class="glossary-term">Charset (Juego de Caracteres):</span> Mapeo binario estandarizado que asigna un valor numérico específico a cada carácter alfanumérico o símbolo gráfico.</li>
+      <li><span class="glossary-term">Buffer:</span> Zona temporal de memoria de alta velocidad que almacena datos intermedios para reducir el número de accesos costosos a disco.</li>
+      <li><span class="glossary-term">Puntero de Fichero:</span> Marcador numérico en <code>RandomAccessFile</code> que indica el índice de byte exacto en el que tendrá lugar la siguiente operación de lectura o escritura.</li>
+      <li><span class="glossary-term">transient:</span> Modificador de campo en Java que excluye un atributo del proceso de serialización automática.</li>
+      <li><span class="glossary-term">serialVersionUID:</span> Identificador de 64 bits que verifica que la clase emisora y receptora de un objeto serializado compartan la misma estructura de campos.</li>
+      <li><span class="glossary-term">Marshalling / Unmarshalling:</span> Proceso de transformar un grafo de objetos Java en una estructura de documento XML (Marshalling) y el proceso inverso (Unmarshalling).</li>
+    </ul>
+
+    <h3 style="margin-top: 28px;">Banco de Preguntas de Repaso (Sin Respuesta Inmediata)</h3>
+    <p>
+      Utiliza estas 10 preguntas para verificar tu nivel de asimilación antes del examen práctico o de la prueba diagnóstica:
+    </p>
+
+    <ol class="questions-list">
+      <li>Explica la diferencia entre usar <code>FileReader</code> directamente y envolverlo en un <code>BufferedReader</code>. ¿Qué ventajas aporta a nivel de rendimiento y qué método adicional proporciona?</li>
+      <li>¿Por qué un fichero de texto guardado en un equipo Windows puede verse con caracteres extraños al abrirlo en un servidor Linux si no se especifica el Charset? ¿Cómo se previene en Java?</li>
+      <li>Describe la diferencia de comportamiento entre los métodos <code>Files.readAllLines()</code> y <code>Files.lines()</code> de Java NIO.2. ¿Cuál utilizarías para un fichero de 5 GB de logs y por qué?</li>
+      <li>En un fichero binario gestionado con <code>RandomAccessFile</code> donde cada registro de artículo mide exactamente 32 bytes, ¿qué instrucción Java exacta posiciona el puntero en el inicio del registro número 8?</li>
+      <li>Si modificas el valor de un atributo en un registro usando <code>RandomAccessFile</code>, ¿se borran los registros que vienen después en el fichero? Justifica cómo gestiona el sistema de ficheros esta operación.</li>
+      <li>¿Qué utilidad tiene la palabra clave <code>transient</code> en una clase que implementa <code>Serializable</code>? Pon un ejemplo de un atributo en una aplicación bancaria donde sea indispensable utilizarla.</li>
+      <li>¿Qué excepción se produce al intentar añadir objetos al final de un fichero ya existente usando <code>new ObjectOutputStream(new FileOutputStream(path, true))</code>? Explica la causa física a nivel de bytes.</li>
+      <li>¿Cómo soluciona la industria el problema de añadir objetos a un fichero serializado en modo append sin que se corrompa el archivo?</li>
+      <li>Un cliente te solicita una aplicación para extraer datos de facturación de ficheros XML de 1.5 GB que le envían diariamente sus proveedores. ¿Qué tecnología de procesamiento XML seleccionarías (DOM o SAX) y por qué motivo técnico?</li>
+      <li>¿Qué anotación de JAXB es obligatoria en la clase raíz para que el <code>Marshaller</code> pueda serializar un objeto a un documento XML válido?</li>
+    </ol>
+  </section>
+
+</div>
+
+</body>
+</html>

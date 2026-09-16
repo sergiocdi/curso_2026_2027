@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT1.3: Componentes de una Red Local y Estándares Internacionales - CIFP Avilés</title>
+  <style>
+/* ==============================================================================
+   ESTILO INSTITUCIONAL DE PRESENTACIONES DE UNIDADES DE TRABAJO (TEMA CLARO)
+   CIFP Avilés · Ciclos Formativos de Grado Medio y Superior (SMR / DAM / DAW)
+   Skill: generar-presentaciones-ut · Autoría: Sergio Capdevila Díez
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta de Colores Claros Institucionales */
+  --bg-canvas: #f8fafc;        /* Fondo general suave slate-50 */
+  --bg-card: #ffffff;          /* Tarjetas en blanco puro */
+  --bg-card-alt: #f1f5f9;      /* Superficie secundaria slate-100 */
+  --border-card: #e2e8f0;      /* Borde nítido slate-200 */
+  --border-focus: #2563eb;     /* Azul institucional para focos */
+
+  /* Tipografía de Máximo Contraste */
+  --text-primary: #0f172a;     /* Slate 900 de máxima legibilidad */
+  --text-secondary: #334155;   /* Slate 700 para cuerpo y subtítulos */
+  --text-muted: #64748b;       /* Slate 500 para metadatos y notas */
+
+  /* Colores de Acento Institucional */
+  --color-primary: #1e40af;       /* Azul marino corporativo CIFP Avilés */
+  --color-primary-light: #3b82f6; /* Azul medio de acento */
+  --color-accent: #0284c7;        /* Cian técnico */
+  --color-success: #16a34a;       /* Verde resultados */
+  --color-warning: #d97706;       /* Ámbar alertas */
+  --color-danger: #dc2626;        /* Rojo errores */
+  --color-purple: #9333ea;        /* Púrpura analogías */
+
+  /* Cajas Didácticas */
+  --box-concept-bg: #eff6ff;
+  --box-concept-border: #2563eb;
+  --box-concept-text: #1e3a8a;
+
+  --box-highlight-bg: #f0fdf4;
+  --box-highlight-border: #16a34a;
+  --box-highlight-text: #14532d;
+
+  --box-warning-bg: #fffbeb;
+  --box-warning-border: #d97706;
+  --box-warning-text: #78350f;
+
+  --box-analogia-bg: #faf5ff;
+  --box-analogia-border: #9333ea;
+  --box-analogia-text: #581c87;
+
+  --box-error-bg: #fef2f2;
+  --box-error-border: #dc2626;
+  --box-error-text: #991b1b;
+
+  /* Sombras Suaves */
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 8px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 18px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+}
+
+/* ==============================================================================
+   RESET Y ESTRUCTURA BASE
+   ============================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Barra de Progreso Superior */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: linear-gradient(90deg, #1e40af, #2563eb, #0284c7);
+  z-index: 1000;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Viewport Principal */
+#presentation-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==============================================================================
+   ESTRUCTURA DE CADA DIAPOSITIVA (16:9)
+   ============================================================================== */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 54px 28px 54px;
+  background-color: var(--bg-canvas);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+  overflow-y: auto;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 10;
+}
+
+/* ==============================================================================
+   CABECERA DE DIAPOSITIVA DE CONTENIDO
+   ============================================================================== */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-card);
+  padding-bottom: 14px;
+}
+
+.slide-header-left {
+  max-width: 84%;
+}
+
+.slide-badge {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  border: 1px solid #bfdbfe;
+}
+
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #1e3a8a;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.slide-subtitle {
+  font-size: 19px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.slide-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.slide-header-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ==============================================================================
+   CUERPO DE DIAPOSITIVA Y REJILLAS
+   ============================================================================== */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  min-height: 0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ==============================================================================
+   TARJETAS DIDÁCTICAS (CARDS)
+   ============================================================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-badge {
+  display: inline-block;
+  width: fit-content;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #2563eb;
+  background: #eff6ff;
+  padding: 3px 9px;
+  border-radius: 4px;
+  letter-spacing: 0.8px;
+}
+
+.card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+}
+
+.card-desc {
+  font-size: 18.5px;
+  line-height: 1.6;
+  color: #334155;
+}
+
+/* Listas de Viñetas Didácticas */
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+ul.bullet-list li {
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: #1e293b;
+  position: relative;
+  padding-left: 26px;
+}
+
+ul.bullet-list li::before {
+  content: '➔';
+  position: absolute;
+  left: 0;
+  color: #2563eb;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ==============================================================================
+   CAJAS DIDÁCTICAS ESPECIALIZADAS (CALLOUTS)
+   ============================================================================== */
+.concept-box, .highlight-box, .warning-box, .analogia-box, .error-comun-box {
+  border-radius: 10px;
+  padding: 16px 24px;
+  font-size: 18.5px;
+  line-height: 1.55;
+  box-shadow: var(--shadow-sm);
+}
+
+.concept-box {
+  background: var(--box-concept-bg);
+  border-left: 5px solid var(--box-concept-border);
+  color: var(--box-concept-text);
+}
+
+.highlight-box {
+  background: var(--box-highlight-bg);
+  border-left: 5px solid var(--box-highlight-border);
+  color: var(--box-highlight-text);
+}
+
+.warning-box {
+  background: var(--box-warning-bg);
+  border-left: 5px solid var(--box-warning-border);
+  color: var(--box-warning-text);
+}
+
+.analogia-box {
+  background: var(--box-analogia-bg);
+  border-left: 5px solid var(--box-analogia-border);
+  color: var(--box-analogia-text);
+}
+
+.error-comun-box {
+  background: var(--box-error-bg);
+  border-left: 5px solid var(--box-error-border);
+  color: var(--box-error-text);
+}
+
+/* ==============================================================================
+   TABLAS ESTILIZADAS PARA DIAPOSITIVAS
+   ============================================================================== */
+.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-sm);
+}
+
+.slide-table th, .slide-table td {
+  padding: 12px 18px;
+  font-size: 17.5px;
+  text-align: left;
+}
+
+.slide-table th {
+  background: #f1f5f9;
+  color: #1e3a8a;
+  font-weight: 700;
+  border-bottom: 2px solid #cbd5e1;
+}
+
+.slide-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.slide-table tr:hover {
+  background: #eff6ff;
+}
+
+/* ==============================================================================
+   PORTADA INSTITUCIONAL (COVER SLIDE)
+   ============================================================================== */
+.slide-cover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #eff6ff 100%);
+  justify-content: space-between;
+  padding: 48px 64px 36px 64px;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cover-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inst-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e40af;
+  letter-spacing: 0.5px;
+}
+
+.inst-sub {
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.cover-logo-box img {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-body {
+  margin: 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cover-badge-unit {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e40af;
+  background: #dbeafe;
+  width: fit-content;
+  padding: 5px 14px;
+  border-radius: 6px;
+  border: 1px solid #bfdbfe;
+  letter-spacing: 1px;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  line-height: 1.55;
+  color: #334155;
+  max-width: 92%;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 18px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cover-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cover-meta-item strong {
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #64748b;
+  letter-spacing: 0.8px;
+}
+
+.cover-meta-item span {
+  font-size: 16.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* ==============================================================================
+   PIE DE DIAPOSITIVA (FOOTER)
+   ============================================================================== */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-card);
+  padding-top: 12px;
+  font-size: 14.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.footer-center {
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.footer-right {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* ==============================================================================
+   CONTROLES FLOTANTES INTERACTIVOS (PDI & PANTALLA COMPLETA)
+   ============================================================================== */
+#nav-controls {
+  position: fixed;
+  bottom: 18px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #cbd5e1;
+  box-shadow: var(--shadow-md);
+  padding: 6px 12px;
+  border-radius: 30px;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: #1e40af;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-btn:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.slide-indicator {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 0 6px;
+}
+
+.keyboard-hint {
+  position: fixed;
+  bottom: 24px;
+  left: 28px;
+  font-size: 12.5px;
+  color: #64748b;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  z-index: 999;
+  transition: opacity 0.5s ease;
+}
+
+/* ==============================================================================
+   MODO IMPRESIÓN Y EXPORTACIÓN A PDF (A4 APAISADO 297mm x 210mm)
+   ============================================================================== */
+@media print {
+  @page {
+    size: 297mm 210mm landscape;
+    margin: 0;
+  }
+
+  html, body {
+    width: 297mm !important;
+    height: 210mm !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    overflow: visible !important;
+  }
+
+  #progress-bar,
+  #nav-controls,
+  .keyboard-hint {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #presentation-viewport {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .slide {
+    position: relative !important;
+    display: flex !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-height: 210mm !important;
+    box-sizing: border-box !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    opacity: 1 !important;
+    transform: none !important;
+    padding: 20mm 24mm 16mm 24mm !important;
+    background: #ffffff !important;
+    border: none !important;
+  }
+
+  /* CERO PÁGINAS EN BLANCO: La última diapositiva nunca salta de página */
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .slide-title {
+    font-size: 24px !important;
+    color: #1e3a8a !important;
+  }
+
+  .slide-subtitle {
+    font-size: 15px !important;
+    color: #334155 !important;
+  }
+
+  .card-title {
+    font-size: 17.5px !important;
+  }
+
+  .card-desc, ul.bullet-list li {
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  .concept-box, .highlight-box, .warning-box, .analogia-box, .error-comun-box {
+    font-size: 14.5px !important;
+    padding: 10px 16px !important;
+  }
+
+  .slide-footer {
+    font-size: 12px !important;
+    padding-top: 8px !important;
+  }
+
+  .cover-title {
+    font-size: 32px !important;
+  }
+
+  .cover-subtitle {
+    font-size: 17px !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <main id="presentation-viewport">
+
+    <!-- SLIDE 1: PORTADA -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación · Dpto. Informática</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+      <div class="cover-body">
+        <div class="cover-badge-unit">UNIDAD DE TRABAJO 01 · PARTE 3</div>
+        <h1 class="cover-title">Componentes de una Red Local y Estándares Internacionales</h1>
+        <p class="cover-subtitle">Hardware de red, infraestructura pasiva (rack/paneles), dispositivos activos (Hub/Switch/Router), dominios y organismos de normalización (IEEE 802, ISO, IETF)</p>
+      </div>
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item"><strong>Módulo</strong><span>Redes Locales (0225)</span></div>
+        <div class="cover-meta-item"><strong>Ciclo</strong><span>1º Sistemas Microinformáticos y Redes (SMR)</span></div>
+        <div class="cover-meta-item"><strong>Resultados</strong><span>RA1 (Criterios CE1.d y CE1.e)</span></div>
+        <div class="cover-meta-item"><strong>Docente</strong><span>Sergio Capdevila Díez</span></div>
+        <div class="cover-meta-item"><strong>Sesión</strong><span>Bloque 3 de 3 (Teoría y Taller)</span></div>
+        <div class="cover-meta-item"><strong>Entorno</strong><span>Taller de Redes 102 / Aula y PDI</span></div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">01 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 2: ¿Qué Caracteriza a una Red de Área Local (LAN)? -->
+    <section class="slide" id="slide-2" data-title="¿Qué Caracteriza a una Red de Área Local (LAN)?">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">¿Qué Caracteriza a una Red de Área Local (LAN)?</h2>
+          <p class="slide-subtitle">Los 4 rasgos distintivos de la infraestructura de telecomunicaciones que da nombre a este módulo</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Ámbito y Rendimiento</span>
+        <h3 class="card-title">1. Geografía Acotada y Alta Velocidad</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><strong>Extensión física limitada:</strong> Confinada a una sala, planta, edificio o pequeño recinto (generalmente distancias bajo los 100-300 metros).</li>
+        <li><strong>Velocidades masivas:</strong> Desde <strong>1 Gbps (Gigabit Ethernet)</strong> hasta 10 Gbps estándar sobre cobre Cat6/Cat6A y fibra óptica multimodo.</li>
+        <li><strong>Tasas de error casi nulas:</strong> Los medios guiados protegidos garantizan una transmisión limpia libre de interferencias graves.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Propiedad y Control</span>
+        <h3 class="card-title">2. Titularidad Privada Total</h3>
+      </div>
+      <p class="card-desc">Toda la infraestructura (cables, rosetas, armarios rack y switches) pertenece a la entidad u organización propietaria.</p>
+      <div class="concept-box">
+        <strong>Autonomía absoluta:</strong> La empresa no paga cuotas mensuales por transmitir dentro de su propia LAN; el ancho de banda interno es ilimitado y gratuito.
+      </div>
+      <div class="highlight-box">
+        <strong>Frontera clara:</strong> Solo se paga al operador de telecomunicaciones (ISP) por el acceso exterior hacia Internet a través del router de salida.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">02 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 3: Dispositivos Terminales (Hosts) y Periféricos -->
+    <section class="slide" id="slide-3" data-title="Dispositivos Terminales (Hosts) y Periféricos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Dispositivos Terminales (Hosts) y Periféricos</h2>
+          <p class="slide-subtitle">El origen y destino final de cualquier flujo de información que viaja por la red</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Puestos de Usuario</span>
+        <h3 class="card-title">Equipos de Trabajo</h3>
+      </div>
+      <p class="card-desc">Ordenadores de sobremesa, portátiles, tablets, smartphones y terminales TPV. Inician conexiones hacia servidores y consumen servicios de red.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Recursos de Red</span>
+        <h3 class="card-title">Periféricos Compartidos</h3>
+      </div>
+      <p class="card-desc">Impresoras multifunción con tarjeta de red integrada, escáneres documentales y almacenamiento en red que atienden peticiones de múltiples usuarios a la vez.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Sistemas Especiales</span>
+        <h3 class="card-title">Dispositivos IoT y Voz</h3>
+      </div>
+      <p class="card-desc">Teléfonos VoIP (Cisco, Yealink), cámaras de videovigilancia IP alimentadas por PoE y sensores de control ambiental integrados en la red.</p>
+    </div>
+  </div>
+  <div class="concept-box" style="margin-top: 14px;">
+    <strong>Regla técnica:</strong> Un dispositivo terminal (Host) es aquel que genera o consume datos útiles en las capas de aplicación; los dispositivos intermediarios solo transportan y encaminan dichos datos.
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">03 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 4: Servidores Dedicados: El Motor de la Red Corporativa -->
+    <section class="slide" id="slide-4" data-title="Servidores Dedicados: El Motor de la Red Corporativa">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Servidores Dedicados: El Motor de la Red Corporativa</h2>
+          <p class="slide-subtitle">Máquinas diseñadas para operar de forma ininterrumpida 24 horas al día, 365 días al año</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Hardware Especializado</span>
+        <h3 class="card-title">Componentes de Nivel Servidor</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><strong>Fuentes redundantes hot-plug:</strong> Si una fuente eléctrica falla, la segunda mantiene la máquina encendida sin cortes.</li>
+        <li><strong>Memoria RAM con ECC:</strong> Detección y corrección automática de errores en bits de memoria para prevenir pantallazos azules.</li>
+        <li><strong>Discos en RAID (Tolerancia a fallos):</strong> Espejos o paridad (RAID 1, 5, 10); si un disco se rompe, se extrae en caliente sin apagar.</li>
+        <li><strong>Chasis enracable:</strong> Formato horizontal estandarizado de 1U, 2U o 4U para montar en armarios rack de 19 pulgadas.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Servicios Clave</span>
+        <h3 class="card-title">Roles Típicos en la Empresa</h3>
+      </div>
+      <div class="concept-box">
+        • <strong>Controlador de Dominio (Active Directory):</strong> Gestión centralizada de usuarios, contraseñas y directivas de seguridad (GPO).
+      </div>
+      <div class="concept-box">
+        • <strong>Servidor de Archivos (NAS / SAN):</strong> Cuotas de disco, carpetas departamentales compartidas y backups.
+      </div>
+      <div class="highlight-box">
+        • <strong>Servicios de Infraestructura:</strong> Servidores DHCP (reparto automático de IPs) y servidores DNS locales.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">04 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 5: Adaptadores de Red (NIC) y la Dirección Física MAC -->
+    <section class="slide" id="slide-5" data-title="Adaptadores de Red (NIC) y la Dirección Física MAC">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Adaptadores de Red (NIC) y la Dirección Física MAC</h2>
+          <p class="slide-subtitle">La matrícula indeleble grabada en fábrica en cada interfaz de comunicaciones (Capa 2)</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Hardware y Función</span>
+        <h3 class="card-title">La Tarjeta de Red (NIC)</h3>
+      </div>
+      <p class="card-desc">Es el puente físico entre el bus interno del ordenador (PCIe, USB) y el medio de red (cobre RJ-45, fibra óptica o antena Wi-Fi).</p>
+      <ul class="bullet-list">
+        <li>Modula y desmodula los pulsos eléctricos o de radio.</li>
+        <li>Calcula el código de redundancia cíclica (CRC / FCS) para detectar errores en tramas.</li>
+        <li>Filtra tramas en hardware para no sobrecargar a la CPU.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Capa de Enlace</span>
+        <h3 class="card-title">Anatomía de la Dirección MAC</h3>
+      </div>
+      <p class="card-desc">Identificador único global de <strong>48 bits (6 octetos)</strong> expresado en 12 dígitos hexadecimales:</p>
+      <div class="concept-box" style="font-family: monospace; font-size: 21px; text-align: center; letter-spacing: 2px;">
+        <span style="color: #2563eb; font-weight: bold;">00 : 1A : 2B</span> : <span style="color: #16a34a; font-weight: bold;">6F : 89 : C4</span>
+      </div>
+      <div class="concept-box">
+        • <strong>Primeros 3 octetos (OUI):</strong> Asignados por el organismo IEEE al <em>fabricante</em> (Cisco, Intel, Realtek).<br>
+        • <strong>Últimos 3 octetos:</strong> Número de serie asignado por el fabricante a esa placa individual.
+      </div>
+      <div class="error-comun-box">
+        ¡No pueden coexistir dos tarjetas con la misma MAC en el mismo switch; provocaría conflicto de tabla CAM y colapso de red!
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">05 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 6: Infraestructura Pasiva: Canalizaciones, Tomas y Rosetas -->
+    <section class="slide" id="slide-6" data-title="Infraestructura Pasiva: Canalizaciones, Tomas y Rosetas">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Infraestructura Pasiva: Canalizaciones, Tomas y Rosetas</h2>
+          <p class="slide-subtitle">El 'esqueleto' de la red: componentes que no procesan datos pero sostienen el enlace físico</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Canalización Física</span>
+        <h3 class="card-title">Protección y Trazado de Cables</h3>
+      </div>
+      <ul class="bullet-list">
+        <li><strong>Bandejas portacables de rejilla:</strong> Instaladas en falsos techos para agrupar mazos principales de cableado horizontal.</li>
+        <li><strong>Canaletas técnicas de pared:</strong> Distribución perimetral con tabiques separadores para aislar el cable de datos del cable eléctrico de 230 V.</li>
+        <li><strong>Suelos técnicos:</strong> Baldosas registrables elevadas sobre pies metálicos, habituales en aulas de informática y centros de datos.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Punto de Acceso</span>
+        <h3 class="card-title">Tomas de Telecomunicación (Rosetas)</h3>
+      </div>
+      <p class="card-desc">El punto de conexión final accesible al usuario en la pared o canaleta técnica.</p>
+      <div class="concept-box">
+        <strong>Conector Keystone hembra RJ-45:</strong> Mecanismo modular donde se crimpan los 8 hilos del cable mediante herramienta de impacto tipo Krone (estándares TIA-568A o 568B).
+      </div>
+      <div class="highlight-box">
+        <strong>Latiguillo de puesto (Patch Cord):</strong> Cable flexible preconectorizado de 1 a 3 metros que une la tarjeta del PC con la roseta de la pared.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">06 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 7: El Centro de Conexiones: Armarios Rack y Patch Panels -->
+    <section class="slide" id="slide-7" data-title="El Centro de Conexiones: Armarios Rack y Patch Panels">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">El Centro de Conexiones: Armarios Rack y Patch Panels</h2>
+          <p class="slide-subtitle">La centralización ordenada de los enlaces en el cuarto de telecomunicaciones (RACK)</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">El Armario Técnico</span>
+        <h3 class="card-title">Armarios Rack de 19 Pulgadas</h3>
+      </div>
+      <p class="card-desc">Estructura metálica estandarizada mundialmente para alojar equipamiento de telecomunicaciones de <strong>19 pulgadas (48,26 cm)</strong> de ancho.</p>
+      <ul class="bullet-list">
+        <li>La altura se mide en <strong>Unidades Rack (U)</strong>: 1U = 1,75 pulgadas = <strong>44,45 mm</strong>.</li>
+        <li>Racks murales de pared (6U a 15U) para plantas pequeñas; racks de pie (42U a 47U) para salas principales de servidores.</li>
+        <li>Disponen de ventilación forzada y regletas de alimentación PDU.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Orden y Flexibilidad</span>
+        <h3 class="card-title">Paneles de Parcheo (Patch Panels)</h3>
+      </div>
+      <p class="card-desc">Bloque pasivo de 24 o 48 tomas RJ-45 hembra donde finalizan de forma permanente todos los cables que vienen de las rosetas del aula.</p>
+      <div class="highlight-box">
+        <strong>La regla de oro del instalador:</strong> El cable rígido de pared nunca se conecta directamente al switch. Termina en el patch panel, y desde ahí se conecta al switch mediante <em>latiguillos cortos de parcheo</em>, permitiendo reconfigurar tomas fácilmente.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">07 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 8: Dispositivos Activos: HUB frente a SWITCH frente a ROUTER -->
+    <section class="slide" id="slide-8" data-title="Dispositivos Activos: HUB frente a SWITCH frente a ROUTER">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Dispositivos Activos: HUB frente a SWITCH frente a ROUTER</h2>
+          <p class="slide-subtitle">Los cerebros que procesan, filtran y dirigen el tráfico de paquetes en la red</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <table class="slide-table">
+    <thead>
+      <tr>
+        <th>Dispositivo</th>
+        <th>Capa OSI</th>
+        <th>Método de Envío</th>
+        <th>División de Dominios</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>HUB (Concentrador)</strong><br><small>Obsoleto</small></td>
+        <td>Capa 1 (Física)</td>
+        <td><strong>Inundación / Difusión:</strong> Repite eléctricamente la señal a TODOS los puertos a la vez.</td>
+        <td>NO divide dominios de colisión ni de difusión. Alto riesgo de colisiones.</td>
+      </tr>
+      <tr>
+        <td><strong>SWITCH (Conmutador)</strong><br><small>Estándar LAN</small></td>
+        <td>Capa 2 (Enlace)</td>
+        <td><strong>Conmutación selectiva:</strong> Lee la MAC destino y envía la trama SOLO al puerto del destinatario.</td>
+        <td><strong>SÍ divide dominios de colisión</strong> (cada puerto es independiente). NO divide difusión.</td>
+      </tr>
+      <tr>
+        <td><strong>ROUTER (Encaminador)</strong><br><small>Interconexión</small></td>
+        <td>Capa 3 (Red)</td>
+        <td><strong>Enrutamiento:</strong> Lee la IP destino y encamina paquetes entre diferentes subredes y redes WAN.</td>
+        <td><strong>SÍ divide dominios de colisión</strong> y <strong>SÍ divide dominios de difusión</strong>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">08 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 9: Dominios de Colisión frente a Dominios de Difusión -->
+    <section class="slide" id="slide-9" data-title="Dominios de Colisión frente a Dominios de Difusión">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Dominios de Colisión frente a Dominios de Difusión</h2>
+          <p class="slide-subtitle">Los dos conceptos teóricos más evaluados en certificaciones de redes de comunicaciones</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Capa 2 / Hardware</span>
+        <h3 class="card-title">1. Dominio de Colisión</h3>
+      </div>
+      <p class="card-desc">Segmento de red donde dos o más dispositivos pueden emitir a la vez provocando que sus señales eléctricas choquen e invaliden los datos.</p>
+      <div class="concept-box">
+        • En un HUB: Todos los puertos forman un único gran dominio de colisión.<br>
+        • En un SWITCH: <strong>Cada puerto es un dominio de colisión aislado e independiente</strong> operando en <em>Full Duplex</em> (cero colisiones).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Capa 3 / Lógica</span>
+        <h3 class="card-title">2. Dominio de Difusión (Broadcast)</h3>
+      </div>
+      <p class="card-desc">Área de la red hasta donde llega una trama de difusión dirigida a todos (MAC <code>FF:FF:FF:FF:FF:FF</code> o peticiones ARP/DHCP).</p>
+      <div class="highlight-box">
+        • Los Switches reenvían las tramas de difusión por todos sus puertos.<br>
+        • <strong>Solo los ROUTERS frenan la difusión</strong>, dividiendo la red en subredes estancas para evitar tormentas de broadcast que colapsen los equipos.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">09 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 10: ¿Por qué Necesitamos Estándares Internacionales? -->
+    <section class="slide" id="slide-10" data-title="¿Por qué Necesitamos Estándares Internacionales?">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">¿Por qué Necesitamos Estándares Internacionales?</h2>
+          <p class="slide-subtitle">El caos tecnológico de los años 70 y la victoria del modelo abierto interoperable</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">La Época Oscura</span>
+        <h3 class="card-title">Sistemas Propietarios y Monopolios</h3>
+      </div>
+      <p class="card-desc">En los inicios, cada fabricante diseñaba sus propios cables, conectores y protocolos cerrados (IBM SNA, DECnet, AppleTalk).</p>
+      <div class="warning-box">
+        <strong>Consecuencia para el cliente:</strong> Un ordenador IBM no podía comunicarse con uno HP. El cliente quedaba 'atrapado' (vendor lock-in) pagando precios abusivos por cualquier ampliación.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">La Solución Global</span>
+        <h3 class="card-title">Interoperabilidad Multimarca</h3>
+      </div>
+      <p class="card-desc">Los organismos internacionales definieron especificaciones públicas y consensuadas que todos los fabricantes deben respetar.</p>
+      <div class="highlight-box">
+        <strong>El beneficio actual:</strong> Puedes conectar un portátil Dell por Wi-Fi a un punto de acceso Aruba, atravesar un switch Cisco y acceder a un servidor Lenovo sin incompatibilidades.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">10 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 11: Tipos de Estándares en el Mundo Tecnológico -->
+    <section class="slide" id="slide-11" data-title="Tipos de Estándares en el Mundo Tecnológico">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Tipos de Estándares en el Mundo Tecnológico</h2>
+          <p class="slide-subtitle">Cómo nacen las normas técnicas: por imposición del mercado o por acuerdo institucional</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Origen de la Norma</span>
+        <h3 class="card-title">De Facto frente a De Jure</h3>
+      </div>
+      <div class="concept-box">
+        <strong>Estándar De Facto ('De Hecho'):</strong> Nace sin aprobación oficial previa; se convierte en norma por su éxito comercial abrumador y uso masivo en el mercado.<br>
+        <em>Ejemplo:</em> El protocolo TCP/IP original o los conectores USB.
+      </div>
+      <div class="concept-box">
+        <strong>Estándar De Jure ('Por Ley / Oficial'):</strong> Definido, debatido y refrendado formalmente por un comité internacional de normalización oficial.<br>
+        <em>Ejemplo:</em> El estándar Ethernet IEEE 802.3 o el modelo OSI.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Licenciamiento</span>
+        <h3 class="card-title">Abiertos frente a Propietarios</h3>
+      </div>
+      <div class="highlight-box">
+        <strong>Estándar Abierto (Open):</strong> Documentación pública, gratuita o de bajo coste, utilizable libremente por cualquier fabricante sin pagar cánones monopolísticos.
+      </div>
+      <div class="error-comun-box">
+        <strong>Estándar Propietario (Cerrado):</strong> Propiedad privada de una compañía comercial; sus especificaciones son secretas y requieren licencias caras.
+      </div>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">11 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 12: Organismos Mundiales de Normalización -->
+    <section class="slide" id="slide-12" data-title="Organismos Mundiales de Normalización">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Organismos Mundiales de Normalización</h2>
+          <p class="slide-subtitle">Las entidades de alto nivel que regulan las telecomunicaciones en el planeta</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Ginebra / Mundial</span>
+        <h3 class="card-title">1. ISO</h3>
+      </div>
+      <p class="card-desc"><strong>International Organization for Standardization:</strong> Federación mundial de organismos nacionales de normalización.<br><br>Creadora del mítico <strong>Modelo de Referencia OSI</strong> de 7 capas para redes abiertas.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Agencia de la ONU</span>
+        <h3 class="card-title">2. ITU / UIT</h3>
+      </div>
+      <p class="card-desc"><strong>Unión Internacional de Telecomunicaciones:</strong> Organismo especializado de Naciones Unidas para regular las frecuencias radioeléctricas globales y estándares de satélite y fibra (ITU-T).</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Ámbito Europeo</span>
+        <h3 class="card-title">3. ETSI</h3>
+      </div>
+      <p class="card-desc"><strong>European Telecommunications Standards Institute:</strong> Responsable de la estandarización europea en telecomunicaciones, creador de los estándares mundiales de telefonía móvil <strong>GSM, 4G LTE y 5G</strong>.</p>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">12 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 13: El Instituto IEEE y el Proyecto IEEE 802 -->
+    <section class="slide" id="slide-13" data-title="El Instituto IEEE y el Proyecto IEEE 802">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">El Instituto IEEE y el Proyecto IEEE 802</h2>
+          <p class="slide-subtitle">El organismo que define la física y el enlace de todas las redes locales del planeta</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <p class="card-desc" style="margin-bottom: 12px;">El <strong>IEEE (Institute of Electrical and Electronics Engineers)</strong> creó en 1980 el <strong>Comité 802</strong> para estandarizar las redes de área local y metropolitana:</p>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Red Cableada</span>
+        <h3 class="card-title">IEEE 802.3 (Ethernet)</h3>
+      </div>
+      <p class="card-desc">Define el método de acceso al medio por cable (CSMA/CD), las tramas con direcciones MAC de 48 bits y los estándares desde 10 Mbps hasta 100 Gbps sobre par trenzado y fibra óptica.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Red Inalámbrica</span>
+        <h3 class="card-title">IEEE 802.11 (Wi-Fi)</h3>
+      </div>
+      <p class="card-desc">Define la comunicación inalámbrica por ondas de radio en las bandas de 2,4 GHz, 5 GHz y 6 GHz con método de acceso CSMA/CA (estándares 802.11n, 802.11ac Wi-Fi 5, 802.11ax Wi-Fi 6).</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Red Personal</span>
+        <h3 class="card-title">IEEE 802.15 (WPAN)</h3>
+      </div>
+      <p class="card-desc">Estándares para redes de área personal sin cables y corto alcance (menos de 10 metros): <strong>Bluetooth</strong> (802.15.1) y sensores domóticos/IoT de bajo consumo <strong>Zigbee</strong> (802.15.4).</p>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">13 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 14: La Gobernanza de Internet: IETF y los Documentos RFC -->
+    <section class="slide" id="slide-14" data-title="La Gobernanza de Internet: IETF y los Documentos RFC">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">La Gobernanza de Internet: IETF y los Documentos RFC</h2>
+          <p class="slide-subtitle">Cómo una comunidad abierta de ingenieros define y evoluciona los protocolos de la Red</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Comunidad Abierta</span>
+        <h3 class="card-title">IETF (Internet Engineering Task Force)</h3>
+      </div>
+      <p class="card-desc">Organismo abierto internacional de técnicos, investigadores y operadores que desarrolla y promueve los estándares de la arquitectura de Internet (TCP/IP).</p>
+      <div class="concept-box">
+        <strong>Filosofía de trabajo:</strong> <em>"Rechazamos reyes, presidentes y votaciones; creemos en el consenso aproximado y el código que funciona"</em> (David Clark).
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Documentación Oficial</span>
+        <h3 class="card-title">Las Peticiones de Comentarios (RFC)</h3>
+      </div>
+      <p class="card-desc">Cada estándar oficial de Internet se publica como un documento técnico numerado denominado <strong>RFC (Request For Comments)</strong>:</p>
+      <ul class="bullet-list">
+        <li><strong>RFC 791:</strong> Protocolo de Internet (IPv4).</li>
+        <li><strong>RFC 793:</strong> Protocolo de Control de Transmisión (TCP).</li>
+        <li><strong>RFC 1918:</strong> Rango de direcciones IP privadas de red local.</li>
+        <li><strong>RFC 2616 / 7540:</strong> Protocolo web HTTP/1.1 y HTTP/2.</li>
+      </ul>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">14 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 15: Mapa Conceptual Integrado: Todo lo Aprendido en la UT1 -->
+    <section class="slide" id="slide-15" data-title="Mapa Conceptual Integrado: Todo lo Aprendido en la UT1">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Mapa Conceptual Integrado: Todo lo Aprendido en la UT1</h2>
+          <p class="slide-subtitle">La visión global de los 3 bloques de contenidos para consolidar el aprendizaje</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">UT1.1</span>
+        <h3 class="card-title">1. Fundamentos y Bits</h3>
+      </div>
+      <p class="card-desc">• Datos digitales vs analógicos.<br>• Resistencia al ruido y atenuación.<br>• El byte y los pesos del 128 al 1.<br>• Conversión binaria y hexadecimal.<br>• Bytes (tamaño) vs bps (velocidad).</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">UT1.2</span>
+        <h3 class="card-title">2. Tipos y Topologías</h3>
+      </div>
+      <p class="card-desc">• Alcance: PAN, LAN, CAN, WAN.<br>• Conmutación de paquetes IP.<br>• Topología estrella física (Switch).<br>• Topología lógica del bus (HUB).<br>• Tiempo de transmisión: T = Tam / Vel.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">UT1.3</span>
+        <h3 class="card-title">3. Componentes y Reglas</h3>
+      </div>
+      <p class="card-desc">• Hosts terminales vs intermediarios.<br>• Dirección física MAC (OUI 48 bits).<br>• Infraestructura rack y patch panels.<br>• Switch (colisión) vs Router (difusión).<br>• Estándares IEEE 802.3, 802.11 e IETF.</p>
+    </div>
+  </div>
+  <div class="highlight-box" style="margin-top: 14px;">
+    <strong>¡Misión cumplida!</strong> Has adquirido todos los fundamentos teóricos y analíticos necesarios para caracterizar cualquier red de comunicaciones en el ámbito profesional.
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">15 / 16</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 16: Resumen de la Sesión y Hoja de Comprobación en Aula -->
+    <section class="slide" id="slide-16" data-title="Resumen de la Sesión y Hoja de Comprobación en Aula">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">UT1.3 · COMPONENTES Y ESTÁNDARES</span>
+          <h2 class="slide-title">Resumen de la Sesión y Hoja de Comprobación en Aula</h2>
+          <p class="slide-subtitle">Cierre de la UT1, verificación práctica y puente temático hacia la Unidad Didáctica 2</p>
+        </div>
+        <div class="slide-header-right">
+          <img src="data:image/png;base64,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" alt="Logo CIFP" class="slide-header-logo">
+        </div>
+      </header>
+      <div class="slide-body">
+        
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Trabajo en Taller</span>
+        <h3 class="card-title">Hoja de Comprobación en Aula</h3>
+      </div>
+      <p class="card-desc">Abre en tu ordenador de clase el documento Word digital:</p>
+      <div class="concept-box">
+        📄 <strong>RL-UT1.3-Comprobacion-Aula-Alumnado.docx</strong>
+      </div>
+      <p class="card-desc">Completa los 6 retos sobre clasificación de dispositivos, análisis de direcciones MAC, tabla HUB/Switch/Router y organismos IEEE 802.</p>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="card-badge">Próximo Paso</span>
+        <h3 class="card-title">Lo que Viene en la UT2: Medios Físicos</h3>
+      </div>
+      <p class="card-desc">En la siguiente unidad bajamos al taller con las herramientas en la mano:</p>
+      <ul class="bullet-list">
+        <li>Pelado, crimpado y testeo de cables UTP con conectores RJ-45 (TIA-568B).</li>
+        <li>Conectorización de tomas Keystone en patch panel.</li>
+        <li>Manejo del comprobador de cableado y detección de pares cruzados o abiertos.</li>
+        <li>Tipos de fibra óptica (monomodo y multimodo) y conectores LC/SC.</li>
+      </ul>
+    </div>
+  </div>
+
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Redes Locales (1º SMR) · UT1.3</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">16 / 16</span>
+      </footer>
+    </section>
+
+  </main>
+  <nav id="nav-controls" aria-label="Controles de navegación">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva anterior">&#x2039;</button>
+    <span class="slide-indicator" id="slide-indicator">01 / 16</span>
+    <button class="nav-btn" id="btn-next" title="Diapositiva siguiente">&#x203a;</button>
+    <button class="nav-btn" id="btn-fullscreen" title="Pantalla completa (F)">&#x26F6;</button>
+    <button class="nav-btn" id="btn-print" title="Imprimir o guardar PDF (P)">&#x1F5A8;&#xFE0F;</button>
+  </nav>
+  <div class="keyboard-hint" id="keyboard-hint">Atajos: &larr; / &rarr; Navegar &bull; F Pantalla Completa &bull; P Imprimir</div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const slideIndicator = document.getElementById('slide-indicator');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+      const keyboardHint = document.getElementById('keyboard-hint');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+        });
+
+        currentSlide = index;
+        const progress = ((index + 1) / totalSlides) * 100;
+        if (progressBar) progressBar.style.width = `${progress}%`;
+
+        const curStr = String(index + 1).padStart(2, '0');
+        const totStr = String(totalSlides).padStart(2, '0');
+        if (slideIndicator) slideIndicator.textContent = `${curStr} / ${totStr}`;
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) updateSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) updateSlide(currentSlide - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => console.error(err));
+        } else {
+          if (document.exitFullscreen) document.exitFullscreen();
+        }
+      }
+
+      if (btnNext) btnNext.addEventListener('click', nextSlide);
+      if (btnPrev) btnPrev.addEventListener('click', prevSlide);
+      if (btnFullscreen) btnFullscreen.addEventListener('click', toggleFullscreen);
+      if (btnPrint) btnPrint.addEventListener('click', () => window.print());
+
+      document.addEventListener('keydown', (e) => {
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'PageDown':
+          case ' ':
+            e.preventDefault();
+            nextSlide();
+            break;
+          case 'ArrowLeft':
+          case 'PageUp':
+            e.preventDefault();
+            prevSlide();
+            break;
+          case 'Home':
+            e.preventDefault();
+            updateSlide(0);
+            break;
+          case 'End':
+            e.preventDefault();
+            updateSlide(totalSlides - 1);
+            break;
+          case 'f':
+          case 'F':
+            e.preventDefault();
+            toggleFullscreen();
+            break;
+          case 'p':
+          case 'P':
+            e.preventDefault();
+            window.print();
+            break;
+        }
+      });
+
+      setTimeout(() => {
+        if (keyboardHint) {
+          keyboardHint.style.opacity = '0';
+          setTimeout(() => keyboardHint.remove(), 600);
+        }
+      }, 5000);
+
+      updateSlide(0);
+    });
+  </script>
+</body>
+</html>

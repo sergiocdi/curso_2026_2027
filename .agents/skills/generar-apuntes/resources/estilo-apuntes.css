@@ -1,0 +1,440 @@
+/* ==========================================================================
+   ESTILO PROFESIONAL DE APUNTES DOCENTES - FORMACIÓN PROFESIONAL (FP)
+   Optimizado para visualización web y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, "Courier New", monospace;
+  
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #0284c7;
+  --primary-50: #f0f9ff;
+  
+  --accent-blue: #2563eb;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #93c5fd;
+
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+  --accent-amber-border: #fcd34d;
+
+  --accent-emerald: #059669;
+  --accent-emerald-bg: #f0fdf4;
+  --accent-emerald-border: #86efac;
+
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #faf5ff;
+  --accent-purple-border: #d8b4fe;
+
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #f8fafc;
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 48px 56px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --------------------------------------------------------------------------
+   1. CABECERA INSTITUCIONAL Y PORTADA DE UNIDAD
+   -------------------------------------------------------------------------- */
+.doc-header {
+  border-bottom: 3px solid var(--primary-800);
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+}
+
+.doc-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.badge-fp {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-blue-border);
+}
+
+.doc-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.doc-subtitle {
+  font-size: 17px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  background: #f1f5f9;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.meta-item strong {
+  color: var(--primary-800);
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* --------------------------------------------------------------------------
+   2. ÍNDICE DE CONTENIDOS
+   -------------------------------------------------------------------------- */
+.toc-box {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 36px;
+}
+
+.toc-title {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-800);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-list {
+  list-style: none;
+  counter-reset: toc-counter;
+}
+
+.toc-list li {
+  counter-increment: toc-counter;
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.toc-list li::before {
+  content: counter(toc-counter) ". ";
+  font-weight: 700;
+  color: var(--primary-600);
+  margin-right: 6px;
+}
+
+.toc-list a {
+  color: var(--primary-800);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.toc-list a:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   3. TIPOGRAFÍA Y TÍTULOS DE SECCIONES
+   -------------------------------------------------------------------------- */
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary-900);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 6px;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 .section-num {
+  background: var(--primary-800);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-700);
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  margin-bottom: 14px;
+}
+
+ul, ol {
+  margin-left: 24px;
+  margin-bottom: 16px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   4. CAJAS PEDAGÓGICAS (CALLOUTS)
+   -------------------------------------------------------------------------- */
+.callout {
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.callout-header {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14.5px;
+}
+
+/* 💡 Concepto */
+.callout-concept {
+  background-color: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: #1e3a8a;
+}
+.callout-concept .callout-header {
+  color: #1d4ed8;
+}
+
+/* ⚠️ Error Habitual */
+.callout-warning {
+  background-color: var(--accent-amber-bg);
+  border-color: var(--accent-amber);
+  color: #78350f;
+}
+.callout-warning .callout-header {
+  color: #b45309;
+}
+
+/* 🏭 Entorno Laboral / Buenas Prácticas */
+.callout-pro {
+  background-color: var(--accent-emerald-bg);
+  border-color: var(--accent-emerald);
+  color: #064e3b;
+}
+.callout-pro .callout-header {
+  color: #047857;
+}
+
+/* 🎯 Reto / Actividad */
+.callout-activity {
+  background-color: var(--accent-purple-bg);
+  border-color: var(--accent-purple);
+  color: #4c1d95;
+}
+.callout-activity .callout-header {
+  color: #6d28d9;
+}
+
+/* --------------------------------------------------------------------------
+   5. BLOQUES DE CÓDIGO Y SINTAXIS
+   -------------------------------------------------------------------------- */
+.code-card {
+  background: var(--code-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 18px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.code-header {
+  background: #1e293b;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 6px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.code-header .lang {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 14px 18px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+p code, li code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-weight: 500;
+}
+
+/* Resaltado de sintaxis simplificado */
+.kw { color: #f472b6; font-weight: 600; } /* Palabras clave */
+.type { color: #38bdf8; }                /* Tipos y clases */
+.str { color: #a5f3fc; }                 /* Cadenas */
+.num { color: #facc15; }                 /* Números */
+.comm { color: #64748b; font-style: italic; } /* Comentarios */
+.fn { color: #c084fc; }                  /* Funciones / métodos */
+
+/* --------------------------------------------------------------------------
+   6. TABLAS COMPARATIVAS
+   -------------------------------------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 13.5px;
+}
+
+th, td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background: #f1f5f9;
+  color: var(--primary-900);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--color-border);
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+/* --------------------------------------------------------------------------
+   7. REGLAS PARA IMPRESIÓN Y CONVERSIÓN A PDF (@media print)
+   -------------------------------------------------------------------------- */
+@page {
+  size: A4 portrait;
+  margin: 18mm 14mm 20mm 14mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #000000;
+  }
+
+  .document-container {
+    max-width: 100%;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .no-break,
+  .callout,
+  .code-card,
+  table,
+  tr,
+  blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 8.5pt;
+    padding: 10px 12px;
+  }
+
+  .doc-title {
+    font-size: 22pt;
+  }
+
+  .doc-subtitle {
+    font-size: 12pt;
+  }
+
+  /* Asegurar que los colores de fondo y bordes se impriman */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

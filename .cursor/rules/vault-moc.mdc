@@ -1,0 +1,22 @@
+---
+description: Reglas del MOC principal y arquitectura del Vault Docente
+globs: *
+alwaysApply: true
+---
+
+# Reglas del Vault Docente
+
+1. **Contexto Obligatorio Inicial**:
+   Al iniciar cualquier interacción o sesión, el agente debe leer el archivo principal `00-Mapa-de-Contenido-Principal.md` para situarse en la arquitectura SSOT del vault.
+
+2. **Mantenimiento Continuo del MOC**:
+   El archivo `00-Mapa-de-Contenido-Principal.md` debe mantenerse siempre actualizado ante cualquier cambio en módulos (`01-Modulos/`), grupos (`02-Grupos/`), unidades didácticas o documentos de centro.
+   Actualizar siempre el campo YAML `actualizado: YYYY-MM-DD`.
+
+3. **Conceptos vs Apuntes**:
+   La base curricular contiene **conceptos** (`02-Conceptos/`, `tipo: concepto`). Los **apuntes** son documentos completos maquetados para alumnos y deben generarse obligatoriamente mediante la skill `.agents/skills/generar-apuntes/SKILL.md` (HTML -> PDF).
+
+4. **Normas detalladas**:
+   Consulta y sigue rigurosamente el estándar definido en `AGENTS.md`.
+
+

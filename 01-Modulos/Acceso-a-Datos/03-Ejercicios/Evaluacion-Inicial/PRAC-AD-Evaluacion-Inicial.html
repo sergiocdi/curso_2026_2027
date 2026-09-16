@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica de Evaluación Inicial: Diagnóstico de Competencias - Acceso a Datos - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE PRÁCTICAS Y PROYECTOS TÉCNICOS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   Optimizado para visualización en pantalla y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+  --callout-danger-bg: #fef2f2;
+  --callout-danger-border: #dc2626;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 40px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.header-logo img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 3px 9px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.practice-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+/* Cuadro de Metadatos */
+.meta-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: #f1f5f9;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* 2. BLOQUE CURRICULAR */
+.curricular-box {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.curricular-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badges-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.badge-ra {
+  background: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.badge-ce {
+  background: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.curricular-desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* 3. TIPOGRAFÍA Y SECCIONES */
+h2.section-heading {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  border-bottom: 1.5px solid var(--color-border-subtle);
+  padding-bottom: 6px;
+  margin-top: 26px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h3.subsection-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+ul, ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* 4. CAJAS CALLOUTS */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  border-left: 4px solid;
+}
+
+.callout-title {
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-left-color: var(--callout-info-border);
+  color: #0c4a6e;
+}
+.callout-info .callout-title { color: #0369a1; }
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-left-color: var(--callout-warning-border);
+  color: #78350f;
+}
+.callout-warning .callout-title { color: #b45309; }
+
+/* 5. CÓDIGO */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: #f1f5f9;
+  color: #b91c1c;
+  padding: 2px 4px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin-bottom: 12px;
+  border: 1px solid #334155;
+  line-height: 1.4;
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+/* 6. RÚBRICA */
+.rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+  margin-top: 12px;
+  margin-bottom: 18px;
+  border: 1px solid var(--color-border);
+}
+
+.rubric-table th, .rubric-table td {
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.rubric-table th {
+  background: var(--color-primary-dark);
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+
+.rubric-table tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.rubric-score {
+  font-weight: 700;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.rubric-total-row td {
+  background: var(--color-primary-light) !important;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  font-size: 12px;
+}
+
+/* 7. PIE */
+.practice-footer {
+  border-top: 1px solid var(--color-border);
+  margin-top: 28px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+.footer-author {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* 8. IMPRESIÓN A4 */
+@page {
+  size: A4 portrait;
+  margin: 14mm 12mm 14mm 12mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #000000;
+  }
+
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .no-break,
+  .callout,
+  .curricular-box,
+  .meta-box,
+  table,
+  tr,
+  pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 8pt;
+    padding: 6px 8px;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones</span>
+      </div>
+      <div class="header-logo">
+        <img src="data:image/png;base64,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" alt="CIFP Avilés">
+      </div>
+    </div>
+
+    <span class="practice-category">Práctica Diagnóstica · Evaluación Inicial</span>
+    <h1 class="practice-title">Diagnóstico de Competencias en Java y Persistencia Básica</h1>
+    <p class="practice-subtitle">Prueba práctica individual en entorno de desarrollo para evaluar la base técnica previa a Acceso a Datos</p>
+
+    <div class="meta-box">
+      <div class="meta-item">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Ciclo y Curso</span>
+        <span class="meta-value">DAM — 2º Curso (2026-2027)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Modalidad y Espacio</span>
+        <span class="meta-value">Presencial / Distancia (Aula C210)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Docente Responsable</span>
+        <span class="meta-value">Sergio Capdevila Díez</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tiempo Estimado</span>
+        <span class="meta-value">120 - 150 minutos (2 sesiones)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Carácter de la Actividad</span>
+        <span class="meta-value">Diagnóstica (Formativa, no computable)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BLOQUE CURRICULAR -->
+  <section class="curricular-box">
+    <div class="curricular-title">
+      <span>🎯 Competencias y Criterios Curriculares de Referencia</span>
+    </div>
+    <div class="badges-list">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.a (Clases de E/S)</span>
+      <span class="badge-ce">CE1.b (Flujos de Texto)</span>
+      <span class="badge-ce">CE1.c (Ficheros Binarios)</span>
+      <span class="badge-ra">RA2: Acceso a BBDD</span>
+      <span class="badge-ce">CE2.a (Sentencias SQL)</span>
+    </div>
+    <p class="curricular-desc">
+      Esta práctica diagnóstica verifica el grado de soltura en la programación orientada a objetos en Java, el uso de colecciones y Streams, la gestión de excepciones y flujos de ficheros, y el dominio de sentencias SQL relacionales fundamentales para abordar con éxito las unidades de trabajo del módulo.
+    </p>
+  </section>
+
+  <!-- 1. CONTEXTO TÉCNICO -->
+  <section>
+    <h2 class="section-heading"><span>1.</span> Contexto Técnico: Prototipo "LogiTech Express"</h2>
+    <p>
+      La empresa de logística urgente <strong>LogiTech Express</strong> requiere un prototipo de consola en <strong>Java 21</strong> para auditar sus operaciones diarias antes de conectar su sistema a una base de datos centralizada. Como desarrollador/a, debes crear una utilidad autónoma que gestione clientes y paquetes en memoria, guarde trazas en ficheros de texto (CSV), realice copias de seguridad de objetos en ficheros binarios y diseñe el esquema relacional de almacenamiento.
+    </p>
+  </section>
+
+  <!-- 2. REQUERIMIENTOS DETALLADOS -->
+  <section>
+    <h2 class="section-heading"><span>2.</span> Enunciado y Tareas Paso a Paso</h2>
+
+    <h3 class="subsection-heading">Tarea 1: Modelado POO, Colecciones y Java Streams (2.5 puntos)</h3>
+    <ol>
+      <li><strong>Clase <code>Cliente</code></strong>: Atributos privados <code>id</code> (String), <code>nombre</code> (String), <code>telefono</code> (String) y <code>activo</code> (boolean). Constructor completo, getters/setters, <code>toString()</code> y métodos <code>equals()</code> / <code>hashCode()</code> basados en <code>id</code>.</li>
+      <li><strong>Clase <code>Envio</code></strong>: Atributos privados <code>codigo</code> (String), <code>clienteId</code> (String), <code>pesoKg</code> (double), <code>coste</code> (double), <code>fecha</code> (LocalDate) y <code>entregado</code> (boolean). Encapsulación completa.</li>
+      <li><strong>Servicio <code>GestorLogistica</code></strong>:
+        <ul>
+          <li>Mantener una lista de envíos <code>List&lt;Envio&gt;</code> y un mapa de clientes <code>Map&lt;String, Cliente&gt;</code> (clave: <code>id</code>).</li>
+          <li>Implementar <code>List&lt;Envio&gt; obtenerEnviosPendientes()</code> utilizando <strong>Java Streams</strong> (<code>.stream().filter(e -> !e.isEntregado()).toList()</code>).</li>
+          <li>Implementar <code>double calcularFacturacionCliente(String clienteId)</code> mediante operaciones declarativas (<code>.filter(...).mapToDouble(Envio::getCoste).sum()</code>).</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 2: Entrada/Salida en Ficheros de Texto (CSV) y Excepciones (2.5 puntos)</h3>
+    <ol>
+      <li><strong>Exportación a CSV</strong>: Implementar <code>exportarEnviosCSV(String ruta)</code> para volcar la lista a <code>envios.csv</code> con encabezado:
+        <pre><code>codigo,clienteId,peso,coste,fecha,entregado
+ENV-101,CLI-01,4.5,14.80,2026-09-15,false
+ENV-102,CLI-02,1.2,6.50,2026-09-15,true</code></pre>
+      </li>
+      <li><strong>Importación con try-with-resources</strong>: Implementar <code>importarEnviosCSV(String ruta)</code> empleando <code>BufferedReader</code>. Validar cada línea y capturar <code>NumberFormatException</code> ante datos numéricos corruptos sin interrumpir la lectura del resto de registros.</li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 3: Serialización Binaria de Objetos (2.0 puntos)</h3>
+    <ol>
+      <li>Marcar la clase <code>Envio</code> con <code>Serializable</code> y declarar un <code>serialVersionUID = 1L</code> explícito.</li>
+      <li>Implementar <code>guardarBackupBinario(String ruta)</code> usando <code>ObjectOutputStream</code> para serializar la lista <code>List&lt;Envio&gt;</code> en <code>backup_envios.dat</code>.</li>
+      <li>Implementar <code>List&lt;Envio&gt; restaurarBackupBinario(String ruta)</code> usando <code>ObjectInputStream</code>, capturando de forma diferenciada <code>ClassNotFoundException</code> e <code>IOException</code>.</li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 4: Fundamentos de Bases de Datos SQL (2.0 puntos)</h3>
+    <p>Redactar un archivo de script <code>logitech_schema.sql</code> con:</p>
+    <ol>
+      <li><strong>DDL</strong>: Sentencias <code>CREATE TABLE</code> para <code>CLIENTES</code> (PK: <code>id_cliente</code>) y <code>ENVIOS</code> (PK: <code>codigo_envio</code>, FK hacia clientes con integridad referencial, y restricción <code>CHECK (peso_kg > 0)</code>).</li>
+      <li><strong>DML</strong>: Consulta <code>SELECT</code> con <code>INNER JOIN</code> para mostrar clientes con envíos superiores a 10.00 €, y una consulta con <code>GROUP BY</code> para calcular el importe total acumulado por cliente.</li>
+    </ol>
+  </section>
+
+  <!-- 3. ENTORNO Y POLÍTICA DE IA -->
+  <section class="no-break">
+    <h2 class="section-heading"><span>3.</span> Entorno de Desarrollo y Política de Inteligencia Artificial</h2>
+    <div class="callout callout-info">
+      <div class="callout-title">💻 Entorno de Desarrollo Oficial</div>
+      <p>El entorno de trabajo principal es <strong>Eclipse IDE</strong> (Java SE 21 LTS). Se permite el uso de IntelliJ IDEA o VS Code siempre que el proyecto utilice estructura estándar de carpetas o Maven.</p>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ Política Estricta sobre Inteligencia Artificial (IA)</div>
+      <p>Al ser una <strong>evaluación inicial diagnóstica</strong>, está <strong>terminantemente prohibido el uso de herramientas de IA generativa</strong> (ChatGPT, GitHub Copilot, Claude, etc.). El objetivo exclusivo de esta prueba es identificar tu nivel real de autonomía técnica para planificar las adaptaciones docentes necesarias.</p>
+    </div>
+  </section>
+
+  <!-- 4. RÚBRICA DE EVALUACIÓN -->
+  <section class="page-break">
+    <h2 class="section-heading"><span>4.</span> Rúbrica Analítica de Evaluación Diagnóstica (10.0 Puntos)</h2>
+    
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Criterio / Indicador</th>
+          <th style="width: 19%;">Excelente (100%)</th>
+          <th style="width: 19%;">Notable (75%)</th>
+          <th style="width: 19%;">Aprobado (50%)</th>
+          <th style="width: 18%;">Insuficiente (&lt;50%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Modelado POO y Streams</strong><br><span class="rubric-score">[2.5 Puntos]</span></td>
+          <td>Encapsulamiento perfecto, `equals/hashCode` correctos, uso elegante de Streams (`filter`, `sum`).</td>
+          <td>Clases y colecciones correctas. Streams operativos con pequeñas redundancias sintácticas.</td>
+          <td>Modelado básico funcional; utiliza bucles tradicionales `for-each` en lugar de Streams.</td>
+          <td>Falta de encapsulamiento, errores en POO o incapacidad de operar con listas/mapas.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Ficheros CSV y Excepciones</strong><br><span class="rubric-score">[2.5 Puntos]</span></td>
+          <td>Uso riguroso de `try-with-resources`, parsing robusto de texto y captura selectiva de excepciones.</td>
+          <td>Lectura y escritura CSV funcionales con cierre seguro; aviso de error básico ante líneas corruptas.</td>
+          <td>Lee y escribe el fichero pero no gestiona el cierre seguro de recursos o falla ante errores leves.</td>
+          <td>Fuga de descriptores de fichero, excepciones no controladas o código que bloquea la ejecución.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Serialización Binaria</strong><br><span class="rubric-score">[2.0 Puntos]</span></td>
+          <td>Implementa `Serializable` con `serialVersionUID`, serializa y deserializa la lista limpiamente.</td>
+          <td>Serialización y deserialización operativas; omite el `serialVersionUID` o detalles menores.</td>
+          <td>Guarda y recupera objetos pero con avisos de casting o sin captura de `ClassNotFoundException`.</td>
+          <td>No implementa `Serializable` o errores graves de E/S que impiden recuperar los datos.</td>
+        </tr>
+        <tr>
+          <td><strong>4. Fundamentos SQL Relacionales</strong><br><span class="rubric-score">[2.0 Puntos]</span></td>
+          <td>Script DDL con PK, FK y restricciones CHECK. Consultas SELECT con INNER JOIN y GROUP BY precisas.</td>
+          <td>DDL relacional correcto y funcional; consultas operativas con pequeños desajustes sintácticos.</td>
+          <td>DDL básico sin restricciones avanzadas; JOIN correcto pero dificultades en la agregación.</td>
+          <td>Errores en definición de claves foráneas o incapacidad para relacionar tablas en SQL.</td>
+        </tr>
+        <tr>
+          <td><strong>5. Buenas Prácticas y Entorno</strong><br><span class="rubric-score">[1.0 Punto]</span></td>
+          <td>Estructura modular en paquetes (`model`, `service`, `app`), nomenclatura estándar Java y Clean Code.</td>
+          <td>Proyecto ordenado y código limpio y legible.</td>
+          <td>Código en un único paquete sin modularizar, aunque compilable.</td>
+          <td>Código desordenado, sin identación o con advertencias graves de compilación.</td>
+        </tr>
+        <tr class="rubric-total-row">
+          <td colspan="4" style="text-align: right;">PUNTUACIÓN MÁXIMA TOTAL:</td>
+          <td style="text-align: center;">10.0 Puntos</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. INSTRUCCIONES DE ENTREGA -->
+  <section class="no-break">
+    <h2 class="section-heading"><span>5.</span> Instrucciones de Entrega</h2>
+    <ul>
+      <li><strong>Nombre del Proyecto</strong>: Crear en Eclipse un proyecto llamado <code>EvaluacionInicial-NombreApellido</code>.</li>
+      <li><strong>Estructura de Paquetes</strong>:
+        <code>es.cifpaviles.logitech.model</code>, 
+        <code>es.cifpaviles.logitech.service</code> y 
+        <code>es.cifpaviles.logitech.app</code>.
+      </li>
+      <li><strong>Archivo SQL</strong>: Incluir el script <code>logitech_schema.sql</code> en la raíz del proyecto.</li>
+      <li><strong>Vía de Entrega</strong>: Subir el archivo comprimido <code>.zip</code> en la tarea habilitada de Moodle Educastur o en el repositorio Git indicado en clase.</li>
+    </ul>
+  </section>
+
+  <!-- PIE INSTITUCIONAL -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Formación Profesional</span>
+    <span class="footer-author">Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

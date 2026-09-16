@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentación Inicial: Acceso a Datos (DAM 2º) - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   SISTEMA PROFESIONAL DE PRESENTACIONES DE AULA - CIFP AVILÉS (FP)
+   Formato 16:9 Panorámico · Navegación Teclado / PDI · Modo Impresión PDF A4
+   Docente: Sergio Capdevila Díez
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Paleta Corporativa Modo Aula */
+  --bg-dark: #0b1120;
+  --bg-slide: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #27354f;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --primary: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent-blue: #60a5fa;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-purple: #c084fc;
+  --accent-red: #f87171;
+
+  --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(56, 189, 248, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* 1. BARRA DE PROGRESO */
+#progress-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  width: 0%;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+/* 2. VIEWPORT Y CONTENEDOR 16:9 */
+#presentation-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+}
+
+.slide {
+  position: absolute;
+  width: 94vw;
+  max-width: 1440px;
+  height: 84vh;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 40px 52px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-light);
+  opacity: 0;
+  transform: translateY(8px) scale(0.995);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3. PORTADA INSTITUCIONAL (SLIDE 1) */
+.slide-cover {
+  background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+              linear-gradient(135deg, #0f172a 0%, #070d18 100%);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.cover-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inst-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.inst-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cover-logo-box {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cover-logo-box img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-body {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cover-badge-unit {
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1px solid #7dd3fc;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  color: #cbd5e1;
+  max-width: 980px;
+  line-height: 1.45;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.cover-meta-item span {
+  font-size: 14px;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+/* 4. ENCABEZADO DE DIAPOSITIVAS ESTÁNDAR */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.slide-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slide-tag {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 3px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+
+.slide-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 15.5px;
+  color: var(--text-muted);
+}
+
+.slide-header-logo {
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.slide-header-logo img {
+  height: 32px;
+  width: auto;
+}
+
+/* 5. CONTENIDO DE DIAPOSITIVA */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+/* Layouts en rejilla */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-primary);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-desc {
+  font-size: 15px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.highlight-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 5px solid var(--primary);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+}
+
+.warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 5px solid var(--accent-amber);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+  color: #fef08a;
+}
+
+.concept-box {
+  background: rgba(52, 211, 153, 0.08);
+  border-left: 5px solid var(--accent-emerald);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+  color: #a7f3d0;
+}
+
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+ul.bullet-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 17px;
+}
+
+ul.bullet-list li::before {
+  content: "➜";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Tablas */
+table.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+table.slide-table th, table.slide-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+table.slide-table th {
+  background: #1e293b;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+table.slide-table tr:nth-child(even) td {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* Código */
+pre.code-block {
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #38bdf8;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+/* 6. PIE DE DIAPOSITIVA */
+.slide-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-author {
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-author span.dot {
+  color: var(--primary);
+}
+
+.slide-counter {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+/* 7. CONTROLES FLOTANTES */
+#controls {
+  height: 52px;
+  background: #090d16;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.control-btn {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+  background: var(--border);
+  color: #ffffff;
+}
+
+/* 8. MODO IMPRESIÓN (PDF A4 LANDSCAPE - CERO PÁGINAS EN BLANCO) */
+@page {
+  size: 297mm 210mm; /* A4 Landscape */
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: auto !important;
+    display: block !important;
+  }
+
+  #progress-bar,
+  #controls,
+  #nav-controls,
+  .controls-overlay,
+  .controls,
+  nav,
+  .nav-btn,
+  .control-btn,
+  .btn-nav,
+  .keyboard-hint {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #presentation-viewport {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .slide {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    aspect-ratio: auto !important;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 20mm 24mm !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .cover-logo-box, .slide-header-logo {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+
+.badge-nuclear {
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+.badge-superficial {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.formula-box {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+  border: 2px solid #38bdf8;
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #38bdf8;
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+}
+.warning-box {
+  background: rgba(248, 113, 113, 0.1);
+  border-left: 4px solid #f87171;
+  padding: 12px 18px;
+  border-radius: 0 8px 8px 0;
+  color: #fca5a5;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.concept-box {
+  background: rgba(96, 165, 250, 0.1);
+  border-left: 4px solid #60a5fa;
+  padding: 12px 18px;
+  border-radius: 0 8px 8px 0;
+  color: #bfdbfe;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  height: 100%;
+}
+.tech-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.tech-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+.tech-icon {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+.tech-name {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.tech-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+.card-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary);
+  opacity: 0.4;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor Principal de la Presentación -->
+  <main id="presentation-viewport">
+
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">CURSO 2026 - 2027 · DAM 2º · GUÍA DOCENTE Y ORGANIZACIÓN</div>
+        <h1 class="cover-title">Acceso a Datos (AD)</h1>
+        <p class="cover-subtitle">Guía docente del módulo, planificación en 2 evaluaciones, unidades curriculares nucleares, metodología teórico-práctica, Proyecto Intermodular y criterios oficiales de calificación.</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>Acceso a Datos (Código 0486 · 9 ECTS)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo y Nivel</strong>
+          <span>2º DAM (Grado Superior) · Presencial y Virtual</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Carga Lectiva</strong>
+          <span>140 horas curriculares (4 h/sem presencial)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Espacios Docentes</strong>
+          <span>Aula C210 (Presencial) · Aula C212 (Virtual)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Docente Titular</strong>
+          <span>Sergio Capdevila Díez (Jefe Dpto. Informática)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>RA1, RA2, RA3, RA4, RA5 y RA6 (100% Curricular)</span>
+        </div>
+      </div>
+    </section>
+    
+
+    <section class="slide" id="slide-2" data-title="Propósito del Módulo">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Fundamentos · Acceso a Datos</span>
+          <h2 class="slide-title">¿De qué trata este módulo y por qué es crucial?</h2>
+          <p class="slide-subtitle">El salto cualitativo de la memoria RAM a la persistencia empresarial robusta</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">💡 El Salto desde 1º de DAM</div>
+            <p class="card-desc">En 1º aprendiste a programar estructuras de datos en memoria volátil (arrays, listas, mapas). Si la app se cierra, la información desaparece.</p>
+            <div class="highlight-box mt-3">
+              <strong>El objetivo en Acceso a Datos:</strong> Diseñar capas de persistencia que sobrevivan al ciclo de vida del proceso, asegurando integridad, rendimiento, concurrencia y seguridad industrial.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🚀 Los 4 Pilares Tecnológicos del Mercado</div>
+            <ul class="bullet-list">
+              <li><strong>Sistemas de Ficheros Modernos</strong>: Flujos binarios, serialización de objetos y Java NIO.2.</li>
+              <li><strong>Conectores Relacionales (JDBC)</strong>: Comunicación nativa con Oracle Database, pools de conexiones HikariCP y transacciones ACID manuales.</li>
+              <li><strong>Mapeo Objeto-Relacional (ORM)</strong>: Spring Boot 3, Spring Data JPA y Hibernate para desarrollo backend moderno.</li>
+              <li><strong>Bases de Datos NoSQL</strong>: Modelado documental de alta velocidad con MongoDB y colecciones BSON.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">02 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-3" data-title="Estructura en 2 Evaluaciones">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Marco Temporal · 2º Curso DAM</span>
+          <h2 class="slide-title">Estructura del Curso: 2 Evaluaciones Lectivas</h2>
+          <p class="slide-subtitle">La organización temporal de 2º DAM previa al período de prácticas en empresa</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card card-accent-blue">
+            <div class="card-badge">SEPTIEMBRE - DICIEMBRE</div>
+            <div class="card-title">🍂 1ª Evaluación (60%)</div>
+            <div class="card-subtitle">Bloque Teórico-Práctico</div>
+            <ul class="bullet-list">
+              <li>Impartición intensiva de todos los contenidos curriculares del módulo.</li>
+              <li>Teoría concisa + ejercicios inmediatos + prácticas formativas por UT.</li>
+              <li><strong>Exámenes teórico-prácticos</strong> para evaluar la superación de contenidos.</li>
+            </ul>
+          </div>
+
+          <div class="card card-accent-emerald">
+            <div class="card-badge">ENERO - MARZO</div>
+            <div class="card-title">❄️ 2ª Evaluación (40%)</div>
+            <div class="card-subtitle">Proyecto Intermodular Individual</div>
+            <ul class="bullet-list">
+              <li>Desarrollo de un proyecto de software transversal en régimen estrictamente <strong>individual</strong>.</li>
+              <li>En las horas de AD: desarrollo exclusivo de <strong>toda la capa de persistencia y datos</strong>.</li>
+              <li>Entrega en Git y <strong>defensa técnica individual</strong> ante el docente.</li>
+            </ul>
+          </div>
+
+          <div class="card card-accent-amber">
+            <div class="card-badge">MARZO - JUNIO</div>
+            <div class="card-title">🚀 3er Trimestre</div>
+            <div class="card-subtitle">FCT / DUAL en Empresa</div>
+            <ul class="bullet-list">
+              <li>El alumnado que supera ambas evaluaciones se incorpora a empresas del sector.</li>
+              <li><strong>Sin docencia lectiva en aula</strong> durante este período.</li>
+              <li>Fase de inserción laboral y contacto directo con la industria.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">03 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-4" data-title="Mapa de Contenidos Curriculares">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Contenidos Curriculares · 1ª Evaluación</span>
+          <h2 class="slide-title">Unidades de Trabajo: Nucleares vs. Superficiales</h2>
+          <p class="slide-subtitle">Distribución focalizada para maximizar la empleabilidad y destreza real</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th style="width: 10%;">UT</th>
+              <th style="width: 32%;">Título y Tecnologías</th>
+              <th style="width: 20%;">Tratamiento</th>
+              <th style="width: 26%;">Competencias Clave</th>
+              <th style="width: 12%;">Horas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>UT1</strong></td>
+              <td>Manejo de Ficheros (Texto, NIO.2, Binarios, XML)</td>
+              <td><span class="badge-nuclear">Nuclear / Intensivo</span></td>
+              <td>Streams I/O, `Files`/`Path`, Serialización, XML DOM/SAX/JAXB</td>
+              <td>22 h (RA1)</td>
+            </tr>
+            <tr>
+              <td><strong>UT2</strong></td>
+              <td>Conectores JDBC & Oracle Database</td>
+              <td><span class="badge-nuclear">Nuclear / Intensivo</span></td>
+              <td>Driver JDBC, HikariCP, transacciones ACID, DAO y DTO</td>
+              <td>24 h (RA2)</td>
+            </tr>
+            <tr>
+              <td><strong>UT3</strong></td>
+              <td>Mapeo Objeto-Relacional (Spring Data JPA)</td>
+              <td><span class="badge-nuclear">Nuclear / Intensivo</span></td>
+              <td>Spring Boot 3, Hibernate, entidades, relaciones y JPQL</td>
+              <td>26 h (RA3)</td>
+            </tr>
+            <tr>
+              <td><strong>UT5</strong></td>
+              <td>Bases de Datos NoSQL con MongoDB</td>
+              <td><span class="badge-nuclear">Nuclear / Intensivo</span></td>
+              <td>Esquemas BSON, consultas, agregaciones y Spring Data Mongo</td>
+              <td>16 h (RA5)</td>
+            </tr>
+            <tr>
+              <td><strong>UT4</strong></td>
+              <td>BBDD Objeto-Relacionales / Nativas XML</td>
+              <td><span class="badge-superficial">Superficial / Básico</span></td>
+              <td>Conceptos fundamentales de persistencia orientada a objetos (db4o)</td>
+              <td>4 h (RA4)</td>
+            </tr>
+            <tr>
+              <td><strong>UT6</strong></td>
+              <td>Componentes de Acceso a Datos</td>
+              <td><span class="badge-superficial">Superficial / Básico</span></td>
+              <td>Conceptos de componentes reutilizables y especificación básica</td>
+              <td>4 h (RA6)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">04 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-5" data-title="Metodología de Clase">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Didáctica · Dinámica de Aula</span>
+          <h2 class="slide-title">¿Cómo trabajaremos en el día a día?</h2>
+          <p class="slide-subtitle">Metodología ágil: "Aprender Haciendo" con retroalimentación continua</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-number">1</div>
+            <div class="card-title">Teoría Breve y Aplicada</div>
+            <div class="card-subtitle">15 - 20 minutos máximo</div>
+            <p class="card-desc">Exposición directa del problema técnico o del conector. Demostración en directo de código ejecutable (<em>live coding</em>) y análisis de errores comunes.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-number">2</div>
+            <div class="card-title">Ejercicios Inmediatos</div>
+            <div class="card-subtitle">Manos al teclado en aula</div>
+            <p class="card-desc">Programación guiada inmediata en el aula de informática. Asimilación de la sintaxis, configuración de drivers y depuración de excepciones en caliente.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-number">3</div>
+            <div class="card-title">Práctica Integradora UT</div>
+            <div class="card-subtitle">Evaluación Formativa (No Numérica)</div>
+            <p class="card-desc">Al terminar cada unidad se realiza una práctica de consolidación. <strong>No es calificable con nota que castigue</strong>: sirve para afianzar conceptos y autoevaluar tu nivel real antes del examen.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">05 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-6" data-title="1ª Evaluación: Exámenes">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Evaluación Sumativa · 1er Trimestre</span>
+          <h2 class="slide-title">1ª Evaluación: Bloque Teórico-Práctico (60%)</h2>
+          <p class="slide-subtitle">Evaluación rigurosa de los contenidos técnicos impartidos mediante exámenes</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📝 Exámenes de Evaluación (100% de la 1ª Eval)</div>
+            <p class="card-desc">Se realizarán uno o varios exámenes controlados en aula para verificar la asimilación y destreza técnica de los contenidos trabajados.</p>
+            <ul class="bullet-list mt-3">
+              <li><strong>Parte Conceptual Objetiva</strong>: Preguntas cortas y test sobre arquitectura de conectores, ciclo de vida JPA y teoremas NoSQL.</li>
+              <li><strong>Parte Práctica de Desarrollo</strong>: Supuestos prácticos de programación Java en directo (ficheros, JDBC, transacciones, repositorios Spring Data y MongoDB).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🎯 Reglas Clave de la 1ª Evaluación</div>
+            <ul class="bullet-list">
+              <li><strong>Peso en la Nota Final del Módulo</strong>: <strong>60%</strong>.</li>
+              <li><strong>Condición de Superación</strong>: La calificación de los exámenes debe ser <strong>igual o superior a 5.0 puntos</strong>.</li>
+              <li><strong>Prácticas Formativas</strong>: Las prácticas de cada UT son obligatorias como entrenamiento, pero su calificación es cualitativa y de afianzamiento.</li>
+              <li><strong>Entorno Real</strong>: Se evalúa tu capacidad para escribir código limpio, libre de fugas de recursos e inyecciones SQL.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">06 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-7" data-title="2ª Evaluación: Proyecto Intermodular">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Proyecto Transversal · 2º Trimestre</span>
+          <h2 class="slide-title">2ª Evaluación: Proyecto Intermodular Individual (40%)</h2>
+          <p class="slide-subtitle">Construcción y defensa técnica de la arquitectura de persistencia completa</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">💼 Proyecto Individual y Rol en Acceso a Datos</div>
+            <p class="card-desc">El alumnado desarrolla de forma <strong>estrictamente individual</strong> un proyecto completo que integra las materias del ciclo DAM.</p>
+            <div class="highlight-box mt-3">
+              <strong>Durante las horas de Acceso a Datos:</strong> El alumno se dedicará en exclusiva a diseñar, implementar, probar y optimizar <strong>la capa de persistencia y datos</strong> del proyecto, aplicando lo aprendido en la 1ª evaluación.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📊 Criterios de Calificación del Proyecto (40%)</div>
+            <table class="slide-table" style="font-size: 0.82rem;">
+              <thead>
+                <tr>
+                  <th>Apartado</th>
+                  <th>Peso</th>
+                  <th>Qué se evalúa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Arquitectura de Persistencia</strong></td>
+                  <td>50%</td>
+                  <td>Estructura en capas, repositorios JPA/DAO, pools, transaccionalidad e integridad de datos.</td>
+                </tr>
+                <tr>
+                  <td><strong>Funcionalidad & NoSQL</strong></td>
+                  <td>30%</td>
+                  <td>CRUD completo, consultas avanzadas, persistencia políglota relacional + MongoDB y manejo de ficheros.</td>
+                </tr>
+                <tr>
+                  <td><strong>Git, Memoria & Defensa</strong></td>
+                  <td>20%</td>
+                  <td>Calidad de commits en GitHub, documentación técnica y <strong>defensa oral individual</strong> ante el profesor.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">07 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-8" data-title="Calificación y Condiciones de Aprobado">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Normativa de Calificación · Condiciones Oficiales</span>
+          <h2 class="slide-title">Calificación Final y Requisito Innegociable</h2>
+          <p class="slide-subtitle">Condición de aprobado independiente en cada una de las dos evaluaciones</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="formula-box">
+          Nota Final = (0.60 × Nota 1ª Evaluación) + (0.40 × Nota 2ª Evaluación)
+        </div>
+
+        <div class="warning-box mt-3">
+          <strong>⚠️ CONDICIÓN OBLIGATORIA E INNEGOCIABLE PARA APROBAR EL MÓDULO:</strong><br>
+          Es estrictamente obligatorio obtener una calificación <strong>igual o superior a 5.0 puntos en AMBAS evaluaciones de forma independiente</strong>:<br>
+          <span style="font-size: 1.1rem; font-weight: 700; color: #f87171;">Nota 1ª Evaluación ≥ 5.0 &nbsp;&nbsp;Y&nbsp;&nbsp; Nota 2ª Evaluación ≥ 5.0</span><br>
+          Si cualquiera de las dos partes tiene una nota inferior a 5.0, el módulo quedará suspenso y no se realizará la media ponderada.
+        </div>
+
+        <div class="grid-2 mt-3">
+          <div class="card">
+            <div class="card-title">🔁 Recuperación de la 1ª Evaluación</div>
+            <p class="card-desc">Para quienes tengan &lt; 5.0 en los exámenes de contenidos. Examen global teórico-práctico de recuperación en el aula de informática.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🔁 Recuperación de la 2ª Evaluación</div>
+            <p class="card-desc">Para quienes tengan &lt; 5.0 en el proyecto. Subsanación técnica en el repositorio Git y re-defensa presencial ante el docente.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">08 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-9" data-title="Ecosistema Tecnológico">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Stack Profesional · Herramientas</span>
+          <h2 class="slide-title">Ecosistema Tecnológico y Herramientas de Trabajo</h2>
+          <p class="slide-subtitle">Tecnologías estándar del mercado para simular un entorno corporativo real</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="tech-grid">
+          <div class="tech-card">
+            <div class="tech-icon">☕</div>
+            <div class="tech-name">Java SE 21 LTS</div>
+            <div class="tech-desc">Lenguaje base: Streams, Records, Pattern Matching y Java NIO.2</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🗄️</div>
+            <div class="tech-name">Oracle Database XE</div>
+            <div class="tech-desc">Motor relacional empresarial, SQL avanzado, transacciones y JDBC</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🍃</div>
+            <div class="tech-name">MongoDB Community</div>
+            <div class="tech-desc">Base de datos NoSQL líder documental, colecciones BSON y agregaciones</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🌱</div>
+            <div class="tech-name">Spring Boot 3 & JPA</div>
+            <div class="tech-desc">Hibernate ORM, repositorios automáticos, JPQL y testing</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">📦</div>
+            <div class="tech-name">Apache Maven</div>
+            <div class="tech-desc">Gestión de dependencias, compilación y empaquetado de artefactos</div>
+          </div>
+          <div class="tech-card">
+            <div class="tech-icon">🐙</div>
+            <div class="tech-name">Git & GitHub</div>
+            <div class="tech-desc">Control de versiones, commits profesionales y entrega de proyectos</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">09 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-10" data-title="Compromiso y Uso Ético de la IA">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Deontología Profesional · Normas de Aula</span>
+          <h2 class="slide-title">Compromiso, Hábitos y Uso Ético de la IA</h2>
+          <p class="slide-subtitle">La inteligencia artificial como copiloto, nunca como sustituto de tu criterio</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🤖 Uso Permitido de Herramientas IA</div>
+            <p class="card-desc">El uso de GitHub Copilot, ChatGPT, Claude y herramientas similares está <strong>totalmente permitido y fomentado</strong> en las sesiones de desarrollo.</p>
+            <div class="concept-box mt-3">
+              <strong>Condición Innegociable:</strong> Debes ser capaz de explicar, justificar y modificar en directo cualquier línea de código que entregues. Si no lo comprendes, no es tu código.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">⚖️ Evaluación y Responsabilidad Técnica</div>
+            <ul class="bullet-list">
+              <li><strong>Exámenes en Entorno Controlado</strong>: Los exámenes presenciales sin IA medirán tu autonomía técnica y solvencia real.</li>
+              <li><strong>Puntualidad y Asistencia</strong>: El ritmo de 2º DAM es muy intenso; faltar a una sesión implica perder conectores o frameworks completos.</li>
+              <li><strong>Cuidado del Equipamiento</strong>: Respeto escrupuloso al aula C210, cableado de red y máquinas locales.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">10 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-11" data-title="Espacios y Horarios">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Ubicación · Horarios Oficiales</span>
+          <h2 class="slide-title">Espacios, Canales de Contacto y Horario</h2>
+          <p class="slide-subtitle">Dónde encontrarnos y cómo gestionar las dudas técnicas durante el curso</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">🏫 Clases Presenciales</div>
+            <div class="card-subtitle">Aula C210 · Turno de Tarde</div>
+            <ul class="bullet-list">
+              <li><strong>Lunes</strong>: 17:35 - 18:30 y 19:55 - 20:50</li>
+              <li><strong>Miércoles</strong>: 17:35 - 18:30 y 19:00 - 19:55</li>
+              <li>4 horas semanales de docencia directa y taller práctico.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">💻 Atención / Tutoría Virtual</div>
+            <div class="card-subtitle">Aula C212 + MS Teams</div>
+            <ul class="bullet-list">
+              <li><strong>Lunes</strong>: 15:45 - 16:40</li>
+              <li>Resolución telemática de dudas, tutorías individuales y seguimiento personalizado.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📧 Canales Oficiales y Recursos</div>
+            <div class="card-subtitle">Moodle Educastur & Teams</div>
+            <ul class="bullet-list">
+              <li><strong>Aula virtual en el Moodle de Educastur</strong> (acceso con cuenta Educastur).</li>
+              <li><strong>Documentos, temario, entrega de trabajos… todo en el aula virtual</strong>.</li>
+              <li><strong>Obligatorio el acceso y la comprobación periódica</strong>.</li>
+              <li><strong>Comunicaciones exclusivamente por canales oficiales</strong> (correo de Educastur, MS Teams).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">11 / 12</span>
+      </footer>
+    </section>
+    
+
+    <section class="slide" id="slide-12" data-title="Próximos Pasos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Arranque de Curso · ¡Manos a la Obra!</span>
+          <h2 class="slide-title">¡Arrancamos el Curso! Próximos Pasos</h2>
+          <p class="slide-subtitle">Preparación del entorno y despegue con la UT1: Manejo de Ficheros</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🛠️ Tareas para la Próxima Sesión</div>
+            <ul class="bullet-list">
+              <li>Comprobación de JDK 21 y Maven en tu puesto del aula C210.</li>
+              <li>Instalación y configuración del entorno de trabajo principal (Eclipse IDE).</li>
+              <li>Configuración de credenciales de Git y cuenta de GitHub institucional.</li>
+              <li>Inicio formal de la <strong>UT1: Manejo de Ficheros</strong> (Streams y Java NIO.2).</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">💬 Ronda de Preguntas Iniciales</div>
+            <div class="highlight-box mt-2">
+              <em>"El 80% del tiempo de un buen desarrollador no se pasa picando código, sino pensando la arquitectura y depurando conexiones. ¡A por un gran curso!"</em>
+            </div>
+            <p class="card-desc mt-3">¿Alguna duda sobre las evaluaciones, la ponderación 60/40 o el proyecto intermodular? 🙋‍♂️</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · Presentación Inicial</span>
+        <div class="footer-author"><span>CIFP Avilés</span><span class="dot">•</span><span>Sergio Capdevila Díez</span></div>
+        <span class="slide-counter">12 / 12</span>
+      </footer>
+    </section>
+    
+  </main>
+
+  <!-- Navegación y Controles para Pizarra Digital / Proyector -->
+  <nav class="controls-overlay">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva Anterior (Flecha Izq / RePág)">‹</button>
+    <button class="nav-btn" id="btn-next" title="Diapositiva Siguiente (Flecha Der / Espacio / AvPág)">›</button>
+    <button class="nav-btn btn-sm" id="btn-fullscreen" title="Pantalla Completa (F)">⛶</button>
+    <button class="nav-btn btn-sm" id="btn-print" title="Imprimir / Exportar a PDF (P)">🖨️</button>
+  </nav>
+
+  <!-- Script de Navegación Profesional e Interactividad -->
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentSlide = index;
+
+        slides.forEach((slide, i) => {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        if (progressBar) {
+          const progress = ((currentSlide + 1) / totalSlides) * 100;
+          progressBar.style.width = progress + '%';
+        }
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) {
+          updateSlide(currentSlide + 1);
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) {
+          updateSlide(currentSlide - 1);
+        }
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => {
+            console.error('Error al intentar activar pantalla completa:', err);
+          });
+        } else {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          }
+        }
+      }
+
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          if (e.ctrlKey) return;
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchEndX - touchStartX;
+        if (diffX < -50) nextSlide();
+        if (diffX > 50) prevSlide();
+      }, { passive: true });
+
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

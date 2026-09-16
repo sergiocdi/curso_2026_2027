@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programación Didáctica - {{MODULO_NOMBRE}} - CIFP Avilés</title>
+  <link rel="stylesheet" href="resources/estilo-programacion.css">
+  <style>
+    /* Estilos embebidos de contingencia para máxima portabilidad */
+    {{CSS_EMBEBIDO}}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- ====================================================================
+       PORTADA INSTITUCIONAL OFICIAL (CIFP AVILÉS)
+       ==================================================================== -->
+  <section class="cover-page no-break-first">
+    
+    <div class="cover-header">
+      <img class="asturias-banner" src="{{LOGO_ASTURIAS}}" alt="Gobierno del Principado de Asturias - Consejería de Educación">
+    </div>
+
+    <div class="cover-body-layout">
+      <div class="cover-sidebar">
+        <div class="cover-vertical-title">Programación Docente</div>
+      </div>
+
+      <div class="cover-main-content">
+        <div class="center-badge">
+          <img class="cifp-logo" src="{{LOGO_CIFP}}" alt="Logo CIFP Avilés">
+          <p class="center-title">Centro Integrado de Formación Profesional</p>
+          <h1 class="center-name">AVILÉS</h1>
+          <p class="center-region">Principado de Asturias</p>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-group">
+            <div class="meta-label">Departamento de Familia Profesional</div>
+            <div class="meta-value">{{DEPARTAMENTO}}</div>
+          </div>
+          <div class="meta-group">
+            <div class="meta-label">Ciclo Formativo</div>
+            <div class="meta-value">{{CICLO_CODIGO}} – {{CICLO_NOMBRE}}</div>
+          </div>
+          <div class="meta-group">
+            <div class="meta-label">Modalidad</div>
+            <div class="meta-value">{{MODALIDAD}}</div>
+          </div>
+          <div class="meta-group">
+            <div class="meta-label">Módulo Formativo</div>
+            <div class="meta-value highlight">{{MODULO_CODIGO}} – {{MODULO_NOMBRE}}</div>
+          </div>
+          <div class="meta-group">
+            <div class="meta-label">Docente</div>
+            <div class="meta-value">{{DOCENTE}}</div>
+          </div>
+          <div class="meta-group">
+            <div class="meta-label">Curso Académico</div>
+            <div class="meta-value">{{CURSO_ACADEMICO}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <img class="fse-logo" src="{{LOGO_FSE}}" alt="Unión Europea - Fondo Social Europeo">
+      <div class="cover-footer-text">
+        Centro Integrado de Formación Profesional Avilés<br>
+        Consejería de Educación del Principado de Asturias
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ====================================================================
+       CUERPO DE LA PROGRAMACIÓN (SECCIONES DEFINIDAS POR EL MÓDULO)
+       Nota: Los apartados se adaptan fielmente a la estructura definida por
+       el docente en 00-Programacion/. La siguiente estructura es un ejemplo
+       de referencia para módulos estándar, pero debe ajustarse al módulo real.
+       ==================================================================== -->
+  <main class="content-page watermarked">
+
+    <div class="page-header-display">
+      <span>CIFP Avilés · {{DEPARTAMENTO}}</span>
+      <span>{{MODULO_NOMBRE}} ({{CURSO_ACADEMICO}})</span>
+    </div>
+
+    <!-- 1. IDENTIFICACIÓN -->
+    <section id="sec-01">
+      <h1>1. Identificación de la programación</h1>
+      <h2>Centro Educativo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Código</th>
+            <th style="width: 50%;">Centro</th>
+            <th style="width: 25%;">Año Académico</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>33028684</td>
+            <td>CIFP Avilés</td>
+            <td>{{CURSO_ACADEMICO}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Ciclo Formativo</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Familia Profesional</th>
+            <th>Ciclo Formativo</th>
+            <th>Código</th>
+            <th>Curso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{FAMILIA_PROFESIONAL}}</td>
+            <td>{{CICLO_NOMBRE}}</td>
+            <td>{{CICLO_CODIGO}}</td>
+            <td>{{CURSO_NIVEL}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>Regulación Legal</h2>
+      {{REGULACION_LEGAL}}
+
+      <h2>Carga Horaria y Especialidad</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Horas / Curso</th>
+            <th>Horas / Semana</th>
+            <th>Especialidad del Profesorado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>{{HORAS_TOTALES}} horas</strong></td>
+            <td><strong>{{HORAS_SEMANALES}} horas</strong></td>
+            <td>Profesorado de Enseñanza Secundaria – Informática (0590 107)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 2. CONCRECIÓN DEL CURRÍCULO -->
+    <section id="sec-02">
+      <h1>2. Concreción del currículo. Aspectos destacables del módulo</h1>
+      {{CONCRECION_CURRICULO}}
+    </section>
+
+    <!-- 3. COMPETENCIAS Y OBJETIVOS -->
+    <section id="sec-03">
+      <h1>3. Competencias profesionales, personales y sociales. Objetivos generales a los que contribuye el módulo</h1>
+      {{COMPETENCIAS_Y_OBJETIVOS}}
+    </section>
+
+    <!-- 4. RESULTADOS DE APRENDIZAJE Y CRITERIOS -->
+    <section id="sec-04">
+      <h1>4. Resultados de Aprendizaje y Criterios de Evaluación</h1>
+      {{RESULTADOS_APRENDIZAJE_TABLAS}}
+    </section>
+
+    <!-- 5. REALIZACIONES PROFESIONALES -->
+    <section id="sec-05">
+      <h1>5. Realizaciones Profesionales de las Unidades de Competencia del módulo</h1>
+      {{UNIDADES_COMPETENCIA}}
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- 6. MATRIZ CURRICULAR (UTS X RAS) -->
+    <section id="sec-06">
+      <h1>6. Unidades de Trabajo, temporalización y relación con los resultados de aprendizaje</h1>
+      {{MATRIZ_CURRICULAR_TABLA}}
+    </section>
+
+    <!-- 7. CONTENIDOS Y SABERES BÁSICOS -->
+    <section id="sec-07">
+      <h1>7. Contenidos y Saberes Básicos por Unidad de Trabajo</h1>
+      {{TABLAS_CONTENIDOS_UNIDADES}}
+    </section>
+
+    <div class="page-break"></div>
+
+    <!-- 8. ORGANIZACIÓN ACADÉMICA Y EVALUACIÓN -->
+    <section id="sec-08">
+      <h1>8. Organización académica y Procedimientos de Evaluación</h1>
+      {{ORGANIZACION_EVALUACION}}
+    </section>
+
+    <!-- 9. METODOLOGÍA -->
+    <section id="sec-09">
+      <h1>9. Metodología didáctica</h1>
+      {{METODOLOGIA}}
+    </section>
+
+    <!-- 10. MATERIALES Y RECURSOS -->
+    <section id="sec-10">
+      <h1>10. Materiales y recursos didácticos</h1>
+      {{MATERIALES_RECURSOS}}
+    </section>
+
+    <!-- 11. ATENCIÓN A LA DIVERSIDAD Y COEDUCACIÓN -->
+    <section id="sec-11">
+      <h1>11. Atención a la diversidad y Coeducación</h1>
+      {{ATENCION_DIVERSIDAD}}
+    </section>
+
+    <!-- 12. ACTIVIDADES COMPLEMENTARIAS -->
+    <section id="sec-12">
+      <h1>12. Actividades complementarias y extraescolares</h1>
+      {{ACTIVIDADES_COMPLEMENTARIAS}}
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>

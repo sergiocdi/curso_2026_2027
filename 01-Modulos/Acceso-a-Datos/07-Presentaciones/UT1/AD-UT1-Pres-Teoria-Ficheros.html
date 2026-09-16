@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT1: Manejo de Ficheros (Texto, Binarios y XML) - CIFP Avilés</title>
+  <style>
+/* ==============================================================================
+   ESTILO INSTITUCIONAL DE PRESENTACIONES DE UNIDADES DE TRABAJO (TEMA CLARO)
+   CIFP Avilés · Ciclos Formativos de Grado Superior (DAM2 - Acceso a Datos)
+   Skill: generar-presentaciones-ut · Autoría: Sergio Capdevila Díez
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg-canvas: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f1f5f9;
+  --border-card: #e2e8f0;
+  --border-focus: #2563eb;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --color-primary: #1e40af;
+  --color-primary-light: #3b82f6;
+  --color-accent: #0284c7;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-purple: #9333ea;
+
+  --box-concept-bg: #eff6ff;
+  --box-concept-border: #2563eb;
+  --box-concept-text: #1e3a8a;
+
+  --box-highlight-bg: #f0fdf4;
+  --box-highlight-border: #16a34a;
+  --box-highlight-text: #14532d;
+
+  --box-warning-bg: #fffbeb;
+  --box-warning-border: #d97706;
+  --box-warning-text: #78350f;
+
+  --box-analogia-bg: #faf5ff;
+  --box-analogia-border: #9333ea;
+  --box-analogia-text: #581c87;
+
+  --box-error-bg: #fef2f2;
+  --box-error-border: #dc2626;
+  --box-error-text: #991b1b;
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 8px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 18px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: linear-gradient(90deg, #1e40af, #2563eb, #0284c7);
+  z-index: 1000;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#presentation-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  padding: 36px 60px 60px 60px;
+  background-color: var(--bg-canvas);
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.slide.active {
+  display: flex;
+}
+
+/* Cabeceras de Diapositiva */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-card);
+  padding-bottom: 14px;
+}
+
+.slide-header-left {
+  flex: 1;
+}
+
+.slide-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  background-color: var(--box-concept-bg);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--box-concept-border);
+  margin-bottom: 8px;
+}
+
+.slide-title {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.slide-subtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.slide-header-logo {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+  margin-left: 24px;
+}
+
+/* Cuerpo de la Diapositiva */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+/* Tarjetas */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 22px 26px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card-badge {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: var(--bg-card-alt);
+  color: var(--text-secondary);
+}
+
+.card-desc, .bullet-list li {
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.bullet-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  color: var(--color-primary);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Cajas Didácticas */
+.didactic-box {
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 18.5px;
+  line-height: 1.55;
+  border-left: 6px solid;
+}
+
+.concept-box {
+  background-color: var(--box-concept-bg);
+  border-color: var(--box-concept-border);
+  color: var(--box-concept-text);
+}
+
+.highlight-box {
+  background-color: var(--box-highlight-bg);
+  border-color: var(--box-highlight-border);
+  color: var(--box-highlight-text);
+}
+
+.warning-box {
+  background-color: var(--box-warning-bg);
+  border-color: var(--box-warning-border);
+  color: var(--box-warning-text);
+}
+
+.analogia-box {
+  background-color: var(--box-analogia-bg);
+  border-color: var(--box-analogia-border);
+  color: var(--box-analogia-text);
+}
+
+.error-comun-box {
+  background-color: var(--box-error-bg);
+  border-color: var(--box-error-border);
+  color: var(--box-error-text);
+}
+
+.box-title {
+  font-weight: 700;
+  font-size: 19px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Bloques de Código */
+.code-block {
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  line-height: 1.5;
+  padding: 16px 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin-top: 8px;
+}
+
+/* Tablas */
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  font-size: 17px;
+}
+
+.table-custom th, .table-custom td {
+  padding: 12px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.table-custom th {
+  background-color: var(--bg-card-alt);
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* Pie de Diapositiva */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-card);
+  font-size: 14.5px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.footer-center {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Portada Especial */
+.slide-cover {
+  padding: 44px 70px;
+  justify-content: space-between;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 16px;
+}
+
+.cover-institution .inst-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.cover-institution .inst-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.cover-logo-box img {
+  height: 65px;
+}
+
+.cover-body {
+  margin: 20px 0;
+}
+
+.cover-badge-unit {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.cover-subtitle {
+  font-size: 22px;
+  color: var(--text-secondary);
+  max-width: 880px;
+  line-height: 1.4;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 16px 22px;
+  border-radius: 12px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cover-meta-item span {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Controles de Navegación */
+#nav-controls {
+  position: fixed;
+  bottom: 16px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-lg);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  z-index: 999;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.nav-btn:hover {
+  background-color: var(--bg-card-alt);
+  color: var(--color-primary);
+}
+
+.slide-indicator {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 0 6px;
+}
+
+.keyboard-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 24px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-card);
+  z-index: 999;
+  transition: opacity 0.5s;
+}
+
+/* Reglas de Impresión y PDF */
+@page {
+  size: 297mm 210mm landscape;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 297mm !important;
+    height: auto !important;
+    background: #ffffff !important;
+    overflow: visible !important;
+  }
+  #progress-bar, #nav-controls, .keyboard-hint {
+    display: none !important;
+    height: 0 !important;
+  }
+  #presentation-viewport {
+    width: 297mm !important;
+    height: auto !important;
+    display: block !important;
+    position: static !important;
+  }
+  .slide {
+    display: flex !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    padding: 16mm 20mm 14mm 20mm !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+  }
+  .slide:last-child, .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  .slide-title { font-size: 26pt !important; }
+  .slide-subtitle { font-size: 14pt !important; }
+  .card-title { font-size: 16pt !important; }
+  .card-desc, .bullet-list li, .didactic-box { font-size: 12pt !important; }
+  .code-block { font-size: 9pt !important; padding: 10px !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <main id="presentation-viewport">
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 01: PORTADA                                                  -->
+    <!-- ================================================================== -->
+    <section class="slide slide-cover active" id="slide-1">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación · Dpto. Informática</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">UNIDAD DE TRABAJO 01 · PERSISTENCIA BÁSICA</div>
+        <h1 class="cover-title">Manejo de Ficheros en Java</h1>
+        <p class="cover-subtitle">Fundamentos teóricos y técnicos de Entrada/Salida: Ficheros de Texto Plano, API Java NIO.2, Ficheros Binarios Tipados, RandomAccessFile, Serialización de Objetos y Procesamiento XML</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item"><strong>Módulo Curricular</strong><span>Acceso a Datos (0486)</span></div>
+        <div class="cover-meta-item"><strong>Ciclo Formativo</strong><span>2º DAM (Desarrollo Multiplataforma)</span></div>
+        <div class="cover-meta-item"><strong>Resultados de Aprendizaje</strong><span>RA1 (CE1.a, CE1.b, CE1.c, CE1.d, CE1.e)</span></div>
+        <div class="cover-meta-item"><strong>Docente</strong><span>Sergio Capdevila Díez</span></div>
+        <div class="cover-meta-item"><strong>Duración Estimada</strong><span>30 Horas Lectivas (Trimestre 1)</span></div>
+        <div class="cover-meta-item"><strong>Entorno Tecnológico</strong><span>Java SE 21 / Eclipse IDE / Maven</span></div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">01 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 02: MAPA DE RUTA DE LA UNIDAD                                 -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-2">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Visión General Curricular</span>
+          <h2 class="slide-title">Los 3 Grandes Bloques de Persistencia</h2>
+          <p class="slide-subtitle">De los formatos legibles por humanos a las estructuras binarias y documentos estructurados</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">1. Ficheros de Texto</span>
+              <span class="card-badge" style="background:#eff6ff; color:#1e40af;">Bloque 1</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Codificación de caracteres (UTF-8 vs ISO-8859-1).</li>
+              <li>Jerarquía <code>Reader</code> / <code>Writer</code> con Buffers.</li>
+              <li>La moderna API <code>java.nio.file</code> (Java 11+).</li>
+              <li>Streams funcionales para logs masivos (<code>Files.lines</code>).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">2. Ficheros Binarios</span>
+              <span class="card-badge" style="background:#f0fdf4; color:#16a34a;">Bloque 2</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Flujos de datos primitivos (<code>DataStream</code>).</li>
+              <li>Acceso aleatorio con <code>RandomAccessFile</code> (RAF).</li>
+              <li>Serialización nativa de objetos (<code>Serializable</code>).</li>
+              <li><strong>Solución al append:</strong> <code>MiObjectOutputStream</code>.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">3. Ficheros XML</span>
+              <span class="card-badge" style="background:#faf5ff; color:#9333ea;">Bloque 3</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Árbol en memoria RAM: <strong>DOM</strong> + <code>Transformer</code>.</li>
+              <li>Procesamiento por eventos reactivos: <strong>SAX</strong>.</li>
+              <li>Cursor iterativo bajo demanda: <strong>StAX</strong>.</li>
+              <li>Mapeo objeto-documento declarativo: <strong>JAXB</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">02 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 03: TEXTO PLANO Y CHARSETS                                   -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-3">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 1 · Ficheros de Texto</span>
+          <h2 class="slide-title">¿Por qué Texto Plano y qué es un Charset?</h2>
+          <p class="slide-subtitle">La traducción crítica entre los caracteres de la RAM y los bytes del disco</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">El Ecosistema del Texto</span></div>
+            <ul class="bullet-list">
+              <li><strong>Interoperabilidad total:</strong> Legible por personas, scripts bash, herramientas de monitorización y cualquier lenguaje.</li>
+              <li><strong>Estructura secuencial:</strong> Cadenas separadas por saltos de línea (<code>\n</code> en Linux/macOS, <code>\r\n</code> en Windows).</li>
+              <li><strong>RAM vs Disco:</strong> Java gestiona cadenas en memoria en <strong>UTF-16</strong> (2 bytes/carácter). Al escribir en disco, debe serializarlas a bytes mediante un <strong>Charset</strong>.</li>
+            </ul>
+          </div>
+          <div class="didactic-box warning-box">
+            <div class="box-title">⚠️ Trampa Clásica de Aula: El Charset por Defecto</div>
+            <p>
+              Instanciar <code>new FileReader("datos.txt")</code> sin especificar charset usa la codificación de la máquina anfitriona (en Windows puede ser <code>windows-1252</code>).
+              <br><br>
+              Si ese archivo se sube a un contenedor Docker o servidor Linux con <code>UTF-8</code>, las tildes y eñes se corromperán inmediatamente (<strong>Mojibake</strong>).
+              <br><br>
+              <strong>Regla de Oro:</strong> Especificar <code>StandardCharsets.UTF_8</code> siempre.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 1.1</div>
+          <p style="font-size: 15px; margin: 0;">Abre tu IDE y completa la <strong>Actividad 1.1</strong> del Cuaderno de Aula (conversión de fichero <code>ISO-8859-1</code> a <code>UTF-8</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">03 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 04: BUFFERS Y PATRÓN DECORADOR                              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-4">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 1 · Ficheros de Texto</span>
+          <h2 class="slide-title">El Patrón Decorador y los Buffers</h2>
+          <p class="slide-subtitle">Minimizando llamadas de E/S al sistema operativo para multiplicar el rendimiento</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">La Cadena de Flujos (Streams)</span></div>
+            <ul class="bullet-list">
+              <li><strong>Flujo base:</strong> <code>FileReader</code> lee caracteres físicos del disco.</li>
+              <li><strong>Flujo decorador:</strong> <code>BufferedReader</code> añade una memoria intermedia (buffer de 8 KB).</li>
+              <li><strong>Método clave:</strong> <code>readLine()</code> devuelve la línea completa como <code>String</code> y retorna <code>null</code> al llegar al final (EOF).</li>
+            </ul>
+            <div class="code-block">
+try (BufferedReader br = new BufferedReader(
+        new FileReader("app.log", StandardCharsets.UTF_8))) {
+    String linea;
+    while ((linea = br.readLine()) != null) {
+        System.out.println(linea);
+    }
+}</div>
+          </div>
+          <div class="didactic-box analogia-box">
+            <div class="box-title">🚚 Analogía del Mundo Real: La Carretilla vs El Camión</div>
+            <p>
+              Pedir a un operario que vaya al almacén central a buscar <strong>un único ladrillo</strong> cada vez (un carácter con <code>read()</code>) es ineficiente y satura el tráfico.
+              <br><br>
+              El <code>BufferedReader</code> es un <strong>camión de 8.000 ladrillos</strong>: hace un solo viaje al almacén (disco) para cargar miles de caracteres en RAM. Tu código va tomando ladrillos de esa memoria instantáneamente sin pausar la CPU.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 1.2</div>
+          <p style="font-size: 15px; margin: 0;">Abre tu IDE y completa la <strong>Actividad 1.2</strong> del Cuaderno de Aula (lectura y filtrado con <code>BufferedReader</code> y <code>BufferedWriter</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">04 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 05: ESCRITURA CON BUFFEREDWRITER Y PRINTWRITER                -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-5">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 1 · Ficheros de Texto</span>
+          <h2 class="slide-title">Escritura: BufferedWriter y PrintWriter</h2>
+          <p class="slide-subtitle">Rendimiento puro frente a potencia de formateo para informes y tablas</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">BufferedWriter</span>
+              <span class="card-badge">Alto Rendimiento</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Buffer de memoria intermedio para escrituras en bloque.</li>
+              <li>Método <code>write(String)</code> para emitir cadenas.</li>
+              <li>Método <code>newLine()</code>: inserta el salto de línea multiplataforma adecuado del sistema operativo.</li>
+              <li>Vacía el buffer con <code>flush()</code> antes de cerrar.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">PrintWriter</span>
+              <span class="card-badge">Formateo Avanzado</span>
+            </div>
+            <ul class="bullet-list">
+              <li>Permite imprimir con <code>print()</code>, <code>println()</code> y <code>printf()</code>.</li>
+              <li>Acepta argumentos numéricos sin conversiones manuales a texto.</li>
+              <li>No lanza excepciones de I/O en cada llamada (usa <code>checkError()</code>).</li>
+              <li>Ideal para generar reportes tabulares, facturas y ficheros CSV.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 1.3</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 1.3</strong> del Cuaderno de Aula (generador de factura con <code>PrintWriter.printf</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">05 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 06: JAVA NIO.2 (PATHS Y FILES)                               -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-6">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 1 · Ficheros de Texto</span>
+          <h2 class="slide-title">La API Moderna Java NIO.2: Paths y Files</h2>
+          <p class="slide-subtitle">Operaciones atómicas, mayor seguridad y código conciso en Java 11+</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Operaciones en Memoria Instantáneas</span></div>
+            <ul class="bullet-list">
+              <li><code>Path.of("dir", "config.cfg")</code>: Representación moderna e inmutable de rutas.</li>
+              <li><code>Files.writeString(path, "texto", charset, opciones)</code>: Escribe una cadena completa en un solo paso.</li>
+              <li><code>Files.readString(path, charset)</code>: Lee el fichero completo como un único <code>String</code>.</li>
+              <li><code>Files.readAllLines(path, charset)</code>: Carga todas las líneas en un <code>List&lt;String&gt;</code>.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Ejemplo de Uso Práctico</span></div>
+            <div class="code-block">
+Path ruta = Path.of("datos", "servidor.properties");
+
+// Escritura atómica directa
+Files.writeString(ruta, "puerto=8080\nmodo=prod", 
+    StandardCharsets.UTF_8, 
+    StandardOpenOption.CREATE, 
+    StandardOpenOption.TRUNCATE_EXISTING);
+
+// Lectura directa a String
+String config = Files.readString(ruta, StandardCharsets.UTF_8);
+System.out.println(config);</div>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 1.4</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 1.4</strong> del Cuaderno de Aula (persistencia atómica con <code>Files.writeString()</code> y <code>Files.readString()</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">06 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 07: PROCESAMIENTO CON FILES.LINES                            -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-7">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 1 · Ficheros de Texto</span>
+          <h2 class="slide-title">Procesamiento Masivo: Files.lines()</h2>
+          <p class="slide-subtitle">Java Streams con evaluación perezosa para ficheros gigantescos</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="didactic-box error-comun-box">
+            <div class="box-title">💥 El Peligro de readAllLines() en Producción</div>
+            <p>
+              Si abres un log de servidor de <strong>4 Gigabytes</strong> con <code>Files.readAllLines()</code>, la JVM intentará instanciar millones de objetos <code>String</code> a la vez en el Heap de memoria RAM.
+              <br><br>
+              <strong>Resultado:</strong> <code>java.lang.OutOfMemoryError: Java heap space</code> y caída inmediata del servicio.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">La Solución: Files.lines() (Lazy Stream)</span></div>
+            <p class="card-desc">
+              Lee las líneas del disco bajo demanda, una por una, a medida que el pipeline del Stream las va consumiendo:
+            </p>
+            <div class="code-block">
+// Requiere try-with-resources para cerrar el flujo de disco
+try (Stream&lt;String&gt; lineas = Files.lines(Path.of("server.log"))) {
+    long numCriticos = lineas
+        .filter(l -> l.contains("[FATAL]"))
+        .peek(System.out::println)
+        .count();
+    System.out.println("Total incidencias: " + numCriticos);
+}</div>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 1.5</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 1.5</strong> del Cuaderno de Aula (filtrado perezoso de logs con <code>Files.lines()</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">07 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 08: INTRODUCCIÓN A FICHEROS BINARIOS                         -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-8">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Ficheros Binarios</span>
+          <h2 class="slide-title">¿Por qué Binario? Eficiencia y Estructura</h2>
+          <p class="slide-subtitle">Almacenamiento en representación nativa de máquina sin sobrecoste de parseo</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Texto vs Binario: Caso Práctico</span></div>
+            <p class="card-desc">
+              Supongamos que guardamos el número entero <code>2147483647</code>:
+            </p>
+            <ul class="bullet-list">
+              <li><strong>En texto plano:</strong> Ocupa 10 caracteres (10 bytes en UTF-8 o 20 en UTF-16). Para leerlo, la CPU debe gastar ciclos ejecutando <code>Integer.parseInt()</code>.</li>
+              <li><strong>En binario puro:</strong> Ocupa exactamente <strong>4 bytes</strong> (32 bits). La lectura es una copia directa de bytes a memoria.</li>
+            </ul>
+          </div>
+          <div class="didactic-box concept-box">
+            <div class="box-title">💡 Ventajas Clave del Formato Binario</div>
+            <ul class="bullet-list">
+              <li><strong>Ahorro de espacio:</strong> Compresión natural de datos numéricos y booleanos.</li>
+              <li><strong>Velocidad extrema:</strong> Transferencia de datos bus-a-bus sin conversiones de caracteres.</li>
+              <li><strong>Tipado estricto:</strong> Se conservan los tipos de datos primitivos de Java sin ambigüedades.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.1</div>
+          <p style="font-size: 15px; margin: 0;">Abre tu IDE y completa la <strong>Actividad 2.1</strong> del Cuaderno de Aula (escritura binaria con <code>DataOutputStream</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">08 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 09: DATASTREAMS Y DATOS PRIMITIVOS                           -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-9">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Ficheros Binarios</span>
+          <h2 class="slide-title">Datos Primitivos: DataStreams</h2>
+          <p class="slide-subtitle">DataOutputStream y DataInputStream para persistencia tipada multiplataforma</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Métodos Específicos por Tipo</span></div>
+            <ul class="bullet-list">
+              <li><code>writeInt(int)</code>: Escribe exactamente 4 bytes binarios.</li>
+              <li><code>writeDouble(double)</code>: Escribe exactamente 8 bytes binarios.</li>
+              <li><code>writeBoolean(boolean)</code>: Escribe 1 byte (<code>0x01</code> / <code>0x00</code>).</li>
+              <li><code>writeUTF(String)</code>: Escribe la longitud del texto (2 bytes) seguida de los caracteres UTF-8.</li>
+            </ul>
+          </div>
+          <div class="didactic-box warning-box">
+            <div class="box-title">⚠️ El Contrato Estricto de los Flujos de Datos</div>
+            <p>
+              Los ficheros binarios no tienen etiquetas ni comas separadoras.
+              <br><br>
+              <strong>Regla Fundamental:</strong> Debes leer los datos <strong>exactamente en el mismo orden y con el mismo método</strong> con el que fueron escritos.
+              Si escribiste <code>writeInt</code> y luego <code>writeDouble</code>, pero intentas leer primero <code>readDouble</code>, los bytes se desfasarán y obtendrás datos totalmente corruptos.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.1</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 2.1</strong> del Cuaderno de Aula (persistencia de telemetría de sensores en binario).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">09 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 10: TRAMPA DE EXAMEN - EOFEXCEPTION                          -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-10">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Ficheros Binarios</span>
+          <h2 class="slide-title">Trampa de Examen: Control de Fin con EOFException</h2>
+          <p class="slide-subtitle">Por qué readInt() no puede devolver -1 ni null al terminar</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">El Problema de los Métodos Tipados</span></div>
+            <p class="card-desc">
+              En flujos de texto, <code>readLine()</code> devuelve <code>null</code>.
+              Pero en <code>dis.readInt()</code>, el valor <code>-1</code> es un entero válido (<code>0xFFFFFFFF</code>) que podría ser un dato real de la aplicación.
+              <br><br>
+              Por tanto, al alcanzar el fin del fichero, Java lanza <strong><code>EOFException</code></strong>.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Estructura Correcta de Bucle</span></div>
+            <div class="code-block">
+try (DataInputStream dis = new DataInputStream(
+        new FileInputStream("sensores.dat"))) {
+    while (true) {
+        int id = dis.readInt();
+        double temp = dis.readDouble();
+        System.out.printf("[%d] %.2f ºC%n", id, temp);
+    }
+} catch (EOFException e) {
+    // Fin natural y previsto del archivo
+    System.out.println("Fin de lectura alcanzado.");
+} catch (IOException e) {
+    System.err.println("Error de lectura: " + e.getMessage());
+}</div>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.2</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 2.2</strong> del Cuaderno de Aula (bucle infinito controlado con captura de <code>EOFException</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">10 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 11: RANDOMACCESSFILE (RAF)                                   -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-11">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Ficheros Binarios</span>
+          <h2 class="slide-title">Acceso Aleatorio: RandomAccessFile (RAF)</h2>
+          <p class="slide-subtitle">Tratando el disco como un inmenso array de bytes indexable</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">El Puntero de Archivo (File Pointer)</span></div>
+            <ul class="bullet-list">
+              <li>Los flujos convencionales son <strong>secuenciales</strong> (para leer el dato 1000 hay que leer los 999 anteriores).</li>
+              <li><code>RandomAccessFile</code> permite saltar a cualquier byte arbitrario mediante el método <code>seek(long posicionBytes)</code>.</li>
+              <li><code>getFilePointer()</code>: Retorna la posición actual del cursor.</li>
+              <li><code>length()</code>: Retorna el tamaño total en bytes del fichero.</li>
+              <li>Modos de apertura: <code>"r"</code> (solo lectura) y <code>"rw"</code> (lectura y escritura).</li>
+            </ul>
+          </div>
+          <div class="didactic-box analogia-box">
+            <div class="box-title">📻 Analogía: Cinta de Casete vs Tocadiscos</div>
+            <p>
+              Un flujo secuencial (<code>InputStream</code>) es una <strong>cinta de casete</strong>: si quieres escuchar la canción 5, debes rebobinar o avanzar pasando obligatoriamente por las canciones 1, 2, 3 y 4.
+              <br><br>
+              <code>RandomAccessFile</code> es el <strong>brazo de un tocadiscos o un CD</strong>: levantas la aguja y la colocas con precisión milimétrica (<code>seek</code>) directamente en la pista que quieres reproducir o sobrescribir.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.3 (Parte 1)</div>
+          <p style="font-size: 15px; margin: 0;">Abre tu IDE y comienza la <strong>Actividad 2.3</strong> del Cuaderno de Aula (creación de fichero de registros con <code>RandomAccessFile</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">11 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 12: REGISTROS DE LONGITUD FIJA                               -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-12">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Ficheros Binarios</span>
+          <h2 class="slide-title">Registros de Longitud Fija en RAF</h2>
+          <p class="slide-subtitle">La base matemática para modificar registros directamente en disco</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Diseño de Registro de Empleado (36 Bytes Fijos)</span></div>
+          <p class="card-desc" style="margin-bottom: 12px;">
+            <code>id</code> (int: 4B) + <code>apellido</code> (10 chars con writeChars: 20B) + <code>departamento</code> (int: 4B) + <code>salario</code> (double: 8B) = <strong>36 Bytes</strong>.
+          </p>
+          <div class="code-block">
+public static void actualizarSalarioDirecto(String ruta, int indiceRegistro, double nuevoSalario) {
+    try (RandomAccessFile raf = new RandomAccessFile(ruta, "rw")) {
+        // Cálculo matemático del byte exacto donde empieza el salario:
+        // offset = (registro * 36) + (4 de id + 20 de apellido + 4 de dep) = base + 28
+        long offset = ((long) indiceRegistro * 36) + 28;
+        
+        raf.seek(offset);
+        raf.writeDouble(nuevoSalario); // Sobrescribe SOLO los 8 bytes del salario
+        System.out.println("Salario actualizado en disco en posición: " + offset);
+    } catch (IOException e) { ... }
+}</div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.3 (Parte 2)</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: completa la <strong>Actividad 2.3</strong> del Cuaderno de Aula (modificación in-situ de salarios calculando offsets exactos).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">12 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 13: SERIALIZACIÓN DE OBJETOS                                 -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-13">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Serialización</span>
+          <h2 class="slide-title">Serialización de Objetos en Java</h2>
+          <p class="slide-subtitle">Persistiendo el estado de instancias completas de la memoria RAM al disco</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header"><span class="card-title">1. Serializable</span></div>
+            <p class="card-desc">
+              Interfaz marcadora (sin métodos). Notifica a la JVM que autorizamos la persistencia. Si no está implementada, lanza <code>NotSerializableException</code>.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">2. serialVersionUID</span></div>
+            <p class="card-desc">
+              Identificador de versión. Definir siempre <code>private static final long serialVersionUID = 1L;</code> para evitar que la JVM lance <code>InvalidClassException</code> al cambiar la clase.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">3. transient</span></div>
+            <p class="card-desc">
+              Modificador para campos que <strong>no deben guardarse</strong> (contraseñas, tokens de sesión o sockets de red). Al deserializar toman su valor por defecto (<code>null</code> o <code>0</code>).
+            </p>
+          </div>
+        </div>
+        <div class="code-block">
+// Guardar: ObjectOutputStream oos = new ObjectOutputStream(fos); oos.writeObject(alumno);
+// Cargar:  ObjectInputStream ois = new ObjectInputStream(fis); Alumno a = (Alumno) ois.readObject();</div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.4</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 2.4</strong> del Cuaderno de Aula (serialización de usuarios con campos <code>transient</code> y control de <code>serialVersionUID</code>).</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">13 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 14: EL GRAN PROBLEMA DEL APPEND                              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-14">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Serialización</span>
+          <h2 class="slide-title">El Problema del Append: StreamCorruptedException</h2>
+          <p class="slide-subtitle">La trampa de añadir objetos a un archivo existente con FileOutputStream(ruta, true)</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="didactic-box error-comun-box">
+            <div class="box-title">💥 ¿Qué sucede bajo el capó?</div>
+            <p>
+              Al instanciar un <code>ObjectOutputStream</code>, su constructor escribe automáticamente una <strong>cabecera de 4 bytes</strong> (<code>STREAM_MAGIC = 0xACED</code> y <code>STREAM_VERSION = 0x0005</code>).
+              <br><br>
+              Si abres en modo <code>append = true</code>, se escribe una <strong>segunda cabecera intermedia</strong> en mitad del archivo.
+              <br><br>
+              Al leer con <code>ObjectInputStream</code>, este procesa el primer objeto, y al llegar al segundo lote se encuentra la cabecera <code>0xACED</code> donde esperaba un código de objeto (<code>0x73</code>), lanzando:
+              <br><code>StreamCorruptedException: invalid type code: AC</code>
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Esquema Binario de Corrupción</span></div>
+            <div class="code-block" style="font-size: 13px;">
+Archivo en disco tras dos escrituras independientes con append:
+
+[ AC ED 00 05 ]  -> Cabecera inicial (correcta)
+[ OBJETO 1    ]  -> Objeto leído correctamente
+[ AC ED 00 05 ]  -> ¡CABECERA DUPLICADA EN MITAD!
+                    ▲
+                    └── ¡CRASH! ObjectInputStream revienta aquí
+[ OBJETO 2    ]</div>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.5 (Parte 1)</div>
+          <p style="font-size: 15px; margin: 0;">Reproduce en tu IDE el fallo de append con <code>FileOutputStream(ruta, true)</code> y comprueba el lanzamiento de <code>StreamCorruptedException</code>.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">14 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 15: SOLUCIÓN MIOBJECTOUTPUTSTREAM                            -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-15">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 2 · Serialización</span>
+          <h2 class="slide-title">Solución Docente: MiObjectOutputStream</h2>
+          <p class="slide-subtitle">Sobrescribir writeStreamHeader() para anular cabeceras secundarias</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">1. Crear la Subclase Sin Cabecera</span></div>
+            <div class="code-block">
+class MiObjectOutputStream extends ObjectOutputStream {
+    public MiObjectOutputStream(OutputStream out) throws IOException {
+        super(out);
+    }
+    @Override
+    protected void writeStreamHeader() throws IOException {
+        // Al dejar este método vacío, NO se escribe
+        // la cabecera 0xACED0005 intermedia
+    }
+}</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">2. Lógica de Persistencia Append</span></div>
+            <div class="code-block">
+File f = new File("datos.dat");
+boolean yaExisteConDatos = f.exists() && f.length() > 0;
+
+try (FileOutputStream fos = new FileOutputStream(f, true);
+     ObjectOutputStream oos = yaExisteConDatos 
+             ? new MiObjectOutputStream(fos) 
+             : new ObjectOutputStream(fos)) {
+    
+    oos.writeObject(nuevoAlumno);
+}</div>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.5 (Parte 2 - El Gran Reto)</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: resuelve la <strong>Actividad 2.5</strong> del Cuaderno de Aula utilizando tu <code>MiObjectOutputStream</code> para persistir incrementalmente sin corrupción.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">15 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 16: ECOSISTEMA XML EN JAVA                                   -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-16">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 3 · Ficheros XML</span>
+          <h2 class="slide-title">Ficheros XML: El Ecosistema de Parsers</h2>
+          <p class="slide-subtitle">El estándar de facto para documentos estructurados y las 4 formas de procesarlo</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Características de XML</span></div>
+            <ul class="bullet-list">
+              <li><strong>Jerarquía estricta:</strong> Un único elemento raíz que contiene ramas y hojas.</li>
+              <li><strong>Auto-descriptivo:</strong> Etiquetas semánticas comprensibles por personas y sistemas.</li>
+              <li><strong>Independencia:</strong> Estándar W3C independiente del sistema operativo y lenguaje.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Los 4 Métodos en Java</span></div>
+            <ul class="bullet-list">
+              <li><strong>DOM (W3C):</strong> Carga el árbol completo en memoria RAM.</li>
+              <li><strong>SAX:</strong> Procesador secuencial reactivo por eventos (Push).</li>
+              <li><strong>StAX:</strong> Procesador por flujo con control del programador (Pull).</li>
+              <li><strong>JAXB:</strong> Mapeo directo y declarativo entre clases Java y XML.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">📁 Cuaderno de Aula: Bloque 3 (Ficheros XML)</div>
+          <p style="font-size: 15px; margin: 0;">En este bloque abordaremos las <strong>Actividades 3.1 a 3.4</strong> para dominar DOM, Transformer, SAX y JAXB paso a paso en el IDE.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">16 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 17: MANERA 1 - XML DOM                                       -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-17">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 3 · Ficheros XML</span>
+          <h2 class="slide-title">Manera 1: DOM (Document Object Model)</h2>
+          <p class="slide-subtitle">El árbol completo en memoria y la trampa de los nodos de texto whitespace</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Parseo con DocumentBuilder</span></div>
+            <div class="code-block">
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+DocumentBuilder builder = factory.newDocumentBuilder();
+Document doc = builder.parse(new File("catalogo.xml"));
+
+// ¡OBLIGATORIO! Normalizar para limpiar nodos de texto partidos
+doc.getDocumentElement().normalize();
+
+NodeList lista = doc.getElementsByTagName("producto");
+for (int i = 0; i < lista.getLength(); i++) {
+    Node n = lista.item(i);
+    if (n.getNodeType() == Node.ELEMENT_NODE) {
+        Element e = (Element) n;
+        System.out.println(e.getAttribute("id"));
+    }
+}</div>
+          </div>
+          <div class="didactic-box warning-box">
+            <div class="box-title">⚠️ Trampa: Nodos de Texto Vacíos (#text)</div>
+            <p>
+              En XML, los saltos de línea y tabuladores entre etiquetas son interpretados por DOM como nodos hijos de tipo <strong><code>Text</code></strong>.
+              <br><br>
+              Si recorres <code>nodo.getChildNodes()</code> a ciegas, fallará esperando elementos.
+              <br><br>
+              <strong>Solución:</strong> Verificar siempre <code>if (nodo.getNodeType() == Node.ELEMENT_NODE)</code>.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 3.1</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: realiza la <strong>Actividad 3.1</strong> del Cuaderno de Aula parseando <code>catalogo.xml</code>, esquivando nodos <code>#text</code> y actualizando precios con DOM.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">17 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 18: ESCRITURA DOM CON TRANSFORMER                            -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-18">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 3 · Ficheros XML</span>
+          <h2 class="slide-title">Creación y Volcado DOM con Transformer</h2>
+          <p class="slide-subtitle">Construyendo el árbol desde cero y serializándolo a disco con pretty-printing</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Flujo de Construcción y Volcado</span></div>
+          <div class="code-block">
+Document doc = builder.newDocument();
+Element raiz = doc.createElement("concesionario");
+doc.appendChild(raiz);
+
+Element coche = doc.createElement("coche");
+coche.setAttribute("matricula", "1234-ABC");
+
+Element marca = doc.createElement("marca");
+marca.setTextContent("Toyota");
+coche.appendChild(marca);
+raiz.appendChild(coche);
+
+// Volcado a disco con sangría automática
+Transformer tf = TransformerFactory.newInstance().newTransformer();
+tf.setOutputProperty(OutputKeys.INDENT, "yes");
+tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+tf.transform(new DOMSource(doc), new StreamResult(new File("concesionario.xml")));</div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 3.2</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: aborda la <strong>Actividad 3.2</strong> para construir un árbol DOM de alumnos desde cero y serializarlo con <code>Transformer</code> aplicando <em>pretty-print</em>.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">18 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 19: MANERA 2 - XML SAX                                       -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-19">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 3 · Ficheros XML</span>
+          <h2 class="slide-title">Manera 2: SAX (Simple API for XML)</h2>
+          <p class="slide-subtitle">El procesador reactivo basado en eventos (Push) para archivos masivos</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Callbacks de DefaultHandler</span></div>
+            <ul class="bullet-list">
+              <li><strong>startElement():</strong> Se dispara al encontrar una etiqueta de apertura (ej. <code>&lt;coche&gt;</code>).</li>
+              <li><strong>characters():</strong> Se dispara cuando lee texto. <em>¡Ojo! El parser puede llamar a este método varias veces seguidas; se debe acumular con un <code>StringBuilder</code>.</em></li>
+              <li><strong>endElement():</strong> Se dispara al cerrar la etiqueta (ej. <code>&lt;/coche&gt;</code>).</li>
+            </ul>
+          </div>
+          <div class="didactic-box highlight-box">
+            <div class="box-title">⚡ Consumo de Memoria Casi Nulo</div>
+            <p>
+              SAX no construye ningún árbol en memoria RAM. Lee byte a byte hacia adelante.
+              <br><br>
+              <strong>Caso de uso:</strong> Si debes procesar un fichero de facturas de <strong>8 GB</strong> enviado por Hacienda, DOM colapsará con <code>OutOfMemoryError</code>. SAX lo procesará con tan solo <strong>20 MB de RAM</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 3.3</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 3.3</strong> implementando tu propio <code>DefaultHandler</code> para computar estadísticas con SAX con 0 MB de consumo de árbol.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">19 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 20: STAX Y JAXB                                              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-20">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bloque 3 · Ficheros XML</span>
+          <h2 class="slide-title">Maneras 3 y 4: StAX (Pull) y JAXB (Mapeo)</h2>
+          <p class="slide-subtitle">Control del bucle iterativo y mapeo declarativo con anotaciones POJO</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">StAX (Pull Parser)</span>
+              <span class="card-badge">XMLStreamReader</span>
+            </div>
+            <p class="card-desc">
+              A diferencia de SAX (donde el parser te empuja eventos), en StAX el programador tiene el control del bucle mediante un cursor:
+              <br><code>while(reader.hasNext()) { int ev = reader.next(); }</code>
+              <br>Permite detener la lectura en cualquier momento con un simple <code>break</code>.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">JAXB (Jakarta XML Binding)</span>
+              <span class="card-badge">Mapeo Anotado</span>
+            </div>
+            <p class="card-desc">
+              Vincula clases POJO con etiquetas XML:
+              <br>• <code>@XmlRootElement(name="almacen")</code>
+              <br>• <code>@XmlElement</code> y <code>@XmlAttribute</code>
+              <br>• <strong>Marshaller:</strong> Objeto Java -> Archivo XML.
+              <br>• <strong>Unmarshaller:</strong> Archivo XML -> Objeto Java.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
+          <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 3.4</div>
+          <p style="font-size: 15px; margin: 0;">Turno en el IDE: completa la <strong>Actividad 3.4</strong> mapeando una entidad con anotaciones Jakarta/JAXB y probando <code>Marshaller</code> y <code>Unmarshaller</code>.</p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">20 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 21: MATRIZ COMPARATIVA FINAL                                 -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-21">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Toma de Decisiones Técnicas</span>
+          <h2 class="slide-title">Matriz Comparativa de Persistencia</h2>
+          <p class="slide-subtitle">Criterios de selección técnica para el entorno laboral y pruebas prácticas</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Tecnología</th>
+              <th>Consumo RAM</th>
+              <th>Velocidad I/O</th>
+              <th>Edición In-Situ</th>
+              <th>Caso de Uso Recomendado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Texto / NIO.2</strong></td>
+              <td>Mínima (Streams)</td>
+              <td>Alta</td>
+              <td>No (Append/Reescribir)</td>
+              <td>Configuración, variables de entorno y logs.</td>
+            </tr>
+            <tr>
+              <td><strong>DataStreams</strong></td>
+              <td>Mínima</td>
+              <td>Ultra Rápida</td>
+              <td>No (Secuencial)</td>
+              <td>Telemetría, sensores IoT y tramas binarias.</td>
+            </tr>
+            <tr>
+              <td><strong>RandomAccessFile</strong></td>
+              <td>Mínima</td>
+              <td>Máxima</td>
+              <td><strong>Sí (Directa con seek)</strong></td>
+              <td>Registros fijos, índices y motores de BD.</td>
+            </tr>
+            <tr>
+              <td><strong>Serialización</strong></td>
+              <td>Moderada</td>
+              <td>Media-Alta</td>
+              <td>Con <code>MiOOS</code> en append</td>
+              <td>Cachés locales y sesiones de escritorio.</td>
+            </tr>
+            <tr>
+              <td><strong>XML DOM</strong></td>
+              <td><strong>Muy Alta</strong> (~4x)</td>
+              <td>Baja en ficheros &gt; 20MB</td>
+              <td>Sí (en árbol RAM)</td>
+              <td>Ficheros &lt; 10 MB con consultas XPath.</td>
+            </tr>
+            <tr>
+              <td><strong>XML SAX / StAX</strong></td>
+              <td><strong>Nula</strong> (~0 KB)</td>
+              <td>Máxima</td>
+              <td>No (Solo lectura)</td>
+              <td>Volcados masivos de gigabytes (Hacienda/Bancos).</td>
+            </tr>
+            <tr>
+              <td><strong>XML JAXB</strong></td>
+              <td>Moderada</td>
+              <td>Media</td>
+              <td>Vía objetos Java</td>
+              <td>Intercambio empresarial B2B y servicios SOAP.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">21 / 22</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 22: CIERRE Y PRÁCTICAS DE AULA                               -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-22">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Consolidación y Práctica de Taller</span>
+          <h2 class="slide-title">Retos y Prácticas Guiadas de Aula</h2>
+          <p class="slide-subtitle">Aplica todo lo aprendido en los ejercicios del repositorio oficial</p>
+        </div>
+      </header>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header"><span class="card-title">EJ-AD-04</span></div>
+            <p class="card-desc">
+              <strong>Procesador de Texto y NIO.2:</strong> Sanitización de ficheros <code>.ini</code> con codificación ISO-8859-1 a UTF-8 y filtrado reactivo de logs con Java Streams.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">EJ-AD-05</span></div>
+            <p class="card-desc">
+              <strong>Binarios, RAF y Serialización:</strong> Actualización directa de registros con <code>RandomAccessFile</code> y persistencia incremental con <code>MiObjectOutputStream</code>.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">EJ-AD-06</span></div>
+            <p class="card-desc">
+              <strong>Catálogos XML Multi-Formato:</strong> Construcción con DOM, análisis reactivo sin memoria con SAX y mapeo POJO declarativo con JAXB.
+            </p>
+          </div>
+        </div>
+        <div class="didactic-box highlight-box">
+          <div class="box-title">🚀 ¡Manos al Código en Eclipse IDE!</div>
+          <p>
+            Utiliza el <strong>Cuaderno de Actividades de Aula (UT1)</strong> para resolver las 12 actividades prácticas guiadas en paralelo a cada explicación teórica, consolidando tu aprendizaje con los retos formales <strong>EJ-AD-04</strong>, <strong>EJ-AD-05</strong> y <strong>EJ-AD-06</strong>.
+          </p>
+        </div>
+      </div>
+      <footer class="slide-footer">
+        <span class="footer-left">Acceso a Datos · UT1</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-right">22 / 22</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Controles flotantes -->
+  <nav id="nav-controls" aria-label="Controles de navegación">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva anterior">&#x2039;</button>
+    <span class="slide-indicator" id="slide-indicator">01 / 22</span>
+    <button class="nav-btn" id="btn-next" title="Diapositiva siguiente">&#x203a;</button>
+    <button class="nav-btn" id="btn-fullscreen" title="Pantalla completa (F)">&#x26F6;</button>
+    <button class="nav-btn" id="btn-print" title="Imprimir o guardar PDF (P)">&#x1F5A8;&#xFE0F;</button>
+  </nav>
+
+  <div class="keyboard-hint" id="keyboard-hint">Atajos: &larr; / &rarr; Navegar &bull; F Pantalla Completa &bull; P Imprimir</div>
+
+  <!-- Script interactivo -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const slideIndicator = document.getElementById('slide-indicator');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+      const keyboardHint = document.getElementById('keyboard-hint');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+        });
+
+        currentSlide = index;
+        const progress = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = progress + '%';
+
+        const curStr = String(currentSlide + 1).padStart(2, '0');
+        const totStr = String(totalSlides).padStart(2, '0');
+        slideIndicator.textContent = `${curStr} / ${totStr}`;
+        slides[currentSlide].scrollTop = 0;
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) updateSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) updateSlide(currentSlide - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => alert('Error: ' + err.message));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      setTimeout(() => {
+        if (keyboardHint) {
+          keyboardHint.style.opacity = '0';
+          setTimeout(() => keyboardHint.style.display = 'none', 600);
+        }
+      }, 5000);
+
+      updateSlide(0);
+    });
+  </script>
+</body>
+</html>

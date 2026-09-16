@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UD01: Introducción a las Redes Locales. Caracterización - Apuntes SMR</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE APUNTES DOCENTES - FORMACIÓN PROFESIONAL (FP)
+   Optimizado para visualización web y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, "Courier New", monospace;
+  
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #0284c7;
+  --primary-50: #f0f9ff;
+  
+  --accent-blue: #2563eb;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #93c5fd;
+
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+  --accent-amber-border: #fcd34d;
+
+  --accent-emerald: #059669;
+  --accent-emerald-bg: #f0fdf4;
+  --accent-emerald-border: #86efac;
+
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #faf5ff;
+  --accent-purple-border: #d8b4fe;
+
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #f8fafc;
+  line-height: 1.65;
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 44px 54px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.doc-header {
+  border-bottom: 3px solid var(--primary-800);
+  padding-bottom: 22px;
+  margin-bottom: 28px;
+}
+
+.doc-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.badge-fp {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-blue-border);
+  font-weight: 700;
+}
+
+.doc-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-bottom: 18px;
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.meta-item strong {
+  color: var(--primary-800);
+  display: block;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* 2. ÍNDICE */
+.toc-box {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 32px;
+}
+
+.toc-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary-800);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toc-list {
+  list-style: none;
+  counter-reset: toc-counter;
+}
+
+.toc-list li {
+  counter-increment: toc-counter;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+}
+
+.toc-list li::before {
+  content: counter(toc-counter) ". ";
+  font-weight: 700;
+  color: var(--primary-600);
+  margin-right: 6px;
+}
+
+.toc-list a {
+  color: var(--primary-800);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.toc-list a:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}
+
+/* 3. TIPOGRAFÍA Y TÍTULOS */
+h2 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--primary-900);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 6px;
+  margin-top: 32px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2 .section-num {
+  background: var(--primary-800);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+h3 {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--primary-700);
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin-left: 22px;
+  margin-bottom: 14px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* 4. CALLOUTS */
+.callout {
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-size: 13.5px;
+}
+
+.callout-header {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.callout-concept {
+  background-color: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: #1e3a8a;
+}
+.callout-concept .callout-header { color: #1d4ed8; }
+
+.callout-warning {
+  background-color: var(--accent-amber-bg);
+  border-color: var(--accent-amber);
+  color: #78350f;
+}
+.callout-warning .callout-header { color: #b45309; }
+
+.callout-pro {
+  background-color: var(--accent-emerald-bg);
+  border-color: var(--accent-emerald);
+  color: #064e3b;
+}
+.callout-pro .callout-header { color: #047857; }
+
+.callout-activity {
+  background-color: var(--accent-purple-bg);
+  border-color: var(--accent-purple);
+  color: #4c1d95;
+}
+.callout-activity .callout-header { color: #6d28d9; }
+
+/* 5. CÓDIGO Y DIAGRAMAS */
+.code-card {
+  background: var(--code-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.code-header {
+  background: #1e293b;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+.code-header .lang {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+p code, li code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+}
+
+/* 6. TABLAS */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background: #f1f5f9;
+  color: var(--primary-900);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--color-border);
+}
+
+tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+/* 7. PRINT & PDF RULES */
+@page {
+  size: A4 portrait;
+  margin: 18mm 14mm 20mm 14mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    color: #000000;
+  }
+
+  .document-container {
+    max-width: 100%;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .no-break,
+  .callout,
+  .code-card,
+  table,
+  tr,
+  blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 8pt;
+    padding: 8px 10px;
+  }
+
+  .doc-title { font-size: 20pt; }
+  .doc-subtitle { font-size: 11pt; }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div class="document-container">
+    
+    <!-- 1. Cabecera Institucional y Metadatos -->
+    <header class="doc-header">
+      <div class="doc-top-bar">
+        <span>Formación Profesional · Grado Medio (CFGM)</span>
+        <span class="badge-fp">1º SMR · Redes Locales</span>
+      </div>
+      <h1 class="doc-title">UD01: Introducción a las Redes Locales. Caracterización</h1>
+      <p class="doc-subtitle">Fundamentos de transmisión digital, sistemas de numeración binaria/hexadecimal, clasificación de redes, topologías y estándares IEEE 802.3</p>
+      
+      <div class="doc-meta-grid">
+        <div class="meta-item">
+          <strong>Módulo Oficial</strong>
+          Redes Locales (Código: 0225)
+        </div>
+        <div class="meta-item">
+          <strong>Unidad Didáctica</strong>
+          UD01 / UT1 (15 Horas)
+        </div>
+        <div class="meta-item">
+          <strong>Resultado Aprendizaje</strong>
+          RA1 (Ponderación: 15%)
+        </div>
+        <div class="meta-item">
+          <strong>Docencia y Centro</strong>
+          Curso 2026-2027 · CIFP de Avilés
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Índice de Contenidos -->
+    <nav class="toc-box">
+      <div class="toc-title">📑 Índice de Contenidos del Tema</div>
+      <ol class="toc-list">
+        <li><a href="#sec-1">Fundamentos de la Información Digital y Sistemas de Numeración</a></li>
+        <li><a href="#sec-2">Transmisión de Señales: Analógica frente a Digital</a></li>
+        <li><a href="#sec-3">Clasificación de Redes según Cobertura y Relación Funcional</a></li>
+        <li><a href="#sec-4">Topologías de Red Físicas y Lógicas</a></li>
+        <li><a href="#sec-5">Estandarización, Organismos de Normalización y la Familia IEEE 802</a></li>
+        <li><a href="#sec-6">Cuestionario de Autoevaluación y Supuestos Prácticos de Taller</a></li>
+      </ol>
+    </nav>
+
+    <!-- 3. Contenido Didáctico -->
+    <main>
+
+      <!-- SECCIÓN 1 -->
+      <section id="sec-1">
+        <h2><span class="section-num">1</span> Fundamentos de la Información Digital y Sistemas de Numeración</h2>
+        <p>
+          Un ordenador es una máquina electrónica programable diseñada para capturar, procesar, almacenar y transmitir datos de manera automática. A nivel de hardware, los circuitos integrados y las interfaces de red operan mediante pulsos de tensión eléctrica, estados biestables y campos electromagnéticos que sólo pueden adoptar dos estados físicos posibles: <strong>presencia o ausencia de tensión</strong>. Por esta razón, el sistema matemático natural de las telecomunicaciones es el <strong>sistema binario (base 2)</strong>.
+        </p>
+
+        <div class="callout callout-concept">
+          <div class="callout-header">💡 Concepto Fundamental: Bit, Byte y Octeto</div>
+          <p>
+            - <strong>Bit (Binary Digit)</strong>: Unidad mínima e indivisible de información digital. Representa un valor booleano: <code>0</code> o <code>1</code>.<br>
+            - <strong>Byte u Octeto</strong>: Agrupación fija de <strong>8 bits</strong>. Permite representar \(2^8 = 256\) combinaciones distintas (valores decimales del <code>0</code> al <code>255</code>). Es el bloque fundamental de construcción de las direcciones IPv4 (compuestas por 4 octetos) y de la memoria de los equipos.
+          </p>
+        </div>
+
+        <h3>A. Los Tres Sistemas de Numeración en Redes</h3>
+        <p>En el trabajo diario de un técnico de redes se manejan constantemente tres bases matemáticas:</p>
+        <ul>
+          <li><strong>Decimal (Base 10)</strong>: Dígitos del 0 al 9. Utilizado para la notación accesible a humanos (ejemplo: <code>192.168.1.1</code>).</li>
+          <li><strong>Binario (Base 2)</strong>: Dígitos <code>0</code> y <code>1</code>. Es el lenguaje que procesan los procesadores, las tarjetas de red (NIC) y las máscaras de subred.</li>
+          <li><strong>Hexadecimal (Base 16)</strong>: Dígitos del <code>0</code> al <code>9</code> y letras de la <code>A</code> a la <code>F</code> (donde A=10, B=11, C=12, D=13, E=14, F=15). Se utiliza para abreviar cadenas binarias muy largas: <strong>cada símbolo hexadecimal representa exactamente 4 bits (un cuarteto o nibble)</strong>. Es la notación obligatoria en direcciones MAC y en IPv6.</li>
+        </ul>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Decimal</th>
+              <th>Binario (4 bits)</th>
+              <th>Hexadecimal</th>
+              <th>Decimal</th>
+              <th>Binario (4 bits)</th>
+              <th>Hexadecimal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0</td><td>0000</td><td>0</td><td>8</td><td>1000</td><td>8</td></tr>
+            <tr><td>1</td><td>0001</td><td>1</td><td>9</td><td>1001</td><td>9</td></tr>
+            <tr><td>2</td><td>0010</td><td>2</td><td>10</td><td>1010</td><td>A</td></tr>
+            <tr><td>3</td><td>0011</td><td>3</td><td>11</td><td>1011</td><td>B</td></tr>
+            <tr><td>4</td><td>0100</td><td>4</td><td>12</td><td>1100</td><td>C</td></tr>
+            <tr><td>5</td><td>0101</td><td>5</td><td>13</td><td>1101</td><td>D</td></tr>
+            <tr><td>6</td><td>0110</td><td>6</td><td>14</td><td>1110</td><td>E</td></tr>
+            <tr><td>7</td><td>0111</td><td>7</td><td>15</td><td>1111</td><td>F</td></tr>
+          </tbody>
+        </table>
+
+        <h3>B. El Método Rápido de Pesos de un Octeto (Potencias de 2)</h3>
+        <p>
+          Para convertir rápidamente de binario a decimal sin calculadora durante el cálculo de subredes IP, se memorizan las potencias de 2 de derecha a izquierda:
+        </p>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span>Pesos Posicionales de un Octeto (Byte)</span>
+            <span class="lang">BINARIO ◄► DECIMAL</span>
+          </div>
+          <pre><code>Posición bit:     7     6     5     4     3     2     1     0
+Potencia de 2:   2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
+Peso decimal:    128    64    32    16     8     4     2     1
+
+Ejemplo 1:  1  1  0  0  0  0  0  0  = 128 + 64 = 192 (Primer octeto clase C)
+Ejemplo 2:  1  0  1  0  1  0  0  0  = 128 + 32 + 8 = 168
+Ejemplo 3:  1  1  1  1  1  1  1  1  = 128+64+32+16+8+4+2+1 = 255 (Broadcast)</code></pre>
+        </div>
+
+        <h3>C. Reglas para la Suma en Binario</h3>
+        <p>Al sumar direcciones y calcular incrementos de subred, se aplican cinco reglas aritméticas simples:</p>
+        <ol>
+          <li><code>0 + 0 = 0</code></li>
+          <li><code>0 + 1 = 1</code></li>
+          <li><code>1 + 0 = 1</code></li>
+          <li><code>1 + 1 = 0</code> (con <strong>acarreo o carry de 1</strong> a la siguiente columna a la izquierda).</li>
+          <li><code>1 + 1 + 1 = 1</code> (con <strong>acarreo de 1</strong>).</li>
+        </ol>
+
+        <div class="callout callout-warning">
+          <div class="callout-header">⚠️ Error Frecuente: Confundir Bits por Segundo (bps) con Bytes por Segundo (B/s)</div>
+          <p>
+            En telecomunicaciones, los anchos de banda comerciales siempre se publicitan en <strong>bits por segundo</strong> con "b" minúscula (ejemplo: <code>600 Mbps</code> = 600 Megabits por segundo). Sin embargo, las descargas en los navegadores y el almacenamiento se miden en <strong>Bytes</strong> con "B" mayúscula.  
+            Una conexión contratada de <code>800 Mbps</code> tiene una tasa máxima de descarga teórica de \(800 / 8 = \mathbf{100\text{ MB/s}}\).
+          </p>
+        </div>
+      </section>
+
+      <div class="page-break"></div>
+
+      <!-- SECCIÓN 2 -->
+      <section id="sec-2">
+        <h2><span class="section-num">2</span> Transmisión de Señales: Analógica frente a Digital</h2>
+        <p>
+          Cualquier dato transmitido por un cable de cobre, fibra óptica o el aire viaja en forma de ondas electromagnéticas o pulsos de luz. Según cómo se represente la información en el canal físico, distinguimos dos naturalezas de transmisión:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Parámetro</th>
+              <th>Transmisión Analógica</th>
+              <th>Transmisión Digital</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Naturaleza de la onda</strong></td>
+              <td>Continua en el tiempo; adopta infinitos valores dentro de un rango de tensión o frecuencia.</td>
+              <td>Discreta y discontinua; solo adopta un número finito de niveles de tensión fijos (pulsos binarios).</td>
+            </tr>
+            <tr>
+              <td><strong>Parámetros que la definen</strong></td>
+              <td>Amplitud (voltaje), Frecuencia (Hertzios, Hz) y Fase (desplazamiento temporal).</td>
+              <td>Tasa de baudios, tasa de bits (bps) e intervalo de pulso.</td>
+            </tr>
+            <tr>
+              <td><strong>Comportamiento frente al Ruido</strong></td>
+              <td><strong>Muy vulnerable</strong>. El ruido electromagnético parásito se suma a la señal y no se puede separar.</td>
+              <td><strong>Altamente inmune</strong>. Mientras el ruido no supere el umbral de detección, el receptor reconstruye el 1 o el 0 perfecto.</td>
+            </tr>
+            <tr>
+              <td><strong>Dispositivo de regeneración</strong></td>
+              <td><strong>Amplificador</strong>: amplifica la señal recibida, pero también amplifica el ruido acumulado.</td>
+              <td><strong>Repetidor / Conmutador</strong>: decodifica los bits, elimina el ruido y emite una señal limpia idéntica a la original.</td>
+            </tr>
+            <tr>
+              <td><strong>Ejemplos reales</strong></td>
+              <td>Telefonía analógica tradicional (RTC), radio FM, vídeo compuesto (RCA).</td>
+              <td>Redes locales Ethernet (IEEE 802.3), telefonía IP (VoIP), Wi-Fi, fibra óptica.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-pro">
+          <div class="callout-header">🏭 En el Entorno Laboral: ¿Por qué triunfó el mundo digital?</div>
+          <p>
+            Las redes locales modernas son 100% digitales porque permiten transportar indistintamente voz, vídeo de alta definición, bases de datos y textos empaquetados bajo el mismo formato unificado (bits). Además, los circuitos integrados digitales son más económicos, fiables y permiten algoritmos matemáticos de detección y corrección de errores (como el CRC de Ethernet) que garantizan que los datos no se corrompan en tránsito.
+          </p>
+        </div>
+      </section>
+
+      <div class="page-break"></div>
+
+      <!-- SECCIÓN 3 -->
+      <section id="sec-3">
+        <h2><span class="section-num">3</span> Clasificación de Redes según Cobertura y Relación Funcional</h2>
+        <p>
+          Una <strong>Red de Ordenadores</strong> es un conjunto de equipos autónomos (nodos/hosts) interconectados mediante dispositivos de comunicaciones y medios de transmisión físicos o inalámbricos, cuyo propósito es compartir recursos (archivos, impresoras, servidores), optimizar costes y facilitar el intercambio de información.
+        </p>
+
+        <h3>A. Clasificación según su Alcance o Cobertura Geográfica</h3>
+        <ul>
+          <li><strong>PAN (Personal Area Network - Red de Área Personal)</strong>: Cobertura de pocos metros (hasta 10 m). Conecta los dispositivos personales de un usuario (smartwatch, auriculares inalámbricos, móvil, ratón). Tecnologías: Bluetooth, NFC, Zigbee.</li>
+          <li><strong>LAN (Local Area Network - Red de Área Local)</strong>: Abarca un aula, taller, oficina, planta o edificio entero (desde unas decenas de metros hasta 1 km). Se caracteriza por ser de <strong>propiedad privada</strong> de la empresa o centro educativo, contar con altas velocidades (1 Gbps a 10 Gbps) y bajísima tasa de errores. Tecnologías: Ethernet (cables de par trenzado UTP) y Wi-Fi.</li>
+          <li><strong>CAN (Campus Area Network - Red de Campus)</strong>: Interconexión de varias redes LAN situadas en diferentes edificios pertenecientes a la misma organización dentro de un recinto delimitado (ejemplo: un complejo universitario, un hospital o el campus del CIFP). Utiliza tendidos propios de fibra óptica.</li>
+          <li><strong>MAN (Metropolitan Area Network - Red de Área Metropolitana)</strong>: Cobertura de un municipio o ciudad completa (hasta 50 km). Ejemplo: los anillos de fibra de los operadores municipales o las redes de televisión por cable (HFC).</li>
+          <li><strong>WAN (Wide Area Network - Red de Área Extensa)</strong>: Interconecta ciudades, países o continentes enteros. La infraestructura física pertenece a grandes proveedores de telecomunicaciones (ISP). La mayor red WAN existente en el planeta es <strong>Internet</strong>.</li>
+        </ul>
+
+        <h3>B. Clasificación según la Relación Funcional entre Equipos</h3>
+        <ul>
+          <li>
+            <strong>Arquitectura Cliente / Servidor</strong>:
+            Existe una clara especialización de roles. Los <strong>Servidores</strong> son máquinas dedicadas con hardware de alta disponibilidad que custodian recursos centralizados (servidor de archivos, DHCP, DNS, páginas web, bases de datos) y escuchan peticiones. Los <strong>Clientes</strong> son los puestos de trabajo que solicitan y consumen dichos servicios. Ofrece máxima seguridad y gestión centralizada.
+          </li>
+          <li>
+            <strong>Arquitectura de Igual a Igual (Peer-to-Peer / P2P)</strong>:
+            No existen servidores dedicados ni jerarquías centralizadas. Todos los nodos de la red pueden actuar simultáneamente como clientes (solicitando datos) y como servidores (compartiendo archivos de su disco local o impresoras conectadas por USB). Es la arquitectura clásica de los grupos de trabajo pequeños en Windows.
+          </li>
+        </ul>
+      </section>
+
+      <div class="page-break"></div>
+
+      <!-- SECCIÓN 4 -->
+      <section id="sec-4">
+        <h2><span class="section-num">4</span> Topologías de Red Físicas y Lógicas</h2>
+        <p>
+          La topología define la estructura geométrica y funcional de la red. Es imprescindible diferenciar entre dos planos:
+        </p>
+        <ul>
+          <li><strong>Topología Física</strong>: Representa el diseño espacial concreto y el tendido real de los cables que unen los dispositivos en las canaletas del aula o edificio.</li>
+          <li><strong>Topología Lógica</strong>: Representa la ruta y el método real mediante el cual los datos y tramas viajan de un nodo a otro a través del medio, con independencia de la forma en que estén colocados los cables.</li>
+        </ul>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Topología Física</th>
+              <th>Descripción y Esquema</th>
+              <th>Ventajas</th>
+              <th>Inconvenientes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bus</strong></td>
+              <td>Todos los nodos se conectan a un único cable troncal continuo común cerrado por <strong>terminadores de 50 \(\Omega\)</strong> en los extremos.</td>
+              <td>Mínima cantidad de cableado en instalaciones clásicas.</td>
+              <td>Si el cable se corta o se suelta un terminador, <strong>la red entera colapsa de inmediato</strong>. Dificultad extrema para localizar averías.</td>
+            </tr>
+            <tr>
+              <td><strong>Anillo</strong></td>
+              <td>Los nodos forman un circuito cerrado circular. La información viaja en un único sentido de nodo en nodo (ejemplo histórico: <em>Token Ring</em>).</td>
+              <td>Fácil regeneración de la señal en cada equipo.</td>
+              <td>Si un solo ordenador se apaga o falla su interfaz, se rompe el anillo y la red cae (salvo en doble anillo FDDI).</td>
+            </tr>
+            <tr>
+              <td><strong>Estrella (Estándar Actual)</strong></td>
+              <td>Cada ordenador se conecta mediante un cable punto a punto independiente a un dispositivo central (<strong>Conmutador / Switch</strong>).</td>
+              <td><strong>Altísima tolerancia a fallos</strong>: si un cable o un ordenador se rompe, solo queda incomunicado ese equipo; los demás siguen funcionando sin enterarse.</td>
+              <td>Si se estropea el conmutador central, caen todos los equipos conectados a él. Requiere mayor tirada de cable.</td>
+            </tr>
+            <tr>
+              <td><strong>Malla (Mesh)</strong></td>
+              <td>Cada nodo dispone de enlaces punto a punto directos dedicados hacia múltiples o hacia todos los demás nodos de la red.</td>
+              <td><strong>Máxima redundancia y tolerancia a averías</strong>: existen múltiples caminos alternativos si un enlace cae.</td>
+              <td>Coste elevadísimo de instalación física. En una malla completa con \(N\) nodos se requieren exactamente:
+              <br><code>Nº Cables = N * (N - 1) / 2</code></td>
+            </tr>
+            <tr>
+              <td><strong>Árbol / Jerárquica</strong></td>
+              <td>Variación de estrella donde varios switches de acceso cuelgan de switches de distribución y estos de un switch central (Core).</td>
+              <td>Estructura escalable ideal para edificios de varias plantas o campus completos.</td>
+              <td>Dependencia del nodo raíz central.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout callout-warning">
+          <div class="callout-header">⚠️ Caso Típico de Examen: Estrella Física con Bus Lógico</div>
+          <p>
+            En las primeras redes Ethernet con cable UTP se utilizaban <strong>Concentradores (Hubs)</strong>. Físicamente los cables salían de cada equipo hacia el hub formando una <strong>estrella física</strong>. Sin embargo, internamente el hub une todas las pistas eléctricas en un bus compartido común: la red se comportaba como un <strong>bus lógico</strong> (todos los equipos competían por el medio y sufrían colisiones).  
+            Con la llegada del <strong>Conmutador (Switch)</strong>, la red es <strong>estrella física y estrella/punto a punto lógica</strong>.
+          </p>
+        </div>
+      </section>
+
+      <div class="page-break"></div>
+
+      <!-- SECCIÓN 5 -->
+      <section id="sec-5">
+        <h2><span class="section-num">5</span> Estandarización, Organismos de Normalización y la Familia IEEE 802</h2>
+        <p>
+          Si cada fabricante de tarjetas de red utilizara sus propios voltajes, formas de conector o protocolos de comunicación, resultaría imposible conectar un ordenador Intel con un móvil Samsung o un switch Cisco. Los <strong>estándares abiertos</strong> son especificaciones públicas y consensuadas internacionalmente que garantizan la total interoperabilidad entre fabricantes.
+        </p>
+
+        <h3>A. Principales Organismos de Telecomunicaciones</h3>
+        <ul>
+          <li><strong>IEEE (Institute of Electrical and Electronics Engineers)</strong>: Define los estándares de las capas física y de enlace para redes locales y metropolitanas (Comité 802).</li>
+          <li><strong>ISO (International Organization for Standardization)</strong>: Creadora del modelo conceptual de 7 capas OSI y estándares de cableado genérico.</li>
+          <li><strong>IETF (Internet Engineering Task Force)</strong>: Desarrolla y mantiene la arquitectura de Internet mediante los documentos oficiales <strong>RFC (Request For Comments)</strong>.</li>
+          <li><strong>ANSI / TIA / EIA</strong>: Regulan las normas físicas de cableado estructurado en edificios (norma TIA-568).</li>
+        </ul>
+
+        <h3>B. El Proyecto IEEE 802 y sus Subcomités</h3>
+        <p>
+          El comité IEEE 802 dividió la Capa 2 (Enlace de Datos) en dos subcapas complementarias:
+        </p>
+        <ol>
+          <li><strong>Subcapa LLC (Logical Link Control - IEEE 802.2)</strong>: Proporciona una interfaz lógica común hacia la capa de red (Capa 3 - IP), haciendo que los protocolos superiores sean completamente independientes de si abajo hay cable de cobre, fibra o Wi-Fi.</li>
+          <li><strong>Subcapa MAC (Media Access Control)</strong>: Controla el acceso al medio físico concreto y gestiona el direccionamiento físico mediante las direcciones MAC (48 bits).</li>
+        </ol>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Subcomité</th>
+              <th>Tecnología Oficial</th>
+              <th>Ámbito de Aplicación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>IEEE 802.1</strong></td>
+              <td>Arquitectura y Gestión de Redes</td>
+              <td>Spanning Tree (STP), Redes Virtuales VLAN (802.1Q), Control de Acceso Port-Based (802.1X).</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.3</strong></td>
+              <td><strong>Ethernet</strong></td>
+              <td>El estándar indiscutible de redes locales por cable (10BASE-T, 100BASE-TX Fast Ethernet, 1000BASE-T Gigabit Ethernet, 10GBASE-T).</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.11</strong></td>
+              <td><strong>Wi-Fi (WLAN)</strong></td>
+              <td>Redes de área local inalámbricas por radiofrecuencia (802.11b/g/n/ac/ax).</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.15</strong></td>
+              <td><strong>WPAN</strong></td>
+              <td>Redes de área personal sin cables (802.15.1 Bluetooth, 802.15.4 Zigbee / IoT).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>C. Método de Acceso al Medio en Ethernet: CSMA/CD</h3>
+        <p>
+          En las redes Ethernet con medio compartido (cable coaxial o concentradores Hub), varias estaciones compiten por emitir por el mismo canal. Para evitar el caos se diseñó el algoritmo <strong>CSMA/CD (Carrier Sense Multiple Access with Collision Detection)</strong>:
+        </p>
+
+        <div class="code-card">
+          <div class="code-header">
+            <span>Flujo Operativo de CSMA/CD</span>
+            <span class="lang">ALGORITMO ETHERNET</span>
+          </div>
+          <pre><code>1. ESCUCHAR (Carrier Sense):
+   La tarjeta de red escucha el cable. ¿Hay señal eléctrica circulando?
+   ├── SÍ: El medio está ocupado. Espera un instante y vuelve a escuchar.
+   └── NO: El medio está libre. Procede a transmitir la trama de bits.
+
+2. DETECCIÓN DE COLISIÓN (Collision Detection):
+   Mientras emite, la tarjeta continúa monitorizando el voltaje del cable.
+   Si otra estación comenzó a emitir a la vez, las señales se suman: ¡COLISIÓN!
+
+3. SEÑAL DE ATASCO (Jamming Signal):
+   Ambas estaciones detienen el envío inmediatamente y emiten una señal de atasco
+   para que todos los nodos de la red descarten los fragmentos dañados.
+
+4. TIEMPO DE ESPERA ALEATORIO (Backoff):
+   Cada estación genera un temporizador aleatorio mediante el algoritmo de retroceso
+   exponencial binario antes de volver al paso 1. Al ser tiempos aleatorios distintos,
+   la estación con el número menor transmitirá primero con éxito.</code></pre>
+        </div>
+
+        <div class="callout callout-concept">
+          <div class="callout-header">💡 Clave en Redes Modernas: ¿Por qué ya no hay colisiones?</div>
+          <p>
+            En las redes Ethernet actuales con conmutadores (switches) y cableado de par trenzado en modo <strong>Full-Duplex</strong>, existen líneas físicas independientes para transmitir (TX) y recibir (RX). Como cada equipo dispone de un circuito punto a punto dedicado con el switch, <strong>las colisiones son físicamente imposibles</strong> y el mecanismo CSMA/CD queda desactivado, permitiendo aprovechar el 100% de la velocidad contratada.
+          </p>
+        </div>
+      </section>
+
+      <div class="page-break"></div>
+
+      <!-- SECCIÓN 6 -->
+      <section id="sec-6">
+        <h2><span class="section-num">6</span> Cuestionario de Autoevaluación y Supuestos Prácticos de Taller</h2>
+        
+        <div class="callout callout-activity">
+          <div class="callout-header">🎯 Supuesto Práctico 1: Conversión y Cálculo de Direccionamiento</div>
+          <p>
+            Realiza las siguientes operaciones sin calculadora en tu cuaderno de taller:<br>
+            1. Convierte el octeto binario <code>11010010</code> a decimal utilizando la tabla de pesos.<br>
+            2. Convierte el número decimal <code>218</code> a binario de 8 bits.<br>
+            3. Suma en binario los números <code>10110011</code> + <code>00101110</code> indicando claramente los acarreos.<br>
+            4. Pasa a binario los dos primeros octetos de la dirección física MAC: <code>E4:5F:...</code>
+          </p>
+        </div>
+
+        <div class="callout callout-activity">
+          <div class="callout-header">🎯 Supuesto Práctico 2: Diseño de Topología en Empresa</div>
+          <p>
+            Una empresa de ingeniería ubicada en un polígono industrial cuenta con una sede central de dos plantas y dos naves de producción anexas situadas a 300 metros dentro de la misma parcela privada.<br>
+            - ¿Qué tipo de red geográfica une las naves con la sede central (LAN, CAN o WAN)? Justifica la respuesta.<br>
+            - Se desea diseñar la red interna de los 8 servidores críticos de la sala técnica en una <strong>topología en malla completa</strong> para garantizar que ningún fallo de cable corte el servicio. ¿Cuántos cables directos y cuántas tarjetas de red harán falta en total? Aplica la fórmula vista en clase.
+          </p>
+        </div>
+
+        <div class="callout callout-concept">
+          <div class="callout-header">💡 Soluciones a los Supuestos</div>
+          <p>
+            <strong>Solución 1</strong>:<br>
+            1. <code>11010010</code> = \(128 + 64 + 16 + 2 = \mathbf{210}\).<br>
+            2. \(218 = 128 + 64 + 16 + 8 + 2 \implies \mathbf{11011010}\).<br>
+            3. Suma:<br>
+            <code>&nbsp;&nbsp;10110011 (179)</code><br>
+            <code>+ 00101110 (46)</code><br>
+            <code>----------------</code><br>
+            <code>= 11100001 (225)</code> (con acarreos en las posiciones 1, 2 y 5).<br>
+            4. <code>E4</code> = <code>1110 0100</code>; <code>5F</code> = <code>0101 1111</code>.
+          </p>
+          <p>
+            <strong>Solución 2</strong>:<br>
+            - La red entre las naves y la sede es una **CAN (Campus Area Network)**, pues interconecta múltiples edificios de una misma entidad en un terreno privado contiguo.<br>
+            - Para 8 servidores en malla completa:  
+            \(N \times (N - 1) / 2 = 8 \times 7 / 2 = \mathbf{28\text{ cables}}\). Cada servidor debe contar con 7 puertos de red disponibles para conectarse con los otros 7 compañeros.
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

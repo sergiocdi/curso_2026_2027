@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT1: Introducción a las Redes Locales. Caracterización - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   SISTEMA PROFESIONAL DE PRESENTACIONES DE AULA - CIFP AVILÉS (FP)
+   Formato 16:9 Panorámico · Navegación Teclado / PDI · Modo Impresión PDF A4
+   Docente: Sergio Capdevila Díez
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Paleta Corporativa Modo Aula */
+  --bg-dark: #0b1120;
+  --bg-slide: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #27354f;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --primary: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent-blue: #60a5fa;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-purple: #c084fc;
+  --accent-red: #f87171;
+
+  --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(56, 189, 248, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* 1. BARRA DE PROGRESO */
+#progress-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  width: 0%;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+/* 2. VIEWPORT Y CONTENEDOR 16:9 */
+#presentation-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+}
+
+.slide {
+  position: absolute;
+  width: 94vw;
+  max-width: 1440px;
+  height: 84vh;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 40px 52px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-light);
+  opacity: 0;
+  transform: translateY(8px) scale(0.995);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3. PORTADA INSTITUCIONAL (SLIDE 1) */
+.slide-cover {
+  background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+              linear-gradient(135deg, #0f172a 0%, #070d18 100%);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.cover-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inst-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.inst-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cover-logo-box {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cover-logo-box img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-body {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cover-badge-unit {
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1px solid #7dd3fc;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  color: #cbd5e1;
+  max-width: 980px;
+  line-height: 1.45;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.cover-meta-item span {
+  font-size: 14px;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+/* 4. ENCABEZADO DE DIAPOSITIVAS ESTÁNDAR */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.slide-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slide-tag {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 3px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+
+.slide-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 15.5px;
+  color: var(--text-muted);
+}
+
+.slide-header-logo {
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.slide-header-logo img {
+  height: 32px;
+  width: auto;
+}
+
+/* 5. CONTENIDO DE DIAPOSITIVA */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+/* Layouts en rejilla */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-primary);
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-desc {
+  font-size: 15px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.highlight-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 5px solid var(--primary);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+}
+
+.warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 5px solid var(--accent-amber);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+  color: #fef08a;
+}
+
+.concept-box {
+  background: rgba(52, 211, 153, 0.08);
+  border-left: 5px solid var(--accent-emerald);
+  padding: 14px 20px;
+  border-radius: 0 10px 10px 0;
+  font-size: 16.5px;
+  color: #a7f3d0;
+}
+
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+ul.bullet-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 17px;
+}
+
+ul.bullet-list li::before {
+  content: "➜";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Tablas */
+table.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+table.slide-table th, table.slide-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+table.slide-table th {
+  background: #1e293b;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+table.slide-table tr:nth-child(even) td {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* Código */
+pre.code-block {
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #38bdf8;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+/* 6. PIE DE DIAPOSITIVA */
+.slide-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-author {
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-author span.dot {
+  color: var(--primary);
+}
+
+.slide-counter {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+/* 7. CONTROLES FLOTANTES */
+#controls {
+  height: 52px;
+  background: #090d16;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.control-btn {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+  background: var(--border);
+  color: #ffffff;
+}
+
+/* 8. MODO IMPRESIÓN (PDF A4 LANDSCAPE - CERO PÁGINAS EN BLANCO) */
+@page {
+  size: 297mm 210mm; /* A4 Landscape */
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: auto !important;
+    display: block !important;
+  }
+
+  #progress-bar,
+  #controls,
+  #nav-controls,
+  .controls-overlay,
+  .controls,
+  nav,
+  .nav-btn,
+  .control-btn,
+  .btn-nav,
+  #keyboard-hints,
+  .keyboard-hint {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+
+  #presentation-viewport {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .slide {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    aspect-ratio: auto !important;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 20mm 24mm !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .cover-logo-box, .slide-header-logo {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor Principal de la Presentación -->
+  <main id="presentation-viewport">
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL                                      -->
+    <!-- ================================================================== -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">UT1 / UD01 · REDES LOCALES</div>
+        <h1 class="cover-title">Introducción a las Redes Locales. Caracterización</h1>
+        <p class="cover-subtitle">Fundamentos de telecomunicaciones, magnitudes de transmisión, clasificación territorial, modelos funcionales y topologías de red.</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>Redes Locales (0225)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo Formativo</strong>
+          <span>1º SMR (Presencial)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>RA1 (CE1.a, CE1.b, CE1.c)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Docente</strong>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 2: ÍNDICE Y OBJETIVOS                                        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-2" data-title="Objetivos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Caracterización de Redes</span>
+          <h2 class="slide-title">Objetivos de la Sesión y Hoja de Ruta</h2>
+          <p class="slide-subtitle">Competencias clave y contenidos esenciales a dominar</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🎯 Metas de Aprendizaje</div>
+            <ul class="bullet-list">
+              <li>Comprender la definición técnica de <strong>Red de Área Local (LAN)</strong> y sus beneficios.</li>
+              <li>Diferenciar sin error <strong>bits por segundo (bps)</strong> frente a <strong>Bytes por segundo (B/s)</strong>.</li>
+              <li>Clasificar redes según cobertura: <strong>PAN, LAN, CAN, MAN y WAN</strong>.</li>
+              <li>Distinguir la <strong>topología física</strong> (cableado) de la <strong>lógica</strong> (flujo de datos).</li>
+              <li>Identificar los organismos y estándares oficiales (<strong>IEEE 802.3, 802.11, ISO, IETF</strong>).</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">💼 Competencia Profesional SMR</div>
+            <p class="card-desc">Como técnicos de soporte informático y redes, debéis ser capaces de auditar instalaciones existentes, interpretar esquemas de red de empresa, calcular anchos de banda reales y diagnosticar fallos de conectividad con precisión técnica.</p>
+            <div class="concept-box" style="margin-top: 10px;">
+              <strong>🛠️ Práctica Asociada:</strong> Reconocimiento de interfaces de red con consola CLI, análisis de MAC/OUI y croquis del cableado del aula.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">02 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 3: ¿QUÉ ES UNA RED? BENEFICIOS                              -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-3" data-title="Concepto de Red">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Fundamentos</span>
+          <h2 class="slide-title">¿Qué es una Red Local y qué Aporta?</h2>
+          <p class="slide-subtitle">De las islas de computación aisladas a los ecosistemas colaborativos</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">📁 Recursos Compartidos</div>
+            <p class="card-desc">Acceso unificado a archivos en red (NAS/SAN), impresoras departamentales y periféricos sin duplicar hardware costoso.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">🔐 Seguridad y Backups</div>
+            <p class="card-desc">Centralización de políticas de acceso, contraseñas corporativas (Active Directory/LDAP) y copias de seguridad nocturnas automatizadas.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ Comunicación Digital</div>
+            <p class="card-desc">Telefonía IP (VoIP), correo electrónico interno, streaming de vídeo y acceso sincronizado a bases de datos en tiempo real.</p>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <strong>Definición Técnica:</strong> Una red de ordenadores es un conjunto de dispositivos autónomos (nodos) interconectados mediante medios físicos (cables) o no guiados (ondas de radio) que intercambian información y recursos mediante un conjunto común de reglas denominadas <strong>protocolos</strong>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">03 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 4: MAGNITUDES Y TASAS DE TRANSMISIÓN                        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-4" data-title="Bits vs Bytes">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Cálculo Técnico</span>
+          <h2 class="slide-title">Magnitudes: Bits por Segundo frente a Bytes</h2>
+          <p class="slide-subtitle">La confusión número uno entre velocidad contratada y velocidad de descarga</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🌐 Tasa de Transmisión (Velocidad de Red)</div>
+            <ul class="bullet-list">
+              <li>Se mide siempre en <strong>bits por segundo (bps)</strong> en base decimal.</li>
+              <li><strong>1 kbps</strong> = 1.000 bits/s = 10³ bps</li>
+              <li><strong>1 Mbps</strong> = 1.000.000 bits/s = 10⁶ bps</li>
+              <li><strong>1 Gbps</strong> = 1.000.000.000 bits/s = 10⁹ bps</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">💾 Capacidad de Almacenamiento (Archivos)</div>
+            <ul class="bullet-list">
+              <li>Se mide en <strong>Bytes (B)</strong> donde <strong>1 Byte = 8 bits</strong>.</li>
+              <li>Unidades estándar: KB, MB, GB, TB.</li>
+              <li>Unidades binarias IEC: KiB (1.024 B), MiB (1.048.576 B).</li>
+              <li>Los navegadores y sistemas muestran descargas en <strong>MB/s</strong> o <strong>MiB/s</strong>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <strong>⚠️ Regla del Factor 8 y Overhead:</strong> En una conexión de <strong>600 Mbps</strong>, la tasa teórica máxima es de <code>600 / 8 = 75 MB/s</code>. Teniendo en cuenta la sobrecarga de cabeceras Ethernet, IP y TCP (~12%), la tasa útil real (*throughput*) se sitúa en torno a <strong>66 MB/s</strong>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">04 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 5: CLASIFICACIÓN TERRITORIAL                                -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-5" data-title="Clasificación Territorial">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Tipología</span>
+          <h2 class="slide-title">Clasificación según Alcance Territorial</h2>
+          <p class="slide-subtitle">Desde la red personal hasta la interconexión global en Internet</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Denominación</th>
+              <th>Alcance Típico</th>
+              <th>Velocidad / Medio</th>
+              <th>Propiedad del Medio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PAN</strong></td>
+              <td>Personal Area Network</td>
+              <td>&lt; 10 metros</td>
+              <td>1 - 24 Mbps (Bluetooth, Zigbee)</td>
+              <td>Privada (Usuario)</td>
+            </tr>
+            <tr>
+              <td><strong>LAN</strong></td>
+              <td>Local Area Network</td>
+              <td>&lt; 1 km (edificio/planta)</td>
+              <td>100 Mbps - 10 Gbps (Ethernet, Wi-Fi)</td>
+              <td>Privada (Empresa / Centro)</td>
+            </tr>
+            <tr>
+              <td><strong>CAN</strong></td>
+              <td>Campus Area Network</td>
+              <td>1 - 5 km (recinto/complejo)</td>
+              <td>1 - 10 Gbps (Fibra óptica, Radioenlace)</td>
+              <td>Privada (Universidad / Polígono)</td>
+            </tr>
+            <tr>
+              <td><strong>MAN</strong></td>
+              <td>Metropolitan Area Network</td>
+              <td>5 - 50 km (ciudad/área urbana)</td>
+              <td>10 - 100 Gbps (Anillos fibra metropolitana)</td>
+              <td>Pública o Mixta (Operador / Ayto.)</td>
+            </tr>
+            <tr>
+              <td><strong>WAN</strong></td>
+              <td>Wide Area Network</td>
+              <td>País, continente, global</td>
+              <td>Variable (Fibra submarina, satélite)</td>
+              <td>Pública (Proveedores / ISPs / Telcos)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="concept-box">
+          <strong>Criterio Diferencial Clave:</strong> En una <strong>LAN</strong>, la infraestructura física (switches, cables y rosetas) es propiedad íntegra de la entidad. En una <strong>WAN</strong>, se contrata el servicio de transmisión a un operador de telecomunicaciones (Telefónica, Vodafone, etc.).
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">05 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 6: MODELOS FUNCIONALES: CLIENTE/SERVIDOR VS P2P             -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-6" data-title="Relación Funcional">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Arquitectura</span>
+          <h2 class="slide-title">Modelos de Relación Funcional</h2>
+          <p class="slide-subtitle">Arquitectura Cliente/Servidor frente al modelo Peer-to-Peer (P2P)</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏢 Modelo Cliente / Servidor</div>
+            <p class="card-desc">Existe una división estricta de roles. El <strong>servidor</strong> ofrece servicios centralizados y los <strong>clientes</strong> consumen dichos recursos.</p>
+            <ul class="bullet-list" style="margin-top: 6px;">
+              <li><strong>Ventajas:</strong> Administración y copias de seguridad unificadas; alta seguridad perimetral.</li>
+              <li><strong>Desventajas:</strong> Coste elevado de hardware/licencias; el servidor es un Punto Único de Fallo si no está duplicado.</li>
+              <li><strong>Ejemplos:</strong> Servidores web, bases de datos Oracle/MySQL, servidores de dominio AD.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🤝 Modelo Entre Iguales (P2P / Peer-to-Peer)</div>
+            <p class="card-desc">Todos los nodos actúan simultáneamente como clientes y como servidores de información sin jerarquía predeterminada.</p>
+            <ul class="bullet-list" style="margin-top: 6px;">
+              <li><strong>Ventajas:</strong> Fácil montaje, bajo coste inicial, no requiere servidor dedicado de alta gama.</li>
+              <li><strong>Desventajas:</strong> Descentralización caótica; falta de control de copias de seguridad; fallos de seguridad en carpetas compartidas.</li>
+              <li><strong>Ejemplos:</strong> Redes BitTorrent, grupos de trabajo Windows sin dominio (Workgroup).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">06 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 7: TOPOLOGÍAS FÍSICAS                                       -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-7" data-title="Topologías Físicas">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Topologías</span>
+          <h2 class="slide-title">Topologías Físicas Clásicas</h2>
+          <p class="slide-subtitle">Distribución geométrica y disposición física del cableado</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">🚌 Bus (10Base2)</div>
+            <p class="card-desc">Un único canal troncal coaxial compartido cerrado por <strong>terminadores de 50 Ω</strong> en los extremos.</p>
+            <div class="warning-box" style="padding: 8px 12px; font-size: 13px; margin: 0;">
+              Una rotura en cualquier conector T interrumpe toda la red.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">💍 Anillo (Token Ring)</div>
+            <p class="card-desc">Los nodos se encadenan en círculo cerrado. La información viaja en un único sentido mediante un testigo (*token*).</p>
+            <div class="concept-box" style="padding: 8px 12px; font-size: 13px; margin: 0;">
+              Complejo de gestionar y alta latencia al añadir estaciones.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">⭐ Estrella (Estándar Actual)</div>
+            <p class="card-desc">Todos los puestos conectan mediante un cable UTP independiente a un conmutador o conmutador central (**Switch**).</p>
+            <div class="highlight-box" style="padding: 8px 12px; font-size: 13px; margin: 0;">
+              La caída de un puesto o cable no afecta a los demás.
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 4px;">
+          <div class="card-title">🕸️ Malla Completa (Full Mesh) y Tolerancia a Fallos</div>
+          <p class="card-desc">Todos los nodos se interconectan directamente con todos los demás. Máxima redundancia física pero coste muy elevado. Número de enlaces necesarios: <code>E = N(N - 1) / 2</code> (para 5 conmutadores se requieren 10 enlaces de fibra directos).</p>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">07 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 8: FÍSICA VS LÓGICA EN ETHERNET                             -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-8" data-title="Física vs Lógica">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Análisis Técnico</span>
+          <h2 class="slide-title">Topología Física frente a Topología Lógica</h2>
+          <p class="slide-subtitle">Cómo está tirado el cable frente a cómo circulan realmente las tramas</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🔌 Topología Física</div>
+            <p class="card-desc">Es la disposición tangible y visible del medio de transmisión y los conectores en el edificio.</p>
+            <ul class="bullet-list" style="margin-top: 8px;">
+              <li>En Ethernet actual con cables UTP / Fibra: <strong>Estrella o Árbol Jerárquico</strong>.</li>
+              <li>Cada puesto cuenta con un enlace punto a punto hasta el switch de planta.</li>
+              <li>Facilita el mantenimiento, diagnóstico y adición de puestos.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ Topología Lógica</div>
+            <p class="card-desc">Es el camino eléctrico o lógico que siguen los datos para viajar entre el emisor y el receptor.</p>
+            <ul class="bullet-list" style="margin-top: 8px;">
+              <li>En Ethernet con <strong>Switch (Conmutado)</strong>: <strong>Punto a punto conmutado</strong>. La trama va directa a la boca del receptor.</li>
+              <li>En Ethernet con <strong>Hub (Antiguo)</strong>: Física en estrella, pero <strong>lógica en bus</strong> (inundación de colisiones).</li>
+              <li>En Wi-Fi: Física en estrella (hacia el AP), pero <strong>lógica en bus compartido</strong> (CSMA/CA).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          <strong>Pregunta Típica de Examen / Entrevista:</strong> Una red Ethernet con cable de par trenzado conectado a un conmutador switch tiene <strong>topología física en estrella</strong> y <strong>topología lógica punto a punto conmutada</strong> (Full Duplex sin colisiones).
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">08 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 9: ORGANISMOS DE NORMALIZACIÓN Y ESTÁNDARES                 -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-9" data-title="Estándares">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Normalización</span>
+          <h2 class="slide-title">Organismos de Normalización y Estándares</h2>
+          <p class="slide-subtitle">La clave que hace posible que dispositivos de distintos fabricantes dialoguen</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏛️ Organismos Oficiales</div>
+            <ul class="bullet-list">
+              <li><strong>IEEE</strong> (*Institute of Electrical and Electronics Engineers*): Define estándares de Capa Física y Enlace.</li>
+              <li><strong>ISO</strong> (*International Organization for Standardization*): Creadora del Modelo OSI de 7 capas.</li>
+              <li><strong>IETF</strong> (*Internet Engineering Task Force*): Publica las especificaciones de Internet (**RFCs**).</li>
+              <li><strong>TIA/EIA</strong>: Normalización del cableado estructurado comercial.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">📜 Estándares Imprescindibles</div>
+            <ul class="bullet-list">
+              <li><strong>IEEE 802.3</strong>: Redes de área local por cable (**Ethernet**).</li>
+              <li><strong>IEEE 802.11</strong>: Redes locales inalámbricas (**Wi-Fi**: b, g, n, ac, ax, be).</li>
+              <li><strong>IEEE 802.15</strong>: Redes de área personal (**Bluetooth**, Zigbee).</li>
+              <li><strong>TIA/EIA-568</strong>: Código de colores y crimpado de conectores RJ-45 (T568A / T568B).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <strong>¿Por qué importan los estándares?</strong> Evitan el secuestro tecnológico (*vendor lock-in*), abaratan drásticamente los costes de compra, garantizan la interoperabilidad multi-marca y aseguran que los conocimientos de vosotros, los técnicos, sean universales.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">09 / 10</span>
+      </footer>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 10: CONCLUSIONES Y RETO DE TALLER                           -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-10" data-title="Conclusiones">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">UT1 · Cierre de Sesión</span>
+          <h2 class="slide-title">Conclusiones y Práctica de Taller</h2>
+          <p class="slide-subtitle">Ponemos la teoría en práctica en el taller de redes</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📋 Resumen de Conceptos Clave</div>
+            <ul class="bullet-list">
+              <li>Una LAN moderna es una <strong>estrella física conmutada lógica</strong>.</li>
+              <li>$1\text{ Byte} = 8\text{ bits}$. Los anchos de banda van en bps y los ficheros en Bytes.</li>
+              <li>La dirección MAC es el identificador físico inmutable de 48 bits (OUI + NIC).</li>
+              <li>La normativa TIA/EIA y los estándares IEEE 802 garantizan la calidad de la red.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">🛠️ Reto Práctico Inmediato (Aula)</div>
+            <p class="card-desc">Abrimos la consola CMD / PowerShell en vuestros PCs de taller:</p>
+            <pre class="code-block">ipconfig /all
+getmac /v</pre>
+            <p class="card-desc" style="font-size: 14.5px; margin-top: 6px;">Identificad vuestra dirección MAC, buscad el fabricante OUI en la base de datos de la IEEE y comprobad la velocidad negociada con el switch del armario rack.</p>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          <strong>Próxima Sesión:</strong> <strong>UT2: Elementos y Espacios Físicos de una Red Local</strong>. Analizaremos en profundidad el cable de par trenzado UTP/STP, categorías Cat.5e/6/6A, fibra óptica, conectores y el montaje en armario rack.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Redes Locales · UT1</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">10 / 10</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Controles flotantes inferiores para Pizarra Digital / Proyector -->
+  <footer id="controls">
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="control-btn" id="btn-prev" title="Anterior (Flecha Izq / RePág)">◀ Anterior</button>
+      <button class="control-btn" id="btn-next" title="Siguiente (Flecha Der / Espacio / AvPág)">Siguiente ▶</button>
+    </div>
+
+    <div style="font-size: 13px; color: #94a3b8; font-family: var(--font-mono);">
+      <span id="nav-indicator">1 / 10</span> · <span id="current-title" style="color: #f8fafc; font-weight: 700;">Portada</span>
+    </div>
+
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="control-btn" id="btn-fullscreen" title="Pantalla Completa (F)">⛶ Pantalla Completa</button>
+      <button class="control-btn" id="btn-print" title="Imprimir / Exportar a PDF (P)">🖨️ PDF</button>
+    </div>
+  </footer>
+
+  <!-- Script interactivo de navegación y teclado -->
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const navIndicator = document.getElementById('nav-indicator');
+      const currentTitle = document.getElementById('current-title');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentIndex = index;
+
+        slides.forEach((slide, idx) => {
+          if (idx === currentIndex) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        const progressPct = ((currentIndex + 1) / totalSlides) * 100;
+        progressBar.style.width = progressPct + '%';
+
+        const slideTitle = slides[currentIndex].getAttribute('data-title') || ('Diapositiva ' + (currentIndex + 1));
+        navIndicator.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+        currentTitle.textContent = slideTitle;
+
+        btnPrev.disabled = (currentIndex === 0);
+        btnNext.disabled = (currentIndex === totalSlides - 1);
+      }
+
+      function nextSlide() {
+        if (currentIndex < totalSlides - 1) updateSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        if (currentIndex > 0) updateSlide(currentIndex - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => console.log(err));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      btnPrev.addEventListener('click', prevSlide);
+      btnNext.addEventListener('click', nextSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          if (e.ctrlKey) return;
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchEndX - touchStartX;
+        if (diffX < -50) nextSlide();
+        if (diffX > 50) prevSlide();
+      }, { passive: true });
+
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

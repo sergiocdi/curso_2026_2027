@@ -1,0 +1,28 @@
+# ==============================================================================
+# .gitignore para Bóveda Docente Obsidian y Proyectos FP
+# ==============================================================================
+
+# Estado volátil de Obsidian (ventanas, pestañas abiertas y caché)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+
+# Archivos del sistema operativo (Windows / macOS)
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Archivos temporales de oficina y editores
+~$*
+*.tmp
+*.temp
+*.bak
+
+# Entornos y caches de desarrollo / IDEs si aplican
+.idea/
+*.iml
+target/
+bin/

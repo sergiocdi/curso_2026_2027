@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITULO_DOCUMENTO}}</title>
+  <link rel="stylesheet" href="estilo-apuntes.css">
+</head>
+<body>
+
+  <div class="document-container">
+    
+    <!-- 1. Cabecera Institucional y Datos de la Unidad -->
+    <header class="doc-header">
+      <div class="doc-top-bar">
+        <span>Formación Profesional · Grado Superior</span>
+        <span class="badge-fp">{{CICLO}}</span>
+      </div>
+      <h1 class="doc-title">{{TITULO_UNIDAD}}</h1>
+      <p class="doc-subtitle">{{SUBTITULO_DESCRIPTIVO}}</p>
+      
+      <div class="doc-meta-grid">
+        <div class="meta-item">
+          <strong>Módulo</strong>
+          {{NOMBRE_MODULO}}
+        </div>
+        <div class="meta-item">
+          <strong>Unidad Didáctica</strong>
+          {{NUMERO_UD}}
+        </div>
+        <div class="meta-item">
+          <strong>Resultados Aprendizaje</strong>
+          {{RAS_ASOCIADOS}}
+        </div>
+        <div class="meta-item">
+          <strong>Curso Académico</strong>
+          {{CURSO_ACADEMICO}} · {{PROFESOR}}
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Índice de Contenidos -->
+    <nav class="toc-box">
+      <div class="toc-title">📑 Índice de Contenidos</div>
+      <ol class="toc-list">
+        <li><a href="#sec-1">1. Título de la sección</a></li>
+        <li><a href="#sec-2">2. Título de la sección</a></li>
+      </ol>
+    </nav>
+
+    <!-- 3. Contenido Didáctico -->
+    <main>
+      <section id="sec-1">
+        <h2><span class="section-num">1</span> Introducción y Concepto</h2>
+        <p>Texto introductorio claro y conciso...</p>
+        
+        <div class="callout callout-concept">
+          <div class="callout-header">💡 Concepto Clave</div>
+          <p>Definición técnica rigurosa del concepto.</p>
+        </div>
+      </section>
+
+      <div class="page-break"></div>
+
+      <section id="sec-2">
+        <h2><span class="section-num">2</span> Implementación Técnica</h2>
+        
+        <div class="code-card">
+          <div class="code-header">
+            <span>Ejemplo.java</span>
+            <span class="lang">JAVA</span>
+          </div>
+          <pre><code>// Código de ejemplo</code></pre>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-header">⚠️ Error Frecuente en Aula</div>
+          <p>Descripción del fallo y cómo evitarlo.</p>
+        </div>
+
+        <div class="callout callout-pro">
+          <div class="callout-header">🏭 Estándar en la Empresa</div>
+          <p>Explicación de cómo se utiliza esta tecnología en entornos de producción.</p>
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+</body>
+</html>

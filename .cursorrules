@@ -1,0 +1,12 @@
+# Cursor AI Rules (.cursorrules)
+
+Strictly follow all instructions and conventions defined in `AGENTS.md`.
+
+## Key Invariants:
+1. Always load and reference `00-Mapa-de-Contenido-Principal.md` at the start of any conversation to understand the vault context and SSOT structure.
+2. Always keep `00-Mapa-de-Contenido-Principal.md` updated whenever new modules, groups, units, or tools are added, renamed, or removed.
+3. Keep the frontmatter YAML `actualizado: YYYY-MM-DD` up to date.
+4. Respect Obsidian wikilinks `[[...]]` and Dataview query blocks.
+5. Modular atomic notes are **conceptos** (`02-Conceptos/`, `tipo: concepto`). Full student notes are **apuntes** and MUST be generated via the skill in `.agents/skills/generar-apuntes/SKILL.md` (HTML -> PDF).
+
+

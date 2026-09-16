@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuaderno de Actividades y Prácticas - UT1: Caracterización de Redes Locales (SMR)</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE APUNTES DOCENTES - FORMACIÓN PROFESIONAL (FP)
+   Optimizado para visualización web y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, "Courier New", monospace;
+  
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #0284c7;
+  --primary-50: #f0f9ff;
+  
+  --accent-blue: #2563eb;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #93c5fd;
+
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+  --accent-amber-border: #fcd34d;
+
+  --accent-emerald: #059669;
+  --accent-emerald-bg: #f0fdf4;
+  --accent-emerald-border: #86efac;
+
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #faf5ff;
+  --accent-purple-border: #d8b4fe;
+
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #f8fafc;
+  line-height: 1.6;
+  font-size: 14.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 44px 52px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.doc-header {
+  border-bottom: 3px solid var(--primary-800);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.doc-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.badge-fp {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-blue-border);
+  font-weight: 700;
+}
+
+.doc-title {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  background: #f1f5f9;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.meta-item strong {
+  color: var(--primary-800);
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* 2. ÍNDICE */
+.toc-box {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+
+.toc-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary-800);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+.toc-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+}
+
+.toc-list a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.toc-list a:hover {
+  text-decoration: underline;
+}
+
+/* 3. TIPOGRAFÍA Y TÍTULOS */
+h2 {
+  font-size: 18px;
+  color: var(--primary-900);
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 6px;
+  margin-top: 32px;
+  margin-bottom: 14px;
+}
+
+h3 {
+  font-size: 15px;
+  color: var(--primary-700);
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+h4 {
+  font-size: 13.5px;
+  color: var(--primary-800);
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+p {
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin-left: 22px;
+  margin-bottom: 14px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* 4. CAJAS PEDAGÓGICAS (CALLOUTS) */
+.callout {
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+  border-left: 4px solid transparent;
+  font-size: 13.5px;
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 13.5px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-concept {
+  background-color: var(--accent-blue-bg);
+  border-left-color: var(--accent-blue);
+  color: #1e3a8a;
+}
+.callout-concept .callout-title { color: var(--accent-blue); }
+
+.callout-warning {
+  background-color: var(--accent-amber-bg);
+  border-left-color: var(--accent-amber);
+  color: #78350f;
+}
+.callout-warning .callout-title { color: var(--accent-amber); }
+
+.callout-industry {
+  background-color: var(--accent-purple-bg);
+  border-left-color: var(--accent-purple);
+  color: #4c1d95;
+}
+.callout-industry .callout-title { color: var(--accent-purple); }
+
+.callout-task {
+  background-color: var(--accent-emerald-bg);
+  border-left-color: var(--accent-emerald);
+  color: #064e3b;
+}
+.callout-task .callout-title { color: var(--accent-emerald); }
+
+.callout-solution {
+  background-color: #f8fafc;
+  border-left-color: #475569;
+  border: 1px solid #cbd5e1;
+  border-left-width: 4px;
+  color: #1e293b;
+}
+.callout-solution .callout-title { color: #334155; }
+
+/* 5. CÓDIGO Y COMANDOS */
+.code-card {
+  background: var(--code-bg);
+  border-radius: 8px;
+  margin: 14px 0;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.code-header {
+  background: #1e293b;
+  padding: 6px 14px;
+  font-size: 11.5px;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #334155;
+}
+
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 10px 14px;
+  overflow-x: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+p code, li code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+}
+
+/* 6. TABLAS */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 12.5px;
+}
+
+th, td {
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+th {
+  background: #f1f5f9;
+  color: var(--primary-900);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  border-top: 1px solid var(--color-border);
+}
+
+tr:nth-child(even) td {
+  background: #fbfcfd;
+}
+
+.table-fill tr td:last-child {
+  background: #fff;
+  border-left: 1px dashed #cbd5e1;
+}
+
+/* DIAGRAMA SCHEMATIC */
+.diagram-box {
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 14px 0;
+  text-align: center;
+}
+
+.diagram-box svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 7. PRINT & PDF RULES (SIN PÁGINA EN BLANCO) */
+@page {
+  size: A4 portrait;
+  margin: 16mm 12mm 18mm 12mm;
+}
+
+@media print {
+  body {
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    color: #000000;
+  }
+
+  .document-container {
+    max-width: 100%;
+    padding: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .no-break,
+  .callout,
+  .code-card,
+  table,
+  tr,
+  blockquote {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 8pt;
+    padding: 6px 8px;
+  }
+
+  .doc-title { font-size: 19pt; }
+  .doc-subtitle { font-size: 10.5pt; }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="doc-header">
+    <div class="doc-top-bar">
+      <span>I.E.S. Formación Profesional · Departamento de Informática</span>
+      <span class="badge-fp">SMR · Grado Medio</span>
+    </div>
+    <h1 class="doc-title">Cuaderno de Actividades y Prácticas de Aula</h1>
+    <div class="doc-subtitle">Unidad de Trabajo 1: Introducción a las Redes Locales. Caracterización</div>
+    
+    <div class="doc-meta-grid">
+      <div class="meta-item">
+        <strong>Módulo</strong>
+        Redes Locales (0225)
+      </div>
+      <div class="meta-item">
+        <strong>Ciclo Formativo</strong>
+        1º SMR (Presencial)
+      </div>
+      <div class="meta-item">
+        <strong>Resultado Aprendizaje</strong>
+        RA1 (15% Ponderación)
+      </div>
+      <div class="meta-item">
+        <strong>Criterios de Evaluación</strong>
+        CE1.a, CE1.b, CE1.c
+      </div>
+      <div class="meta-item">
+        <strong>Profesor</strong>
+        Profesor Sergio
+      </div>
+      <div class="meta-item">
+        <strong>Curso Académico</strong>
+        2026-2027
+      </div>
+    </div>
+  </header>
+
+  <!-- ÍNDICE INTERACTIVO -->
+  <nav class="toc-box">
+    <div class="toc-title">Contenido del Cuaderno de Actividades</div>
+    <ul class="toc-list">
+      <li><a href="#ejercicio1">1. Ejercicio 1: Cálculo de Transmisión y Conversión Numérica</a></li>
+      <li><a href="#ejercicio2">2. Ejercicio 2: Caso Práctico - Topologías y Clasificación ("Logística Cantábrica S.L.")</a></li>
+      <li><a href="#practica1">3. Práctica de Taller: Reconocimiento CLI de Adaptadores y Topología del Aula</a></li>
+      <li><a href="#solucionario">4. Anexo Docente: Criterios de Calificación y Solucionario</a></li>
+    </ul>
+  </nav>
+
+  <!-- ==================================================================== -->
+  <!-- ACTIVIDAD 1 -->
+  <!-- ==================================================================== -->
+  <section id="ejercicio1">
+    <h2>1. Ejercicio 1: Cálculo de Transmisión de Datos y Conversión Numérica en Redes</h2>
+    <p><strong>Tipo de Actividad</strong>: Cálculo procedimental y formulación técnica | <strong>Tiempo estimado</strong>: 50 minutos | <strong>Puntuación</strong>: 100 puntos (10 puntos base).</p>
+
+    <div class="callout callout-concept">
+      <div class="callout-title">💡 Recordatorio Teórico Fundamental: Bits frente a Bytes</div>
+      <p>En telecomunicaciones y redes, la <strong>tasa de transmisión (ancho de banda)</strong> se expresa siempre en <strong>bits por segundo (bps, kbps, Mbps, Gbps)</strong> con base decimal (1 kbps = 10³ bps, 1 Mbps = 10⁶ bps). Sin embargo, la <strong>capacidad de almacenamiento</strong> de los sistemas operativos se computa en <strong>Bytes (1 B = 8 bits)</strong> o en unidades binarias IEC (KiB, MiB, GiB donde 1 MiB = 2²⁰ Bytes = 1.048.576 Bytes).</p>
+    </div>
+
+    <h3>Parte A: Conversión Numérica Aplicada a Direccionamiento (20 Puntos)</h3>
+    <p>En el taller de clase conectamos un equipo cliente a una toma de red y obtenemos los siguientes datos de su configuración:</p>
+    <ul>
+      <li><strong>Dirección física (MAC)</strong>: <code>00:1A:2B:3C:4D:5E</code></li>
+      <li><strong>Primer octeto de la dirección IPv4</strong>: <code>192</code> (en base decimal).</li>
+      <li><strong>Máscara de subred recibida</strong>: <code>11111111.11111111.11111111.00000000</code> (en base binaria).</li>
+    </ul>
+
+    <p><strong>Responde a las siguientes tareas:</strong></p>
+    <ol>
+      <li>Convierte la dirección MAC completa a su secuencia continua de <strong>48 bits en binario</strong> (recuerda que cada dígito hexadecimal equivale exactamente a un cuarteto o <em>nibble</em> de 4 bits).</li>
+      <li>Convierte el valor decimal <code>192</code> a <strong>binario</strong> y a <strong>hexadecimal</strong> mediante el método de descomposición en potencias de 2.</li>
+      <li>Escribe los 4 octetos de la máscara binaria en formato decimal con puntos (Dotted Decimal). ¿Qué longitud de prefijo CIDR (<code>/X</code>) representa?</li>
+      <li>Si una tarjeta de red emite una trama cuya dirección física de destino en binario es:
+        <br><code>11111111 11111111 11111111 11111111 11111111 11111111</code>
+        <br>¿Cuál es su notación hexadecimal? ¿Qué función especial tiene esta dirección en la red local?
+      </li>
+    </ol>
+
+    <h3>Parte B: Unidades de Capacidad y Tasas de Transferencia (30 Puntos)</h3>
+    <ol>
+      <li>Un centro educativo contrata un acceso a Internet por fibra óptica con una velocidad nominal de <strong>600 Mbps simétricos</strong>:
+        <ul>
+          <li>¿Cuál es la tasa máxima teórica de descarga expresada en <strong>Megabytes por segundo (MB/s)</strong>?</li>
+          <li>¿Cuál es la tasa si la expresamos en unidades binarias <strong>Mebibytes por segundo (MiB/s)</strong>?</li>
+        </ul>
+      </li>
+      <li>El profesor Sergio comparte por la red local una imagen ISO del sistema operativo Debian cuyo tamaño es exactamente de <strong>4,7 GB (gigabytes decimales)</strong>:
+        <ul>
+          <li>Calcula cuántos bits contiene el archivo completo.</li>
+          <li>Calcula el tiempo teórico exacto (en segundos y minutos) que tardaría en transferirse a través del enlace de 600 Mbps a una eficiencia del 100%.</li>
+        </ul>
+      </li>
+      <li>En los entornos de red reales, la sobrecarga (overhead) introducida por las cabeceras Ethernet, IP, TCP y las confirmaciones ACK reduce la velocidad efectiva útil aproximadamente un <strong>12%</strong>:
+        <ul>
+          <li>Calcula la tasa de descarga real aproximada (en MB/s).</li>
+          <li>Calcula el tiempo real estimado que tardará el alumno en completar la descarga de la ISO.</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Parte C: Comparativa de Tecnologías de Transmisión (30 Puntos)</h3>
+    <p>Completa la siguiente tabla calculando la velocidad en MB/s y el tiempo teórico que tardaría en descargarse una copia de seguridad de <strong>1,2 GB</strong> (1.200 MB = 9.600 Mbits):</p>
+
+    <table class="table-fill">
+      <thead>
+        <tr>
+          <th>Tecnología de Enlace</th>
+          <th>Ancho de Banda Nominal</th>
+          <th>Velocidad Teórica (MB/s)</th>
+          <th>Tiempo Teórico de Transferencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Fast Ethernet (100Base-TX)</strong></td>
+          <td>100 Mbps</td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Gigabit Ethernet (1000Base-T)</strong></td>
+          <td>1000 Mbps (1 Gbps)</td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Wi-Fi 4 (802.11n enlace mono-antena)</strong></td>
+          <td>150 Mbps</td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Línea WAN ADSL antigua (bajada)</strong></td>
+          <td>10 Mbps</td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Fibra Óptica XGS-PON simétrica</strong></td>
+          <td>10 Gbps (10.000 Mbps)</td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Parte D: Análisis Crítico de Cuellos de Botella (20 Puntos)</h3>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ Caso Real de Taller</div>
+      <p>Un usuario con una conexión doméstica de fibra de 1 Gbps (1000 Mbps) descarga un paquete de actualización de 50 GB. Su aplicación de descarga marca de forma continua una tasa sostenida de <strong>25 MB/s</strong>.</p>
+    </div>
+    <ol>
+      <li>¿A cuántos Mbps de ancho de banda equivalen esos 25 MB/s?</li>
+      <li>Explica razonadamente <strong>tres motivos técnicos ajenos al contrato de fibra</strong> por los que la descarga no alcanza los ~120 MB/s que permite la línea.</li>
+    </ol>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ==================================================================== -->
+  <!-- ACTIVIDAD 2 -->
+  <!-- ==================================================================== -->
+  <section id="ejercicio2">
+    <h2>2. Ejercicio 2: Caso Práctico - Topologías Físicas y Clasificación de Redes</h2>
+    <p><strong>Tipo de Actividad</strong>: Análisis y diseño de caso práctico | <strong>Tiempo estimado</strong>: 60 minutos | <strong>Puntuación</strong>: 100 puntos.</p>
+
+    <div class="callout callout-industry">
+      <div class="callout-title">🏭 Contexto Empresarial: "Logística Cantábrica S.L."</div>
+      <p>La compañía cuenta con una <strong>Sede Central en Gijón</strong> (edificio de dos plantas con 35 puestos cableados, un Punto de Acceso Wi-Fi y un servidor central ERP), un <strong>Almacén Portuario a 2 km</strong> conectado mediante un radioenlace inalámbrico privado de 5 GHz sin operador, y una <strong>Delegación en Avilés</strong> comunicada mediante una línea de datos alquilada a una operadora de telecomunicaciones.</p>
+    </div>
+
+    <!-- ESQUEMA SIMPLIFICADO SVG -->
+    <div class="diagram-box">
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg" style="font-family: sans-serif; font-size: 11px;">
+        <!-- Sede Central -->
+        <rect x="20" y="20" width="260" height="180" rx="8" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+        <text x="35" y="42" fill="#0369a1" font-weight="bold" font-size="12">SEDE CENTRAL (Gijón)</text>
+        <rect x="100" y="60" width="100" height="30" rx="4" fill="#1e293b"/>
+        <text x="115" y="80" fill="#fff" font-weight="bold">Switch Core</text>
+        
+        <rect x="35" y="110" width="95" height="25" rx="4" fill="#334155"/>
+        <text x="45" y="127" fill="#fff">SW Planta 1 (20 PCs)</text>
+        
+        <rect x="155" y="110" width="95" height="25" rx="4" fill="#334155"/>
+        <text x="165" y="127" fill="#fff">SW Planta 2 (15 PCs)</text>
+
+        <rect x="100" y="155" width="100" height="25" rx="4" fill="#059669"/>
+        <text x="115" y="172" fill="#fff" font-weight="bold">Servidor ERP</text>
+
+        <line x1="150" y1="90" x2="82" y2="110" stroke="#0284c7" stroke-width="2"/>
+        <line x1="150" y1="90" x2="202" y2="110" stroke="#0284c7" stroke-width="2"/>
+        <line x1="150" y1="90" x2="150" y2="155" stroke="#059669" stroke-width="2"/>
+
+        <!-- Radioenlace a Almacen -->
+        <path d="M 280 75 L 420 75" stroke="#d97706" stroke-width="2" stroke-dasharray="4"/>
+        <text x="295" y="68" fill="#b45309" font-weight="bold">Radioenlace Propio (2 km)</text>
+
+        <!-- Almacen -->
+        <rect x="420" y="20" width="140" height="110" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+        <text x="435" y="42" fill="#b45309" font-weight="bold">ALMACÉN (Puerto)</text>
+        <rect x="435" y="60" width="110" height="28" rx="4" fill="#334155"/>
+        <text x="445" y="78" fill="#fff">Switch Almacén</text>
+        <text x="445" y="110" fill="#64748b">10 Lectores PDA + 4 PCs</text>
+
+        <!-- Enlace WAN Operador -->
+        <path d="M 200 75 L 200 35 L 650 35 L 650 60" stroke="#7c3aed" stroke-width="2"/>
+        <text x="360" y="28" fill="#6d28d9" font-weight="bold">Enlace WAN Operador (25 km)</text>
+
+        <!-- Delegacion Aviles -->
+        <rect x="590" y="60" width="150" height="110" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+        <text x="605" y="82" fill="#6d28d9" font-weight="bold">DELEGACIÓN Avilés</text>
+        <rect x="610" y="95" width="110" height="28" rx="4" fill="#334155"/>
+        <text x="620" y="113" fill="#fff">Router + SW Avilés</text>
+        <text x="635" y="145" fill="#64748b">8 PCs Comerciales</text>
+      </svg>
+      <div style="font-size: 11px; color: #64748b; margin-top: 4px;">Figura 1.1: Esquema de interconexión de sedes de "Logística Cantábrica S.L."</div>
+    </div>
+
+    <h3>Bloque 1: Clasificación Territorial de Redes (25 Puntos)</h3>
+    <p>Clasifica detalladamente cada ámbito de comunicación de la empresa indicando su tipología (PAN, LAN, CAN, MAN o WAN) y justificando la respuesta según su alcance físico y propiedad del medio:</p>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Ámbito de Comunicación</th>
+          <th>Clasificación</th>
+          <th>Justificación (Distancia, Propiedad del Medio)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cableado de Planta 1 y 2 en Sede Central</strong></td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Radioenlace de 2 km a Almacén Portuario</strong></td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Línea Gijón - Avilés por Operador Público</strong></td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Conexión Bluetooth entre smartphone y reloj</strong></td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Red global con filiales en Lisboa y Madrid</strong></td>
+          <td><em>[Completar]</em></td>
+          <td><em>[Completar]</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Bloque 2: Topologías y Análisis de Puntos de Fallo (40 Puntos)</h3>
+    <ol>
+      <li><strong>Topología Física frente a Lógica</strong>:
+        <ul>
+          <li>Identifica qué topología física forman los conmutadores y puestos de la Sede Central.</li>
+          <li>En una red Ethernet cableada con conmutadores (switches), ¿cuál es la topología física y cuál es la topología lógica? Justifica cómo viajan las tramas por los puertos.</li>
+        </ul>
+      </li>
+      <li><strong>Puntos Únicos de Fallo (SPOF)</strong>: Analiza las consecuencias de cada incidente:
+        <ul>
+          <li><strong>Caso A</strong>: Una limpiadora arranca el cable de red del puesto número 12 de Planta 1. ¿A quién afecta el corte?</li>
+          <li><strong>Caso B</strong>: Se avería la fuente de alimentación del <strong>Switch Core</strong> de la sede central. ¿Qué puestos y sedes pierden conectividad?</li>
+          <li><strong>Caso C</strong>: Si la sede usara una antigua red en <strong>Bus coaxial (10Base2)</strong> y un usuario soltara su conector BNC en T, ¿qué le ocurriría a toda la planta? Explica el concepto de <strong>terminador de 50 ohmios</strong>.</li>
+        </ul>
+      </li>
+      <li><strong>Diseño Redundante</strong>: Si la dirección exige eliminar el SPOF entre los 5 conmutadores principales mediante una <strong>topología en malla completa (Full Mesh)</strong>, ¿cuántos enlaces directos de fibra se requerirían? Aplica la fórmula N(N-1)/2.</li>
+    </ol>
+
+    <h3>Bloque 3: Modelo Funcional y Normalización (35 Puntos)</h3>
+    <ol>
+      <li>En la empresa, todas las delegaciones consultan la base de datos alojada en el <code>Servidor ERP</code>:
+        <ul>
+          <li>¿A qué modelo de relación funcional corresponde este esquema? Explica dos ventajas y dos inconvenientes.</li>
+          <li>Si los comerciales de Avilés deciden compartir ficheros compartiendo carpetas directamente entre sus PCs de sobremesa sin usar el servidor, ¿qué modelo representa? ¿Qué problemas genera en copias de seguridad y seguridad?</li>
+        </ul>
+      </li>
+      <li>Empareja cada estándar con su organismo emisor y ámbito técnico: <strong>IEEE 802.3</strong>, <strong>IEEE 802.11</strong>, <strong>IETF (RFCs)</strong>, <strong>ISO</strong> y <strong>TIA/EIA-568</strong>. ¿Por qué es crucial para la empresa evitar las soluciones propietarias no estandarizadas?</li>
+    </ol>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ==================================================================== -->
+  <!-- ACTIVIDAD 3 -->
+  <!-- ==================================================================== -->
+  <section id="practica1">
+    <h2>3. Práctica de Taller: Reconocimiento de Adaptadores CLI, OUI y Topología del Aula</h2>
+    <p><strong>Tipo de Actividad</strong>: Práctica procedimental de taller | <strong>Tiempo estimado</strong>: 90 minutos | <strong>Calificación</strong>: Rúbrica de 10 puntos.</p>
+
+    <div class="callout callout-task">
+      <div class="callout-title">🎯 Objetivo del Laboratorio</div>
+      <p>Aprenderás a interactuar con la tarjeta de red (NIC) mediante la consola de comandos de Windows y Linux, analizar la dirección física MAC, identificar el fabricante mediante el registro oficial OUI de la IEEE, inspeccionar el medio físico (cableado, categoría y conectores) y levantar un croquis de la red de área local del aula.</p>
+    </div>
+
+    <h3>Fase 1: Comprobación por Línea de Comandos (CLI)</h3>
+    <p>Ejecuta en tu estación de trabajo los comandos correspondientes a tu sistema operativo:</p>
+
+    <div class="code-card">
+      <div class="code-header">
+        <span>Windows PowerShell / CMD</span>
+        <span>Consola Administrativa</span>
+      </div>
+      <pre># Información exhaustiva de todos los adaptadores
+ipconfig /all
+
+# Listado rápido de interfaces y direcciones MAC físicas
+getmac /v /fo table
+
+# Estado operativo de las conexiones
+netsh interface show interface</pre>
+    </div>
+
+    <div class="code-card">
+      <div class="code-header">
+        <span>Linux Bash</span>
+        <span>Terminal GNU/Linux</span>
+      </div>
+      <pre># Inspeccionar estado de enlaces y direcciones MAC
+ip link show
+
+# Mostrar direcciones IP asociadas a interfaces
+ip -c addr show
+
+# Consultar velocidad negociada y dúplex (requiere ethtool)
+sudo ethtool eth0   # Sustituir por tu interfaz (ej: enp3s0)</pre>
+    </div>
+
+    <h4>Ficha Técnica del Adaptador (Completar con tus datos reales):</h4>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 40%;">Parámetro de Red</th>
+          <th>Valor Obtenido en tu PC de Taller</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Nombre del adaptador en el SO</strong></td>
+          <td><em>[Ej: Ethernet / enp3s0]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Descripción del Chipset / Modelo</strong></td>
+          <td><em>[Ej: Realtek PCIe GbE Family Controller / Intel I219-V]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Dirección Física (MAC) completa</strong></td>
+          <td><em>[Formato XX:XX:XX:XX:XX:XX]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Identificador de Fabricante (OUI - 24 bits)</strong></td>
+          <td><em>[Primeros 3 octetos: Ej: 00:E0:4C]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Fabricante según base de datos IEEE OUI</strong></td>
+          <td><em>[Consultar en standards-oui.ieee.org o macvendors.com]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Velocidad de enlace negociada</strong></td>
+          <td><em>[Ej: 100 Mbps / 1000 Mbps (1 Gbps)]</em></td>
+        </tr>
+        <tr>
+          <td><strong>Modo de Dúplex</strong></td>
+          <td><em>[Full Duplex / Half Duplex]</em></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Fase 2: Inspección Física del Puesto de Alumno</h3>
+    <ol>
+      <li><strong>Inspección del cable</strong>: Desconecta con cuidado el cable de red de tu ordenador presionando la pestaña plástica del conector RJ-45 (8P8C):
+        <ul>
+          <li>Examina la serigrafía impresa en el revestimiento del cable de red y anota el texto íntegro visible.</li>
+          <li>¿Qué categoría de par trenzado es (Cat.5e, Cat.6, Cat.6A)? ¿Cuál es su ancho de banda en MHz?</li>
+          <li>Examina los pines dorados del conector. ¿Cuántos hilos de cobre contiene el conector RJ-45?</li>
+        </ul>
+      </li>
+      <li><strong>Roseta de telecomunicaciones</strong>: Localiza en la pared o canaleta la toma a la que se conecta tu puesto:
+        <ul>
+          <li>Anota la etiqueta de identificación de la roseta (ej: <code>AULA102-T08</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Diodos LED de estado</strong>: Vuelve a conectar el cable y observa los LEDs de la tarjeta de red:
+        <ul>
+          <li>¿Qué indica el LED de enlace (<em>Link</em>) fijo?</li>
+          <li>¿Qué indica el LED de actividad (<em>Activity</em>) que parpadea intermitentemente?</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3>Fase 3: Croquis y Topología del Aula de Redes</h3>
+    <p>Dibuja un croquis o diagrama esquemático del aula que represente la distribución de los equipos de los alumnos, las mesas, la canaleta perimetral y el <strong>armario rack de telecomunicaciones</strong> donde se ubica el conmutador (switch) central.</p>
+    <ul>
+      <li>¿Qué topología física presenta el aula de informática?</li>
+      <li>Si un alumno desconecta su cable, ¿afecta a los compañeros de su fila? Justifica por qué.</li>
+      <li>¿Qué elemento representa el punto único de fallo (SPOF) del taller?</li>
+    </ul>
+
+    <h3>Fase 4: Rúbrica de Evaluación de la Práctica (Total: 10 Puntos)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Criterio Evaluado</th>
+          <th>Insuficiente (0-4)</th>
+          <th>Notable (5-8)</th>
+          <th>Excelente (9-10)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Comandos CLI y Ficha Técnica (30%)</strong></td>
+          <td>No sabe ejecutar los comandos o la MAC es incorrecta.</td>
+          <td>Extrae los datos pero comete fallos en la separación OUI/NIC.</td>
+          <td>Comandos ejecutados con rigor, MAC bien analizada y fabricante verificado.</td>
+        </tr>
+        <tr>
+          <td><strong>Inspección de Medios Físicos (30%)</strong></td>
+          <td>No identifica la categoría ni los componentes del cable.</td>
+          <td>Identifica el conector y categoría pero sin justificar frecuencias ni LEDs.</td>
+          <td>Describe perfectamente el conector, categoría, frecuencia y función de LEDs.</td>
+        </tr>
+        <tr>
+          <td><strong>Diagrama de Topología del Aula (30%)</strong></td>
+          <td>Croquis confuso o identifica erróneamente la topología.</td>
+          <td>Croquis correcto en estrella pero incompleto en canalización o rack.</td>
+          <td>Croquis profesional y pulcro identificando la estrella y justificando SPOF.</td>
+        </tr>
+        <tr>
+          <td><strong>Presentación e Informe Técnico (10%)</strong></td>
+          <td>Entrega desordenada y vocabulario coloquial.</td>
+          <td>Buena entrega pero con errores menores de formato.</td>
+          <td>Informe estructurado, capturas nítidas y terminología profesional de redes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- ==================================================================== -->
+  <!-- ANEXO DOCENTE: SOLUCIONARIO -->
+  <!-- ==================================================================== -->
+  <section id="solucionario">
+    <h2>4. Anexo Docente: Solucionario Modelo y Pautas de Corrección</h2>
+    <p><em>Este apartado está destinado exclusivamente al profesorado para la corrección y evaluación de las actividades.</em></p>
+
+    <div class="callout callout-solution">
+      <div class="callout-title">🔑 Solución Detallada - Ejercicio 1 (Cálculo y Conversión)</div>
+      
+      <h4>Parte A: Conversión Numérica</h4>
+      <ol>
+        <li><strong>MAC <code>00:1A:2B:3C:4D:5E</code> en binario</strong>:
+          <br><code>00</code> = <code>00000000</code> | <code>1A</code> = <code>00011010</code> | <code>2B</code> = <code>00101011</code> | <code>3C</code> = <code>00111100</code> | <code>4D</code> = <code>01001101</code> | <code>5E</code> = <code>01011110</code>
+          <br><strong>Secuencia continua</strong>: <code>000000000001101000101011001111000100110101011110</code> (48 bits).
+        </li>
+        <li><strong>Decimal 192</strong>:
+          <br>192 = 128 + 64 → <strong>Binario</strong>: <code>11000000</code>.
+          <br>Agrupado en cuartetos: <code>1100</code> = 12 (<code>C</code>) y <code>0000</code> = 0 (<code>0</code>) → <strong>Hexadecimal</strong>: <code>0xC0</code>.
+        </li>
+        <li><strong>Máscara binaria</strong>:
+          <br>11111111₂ = 255₁₀. Dotted Decimal: <code>255.255.255.0</code>. Como contiene 24 unos consecutivos, su prefijo CIDR es <code>/24</code>.
+        </li>
+        <li><strong>Dirección con todos unos</strong>:
+          <br>Hexadecimal: <code>FF:FF:FF:FF:FF:FF</code>. Es la dirección de <strong>Broadcast / Difusión</strong> de Capa 2. Todas las tarjetas de red de la LAN están obligadas a capturarla y pasarla al procesador.
+        </li>
+      </ol>
+
+      <h4>Parte B: Unidades de Capacidad y Tasas</h4>
+      <ol>
+        <li><strong>Enlace de 600 Mbps</strong>:
+          <br>Tasa en MB/s: 600 / 8 = <strong>75 MB/s</strong>.
+          <br>Tasa en MiB/s: 75.000.000 bytes/s / 1.048.576 bytes/MiB = <strong>71,53 MiB/s</strong>.
+        </li>
+        <li><strong>ISO Debian de 4,7 GB (4,7 × 10⁹ Bytes)</strong>:
+          <br>Bits totales: 4,7 × 10⁹ × 8 = <strong>37.600.000.000 bits</strong> (37,6 Gb).
+          <br>Tiempo teórico: t = 37.600.000.000 / 600.000.000 = <strong>62,67 s</strong> (1 minuto y 2,67 segundos).
+        </li>
+        <li><strong>Con 12% de sobrecarga (eficiencia útil del 88%)</strong>:
+          <br>Velocidad real: 75 MB/s × 0,88 = <strong>66 MB/s</strong>.
+          <br>Tiempo real: 4.700 MB / 66 MB/s = <strong>71,21 s</strong> (1 minuto y 11,2 segundos).
+        </li>
+      </ol>
+
+      <h4>Parte C: Solución Tabla Comparativa (1,2 GB = 1.200 MB = 9.600 Mbits)</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Tecnología</th>
+            <th>Ancho de Banda</th>
+            <th>Velocidad (MB/s)</th>
+            <th>Tiempo de Transferencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fast Ethernet</td>
+            <td>100 Mbps</td>
+            <td>100 / 8 = <strong>12,5 MB/s</strong></td>
+            <td>1.200 / 12,5 = <strong>96 s</strong> (1 min 36 s)</td>
+          </tr>
+          <tr>
+            <td>Gigabit Ethernet</td>
+            <td>1000 Mbps</td>
+            <td>1000 / 8 = <strong>125 MB/s</strong></td>
+            <td>1.200 / 125 = <strong>9,6 s</strong></td>
+          </tr>
+          <tr>
+            <td>Wi-Fi 4 (802.11n)</td>
+            <td>150 Mbps</td>
+            <td>150 / 8 = <strong>18,75 MB/s</strong></td>
+            <td>1.200 / 18,75 = <strong>64 s</strong> (1 min 4 s)</td>
+          </tr>
+          <tr>
+            <td>ADSL (bajada)</td>
+            <td>10 Mbps</td>
+            <td>10 / 8 = <strong>1,25 MB/s</strong></td>
+            <td>1.200 / 1,25 = <strong>960 s</strong> (16 minutos)</td>
+          </tr>
+          <tr>
+            <td>Fibra XGS-PON</td>
+            <td>10 Gbps (10.000 Mbps)</td>
+            <td>10.000 / 8 = <strong>1.250 MB/s</strong></td>
+            <td>1.200 / 1.250 = <strong>0,96 s</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Parte D: Análisis Crítico</h4>
+      <ol>
+        <li>25 MB/s × 8 = <strong>200 Mbps</strong> útiles.</li>
+        <li><strong>Tres causas ajenas al contrato del router</strong>:
+          <ul>
+            <li><strong>Límite del servidor emisor</strong>: La plataforma de descarga limita el caudal por sesión para no colapsar su infraestructura.</li>
+            <li><strong>Cuello de botella de E/S de disco</strong>: Si el equipo descomprime archivos a la vez que descarga y usa un disco mecánico (HDD) saturado.</li>
+            <li><strong>Conexión local por Wi-Fi o tarjeta Fast Ethernet</strong>: Tarjeta de red del PC negociando a 100 Mbps o Wi-Fi 2.4 GHz con interferencias.</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="callout callout-solution" style="margin-top: 20px;">
+      <div class="callout-title">🔑 Solución Detallada - Ejercicio 2 (Caso Práctico "Logística Cantábrica")</div>
+      
+      <h4>Bloque 1: Clasificación Territorial</h4>
+      <ul>
+        <li><strong>Plantas 1 y 2 Sede Central → LAN</strong>: Alcance restringido al edificio (&lt; 100 m por tramo), alta velocidad y medio de propiedad privada de la empresa.</li>
+        <li><strong>Radioenlace a Almacén (2 km) → CAN / MAN privada</strong>: Interconecta dos inmuebles de la misma organización dentro del ámbito municipal mediante infraestructura de radio privada sin operador.</li>
+        <li><strong>Gijón - Avilés → WAN / MAN pública</strong>: Interconexión a larga distancia (25 km) utilizando infraestructura pública y circuitos de un operador (Telco).</li>
+        <li><strong>Bluetooth directivo → PAN</strong>: Red de área personal de cortísimo alcance (&lt; 10 m) y baja potencia (IEEE 802.15).</li>
+        <li><strong>Red filiales España y Portugal → WAN</strong>: Red de área amplia transnacional que atraviesa múltiples operadores y fronteras.</li>
+      </ul>
+
+      <h4>Bloque 2: Topología y Puntos Críticos</h4>
+      <ul>
+        <li><strong>Topología Sede Central</strong>: <strong>Árbol o Estrella Jerárquica</strong>. Los puestos conectan en estrella a switches de planta, y estos en estrella al Switch Core.</li>
+        <li><strong>Física vs Lógica en Ethernet</strong>:
+          <br><em>Física</em>: <strong>Estrella</strong> (cada cable va del PC a una boca del switch).
+          <br><em>Lógica</em>: <strong>Punto a punto conmutada</strong> (el switch conmuta tramas leyendo la MAC destino hacia el puerto específico, eliminando el dominio de colisiones compartido del bus).
+        </li>
+        <li><strong>Puntos de fallo</strong>:
+          <br><em>Caso A</em>: Solo se queda sin red el puesto 12. La topología en estrella aísla el fallo.
+          <br><em>Caso B</em>: Catástrofe general. Al caer el Switch Core (SPOF), se incomunican las dos plantas, el almacén, el router WAN y el servidor ERP.
+          <br><em>Caso C (Bus Coaxial)</em>: Al soltarse una 'T', el bus queda abierto sin terminación. La señal eléctrica choca contra el extremo abierto y rebota produciendo ondas estacionarias y colisiones totales que <strong>dejan inoperativa toda la red</strong>.
+        </li>
+        <li><strong>Cálculo Malla Completa (5 switches)</strong>: E = (5 × 4) / 2 = <strong>10 enlaces de fibra directos</strong>.</li>
+      </ul>
+
+      <h4>Bloque 3: Modelo Funcional y Estándares</h4>
+      <ul>
+        <li><strong>Servidor ERP → Cliente/Servidor</strong>. Ventajas: Seguridad centralizada, copias de seguridad consistentes, control unificado de accesos. Inconvenientes: Servidor como punto único de fallo y coste elevado.</li>
+        <li><strong>Carpetas compartidas locales → Peer-to-Peer (P2P)</strong>. Problemas: Datos dispersos, no entran en el plan de copias de seguridad de la empresa, credenciales inseguras y dependencia de que el PC del usuario esté encendido.</li>
+        <li><strong>Estándares</strong>: IEEE 802.3 (Ethernet cableado), IEEE 802.11 (Wi-Fi), IETF (protocolos IP/TCP/DNS en RFCs), ISO (modelo OSI), TIA/EIA-568 (crimpar RJ-45). <em>Importancia</em>: Asegura la <strong>interoperabilidad multi-fabricante</strong> y evita el secuestro tecnológico (vendor lock-in).</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

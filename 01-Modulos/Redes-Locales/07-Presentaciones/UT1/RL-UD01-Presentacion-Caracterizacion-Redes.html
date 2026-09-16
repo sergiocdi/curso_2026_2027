@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UD01: Introducción a las Redes Locales. Caracterización - Diapositivas de Aula</title>
+  <style>
+/* ==========================================================================
+   SISTEMA PROFESIONAL DE DIAPOSITIVAS INTERACTIVAS PARA AULA (FP)
+   Formato 16:9 Panorámico · Navegación Teclado / Pizarra Digital · Modo Impresión
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  --bg-dark: #090d16;
+  --bg-slide: #0f172a;
+  --bg-card: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+
+  --primary: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent-blue: #60a5fa;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-purple: #c084fc;
+  --accent-red: #f87171;
+
+  --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* 1. BARRA DE PROGRESO SUPERIOR */
+#progress-bar {
+  height: 4px;
+  background: var(--primary);
+  width: 0%;
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+/* 2. CONTENEDOR DE DIAPOSITIVAS (VIEWPORT) */
+#presentation-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.slide {
+  position: absolute;
+  width: 92vw;
+  max-width: 1400px;
+  height: 82vh;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 44px 56px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-light);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 3. ENCABEZADO DE DIAPOSITIVA */
+.slide-header {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.slide-tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  margin-bottom: 10px;
+}
+
+.slide-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 17px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* 4. CUERPO DE LA DIAPOSITIVA */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+/* Columnas de contenido */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-desc {
+  font-size: 16px;
+  color: #cbd5e1;
+  line-height: 1.55;
+}
+
+/* Elementos visuales destacados */
+.highlight-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 5px solid var(--primary);
+  padding: 16px 22px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18px;
+}
+
+.warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 5px solid var(--accent-amber);
+  padding: 16px 22px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18px;
+  color: #fef08a;
+}
+
+.pro-box {
+  background: rgba(52, 211, 153, 0.08);
+  border-left: 5px solid var(--accent-emerald);
+  padding: 16px 22px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18px;
+  color: #a7f3d0;
+}
+
+/* Listas con viñetas estilizadas */
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+ul.bullet-list li {
+  position: relative;
+  padding-left: 32px;
+  font-size: 19px;
+}
+
+ul.bullet-list li::before {
+  content: "➜";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Tablas para diapositivas */
+table.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15.5px;
+}
+
+table.slide-table th, table.slide-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+table.slide-table th {
+  background: #1e293b;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+}
+
+table.slide-table tr:nth-child(even) td {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+/* Código en pantalla */
+pre.code-block {
+  background: #000000;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 22px;
+  font-family: var(--font-mono);
+  font-size: 15.5px;
+  color: #38bdf8;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+/* 5. PIE DE DIAPOSITIVA */
+.slide-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.slide-counter {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-mono);
+}
+
+/* 6. CONTROLES FLOTANTES INFERIORES (TOUCH / PDI) */
+#controls {
+  height: 56px;
+  background: #0f172a;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  z-index: 90;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+button.btn-nav {
+  background: var(--bg-card);
+  color: #ffffff;
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+button.btn-nav:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary);
+}
+
+.keyboard-hints {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.keyboard-hints kbd {
+  background: #334155;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+/* 7. REGLAS PARA IMPRESIÓN Y EXPORTACIÓN A PDF */
+@page {
+  size: A4 landscape;
+  margin: 10mm;
+}
+
+@media print {
+  body {
+    overflow: visible;
+    height: auto;
+    background: #ffffff;
+    color: #000000;
+  }
+
+  #progress-bar, #controls, .nav-buttons, .keyboard-hints, .btn-nav {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #presentation-viewport {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .slide {
+    position: relative;
+    display: flex !important;
+    opacity: 1 !important;
+    transform: none !important;
+    width: 100% !important;
+    height: 180mm !important;
+    max-width: 100%;
+    margin-bottom: 0 !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: none !important;
+    padding: 24px 30px !important;
+    box-sizing: border-box !important;
+  }
+
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .slide-header {
+    border-bottom: 2px solid #0f172a !important;
+  }
+
+  .slide-title {
+    color: #0f172a !important;
+    font-size: 24pt !important;
+  }
+
+  .card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #000000 !important;
+  }
+
+  .card-title { color: #0284c7 !important; }
+  .card-desc { color: #334155 !important; }
+
+  .highlight-box, .warning-box, .pro-box {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-left-width: 4px !important;
+  }
+
+  table.slide-table th {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+
+  pre.code-block {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Viewport de Presentación -->
+  <div id="presentation-viewport">
+
+    <!-- SLIDE 1: PORTADA -->
+    <div class="slide active">
+      <div class="slide-header">
+        <span class="slide-tag">CIFP de Avilés · Formación Profesional</span>
+        <h1 class="slide-title">UD01: Introducción a las Redes Locales</h1>
+        <p class="slide-subtitle">Caracterización de Redes, Fundamentos Digitales, Topologías y Estándares</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📚 Información del Módulo</div>
+            <div class="card-desc">
+              • <strong>Módulo</strong>: Redes Locales (0225)<br>
+              • <strong>Ciclo</strong>: 1º SMR (Grado Medio)<br>
+              • <strong>Duración de la UT</strong>: 15 horas presenciales<br>
+              • <strong>Resultado de Aprendizaje</strong>: RA1 (15% del módulo)<br>
+              • <strong>Profesor</strong>: Sergio Capdevila Diez
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🎯 Objetivos de la Sesión</div>
+            <div class="card-desc">
+              1. Dominar los sistemas <strong>binario y hexadecimal</strong> en redes.<br>
+              2. Comprender la diferencia entre <strong>señal analógica y digital</strong>.<br>
+              3. Clasificar redes según cobertura (<strong>PAN, LAN, CAN, MAN, WAN</strong>).<br>
+              4. Identificar y diseñar <strong>topologías físicas y lógicas</strong>.<br>
+              5. Conocer la norma <strong>IEEE 802.3 (Ethernet)</strong> y el algoritmo <strong>CSMA/CD</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales (SMR) · Curso 2026-2027</span>
+        <span class="slide-counter">Diapositiva 1 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: QUÉ ES UNA RED -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">1. Conceptos Básicos</span>
+        <h2 class="slide-title">¿Qué es realmente una Red de Ordenadores?</h2>
+        <p class="slide-subtitle">Definición formal y componentes esenciales</p>
+      </div>
+      <div class="slide-body">
+        <div class="highlight-box">
+          <strong>Definición</strong>: Conjunto de equipos informáticos autónomos interconectados mediante dispositivos de telecomunicaciones y medios físicos (o inalámbricos) que intercambian datos y comparten recursos.
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">💻 Dispositivos Finales (Hosts)</div>
+            <div class="card-desc">Equipos que originan o consumen la información: PCs de aula, portátiles, servidores, impresoras de red, cámaras IP y teléfonos VoIP.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔀 Dispositivos de Red (Intermedios)</div>
+            <div class="card-desc">Controlan el flujo y encaminan los datos: Conmutadores (Switches), Enrutadores (Routers) y Puntos de Acceso Wi-Fi (APs).</div>
+          </div>
+          <div class="card">
+            <div class="card-title">🌐 Medios de Transmisión</div>
+            <div class="card-desc">El canal físico por donde viajan los datos: cables de par trenzado de cobre (UTP), filamentos de fibra óptica o radiofrecuencia (ondas electromagnéticas).</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 2 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: EL MUNDO BINARIO -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">2. Sistemas de Numeración</span>
+        <h2 class="slide-title">El Lenguaje de la Red: Bits, Bytes y Octetos</h2>
+        <p class="slide-subtitle">¿Por qué las máquinas solo entienden ceros y unos?</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">⚡ La Realidad Física del Hardware</div>
+            <div class="card-desc">
+              Los ordenadores procesan voltajes eléctricos (ej. +5V para el <code>1</code> y 0V para el <code>0</code>), pulsos de luz en una fibra óptica o cambios de fase en una onda de radio.<br><br>
+              • <strong>Bit (b)</strong>: <code>0</code> o <code>1</code> (unidad mínima).<br>
+              • <strong>Byte u Octeto (B)</strong>: Agrupación de <strong>8 bits</strong>.<br>
+              • Con 8 bits podemos representar \(2^8 = \mathbf{256}\) combinaciones diferentes (del <code>0</code> al <code>255</code>).
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔢 Los Tres Sistemas en Redes</div>
+            <div class="card-desc">
+              • <strong>Decimal (Base 10)</strong>: Para humanos (ej. <code>192.168.1.1</code>).<br>
+              • <strong>Binario (Base 2)</strong>: Para procesadores y cálculo de máscaras.<br>
+              • <strong>Hexadecimal (Base 16)</strong>: Dígitos <code>0-9</code> y <code>A-F</code> (donde A=10, B=11, C=12, D=13, E=14, F=15). Cada carácter hexadecimal equivale exactamente a <strong>4 bits</strong> (un cuarteto). Usado en direcciones MAC e IPv6.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 3 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: PESOS DE UN OCTETO -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">2. Sistemas de Numeración</span>
+        <h2 class="slide-title">El Método Rápido de Pesos de un Octeto</h2>
+        <p class="slide-subtitle">Cómo convertir Binario a Decimal en 3 segundos sin calculadora</p>
+      </div>
+      <div class="slide-body">
+        <div class="card">
+          <div class="card-title">📐 Memoriza la Escala de Potencias de 2 (de derecha a izquierda)</div>
+          <pre class="code-block">Bit:      7     6     5     4     3     2     1     0
+Potencia: 2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
+Peso:     128   64    32    16     8     4     2     1</pre>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Ejemplo 1: Convertir 11000000</div>
+            <div class="card-desc">
+              Bits activos: posición 7 (128) y posición 6 (64).<br>
+              Cálculo: \(128 + 64 = \mathbf{192}\)<br>
+              *(¡Es el primer octeto de la IP 192.168.1.1!)*
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Ejemplo 2: Convertir 10101000</div>
+            <div class="card-desc">
+              Bits activos: 128 + 32 + 8.<br>
+              Cálculo: \(128 + 32 + 8 = \mathbf{168}\)<br>
+              *(¡El segundo octeto de nuestra red!)*
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 4 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SUMA BINARIA -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">2. Sistemas de Numeración</span>
+        <h2 class="slide-title">Reglas de la Suma en Binario</h2>
+        <p class="slide-subtitle">La base matemática para calcular incrementos en Subnetting</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Las 5 Reglas Aritméticas</div>
+            <ul class="bullet-list">
+              <li><code>0 + 0 = 0</code></li>
+              <li><code>0 + 1 = 1</code></li>
+              <li><code>1 + 0 = 1</code></li>
+              <li><code>1 + 1 = 0</code> (con <strong>acarreo / carry de 1</strong> a la izquierda)</li>
+              <li><code>1 + 1 + 1 = 1</code> (con <strong>acarreo de 1</strong>)</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">Ejemplo de Suma con Acarreos</div>
+            <pre class="code-block">     1 1 1 1       (Acarreos)
+     1 0 1 1 0 0 1 1   (= 179)
+  +  0 0 1 0 1 1 1 0   (=  46)
+  -------------------
+     1 1 1 0 0 0 0 1   (= 225)
+
+Comprobación: 179 + 46 = 225 ✓</pre>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 5 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: BPS VS BYTES -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">2. Sistemas de Numeración</span>
+        <h2 class="slide-title">⚠️ La Gran Trampa: ¿Mbps o MB/s?</h2>
+        <p class="slide-subtitle">Confusión habitual entre velocidad de transmisión y almacenamiento</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📡 En Redes: Bits por segundo (bps)</div>
+            <div class="card-desc">
+              Las operadoras de fibra y las tarjetas de red siempre miden la velocidad del canal en <strong>bits con 'b' minúscula</strong>:<br><br>
+              • <code>100 Mbps</code> = 100 Megabits por segundo<br>
+              • <code>1 Gbps</code> = 1000 Megabits por segundo (Gigabit Ethernet)
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">💾 En Descargas: Bytes por segundo (B/s)</div>
+            <div class="card-desc">
+              El navegador y el disco duro miden los ficheros descargados en <strong>Bytes con 'B' mayúscula</strong>:<br><br>
+              • <strong>Fórmula de conversión</strong>: \(\text{Velocidad (MB/s)} = \frac{\text{Velocidad (Mbps)}}{8}\)
+            </div>
+          </div>
+        </div>
+        <div class="warning-box">
+          <strong>Ejemplo Real</strong>: Si tienes contratada una fibra simétrica de <strong>600 Mbps</strong>, tu velocidad máxima teórica de descarga en el navegador nunca superará:  
+          \[ \frac{600}{8} = \mathbf{75\text{ MB/s}} \]
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 6 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: ANALOGICO VS DIGITAL -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">3. Transmisión de Señales</span>
+        <h2 class="slide-title">Señal Analógica frente a Señal Digital</h2>
+        <p class="slide-subtitle">Ondas continuas frente a pulsos discretos</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Característica</th>
+              <th>Señal Analógica</th>
+              <th>Señal Digital</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Forma de onda</strong></td>
+              <td>Continua (infinitos valores en el tiempo).</td>
+              <td>Discreta (solo 2 niveles de voltaje: 0 y 1).</td>
+            </tr>
+            <tr>
+              <td><strong>Parámetros</strong></td>
+              <td>Amplitud, Frecuencia (Hz) y Fase.</td>
+              <td>Tasa de bits (bps) y duración de pulso.</td>
+            </tr>
+            <tr>
+              <td><strong>Efecto del Ruido</strong></td>
+              <td><strong>Muy vulnerable</strong>. El ruido se mezcla con la voz/música y se oye como distorsión.</td>
+              <td><strong>Muy inmune</strong>. El receptor reconstruye el 1 o el 0 exacto sin distorsión.</td>
+            </tr>
+            <tr>
+              <td><strong>Regeneración</strong></td>
+              <td>Amplificador (amplifica señal + ruido).</td>
+              <td>Repetidor (limpia el ruido y emite señal nueva).</td>
+            </tr>
+            <tr>
+              <td><strong>Uso actual</strong></td>
+              <td>Radio FM, telefonía antigua de cobre (RTC).</td>
+              <td>Ethernet, Wi-Fi, Fibra Óptica, telefonía VoIP.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 7 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: CLASIFICACION GEOGRAFICA -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">4. Clasificación de Redes</span>
+        <h2 class="slide-title">Clasificación por Cobertura Geográfica</h2>
+        <p class="slide-subtitle">De los centímetros personales al alcance planetario</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">📱 PAN (Personal Area)</div>
+            <div class="card-desc">
+              • <strong>Alcance</strong>: Hasta 10 metros.<br>
+              • <strong>Uso</strong>: Conexión de reloj inteligente, auriculares, móvil.<br>
+              • <strong>Tecnologías</strong>: Bluetooth, NFC, Zigbee.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🏢 LAN (Local Area)</div>
+            <div class="card-desc">
+              • <strong>Alcance</strong>: Aula, oficina o edificio (< 1 km).<br>
+              • <strong>Propiedad</strong>: Privada.<br>
+              • <strong>Velocidad</strong>: Muy alta (1 - 10 Gbps).<br>
+              • <strong>Tecnologías</strong>: Ethernet (UTP), Wi-Fi.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🏫 CAN (Campus Area)</div>
+            <div class="card-desc">
+              • <strong>Alcance</strong>: Varios edificios de la misma entidad (1 - 5 km).<br>
+              • <strong>Uso</strong>: Universidad, polígono, hospital.<br>
+              • <strong>Medio</strong>: Fibra óptica propia.
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top: 14px;">
+          <div class="card">
+            <div class="card-title">🏙️ MAN (Metropolitan Area)</div>
+            <div class="card-desc">• <strong>Alcance</strong>: Ciudad entera (hasta 50 km). Redes de operadores de fibra municipal o TV por cable.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">🌍 WAN (Wide Area)</div>
+            <div class="card-desc">• <strong>Alcance</strong>: Ciudades, países o continentes (> 50 km). Redes de ISPs, cables submarinos. <strong>El mayor ejemplo es Internet</strong>.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 8 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: CLIENTE/SERVIDOR VS P2P -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">4. Clasificación de Redes</span>
+        <h2 class="slide-title">Relación Funcional: Cliente/Servidor vs P2P</h2>
+        <p class="slide-subtitle">¿Quién proporciona los recursos y quién los consume?</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏛️ Cliente / Servidor (Centralizado)</div>
+            <div class="card-desc">
+              • <strong>Servidor</strong>: Máquina dedicada que escucha peticiones y comparte servicios (DHCP, DNS, web, archivos, base de datos).<br>
+              • <strong>Cliente</strong>: Equipo que solicita el servicio.<br>
+              • <strong>Ventajas</strong>: Seguridad centralizada, copias de seguridad sencillas, permisos por usuario (Active Directory / LDAP).<br>
+              • <strong>Estándar</strong> en empresas y centros educativos.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🤝 Peer-to-Peer / P2P (Igual a Igual)</div>
+            <div class="card-desc">
+              • Todos los equipos actúan <strong>simultáneamente como clientes y servidores</strong>.<br>
+              • Cada usuario decide qué carpetas o impresoras de su PC comparte con sus compañeros.<br>
+              • <strong>Ventajas</strong>: Fácil de montar, económico, sin servidores caros.<br>
+              • <strong>Inconvenientes</strong>: Seguridad descentralizada caótica; si un PC se apaga, se pierden sus recursos compartidos.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 9 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: TOPOLOGIAS FISICAS VS LOGICAS -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">5. Topologías de Red</span>
+        <h2 class="slide-title">Topología Física frente a Topología Lógica</h2>
+        <p class="slide-subtitle">La forma de los cables frente al camino real de los datos</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📐 Topología Física</div>
+            <div class="card-desc">
+              Es la <strong>disposición geométrica real</strong> y el tendido del cableado en las paredes, suelo técnico y canaletas.<br><br>
+              ¿Cómo están conectados físicamente los cables entre las tarjetas de red y los dispositivos de interconexión?
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">⚡ Topología Lógica</div>
+            <div class="card-desc">
+              Es el <strong>camino y mecanismo real</strong> que siguen los paquetes de datos y señales eléctricas para viajar de un nodo a otro a través del medio.<br><br>
+              Es independiente de por dónde pasen físicamente los tubos plásticos o cables.
+            </div>
+          </div>
+        </div>
+        <div class="pro-box">
+          <strong>Regla Mnemotécnica de Taller</strong>: La topología física la ves con los ojos en la pared; la topología lógica la detectas con un analizador de protocolos (como Wireshark).
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 10 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: TOPOLOGIAS CLASICAS: BUS Y ANILLO -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">5. Topologías de Red</span>
+        <h2 class="slide-title">Topologías Clásicas: En Bus y En Anillo</h2>
+        <p class="slide-subtitle">Los orígenes del cableado en redes locales</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🚌 Topología en Bus</div>
+            <div class="card-desc">
+              • Un único cable troncal continuo compartido (coaxial 10BASE2).<br>
+              • Requiere <strong>terminadores de 50 \(\Omega\)</strong> en ambos extremos para absorber la señal y evitar rebotes.<br>
+              • <strong>Peligro crítico</strong>: Si el cable se corta o se suelta un conector T, <strong>toda la red se cae al instante</strong>.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">⭕ Topología en Anillo</div>
+            <div class="card-desc">
+              • Circuito cerrado circular en un solo sentido.<br>
+              • Ejemplo clásico: <em>Token Ring</em> (IBM) mediante paso de testigo (*token*). Quien tiene el testigo transmite; los demás escuchan.<br>
+              • Si un equipo se apaga o su tarjeta falla, se interrumpe el anillo y la red cae.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 11 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: TOPOLOGIA EN ESTRELLA -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">5. Topologías de Red</span>
+        <h2 class="slide-title">Topología en Estrella: El Estándar Indiscutible</h2>
+        <p class="slide-subtitle">Por qué el 99% de las redes locales de empresa usan esta topología</p>
+      </div>
+      <div class="slide-body">
+        <div class="highlight-box">
+          Todos los ordenadores se conectan mediante un cable punto a punto independiente a un dispositivo central común: el <strong>Conmutador (Switch)</strong>.
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">✅ Grandes Ventajas</div>
+            <ul class="bullet-list">
+              <li><strong>Tolerancia a fallos máxima</strong>: Si un cable se rompe o un PC se apaga, sólo se desconecta ese puesto. El resto del taller sigue funcionando al 100%.</li>
+              <li><strong>Fácil localización de averías</strong>: Basta con mirar los LEDs del switch.</li>
+              <li><strong>Ampliación sencilla</strong>: Añadir un puesto solo requiere tirar un cable más al switch.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">⚠️ Punto Único de Fallo</div>
+            <div class="card-desc">
+              • Si el switch central se avería o pierde alimentación, todos los puestos conectados a él quedan incomunicados.<br>
+              • Requiere mayor tirada total de cable que el bus clásico, pero compensa con creces en fiabilidad.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 12 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: TOPOLOGIA EN MALLA -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">5. Topologías de Red</span>
+        <h2 class="slide-title">Topología en Malla (Mesh) y Jerárquica</h2>
+        <p class="slide-subtitle">Máxima redundancia y tolerancia para infraestructuras críticas</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🕸️ Malla Completa (Full Mesh)</div>
+            <div class="card-desc">
+              Cada nodo tiene una conexión directa punto a punto con <strong>absolutamente todos los demás nodos</strong> de la red.<br><br>
+              • <strong>Fórmula de cables necesarios</strong>:<br>
+              \[ \text{Nº Enlaces} = \frac{N \times (N - 1)}{2} \]
+              • Si tenemos 8 routers: \(\frac{8 \times 7}{2} = \mathbf{28\text{ cables}}\).<br>
+              • <strong>Uso</strong>: Backbones troncales de Internet y CPDs críticos.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🌲 Topología en Árbol / Jerárquica</div>
+            <div class="card-desc">
+              Estructura en estrella extendida organizada en capas jerárquicas:<br><br>
+              1. <strong>Capa de Acceso</strong>: Switches donde se conectan los PCs de aula.<br>
+              2. <strong>Capa de Distribución</strong>: Conecta los switches de planta.<br>
+              3. <strong>Capa de Núcleo (Core)</strong>: Conmuta a velocidad de gigabits entre edificios.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 13 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: EL CASO HUB VS SWITCH -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">5. Topologías de Red</span>
+        <h2 class="slide-title">El Caso Histórico: Hub frente a Switch</h2>
+        <p class="slide-subtitle">Estrella física con bus lógico frente a estrella física y lógica</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🔌 Con Concentrador (HUB - Obsoleto)</div>
+            <div class="card-desc">
+              • <strong>Física</strong>: Los cables forman una <strong>Estrella</strong> hacia el Hub.<br>
+              • <strong>Lógica</strong>: El hub une todas las pistas en un <strong>Bus Lógico</strong> común.<br>
+              • <strong>Problema</strong>: Si el PC 1 transmite, la señal sale por todos los puertos. Todos compiten por el medio y se producen colisiones.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🔀 Con Conmutador (SWITCH - Actual)</div>
+            <div class="card-desc">
+              • <strong>Física</strong>: <strong>Estrella</strong> hacia el Switch.<br>
+              • <strong>Lógica</strong>: <strong>Estrella / Punto a Punto</strong>.<br>
+              • <strong>Ventaja</strong>: El switch lee la dirección MAC de destino y envía la trama únicamente al puerto correspondiente. Cada puerto es un canal independiente sin colisiones.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 14 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: ORGANISMOS DE ESTANDARIZACION -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">6. Estandarización y Normas</span>
+        <h2 class="slide-title">¿Por qué necesitamos Estándares Abiertos?</h2>
+        <p class="slide-subtitle">Los organismos que hacen posible que Internet funcione</p>
+      </div>
+      <div class="slide-body">
+        <div class="highlight-box">
+          Sin estándares abiertos, un ordenador HP no podría comunicarse con un móvil Samsung o un switch Cisco. Los estándares aseguran que cualquier fabricante hable exactamente el mismo idioma técnico.
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🏛️ Organismos Oficiales</div>
+            <div class="card-desc">
+              • <strong>IEEE</strong>: Estándares de redes locales y metropolitanas (familia 802).<br>
+              • <strong>ISO</strong>: Creadora del modelo conceptual de referencia OSI (7 capas).<br>
+              • <strong>ITU / ITU-T</strong>: Telecomunicaciones y telefonía mundial.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">📜 IETF y las RFCs</div>
+            <div class="card-desc">
+              • <strong>IETF (Internet Engineering Task Force)</strong>: Define los protocolos de Internet.<br>
+              • Publica los documentos <strong>RFC (Request For Comments)</strong>, que son las especificaciones técnicas oficiales (ej. RFC 791 para IPv4, RFC 826 para ARP).
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 15 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: EL PROYECTO IEEE 802 -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">6. Estandarización y Normas</span>
+        <h2 class="slide-title">El Proyecto IEEE 802 y sus Subcapas</h2>
+        <p class="slide-subtitle">Cómo el IEEE organizó el nivel de Enlace de Datos</p>
+      </div>
+      <div class="slide-body">
+        <div class="card">
+          <div class="card-title">División de la Capa 2 (Enlace de Datos) en Dos Subcapas</div>
+          <pre class="code-block">Capa 3: RED (Protocolo IP)
+        ▲
+        │ Interfaz lógica independiente del medio
+┌───────┴──────────────────────────────────────────────────────┐
+│  1. Subcapa LLC (Logical Link Control - IEEE 802.2)          │
+├──────────────────────────────────────────────────────────────┤
+│  2. Subcapa MAC (Media Access Control - 802.3 / 802.11)      │
+└───────┬──────────────────────────────────────────────────────┘
+        ▼
+Capa 1: FÍSICA (Cable UTP, Fibra Óptica, Antena Wi-Fi)</pre>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">LLC (802.2)</div>
+            <div class="card-desc">Independiza al protocolo IP de la tarjeta física que haya debajo.</div>
+          </div>
+          <div class="card">
+            <div class="card-title">MAC</div>
+            <div class="card-desc">Gestiona las direcciones físicas MAC (48 bits) y el acceso al medio físico concreto.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 16 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: SUBCOMITES IEEE 802 -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">6. Estandarización y Normas</span>
+        <h2 class="slide-title">Los Subcomités Clave del IEEE 802</h2>
+        <p class="slide-subtitle">La familia tecnológica que domina el mundo</p>
+      </div>
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Subcomité</th>
+              <th>Tecnología Popular</th>
+              <th>Descripción y Velocidades</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>IEEE 802.1</strong></td>
+              <td>Gestión de Redes</td>
+              <td>Protocolos Spanning Tree (STP), VLANs (802.1Q) y seguridad (802.1X).</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.3</strong></td>
+              <td><strong>Ethernet</strong></td>
+              <td>Redes por cable: 100BASE-TX (Fast Ethernet), 1000BASE-T (Gigabit Ethernet), 10GBASE-T.</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.11</strong></td>
+              <td><strong>Wi-Fi</strong></td>
+              <td>Redes locales inalámbricas: 802.11b, g, n (Wi-Fi 4), ac (Wi-Fi 5), ax (Wi-Fi 6).</td>
+            </tr>
+            <tr>
+              <td><strong>IEEE 802.15</strong></td>
+              <td><strong>WPAN</strong></td>
+              <td>Redes personales: Bluetooth (802.15.1) y Zigbee (802.15.4 para IoT).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 17 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 18: CSMA/CD -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">6. Estandarización y Normas</span>
+        <h2 class="slide-title">Acceso al Medio en Ethernet: CSMA/CD</h2>
+        <p class="slide-subtitle">Carrier Sense Multiple Access with Collision Detection</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Los 4 Pasos del Algoritmo</div>
+            <ul class="bullet-list">
+              <li><strong>1. Escuchar (Carrier Sense)</strong>: ¿Hay señal eléctrica en el cable? Si está ocupado, espera. Si está libre, transmite.</li>
+              <li><strong>2. Detección (Collision Detection)</strong>: Si dos equipos emiten a la vez, se produce una colisión de señales.</li>
+              <li><strong>3. Atasco (Jamming)</strong>: Emiten una ráfaga especial de 32 bits para avisar a todos los nodos de la red.</li>
+              <li><strong>4. Retroceso Aleatorio (Backoff)</strong>: Cada equipo espera un tiempo aleatorio distinto antes de reintentar.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">💡 En Redes Modernas (Full-Duplex)</div>
+            <div class="card-desc">
+              Al usar switches y cables con pares separados para transmitir y recibir (TX y RX):<br><br>
+              • <strong>NO hay colisiones</strong>.<br>
+              • CSMA/CD se desactiva.<br>
+              • Se alcanza el 100% de la velocidad contratada de forma continua y simultánea.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 18 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 19: RESUMEN DE LA UNIDAD -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">7. Conclusiones</span>
+        <h2 class="slide-title">Resumen de Puntos Clave de la UD01</h2>
+        <p class="slide-subtitle">Lo que DEBES dominar antes de pasar a la siguiente unidad</p>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">1. Mundo Binario</div>
+            <div class="card-desc">
+              • 1 Byte = 8 bits.<br>
+              • Valores de 0 a 255.<br>
+              • Pesos: 128, 64, 32, 16, 8, 4, 2, 1.<br>
+              • 1 dígito Hex = 4 bits.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">2. Clasificación</div>
+            <div class="card-desc">
+              • PAN (< 10 m).<br>
+              • LAN (Aula/Edificio).<br>
+              • CAN (Campus).<br>
+              • MAN (Ciudad).<br>
+              • WAN (Internet).
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">3. Topología & Ethernet</div>
+            <div class="card-desc">
+              • Topología estándar: <strong>Estrella</strong> con Switch.<br>
+              • Estándar IEEE 802.3 (Ethernet).<br>
+              • Full-Duplex = Cero colisiones.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · UD01</span>
+        <span class="slide-counter">Diapositiva 19 / 20</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 20: TURNO DE PREGUNTAS Y RETO -->
+    <div class="slide">
+      <div class="slide-header">
+        <span class="slide-tag">8. Fin del Tema</span>
+        <h2 class="slide-title">¿Preguntas y Dudas? · Reto de Aula</h2>
+        <p class="slide-subtitle">Pon a prueba lo aprendido antes de ir al taller</p>
+      </div>
+      <div class="slide-body">
+        <div class="card">
+          <div class="card-title">🎯 Reto Exprés en Pizarra (5 minutos)</div>
+          <div class="card-desc">
+            1. Convierte a decimal el octeto binario de esta máscara de red: <code>11110000</code>.<br>
+            2. Si tenemos 6 ordenadores en una sala conectados en <strong>malla completa</strong>, ¿cuántos cables necesitamos exactamente?<br>
+            3. ¿Por qué una descarga de 300 Mbps en tu casa descarga a unos 37,5 MB/s?
+          </div>
+        </div>
+        <div class="pro-box">
+          <strong>Próxima Sesión</strong>: <em>UD02 · Identificación de Elementos y Espacios Físicos (Cableado estructurado, armarios racks, conectores RJ-45 y fibra óptica).</em>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Redes Locales · CIFP de Avilés · Curso 2026-2027</span>
+        <span class="slide-counter">Diapositiva 20 / 20</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Barra de Controles Inferiores (PDI / Pantalla Táctil / Aula) -->
+  <footer id="controls">
+    <div class="nav-buttons">
+      <button class="btn-nav" id="btn-prev" onclick="prevSlide()">◀ Anterior</button>
+      <button class="btn-nav" id="btn-next" onclick="nextSlide()">Siguiente ▶</button>
+    </div>
+    <div class="keyboard-hints">
+      Usa <kbd>◄</kbd> <kbd>►</kbd> o <kbd>Espacio</kbd> para avanzar · <kbd>F</kbd> para Pantalla Completa
+    </div>
+    <div>
+      <button class="btn-nav" onclick="toggleFullScreen()">⛶ Pantalla Completa</button>
+    </div>
+  </footer>
+
+  <!-- LÓGICA DE NAVEGACIÓN JAVASCRIPT -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const progressBar = document.getElementById('progress-bar');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+
+      slides.forEach((s, idx) => {
+        s.classList.remove('active');
+        if (idx === index) {
+          s.classList.add('active');
+        }
+      });
+
+      currentSlide = index;
+
+      // Actualizar barra de progreso
+      const progress = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = progress + '%';
+
+      // Actualizar contador en la diapositiva activa
+      const counter = slides[currentSlide].querySelector('.slide-counter');
+      if (counter) {
+        counter.textContent = `Diapositiva ${currentSlide + 1} / ${totalSlides}`;
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    // Atajos de Teclado
+    document.addEventListener('keydown', (e) => {
+      switch(e.key) {
+        case 'ArrowRight':
+        case 'PageDown':
+        case ' ': // Barra espaciadora
+          e.preventDefault();
+          nextSlide();
+          break;
+        case 'ArrowLeft':
+        case 'PageUp':
+          e.preventDefault();
+          prevSlide();
+          break;
+        case 'Home':
+          e.preventDefault();
+          showSlide(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          showSlide(totalSlides - 1);
+          break;
+        case 'f':
+        case 'F':
+          toggleFullScreen();
+          break;
+      }
+    });
+
+    // Modo Pantalla Completa
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Inicializar
+    showSlide(0);
+  </script>
+</body>
+</html>

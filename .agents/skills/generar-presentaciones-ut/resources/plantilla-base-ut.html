@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITULO_PRESENTACION}} - CIFP Avilés</title>
+  <style>
+{{ESTILO_CSS}}
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Viewport Principal de la Presentación -->
+  <main id="presentation-viewport">
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL                                      -->
+    <!-- ================================================================== -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="{{LOGO_CIFP_BASE64}}" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">{{UNIDAD_TRABAJO_BADGE}}</div>
+        <h1 class="cover-title">{{TITULO_UNIDAD}}</h1>
+        <p class="cover-subtitle">{{SUBTITULO_DESCRIPTIVO}}</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>{{MODULO_NOMBRE}}</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo Formativo</strong>
+          <span>{{CICLO_NIVEL}}</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>{{RA_ASOCIADOS}}</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Docente Titular</strong>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Sesión / Bloque</strong>
+          <span>{{NUMERO_SESION}}</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Entorno de Aprendizaje</strong>
+          <span>Aula de Informática / Proyector & PDI</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDES DE CONTENIDO DIDÁCTICO -->
+    {{SLIDES_CONTENIDO}}
+
+  </main>
+
+  <!-- Barra Flotante de Controles para Aula y PDI -->
+  <nav id="nav-controls" aria-label="Controles de navegación">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva anterior">&#x2039;</button>
+    <span class="slide-indicator" id="slide-indicator">01 / {{TOTAL_SLIDES_STR}}</span>
+    <button class="nav-btn" id="btn-next" title="Diapositiva siguiente">&#x203a;</button>
+    <button class="nav-btn" id="btn-fullscreen" title="Pantalla completa (F)">&#x26F6;</button>
+    <button class="nav-btn" id="btn-print" title="Imprimir o guardar PDF (P)">&#x1F5A8;&#xFE0F;</button>
+  </nav>
+
+  <!-- Indicador visual flotante para atajos -->
+  <div class="keyboard-hint" id="keyboard-hint">Atajos: &larr; / &rarr; Navegar &bull; F Pantalla Completa &bull; P Imprimir</div>
+
+  <!-- Script de Interactividad y Control de Aula -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const slideIndicator = document.getElementById('slide-indicator');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+      const keyboardHint = document.getElementById('keyboard-hint');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === index);
+        });
+
+        currentSlide = index;
+
+        const progress = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = progress + '%';
+
+        const curStr = String(currentSlide + 1).padStart(2, '0');
+        const totStr = String(totalSlides).padStart(2, '0');
+        slideIndicator.textContent = `${curStr} / ${totStr}`;
+
+        slides[currentSlide].scrollTop = 0;
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) updateSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) updateSlide(currentSlide - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => alert('Error al activar pantalla completa: ' + err.message));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      setTimeout(() => {
+        if (keyboardHint) {
+          keyboardHint.style.opacity = '0';
+          setTimeout(() => keyboardHint.style.display = 'none', 600);
+        }
+      }, 5000);
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, false);
+
+      document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+      }, false);
+
+      function handleSwipe() {
+        const threshold = 60;
+        if (touchEndX < touchStartX - threshold) nextSlide();
+        if (touchEndX > touchStartX + threshold) prevSlide();
+      }
+
+      updateSlide(0);
+    });
+  </script>
+</body>
+</html>

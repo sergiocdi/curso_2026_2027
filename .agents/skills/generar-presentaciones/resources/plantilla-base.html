@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITULO_PRESENTACION}} - CIFP Avilés</title>
+  <!-- Inclusión de Estilos Profesionales de Presentaciones -->
+  <link rel="stylesheet" href="./resources/estilo-presentaciones.css">
+  <style>
+    /* Opcional: Inclusión directa de estilos inline para máxima portabilidad */
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor Principal de Presentación -->
+  <main id="presentation-viewport">
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 1: PORTADA INSTITUCIONAL                                      -->
+    <!-- ================================================================== -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="{{LOGO_CIFP_BASE64}}" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">{{UNIDAD_NUMERO}}: {{UNIDAD_TITULO_CORTO}}</div>
+        <h1 class="cover-title">{{TITULO_TEMA}}</h1>
+        <p class="cover-subtitle">{{SUBTITULO_DESCRIPTIVO}}</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>{{MODULO_NOMBRE}} ({{MODULO_CODIGO}})</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo Formativo</strong>
+          <span>{{CICLO_CURSO}} ({{CICLO_MODALIDAD}})</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>{{RA_ASOCIADOS}}</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Docente</strong>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SLIDE 2: ÍNDICE Y OBJETIVOS                                        -->
+    <!-- ================================================================== -->
+    <section class="slide" id="slide-2" data-title="Objetivos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-tag">{{UNIDAD_NUMERO}} · {{MODULO_NOMBRE}}</span>
+          <h2 class="slide-title">Objetivos y Hoja de Ruta</h2>
+          <p class="slide-subtitle">Estructura temática de la sesión y metas competenciales</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="{{LOGO_CIFP_BASE64}}" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🎯 ¿Qué aprenderemos hoy?</div>
+            <ul class="bullet-list">
+              <li>Punto clave 1</li>
+              <li>Punto clave 2</li>
+              <li>Punto clave 3</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="card-title">💼 Aplicación Práctica en Empresa</div>
+            <p class="card-desc">Contextualización profesional de las competencias a desarrollar en el taller.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>{{MODULO_NOMBRE}} · {{UNIDAD_NUMERO}}</span>
+        <div class="footer-author">
+          <span>CIFP Avilés</span>
+          <span class="dot">•</span>
+          <span>Sergio Capdevila Díez</span>
+        </div>
+        <span class="slide-counter">02 / {{TOTAL_SLIDES}}</span>
+      </footer>
+    </section>
+
+    <!-- SLIDES DE CONTENIDO ADICIONALES (SLIDE 3..N) -->
+
+  </main>
+
+  <!-- Controles flotantes inferiores (Touch / PDI) -->
+  <footer id="controls">
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="control-btn" id="btn-prev" title="Anterior (Flecha Izq / RePág)">◀ Anterior</button>
+      <button class="control-btn" id="btn-next" title="Siguiente (Flecha Der / Espacio / AvPág)">Siguiente ▶</button>
+    </div>
+
+    <div style="font-size: 12.5px; color: #94a3b8; font-family: var(--font-mono);">
+      <span id="nav-indicator">1 / {{TOTAL_SLIDES}}</span> · <span id="current-title">Portada</span>
+    </div>
+
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="control-btn" id="btn-fullscreen" title="Pantalla Completa (F)">⛶ Pantalla Completa</button>
+      <button class="control-btn" id="btn-print" title="Imprimir / Exportar a PDF (P)">🖨️ PDF</button>
+    </div>
+  </footer>
+
+  <!-- Script interactivo de navegación -->
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const navIndicator = document.getElementById('nav-indicator');
+      const currentTitle = document.getElementById('current-title');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+
+      let currentIndex = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentIndex = index;
+
+        slides.forEach((slide, idx) => {
+          if (idx === currentIndex) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        // Actualizar progreso
+        const progressPct = ((currentIndex + 1) / totalSlides) * 100;
+        progressBar.style.width = progressPct + '%';
+
+        // Actualizar indicadores
+        const slideTitle = slides[currentIndex].getAttribute('data-title') || ('Diapositiva ' + (currentIndex + 1));
+        navIndicator.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+        currentTitle.textContent = slideTitle;
+
+        // Deshabilitar botones en extremos
+        btnPrev.disabled = (currentIndex === 0);
+        btnNext.disabled = (currentIndex === totalSlides - 1);
+      }
+
+      function nextSlide() {
+        if (currentIndex < totalSlides - 1) updateSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        if (currentIndex > 0) updateSlide(currentIndex - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => console.log(err));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      // Eventos de botones
+      btnPrev.addEventListener('click', prevSlide);
+      btnNext.addEventListener('click', nextSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      // Atajos de teclado para clase
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          if (e.ctrlKey) return;
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      // Gestos táctiles para Pizarra Digital Interactiva (PDI)
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchEndX - touchStartX;
+        if (diffX < -50) nextSlide();
+        if (diffX > 50) prevSlide();
+      }, { passive: true });
+
+      // Inicialización
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>

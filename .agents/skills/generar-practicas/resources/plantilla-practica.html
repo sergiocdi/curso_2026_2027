@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITULO_PRACTICA}} - CIFP Avilés</title>
+  <link rel="stylesheet" href="./estilo-practicas.css">
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones</span>
+      </div>
+      <div class="header-logo">
+        <!-- LOGO CIFP AVILÉS (Data URI o SVG) -->
+      </div>
+    </div>
+
+    <span class="practice-category">{{CATEGORIA_PRACTICA}}</span>
+    <h1 class="practice-title">{{TITULO_PRACTICA}}</h1>
+    <p class="practice-subtitle">{{SUBTITULO_PRACTICA}}</p>
+
+    <div class="meta-box">
+      <div class="meta-item">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">{{MODULO}} (Código {{CODIGO_MODULO}})</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Ciclo y Curso</span>
+        <span class="meta-value">{{CICLO}} — {{CURSO}}º Curso</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Modalidad y Espacio</span>
+        <span class="meta-value">{{MODALIDAD}} ({{AULA}})</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Profesor / Docente</span>
+        <span class="meta-value">Sergio Capdevila Díez</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duración Estimada</span>
+        <span class="meta-value">{{DURACION}}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Carácter de la Actividad</span>
+        <span class="meta-value">{{CARACTER}}</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- BLOQUE CURRICULAR: RAs Y CRITERIOS -->
+  <section class="curricular-box">
+    <div class="curricular-title">
+      <span>🎯 Resultados de Aprendizaje y Criterios Evaluados</span>
+    </div>
+    <div class="badges-list">
+      <!-- Ejemplo: <span class="badge-ra">RA1 (30%)</span> <span class="badge-ce">CE1.a</span> -->
+      {{BADGES_CURRICULO}}
+    </div>
+    <p class="curricular-desc">
+      {{DESCRIPCION_CURRICULO}}
+    </p>
+  </section>
+
+  <!-- 1. CONTEXTO TÉCNICO Y ESCENARIO -->
+  <section>
+    <h2 class="section-heading"><span>1.</span> Contexto Técnico y Escenario de Partida</h2>
+    <p>{{DESCRIPCION_ESCENARIO}}</p>
+  </section>
+
+  <!-- 2. REQUERIMIENTOS Y ENUNCIADOS PASO A PASO -->
+  <section>
+    <h2 class="section-heading"><span>2.</span> Enunciado y Requerimientos de la Práctica</h2>
+    {{REQUERIMIENTOS_DETALLE}}
+  </section>
+
+  <!-- 3. ENTORNO TÉCNICO Y PAUTAS DE USO DE IA -->
+  <section>
+    <h2 class="section-heading"><span>3.</span> Entorno de Desarrollo y Política de Inteligencia Artificial</h2>
+    <div class="callout callout-info">
+      <div class="callout-title">💻 Entorno de Desarrollo Oficial</div>
+      <p>El entorno de desarrollo de referencia en el aula es <strong>Eclipse IDE</strong> con <strong>Java SE 21 LTS</strong> y <strong>Apache Maven</strong>. Se permite el uso optativo de otros IDEs siempre que los proyectos compilen mediante Maven estándar.</p>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">🤖 Regulación del Uso de IA</div>
+      <p>{{POLITICA_IA}}</p>
+    </div>
+  </section>
+
+  <!-- 4. RÚBRICA DETALLADA DE EVALUACIÓN -->
+  <section class="page-break">
+    <h2 class="section-heading"><span>4.</span> Rúbrica Detallada de Evaluación y Calificación</h2>
+    <p>La evaluación se regirá por la siguiente rúbrica de desempeño vinculada a los Criterios de Evaluación oficiales:</p>
+    
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width: 28%;">Criterio / Indicador</th>
+          <th style="width: 18%;">Excelente (100%)</th>
+          <th style="width: 18%;">Notable (75%)</th>
+          <th style="width: 18%;">Aprobado (50%)</th>
+          <th style="width: 18%;">Insuficiente (&lt;50%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{FILAS_RUBRICA}}
+        <tr class="rubric-total-row">
+          <td colspan="4" style="text-align: right;">PUNTUACIÓN MÁXIMA TOTAL:</td>
+          <td style="text-align: center;">10.0 Puntos</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. ENTREGABLES Y NORMAS DE ENTREGA -->
+  <section>
+    <h2 class="section-heading"><span>5.</span> Instrucciones de Entrega</h2>
+    {{INSTRUCCIONES_ENTREGA}}
+  </section>
+
+  <!-- PIE INSTITUCIONAL -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Formación Profesional</span>
+    <span class="footer-author">Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
