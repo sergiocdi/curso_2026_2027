@@ -100,12 +100,9 @@ WHERE tipo = "recurso_externo" AND ud = "UD01"
 ---
 
 ## 📑 6. Documentos de Apuntes Maquetados (HTML & PDF)
-- 📄 **Manual Completo de la Unidad (Texto, Binarios y XML)**:
-  - [🌐 Versión Web Maquetada (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.html)
-  - [📄 Documento Imprimible Oficial (PDF A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.pdf)
-- 📄 **Apuntes Monográficos**:
-  - [AD-UT1-01 Ficheros de Texto y NIO.2 (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-01-Ficheros-Texto-NIO2.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-01-Ficheros-Texto-NIO2.pdf)
-  - [AD-UD01 Flujos y Streams en Java (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UD01-Flujos-Streams-Java.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UD01-Flujos-Streams-Java.pdf)
+- 📄 **Manual Técnico Completo y Unificado - Manejo de Ficheros (Texto, Binarios y XML)**:
+  - [🌐 Versión Web Maquetada Exhaustiva (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.html)
+  - [📄 Documento Imprimible Oficial (PDF A4 - 1.47 MB)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.pdf)
 
 ---
 

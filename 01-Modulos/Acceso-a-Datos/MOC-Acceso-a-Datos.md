@@ -114,12 +114,8 @@ SORT ud ASC
 ---
 
 ## 📑 8. Documentos de Apuntes Maquetados (HTML & PDF)
-- 📄 **UT1 · Manual Técnico Completo - Manejo de Ficheros (Texto, Binarios y XML)**:
-  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.html) | [📄 Documento PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.pdf)
-- 📄 **UT1 · Bloque 1 - Ficheros de Texto Plano y la API Moderna Java NIO.2**:
-  - [Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-01-Ficheros-Texto-NIO2.html) | [Documento PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-01-Ficheros-Texto-NIO2.pdf)
-- 📄 **UT1 · General - Flujos de Datos (Streams) y Persistencia en Java**:
-  - [Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UD01-Flujos-Streams-Java.html) | [Documento PDF Imprimible](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UD01-Flujos-Streams-Java.pdf)
+- 📄 **UT1 · Manual Técnico Completo y Unificado - Manejo de Ficheros (Texto, Binarios y XML)**:
+  - [🌐 Versión Web HTML Exhaustiva](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.html) | [📄 Documento PDF Imprimible (A4 - 1.47 MB)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/06-Apuntes/UT1/AD-UT1-Apuntes-Manejo-Ficheros.pdf)
 
 ---
 
