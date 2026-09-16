@@ -130,9 +130,7 @@ SORT ud ASC
 
 ### 📦 Unidades Temáticas (Contenidos Teóricos):
 - 🖥️ **UT1 Oficial - Manejo de Ficheros (Tema Claro Institucional · 22 Diapositivas)**:
-  - [🚀 Presentación Interactiva Web (HTML 16:9)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Teoria-Ficheros.html) | [📄 Versión Proyección / Impresión (PDF Apaisado A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Teoria-Ficheros.pdf)
-- 🖥️ **UT1 Archivo - Versión Alternativa**:
-  - [Presentación Web](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Manejo-Ficheros.html) | [PDF Apaisado](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Manejo-Ficheros.pdf)
+  - [🚀 Presentación Interactiva Web (HTML 16:9)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Teoria-Ficheros.html) | [📄 Versión Proyección / Impresión (PDF Apaisado A4 - 22 Páginas)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/UT1/AD-UT1-Pres-Teoria-Ficheros.pdf)
 
 ---
 

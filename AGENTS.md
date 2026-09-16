@@ -79,6 +79,7 @@ Cualquier agente de IA (Antigravity, Cursor, Claude Code, GitHub Copilot, Windsu
      1. Introducción contextualizada (utilidad profesional).
      2. Conceptos fundamentales (definición intuitiva antes de la formal).
      3. Desarrollo progresivo y exhaustivo (*Concepto → Explicación Detallada → Ejemplo Documentado → Aplicación Práctica*): Prohibido ser escueto o saltarse explicaciones. No comparar librerías directamente sin antes haber explicado a fondo cada una por separado (arquitectura, métodos/instrucciones más usadas con sus parámetros y ejemplos funcionales paso a paso).
+     - **Regla Estricta de Ficha de Instrucción / Método**: Para cada herramienta, clase o tecnología explicada (como `ObjectOutputStream`, `RandomAccessFile`, `DocumentBuilder`, `Transformer`, `SAXParser`, `JAXB`, etc.), es obligatorio desglosar **todas las instrucciones y métodos necesarios para operar con ella**. Para cada instrucción se debe: (1) Definir qué hace exactamente en disco o memoria, (2) Detallar sus parámetros y retorno, (3) Aportar un ejemplo de código Java didáctico y funcional, y (4) Explicar paso a paso el resultado. Jamás limitarse a mencionar una clase sin mostrar sus métodos en acción.
      4. Ejemplos prácticos graduados (básico → intermedio → profesional).
      5. Código funcional, limpio y documentado con explicación paso a paso.
      6. Errores habituales (explicando el *por qué*, cómo detectarlos y cómo solucionarlos).

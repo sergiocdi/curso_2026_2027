@@ -842,59 +842,197 @@ public class AnalisisLogStreamingNIO {
     <!-- ================================================================= -->
     <h3>3.4. Ficheros Binarios y Flujos de Bytes (<code>java.io</code>)</h3>
     <p>
-      Cuando los datos no representan texto sino estructuras de información binaria (ficheros comprimidos, imágenes o valores numéricos primitivos), se utilizan flujos derivados de <code>InputStream</code> y <code>OutputStream</code>.
+      Cuando los datos no representan texto sino estructuras de información binaria (ficheros comprimidos, imágenes, gráficos o valores numéricos primitivos), se utilizan flujos derivados de <code>InputStream</code> y <code>OutputStream</code>. Almacenar datos en binario elimina el sobrecoste de parseo textual y ahorra espacio físico en disco (un entero <code>int</code> siempre ocupa 4 bytes exactos frente a los 10 bytes que requeriría en texto).
     </p>
 
-    <h4>A. Clases <code>FileInputStream</code> y <code>FileOutputStream</code></h4>
+    <h4>A. Clases Base: <code>FileInputStream</code> y <code>FileOutputStream</code></h4>
     <p>
-      <strong>Concepto</strong>: Conexión byte a byte con el medio de almacenamiento físico.
+      <strong>Concepto</strong>: Flujos fundamentales de bajo nivel que establecen una conexión directa con el canal físico del sistema operativo para leer y escribir secuencias de bytes individuales (valores numéricos de 0 a 255).
     </p>
-    <p>
-      <strong>Instrucciones y Métodos Más Usados</strong>:
-    </p>
-    <ul>
-      <li><code>int read()</code>: Lee el siguiente byte físico (de 0 a 255). Retorna <code>-1</code> al alcanzar el final del archivo.</li>
-      <li><code>int read(byte[] buffer, int off, int len)</code>: Lee hasta <code>len</code> bytes del archivo y los almacena en el array en memoria a partir de la posición <code>off</code>. Devuelve el número real de bytes leídos.</li>
-      <li><code>void write(byte[] b, int off, int len)</code>: Vuelca el contenido binario del búfer al archivo.</li>
-    </ul>
 
-    <h4>B. Clases <code>DataInputStream</code> y <code>DataOutputStream</code></h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Parámetros</th>
+          <th>Retorno</th>
+          <th>Qué hace exactamente en disco / memoria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>int read() throws IOException</code></td>
+          <td>Ninguno</td>
+          <td><code>int</code> (0 a 255 o -1)</td>
+          <td>Lee el siguiente byte físico del archivo y avanza el cabezal 1 posición. Devuelve <code>-1</code> al alcanzar el Fin de Fichero (EOF).</td>
+        </tr>
+        <tr>
+          <td><code>int read(byte[] b, int off, int len)</code></td>
+          <td><code>byte[] b, int off, int len</code></td>
+          <td><code>int</code> (bytes leídos)</td>
+          <td>Lee un bloque de hasta <code>len</code> bytes del archivo y los transfiere directamente a la memoria RAM en el array <code>b</code> comenzando en el índice <code>off</code>.</td>
+        </tr>
+        <tr>
+          <td><code>void write(int b) throws IOException</code></td>
+          <td><code>int b</code></td>
+          <td><code>void</code></td>
+          <td>Escribe los 8 bits menos significativos del entero en el archivo físico.</td>
+        </tr>
+        <tr>
+          <td><code>void write(byte[] b, int off, int len)</code></td>
+          <td><code>byte[] b, int off, int len</code></td>
+          <td><code>void</code></td>
+          <td>Vuelca en bloque <code>len</code> bytes del array <code>b</code> hacia el medio de almacenamiento físico.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>B. Flujos de Datos Tipados: <code>DataOutputStream</code> y <code>DataInputStream</code></h4>
     <p>
-      <strong>Concepto</strong>: Decoradores de flujos binarios que permiten leer y escribir variables primitivas de Java (<code>int</code>, <code>double</code>, <code>boolean</code>, <code>long</code>) y cadenas de texto en formato independiente del procesador o sistema operativo (codificación estándar Big-Endian de red).
+      <strong>Concepto</strong>: Decoradores de flujos binarios que implementan las interfaces <code>DataOutput</code> y <code>DataInput</code>. Permiten escribir y leer variables primitivas de Java (<code>int</code>, <code>double</code>, <code>boolean</code>, etc.) y cadenas en formato UTF-8 modificado, utilizando el orden de bytes estándar de red (<strong>Big-Endian</strong>: el byte más significativo se escribe primero).
     </p>
-    <p>
-      <strong>Instrucciones y Métodos Más Usados</strong>:
-    </p>
-    <ul>
-      <li><code>writeInt(int v)</code> (4 bytes) y <code>int readInt()</code>: Escritura y lectura de enteros de 32 bits.</li>
-      <li><code>writeDouble(double v)</code> (8 bytes) y <code>double readDouble()</code>: Números de coma flotante de doble precisión (IEEE 754).</li>
-      <li><code>writeBoolean(boolean v)</code> (1 byte) y <code>boolean readBoolean()</code>: Valores lógicos.</li>
-      <li><code>writeUTF(String str)</code> y <code>String readUTF()</code>: Escribe una cadena precedida de 2 bytes que indican la longitud exacta del texto.</li>
-    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción de Escritura</th>
+          <th>Instrucción de Lectura</th>
+          <th>Bytes Físicos</th>
+          <th>Qué hace la instrucción exactamente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>dos.writeByte(int v)</code></td>
+          <td><code>dis.readByte()</code></td>
+          <td>1 byte</td>
+          <td>Escribe o lee 8 bits con signo (-128 a 127). En lectura lanza <code>EOFException</code> al final.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeShort(int v)</code></td>
+          <td><code>dis.readShort()</code></td>
+          <td>2 bytes</td>
+          <td>Escribe o lee 16 bits de un entero corto con signo.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeInt(int v)</code></td>
+          <td><code>dis.readInt()</code></td>
+          <td>4 bytes</td>
+          <td>Escribe o lee 32 bits de un entero Java estándar. Ocupa siempre 4 bytes fijos.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeLong(long v)</code></td>
+          <td><code>dis.readLong()</code></td>
+          <td>8 bytes</td>
+          <td>Escribe o lee 64 bits de un entero largo.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeDouble(double v)</code></td>
+          <td><code>dis.readDouble()</code></td>
+          <td>8 bytes</td>
+          <td>Escribe o lee 64 bits bajo el estándar IEEE 754 de coma flotante de doble precisión.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeBoolean(boolean v)</code></td>
+          <td><code>dis.readBoolean()</code></td>
+          <td>1 byte</td>
+          <td>Escribe <code>0x01</code> para <code>true</code> o <code>0x00</code> para <code>false</code>.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeChar(int v)</code></td>
+          <td><code>dis.readChar()</code></td>
+          <td>2 bytes</td>
+          <td>Escribe o lee los 16 bits de un carácter Unicode.</td>
+        </tr>
+        <tr>
+          <td><code>dos.writeUTF(String str)</code></td>
+          <td><code>dis.readUTF()</code></td>
+          <td>$2 + N$ bytes</td>
+          <td>Escribe primero 2 bytes indicando la longitud en bytes del texto, seguidos de los caracteres en UTF-8.</td>
+        </tr>
+        <tr>
+          <td><code>dos.flush()</code></td>
+          <td>-</td>
+          <td>-</td>
+          <td>Fuerza el vaciado inmediato de cualquier dato pendiente en el búfer de memoria hacia el disco.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-danger">
+      <div class="callout-header">❌ Regla de Oro: El Contrato de Simetría y la Captura de EOFException</div>
+      <p>
+        <strong>1. Simetría obligatoria</strong>: Los datos binarios no tienen separadores. Debes leer exactamente en el mismo orden e invocar las mismas instrucciones con las que escribiste. Si escribes <code>writeInt()</code> seguido de <code>writeDouble()</code>, pero al leer invocas primero <code>readDouble()</code>, Java mezclará los 4 bytes del entero con 4 bytes del double, corrompiendo la posición del puntero.<br>
+        <strong>2. Detección de Fin de Archivo</strong>: <code>readInt()</code> o <code>readDouble()</code> no pueden devolver <code>-1</code> ni <code>null</code> porque esos son números válidos. Por tanto, <strong>avisan del final lanzando una excepción <code>java.io.EOFException</code></strong>. El bucle de lectura debe ser <code>while(true)</code> capturando canónicamente dicha excepción.
+      </p>
+    </div>
 
     <div class="code-card">
       <div class="code-header">
-        <span>RegistroSensoresBinario.java</span>
+        <span>GestorTelemetriaDataStream.java</span>
         <span class="lang">JAVA 21</span>
       </div>
       <pre><code>import java.io.*;
 
-public class RegistroSensoresBinario {
-    public static void guardarMedicion(File archivo, int idSensor, double temperatura, boolean alarma) {
-        // Abrimos en modo append utilizando FileOutputStream
+public class GestorTelemetriaDataStream {
+
+    public static void guardarMediciones(File archivo) {
+        // Envolvemos FileOutputStream con BufferedOutputStream y DataOutputStream
         try (DataOutputStream dos = new DataOutputStream(
-                new BufferedOutputStream(new FileOutputStream(archivo, true)))) {
-            
-            dos.writeInt(idSensor);       // Ocupa exactamente 4 bytes
-            dos.writeDouble(temperatura); // Ocupa exactamente 8 bytes
-            dos.writeBoolean(alarma);     // Ocupa exactamente 1 byte
-            dos.writeUTF("CALIBRADO");    // 2 bytes de longitud + caracteres
-            
+                new BufferedOutputStream(new FileOutputStream(archivo)))) {
+
+            // Registro 1: ID sensor (int), Nombre (UTF), Temperatura (double), Alarma (boolean)
+            dos.writeInt(101);                 // 4 bytes
+            dos.writeUTF("Caldera Central");   // 2 bytes cabecera + 15 bytes texto = 17 bytes
+            dos.writeDouble(82.45);            // 8 bytes
+            dos.writeBoolean(true);            // 1 byte (alarma activa)
+
+            // Registro 2: Sensor de refrigeración
+            dos.writeInt(102);                 // 4 bytes
+            dos.writeUTF("Rack Servidores A"); // 2 bytes + 17 bytes = 19 bytes
+            dos.writeDouble(19.20);            // 8 bytes
+            dos.writeBoolean(false);           // 1 byte (sin alarma)
+
+            dos.flush();
+            System.out.println("✅ Datos binarios volcados con éxito a disco.");
+
         } catch (IOException e) {
-            System.err.println("Error al guardar datos binarios: " + e.getMessage());
+            System.err.println("Error al escribir datos tipados: " + e.getMessage());
+        }
+    }
+
+    public static void leerMediciones(File archivo) {
+        // Leemos con DataInputStream controlando el final mediante EOFException
+        try (DataInputStream dis = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(archivo)))) {
+
+            System.out.println("📡 Registros binarios recuperados:");
+            while (true) {
+                // Leemos en el orden estricto de escritura
+                int id = dis.readInt();
+                String nombre = dis.readUTF();
+                double temp = dis.readDouble();
+                boolean alarma = dis.readBoolean();
+
+                System.out.printf("  Sensor [%d] %-18s | Temp: %6.2f ºC | Alarma: %s%n",
+                                  id, nombre, temp, (alarma ? "⚠️ SÍ" : "OK"));
+            }
+
+        } catch (EOFException e) {
+            // Fin natural del archivo binario
+            System.out.println("🏁 Fin de fichero alcanzado correctamente.");
+        } catch (IOException e) {
+            System.err.println("Error de lectura: " + e.getMessage());
         }
     }
 }</code></pre>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividad 2.1</div>
+      <p>
+        Abre tu IDE y resuelve la <strong>Actividad 2.1 del Cuaderno de Actividades de Aula</strong> implementando un lector/escritor de mediciones de sensores con captura de <code>EOFException</code>.
+      </p>
     </div>
 
     <!-- ================================================================= -->
@@ -902,74 +1040,171 @@ public class RegistroSensoresBinario {
     <!-- ================================================================= -->
     <h3>3.5. Ficheros de Acceso Aleatorio (<code>RandomAccessFile</code>)</h3>
     <p>
-      En todos los flujos vistos hasta ahora (secuenciales), para leer el dato número 1.000 era obligatorio leer primero los 999 datos anteriores. <strong><code>java.io.RandomAccessFile</code></strong> rompe esta limitación: se comporta como un gran array de bytes almacenado en disco donde puedes saltar de forma instantánea a cualquier índice mediante su <strong>Puntero de Fichero (File Pointer)</strong>.
+      En los flujos secuenciales convencionales, para acceder al registro número 10.000 es obligatorio leer primero los 9.999 anteriores. La clase <strong><code>java.io.RandomAccessFile</code></strong> rompe esta restricción: modela el fichero como un **gran array de bytes persistente en disco**, permitiendo desplazar un cabezal de lectura/escritura (<strong>Puntero de Archivo o File Pointer</strong>) de forma instantánea a cualquier coordenada en bytes.
     </p>
 
-    <h4>A. Conceptos y Modos de Apertura</h4>
+    <h4>A. Modos de Apertura en el Constructor</h4>
     <ul>
-      <li>Modo <code>"r"</code>: Apertura exclusiva para lectura. Cualquier intento de escritura provocará un error <code>IOException</code>.</li>
-      <li>Modo <code>"rw"</code>: Apertura simultánea para lectura y escritura. Si el fichero no existe en disco, lo crea automáticamente.</li>
+      <li><code>new RandomAccessFile(file, "r")</code>: Modo solo lectura (<em>Read-Only</em>). Si el fichero no existe, lanza <code>FileNotFoundException</code>. Cualquier intento de escritura lanza <code>IOException</code>.</li>
+      <li><code>new RandomAccessFile(file, "rw")</code>: Modo lectura y escritura (<em>Read-Write</em>). Si el fichero no existe en disco, lo crea automáticamente. Si existe, no borra su contenido: sitúa el puntero en el byte 0.</li>
+      <li><code>new RandomAccessFile(file, "rws")</code> y <code>"rwd"</code>: Modos sincronizados donde cada operación de escritura se sincroniza atómicamente a nivel de hardware en el disco físico.</li>
     </ul>
 
-    <h4>B. Métodos Fundamentales de Posicionamiento</h4>
-    <ul>
-      <li><code>void seek(long posicionByte) throws IOException</code>: Sitúa el puntero de lectura/escritura exactamente en el byte número <code>posicionByte</code>. El primer byte del archivo es la posición 0.</li>
-      <li><code>long getFilePointer() throws IOException</code>: Consulta en qué índice de byte exacto se encuentra el puntero en este momento.</li>
-      <li><code>long length() throws IOException</code>: Devuelve el tamaño total en bytes del fichero.</li>
-      <li><code>void setLength(long nuevaLongitud)</code>: Trunca o agranda el archivo al tamaño indicado.</li>
-    </ul>
+    <h4>B. Ficha Técnica de Instrucciones de Posicionamiento y Operación</h4>
 
-    <h4>C. La Necesidad de Registros de Longitud Fija</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Parámetros</th>
+          <th>Retorno</th>
+          <th>Qué hace exactamente en el archivo físico</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>raf.seek(long pos)</code></td>
+          <td><code>long pos</code> (offset en bytes)</td>
+          <td><code>void</code></td>
+          <td><strong>Mueve el puntero físico</strong> exactamente al byte número <code>pos</code>. La posición inicial es 0. Permite saltar más allá del final del archivo para agrandarlo.</td>
+        </tr>
+        <tr>
+          <td><code>raf.getFilePointer()</code></td>
+          <td>Ninguno</td>
+          <td><code>long</code></td>
+          <td>Consulta y devuelve el <strong>índice exacto del byte</strong> donde se encuentra el cabezal de lectura/escritura en ese instante.</td>
+        </tr>
+        <tr>
+          <td><code>raf.length()</code></td>
+          <td>Ninguno</td>
+          <td><code>long</code></td>
+          <td>Devuelve el tamaño total en bytes del fichero físico.</td>
+        </tr>
+        <tr>
+          <td><code>raf.setLength(long newLength)</code></td>
+          <td><code>long newLength</code></td>
+          <td><code>void</code></td>
+          <td><strong>Trunca o agranda</strong> el archivo forzando el tamaño especificado. Si se reduce, los datos sobrantes se eliminan irreversiblemente.</td>
+        </tr>
+        <tr>
+          <td><code>raf.skipBytes(int n)</code></td>
+          <td><code>int n</code></td>
+          <td><code>int</code> (bytes saltados)</td>
+          <td>Avanza el puntero $n$ bytes hacia adelante sin leer su contenido en memoria RAM.</td>
+        </tr>
+        <tr>
+          <td><code>raf.writeInt(int v)</code></td>
+          <td><code>int v</code></td>
+          <td><code>void</code></td>
+          <td>Escribe 4 bytes y <strong>avanza automáticamente el puntero 4 bytes</strong> hacia adelante.</td>
+        </tr>
+        <tr>
+          <td><code>raf.readInt()</code></td>
+          <td>Ninguno</td>
+          <td><code>int</code></td>
+          <td>Lee 4 bytes desde la posición actual y avanza el puntero 4 bytes.</td>
+        </tr>
+        <tr>
+          <td><code>raf.writeDouble(double v)</code></td>
+          <td><code>double v</code></td>
+          <td><code>void</code></td>
+          <td>Escribe 8 bytes y avanza el puntero 8 bytes.</td>
+        </tr>
+        <tr>
+          <td><code>raf.readDouble()</code></td>
+          <td>Ninguno</td>
+          <td><code>double</code></td>
+          <td>Lee 8 bytes desde la posición actual y avanza el puntero 8 bytes.</td>
+        </tr>
+        <tr>
+          <td><code>raf.writeChars(String s)</code></td>
+          <td><code>String s</code></td>
+          <td><code>void</code></td>
+          <td>Escribe cada carácter de la cadena como 2 bytes Unicode (formato fijo, sin bytes de longitud).</td>
+        </tr>
+        <tr>
+          <td><code>raf.readChar()</code></td>
+          <td>Ninguno</td>
+          <td><code>char</code></td>
+          <td>Lee 2 bytes y reconstruye el carácter Unicode avanzando el puntero 2 bytes.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>C. La Necesidad de Registros de Longitud Fija y Cálculo de Offsets</h4>
     <p>
-      Para que sea posible saltar directamente al registro número $N$ sin leer el resto, <strong>cada registro del archivo debe ocupar exactamente el mismo número de bytes</strong> en el disco físico.
+      Para que la función <code>seek()</code> pueda aterrizar con precisión matemática en el registro número $N$ sin necesidad de leer los anteriores, <strong>cada registro del archivo debe medir exactamente la misma cantidad de bytes</strong>:
     </p>
-    <p>
-      La fórmula matemática universal para posicionarse en el registro $N$ (siendo el primer registro el número 1) es:
-    </p>
-    $$\text{Posición en bytes (Offset)} = (N - 1) \times \text{Tamaño del Registro en bytes}$$
+    $$\mathbf{Offset \ en \ bytes} = \text{Índice del Registro} \times \text{Tamaño Fijo del Registro}$$
 
     <div class="callout callout-warning">
-      <div class="callout-header">⚠️ La Trampa de las Cadenas en RandomAccessFile</div>
+      <div class="callout-header">⚠️ Por qué writeUTF() está prohibido en registros fijos de RandomAccessFile</div>
       <p>
-        Si escribes un String con <code>writeUTF()</code>, los bytes que ocupa variarán según el nombre: "Ana" ocupará 5 bytes (2 de cabecera + 3 caracteres) mientras que "Alejandro" ocupará 11 bytes. Esta variación rompe el tamaño fijo del registro y provoca que la fórmula del <code>seek()</code> aterrice en bytes erróneos corruptos.
-        <br><strong>Solución Obligatoria</strong>: Fijar siempre una longitud constante en caracteres para cada campo de texto (por ejemplo 30 caracteres = 60 bytes en Unicode), rellenando con espacios en blanco los sobrantes.
+        Si escribes un String con <code>writeUTF()</code>, los bytes que ocupa variarán según el contenido del texto: <code>"Ana"</code> ocupará 5 bytes (2 de cabecera + 3 caracteres), mientras que <code>"Constantinopla"</code> ocupará 16 bytes. Esta variabilidad desajusta la cuadrícula y destruye la alineación de todos los registros siguientes.<br>
+        <strong>Solución Técnica Obligatoria</strong>: Fijar siempre una cantidad fija de caracteres mediante <code>StringBuffer.setLength()</code> y escribirla con <code>writeChars()</code>.
       </p>
     </div>
 
     <div class="code-card">
       <div class="code-header">
-        <span>GestorEmpleadosRAF.java</span>
+        <span>AlmacenArticulosRAF.java</span>
         <span class="lang">JAVA 21</span>
       </div>
       <pre><code>import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class GestorEmpleadosRAF {
-    // Definición de la estructura de registro fija:
-    // ID (int = 4 bytes) + Apellido (20 chars = 40 bytes) + Salario (double = 8 bytes) = 52 bytes
-    public static final int TAM_REGISTRO = 52;
-    public static final int LONG_MAX_APELLIDO = 20;
+public class AlmacenArticulosRAF {
 
-    public static void modificarSalario(File archivo, int numRegistro, double nuevoSalario) {
+    // Estructura fija: ID (4 bytes) + Nombre (10 chars = 20 bytes) + Precio (8 bytes) = 32 bytes
+    public static final int TAMANO_REGISTRO = 32;
+    public static final int MAX_CHARS_NOMBRE = 10;
+
+    public static void escribirArticulo(RandomAccessFile raf, int posicion, int id, String nombre, double precio) throws IOException {
+        // Saltamos directamente al byte inicial del registro deseado
+        long offset = (long) posicion * TAMANO_REGISTRO;
+        raf.seek(offset);
+
+        // 1. ID: 4 bytes
+        raf.writeInt(id);
+
+        // 2. Nombre: exactamente 10 caracteres (20 bytes) usando StringBuffer
+        StringBuffer sb = new StringBuffer(nombre);
+        sb.setLength(MAX_CHARS_NOMBRE); // Rellena con '\0' o recorta si supera 10 caracteres
+        raf.writeChars(sb.toString());
+
+        // 3. Precio: 8 bytes
+        raf.writeDouble(precio);
+    }
+
+    public static void modificarPrecioInSitu(File archivo, int posicion, double nuevoPrecio) {
         try (RandomAccessFile raf = new RandomAccessFile(archivo, "rw")) {
-            long totalRegistros = raf.length() / TAM_REGISTRO;
-            if (numRegistro < 1 || numRegistro > totalRegistros) {
-                System.out.println("Registro fuera de rango.");
-                return;
-            }
+            // El campo precio empieza tras el ID (4 bytes) y el Nombre (20 bytes) = +24 bytes
+            long offsetPrecio = ((long) posicion * TAMANO_REGISTRO) + 24;
 
-            // Calculamos el offset exacto: (N-1) * 52 bytes + 44 bytes para ir directo al salario
-            long offsetSalario = (long)(numRegistro - 1) * TAM_REGISTRO + 4 + (LONG_MAX_APELLIDO * 2);
-            raf.seek(offsetSalario); // Saltamos directamente al salario en disco
-            raf.writeDouble(nuevoSalario); // Sobreescribimos in-situ los 8 bytes
-            
-            System.out.println("Salario actualizado con éxito en el registro " + numRegistro);
+            System.out.println("🎯 Saltando directamente al offset del precio: " + offsetPrecio);
+            raf.seek(offsetPrecio);
+
+            double precioAntiguo = raf.readDouble(); // Lee 8 bytes y avanza el puntero 8 bytes
+            System.out.printf("Precio anterior: %.2f €%n", precioAntiguo);
+
+            // ¡IMPORTANTE! readDouble() avanzó el cabezal. Debemos retroceder para sobreescribir:
+            raf.seek(offsetPrecio);
+            raf.writeDouble(nuevoPrecio); // Sobreescribe los 8 bytes sin tocar nada más del disco
+            System.out.printf("✅ Precio actualizado in-situ a: %.2f €%n", nuevoPrecio);
+
         } catch (IOException e) {
-            System.err.println("Error de acceso aleatorio: " + e.getMessage());
+            System.err.println("Error en acceso aleatorio: " + e.getMessage());
         }
     }
 }</code></pre>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 2.2 y 2.3</div>
+      <p>
+        Abre tu IDE y completa las <strong>Actividades 2.2 y 2.3 del Cuaderno de Aula</strong> para diseñar un almacén binario de longitud fija y aplicar modificaciones *in-situ* mediante el puntero <code>seek()</code>.
+      </p>
     </div>
 
     <!-- ================================================================= -->
@@ -977,66 +1212,168 @@ public class GestorEmpleadosRAF {
     <!-- ================================================================= -->
     <h3>3.6. Serialización y Deserialización de Objetos en Java</h3>
     <p>
-      La <strong>Serialización</strong> es el mecanismo nativo de Java que permite tomar un objeto vivo en la memoria RAM y convertir toda su estructura interna, atributos y objetos anidados en una secuencia de bytes que puede persistirse en disco o enviarse por la red. La <strong>Deserialización</strong> es el proceso inverso: reconstruir el objeto original en memoria a partir de los bytes guardados.
+      La <strong>Serialización</strong> es el mecanismo nativo de Java que permite tomar un objeto vivo en la memoria RAM y convertir todo su grafo interno, atributos y referencias en un flujo lineal de bytes binarios. La <strong>Deserialización</strong> realiza el proceso inverso: lee esos bytes desde disco o red y reconstruye una réplica idéntica del objeto en RAM **sin invocar a los constructores ordinarios**.
     </p>
 
-    <h4>A. La Interfaz Marcadora <code>Serializable</code> y el Identificador <code>serialVersionUID</code></h4>
-    <p>
-      Para que una clase pueda ser serializada debe implementar la interfaz <code>java.io.Serializable</code>. Esta interfaz es "marcadora" (no tiene métodos que implementar), pero indica a la JVM que permite su inspección reflectiva.
-    </p>
-    <p>
-      <strong>El papel crítico de <code>serialVersionUID</code></strong>: Es una constante numérica de 64 bits (tipo <code>long</code>) que identifica unívocamente la versión estructural de la clase:
-    </p>
-    <pre><code>private static final long serialVersionUID = 1L;</code></pre>
-    <p>
-      Si tú no defines esta constante explícitamente, la Máquina Virtual de Java calculará un hash automático en base a los atributos y métodos de la clase. Si añades un método o compilas con una versión diferente de JDK, el hash cambiará y el programa fallará con una excepción <strong><code>InvalidClassException</code></strong>, impidiéndote recuperar los datos guardados.
-    </p>
-
-    <h4>B. El Modificador <code>transient</code></h4>
-    <p>
-      Si un atributo de tu clase está marcado con la palabra clave <strong><code>transient</code></strong>, el motor de serialización de Java lo omitirá por completo. Es obligatorio para:
-    </p>
+    <h4>A. Requisitos de la Entidad Serializable</h4>
     <ul>
-      <li>Datos confidenciales o sensibles: contraseñas en texto plano, tarjetas de crédito.</li>
-      <li>Recursos dependientes del entorno: descriptores de ficheros, sockets de red, hilos <code>Thread</code> o conexiones JDBC activas.</li>
-      <li>Campos calculables que pueden regenerarse a partir de otros atributos.</li>
+      <li><strong>Interfaz <code>java.io.Serializable</code></strong>: Interfaz marcadora sin métodos que autoriza a la JVM a inspeccionar reflectivamente la clase. Si no se implementa, se lanza <code>NotSerializableException</code>.</li>
+      <li><strong>Constante <code>serialVersionUID</code></strong>: Identificador de 64 bits (<code>long</code>) que define la versión de la clase. Si se omite, la JVM calcula un hash automático; cualquier modificación posterior en la clase alterará el hash provocando <code>InvalidClassException</code> al intentar leer ficheros previamente guardados.</li>
+      <li><strong>Modificador <code>transient</code></strong>: Indica al motor de serialización que el campo marcado **no debe guardarse en disco** (contraseñas, tokens JWT, hilos <code>Thread</code> o conexiones <code>Connection</code>). Recupera el valor por defecto (<code>null</code> o <code>0</code>) al deserializarse.</li>
     </ul>
 
-    <h4>C. El Problema de la Doble Cabecera en modo Append</h4>
+    <h4>B. Ficha Técnica Exhaustiva de Instrucciones de <code>ObjectOutputStream</code></h4>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Parámetros</th>
+          <th>Retorno</th>
+          <th>Qué hace exactamente la instrucción a bajo nivel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>new ObjectOutputStream(out)</code></td>
+          <td><code>OutputStream out</code></td>
+          <td>Instancia</td>
+          <td><strong>1.</strong> Conecta con el flujo de salida.<br><strong>2.</strong> Escribe en el archivo la <strong>cabecera mágica de 4 bytes</strong> (<code>0xAC 0xED 0x00 0x05</code>).<br><strong>3.</strong> Inicializa la tabla de referencias internas de objetos.</td>
+        </tr>
+        <tr>
+          <td><code>oos.writeObject(Object obj)</code></td>
+          <td><code>Object obj</code></td>
+          <td><code>void</code></td>
+          <td><strong>1.</strong> Inspecciona la clase y sus atributos por reflexión.<br><strong>2.</strong> Si es la primera vez que serializa esa clase, emite su descriptor (nombre, <code>serialVersionUID</code>).<br><strong>3.</strong> Serializa recursivamente todos los campos no transitorios y los objetos anidados.<br><strong>4.</strong> Registra un identificador interno de referencia para no duplicar objetos repetidos en el grafo.</td>
+        </tr>
+        <tr>
+          <td><code>oos.writeUnshared(Object obj)</code></td>
+          <td><code>Object obj</code></td>
+          <td><code>void</code></td>
+          <td>Escribe el objeto como una entidad totalmente nueva e independiente, **sin reutilizar punteros de caché** de referencias compartidas previas.</td>
+        </tr>
+        <tr>
+          <td><code>oos.reset()</code></td>
+          <td>Ninguno</td>
+          <td><code>void</code></td>
+          <td><strong>Limpia la caché de objetos ya serializados</strong>. Si modificas un objeto en memoria y vuelves a llamar a <code>writeObject()</code> sin hacer <code>reset()</code>, Java ignorará los cambios y solo escribirá una referencia al estado antiguo.</td>
+        </tr>
+        <tr>
+          <td><code>oos.flush()</code></td>
+          <td>Ninguno</td>
+          <td><code>void</code></td>
+          <td>Fuerza el vaciado de los bytes en memoria intermedia hacia el archivo físico en disco.</td>
+        </tr>
+        <tr>
+          <td><code>oos.close()</code></td>
+          <td>Ninguno</td>
+          <td><code>void</code></td>
+          <td>Vacía el flujo, lo cierra y libera el descriptor en el sistema operativo.</td>
+        </tr>
+        <tr>
+          <td><code>writeStreamHeader()</code> <em>(protected)</em></td>
+          <td>Ninguno</td>
+          <td><code>void</code></td>
+          <td>Método interno que emite los 4 bytes de cabecera inicial <code>0xACED0005</code>. Al sobrescribirlo en blanco en una subclase propia, podemos evitar la corrupción del archivo en modo append.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>C. Ficha Técnica Exhaustiva de Instrucciones de <code>ObjectInputStream</code></h4>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Parámetros</th>
+          <th>Retorno</th>
+          <th>Qué hace exactamente la instrucción a bajo nivel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>new ObjectInputStream(in)</code></td>
+          <td><code>InputStream in</code></td>
+          <td>Instancia</td>
+          <td><strong>1.</strong> Lee los primeros 4 bytes del archivo.<br><strong>2.</strong> Verifica que coincidan con la firma mágica <code>0xACED0005</code>. Si no coinciden, lanza de inmediato <code>StreamCorruptedException</code>.</td>
+        </tr>
+        <tr>
+          <td><code>ois.readObject()</code></td>
+          <td>Ninguno</td>
+          <td><code>Object</code></td>
+          <td><strong>1.</strong> Lee la descripción de la clase en el flujo.<br><strong>2.</strong> Comprueba la coincidencia del <code>serialVersionUID</code>.<br><strong>3.</strong> Reserva memoria para la instancia **sin llamar al constructor**.<br><strong>4.</strong> Restaura el valor de cada atributo desde los bytes leídos.<br><strong>5.</strong> Retorna la referencia genérica (requiere casting explícito). Lanza <code>EOFException</code> al alcanzar el final.</td>
+        </tr>
+        <tr>
+          <td><code>ois.readUnshared()</code></td>
+          <td>Ninguno</td>
+          <td><code>Object</code></td>
+          <td>Deserializa un objeto garantizando que crea una nueva referencia desacoplada.</td>
+        </tr>
+        <tr>
+          <td><code>ois.close()</code></td>
+          <td>Ninguno</td>
+          <td><code>void</code></td>
+          <td>Cierra el canal de lectura liberando el archivo físico.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>D. El Problema del Append y la Solución con <code>MiObjectOutputStream</code></h4>
     <p>
-      Cuando creas una instancia de <code>ObjectOutputStream</code>, este escribe obligatoriamente en el archivo una <strong>cabecera mágica de 4 bytes</strong> (<code>0xAC 0xED 0x00 0x05</code>).
-      <br>Si abres un fichero existente en modo append para añadir nuevos objetos:
-    </p>
-    <pre><code>new ObjectOutputStream(new FileOutputStream("datos.dat", true)) // ¡PELIGRO!</code></pre>
-    <p>
-      Se escribirá una segunda cabecera mágica en mitad del archivo. Al intentar leerlo posteriormente con <code>ObjectInputStream</code>, al alcanzar ese punto la JVM esperará datos de un objeto y encontrará una cabecera, colapsando inmediatamente con la excepción:
+      Si intentas añadir objetos a un archivo existente usando <code>new ObjectOutputStream(new FileOutputStream(ruta, true))</code>, el constructor escribirá una <strong>segunda cabecera mágica (<code>0xACED0005</code>)</strong> en mitad del archivo. Al leer posteriormente con <code>ObjectInputStream</code>, tras leer el primer objeto el parser encontrará los bytes de cabecera esperando datos, colapsando con:
     </p>
     <p><code>java.io.StreamCorruptedException: invalid type code: AC</code></p>
     <p>
-      <strong>Solución Profesional de la Industria</strong>: Crear una subclase especializada de <code>ObjectOutputStream</code> que anule la escritura de la cabecera cuando el archivo ya contenga datos.
+      Para solucionarlo de forma profesional, creamos la subclase <strong><code>MiObjectOutputStream</code></strong> sobrescribiendo <code>writeStreamHeader()</code> en blanco:
     </p>
 
     <div class="code-card">
       <div class="code-header">
-        <span>MiObjectOutputStreamAppend.java</span>
+        <span>SolucionAppendObjetos.java</span>
         <span class="lang">JAVA 21</span>
       </div>
-      <pre><code>import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+      <pre><code>import java.io.*;
 
-public class MiObjectOutputStreamAppend extends ObjectOutputStream {
-    public MiObjectOutputStreamAppend(OutputStream out) throws IOException {
-        super(out);
-    }
-
-    // Sobreescribimos el método para no emitir la cabecera si estamos añadiendo datos
+// Subclase que anula la escritura de la cabecera intermedia
+class MiObjectOutputStream extends ObjectOutputStream {
+    public MiObjectOutputStream(OutputStream out) throws IOException { super(out); }
     @Override
     protected void writeStreamHeader() throws IOException {
-        // No invocar super.writeStreamHeader() para evitar la corrupción del archivo
-        reset();
+        // Al dejar este método vacío, NO se escribe la cabecera repetida 0xACED0005
+    }
+}
+
+public class SolucionAppendObjetos {
+    public static void anadirObjetoSeguro(File archivo, Object obj) {
+        // Verificamos si el archivo ya existe Y contiene datos previos
+        boolean yaTieneDatos = archivo.exists() && archivo.length() > 0;
+
+        try {
+            FileOutputStream fos = new FileOutputStream(archivo, true); // Modo append activado
+            
+            // Decisión inteligente de flujo:
+            // - Si es la primera vez: ObjectOutputStream normal (escribe la cabecera requerida)
+            // - Si ya tiene datos: MiObjectOutputStream (no escribe cabecera repetida)
+            ObjectOutputStream oos = yaTieneDatos 
+                    ? new MiObjectOutputStream(fos) 
+                    : new ObjectOutputStream(fos);
+
+            oos.writeObject(obj);
+            oos.close();
+            System.out.println("✅ Objeto añadido incrementalmente sin corromper el stream.");
+
+        } catch (IOException e) {
+            System.err.println("Error al persistir: " + e.getMessage());
+        }
     }
 }</code></pre>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 2.4 y 2.5</div>
+      <p>
+        Abre tu IDE y completa las <strong>Actividades 2.4 y 2.5 del Cuaderno de Aula</strong> para serializar entidades con atributos <code>transient</code> y superar el reto de la persistencia incremental con <code>MiObjectOutputStream</code>.
+      </p>
     </div>
 
     <!-- ================================================================= -->
@@ -1044,50 +1381,553 @@ public class MiObjectOutputStreamAppend extends ObjectOutputStream {
     <!-- ================================================================= -->
     <h3>3.7. Persistencia e Intercambio en Formato XML</h3>
     <p>
-      El lenguaje <strong>XML (eXtensible Markup Language)</strong> es un estándar universal estructurado, legible por humanos y máquinas, ampliamente utilizado en el intercambio de información empresarial. En Java coexisten tres tecnologías fundamentales para su tratamiento:
+      El formato <strong>XML (eXtensible Markup Language)</strong> es el estándar por excelencia para mensajería empresarial estructurada. En Java disponemos de 4 APIs oficiales para su tratamiento integral. A continuación se desglosan exhaustivamente cada una de ellas con sus instrucciones, parámetros y ejemplos funcionales.
     </p>
 
-    <h4>A. Procesamiento en Memoria con DOM (Document Object Model)</h4>
+    <!-- MANERA 1: DOM -->
+    <h4>A. Manera 1: DOM (Document Object Model) y <code>Transformer</code></h4>
     <p>
-      <strong>Concepto</strong>: Carga el documento XML completo y construye un árbol jerárquico de nodos en la memoria RAM. Permite navegar hacia adelante, hacia atrás y modificar cualquier nodo en tiempo real.
+      <strong>Concepto</strong>: Carga el documento XML íntegro en la memoria RAM construyendo un árbol jerárquico de nodos (<code>org.w3c.dom.*</code>). Es bidireccional y permite consultar, eliminar y modificar nodos a voluntad.
     </p>
-    <p>
-      <strong>Clases e Instrucciones Más Usadas</strong>:
-    </p>
-    <ul>
-      <li><code>DocumentBuilderFactory</code> y <code>DocumentBuilder</code>: Fábricas para construir el parser.</li>
-      <li><code>Document parse(File f)</code>: Parsea el archivo y retorna el objeto <code>Document</code> raíz.</li>
-      <li><code>NodeList getElementsByTagName(String etiqueta)</code>: Busca todos los elementos coincidentes en el árbol.</li>
-      <li><code>Element createElement(String etiqueta)</code>: Crea un nuevo nodo en memoria.</li>
-      <li><code>void appendChild(Node nuevo)</code>: Añade el nuevo nodo como hijo en la jerarquía.</li>
-      <li><code>TransformerFactory</code> y <code>Transformer</code>: Vuelca el árbol DOM modificado de vuelta al archivo XML en disco con sangrado legible (<code>OutputKeys.INDENT</code>).</li>
-    </ul>
 
-    <h4>B. Procesamiento Reactivo Orientado a Eventos con SAX (Simple API for XML)</h4>
-    <p>
-      <strong>Concepto</strong>: Parser unidireccional que lee el archivo XML de principio a fin sin cargar nada en la memoria RAM. A medida que encuentra una etiqueta de apertura, un texto o una etiqueta de cierre, dispara un evento que es atendido por los métodos de una clase manejadora (<code>DefaultHandler</code>).
-    </p>
-    <p>
-      <strong>Métodos del Manejador (<code>DefaultHandler</code>)</strong>:
-    </p>
-    <ul>
-      <li><code>startDocument()</code> y <code>endDocument()</code>: Invocados al comenzar y finalizar el archivo.</li>
-      <li><code>startElement(String uri, String localName, String qName, Attributes atts)</code>: Se dispara al encontrar una etiqueta de apertura (por ejemplo <code>&lt;empleado id="101"&gt;</code>).</li>
-      <li><code>characters(char[] ch, int start, int length)</code>: Se dispara cuando el parser lee el texto contenido dentro de la etiqueta.</li>
-      <li><code>endElement(String uri, String localName, String qName)</code>: Se dispara al encontrar la etiqueta de cierre (<code>&lt;/empleado&gt;</code>).</li>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Clase Origen</th>
+          <th>Retorno</th>
+          <th>Qué hace la instrucción exactamente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DocumentBuilderFactory.newInstance()</code></td>
+          <td>Factoría</td>
+          <td><code>DocumentBuilderFactory</code></td>
+          <td>Obtiene la factoría proveedora de analizadores DOM configurada en el JDK.</td>
+        </tr>
+        <tr>
+          <td><code>factory.newDocumentBuilder()</code></td>
+          <td><code>DocumentBuilderFactory</code></td>
+          <td><code>DocumentBuilder</code></td>
+          <td>Instancia el constructor del parser DOM listo para procesar documentos.</td>
+        </tr>
+        <tr>
+          <td><code>builder.parse(File f)</code></td>
+          <td><code>DocumentBuilder</code></td>
+          <td><code>Document</code></td>
+          <td><strong>Parsea el archivo XML y construye en RAM el árbol completo</strong> de nodos <code>Document</code>.</td>
+        </tr>
+        <tr>
+          <td><code>builder.newDocument()</code></td>
+          <td><code>DocumentBuilder</code></td>
+          <td><code>Document</code></td>
+          <td>Crea un árbol XML completamente nuevo y vacío en la memoria RAM listo para poblarlo.</td>
+        </tr>
+        <tr>
+          <td><code>doc.getDocumentElement()</code></td>
+          <td><code>Document</code></td>
+          <td><code>Element</code></td>
+          <td>Devuelve la etiqueta raíz principal de todo el documento XML.</td>
+        </tr>
+        <tr>
+          <td><code>doc.normalize()</code></td>
+          <td><code>Document</code></td>
+          <td><code>void</code></td>
+          <td><strong>Limpia el árbol</strong>: unifica nodos de texto adyacentes y elimina espacios vacíos huérfanos.</td>
+        </tr>
+        <tr>
+          <td><code>doc.createElement(String tag)</code></td>
+          <td><code>Document</code></td>
+          <td><code>Element</code></td>
+          <td>Fabrica una nueva etiqueta XML en memoria vinculada al contexto del documento.</td>
+        </tr>
+        <tr>
+          <td><code>doc.createTextNode(String texto)</code></td>
+          <td><code>Document</code></td>
+          <td><code>Text</code></td>
+          <td>Crea un nodo de texto puro para colocar dentro de una etiqueta.</td>
+        </tr>
+        <tr>
+          <td><code>elem.setAttribute(String k, String v)</code></td>
+          <td><code>Element</code></td>
+          <td><code>void</code></td>
+          <td>Asigna o actualiza un atributo clave-valor dentro de la etiqueta de apertura.</td>
+        </tr>
+        <tr>
+          <td><code>elem.getAttribute(String k)</code></td>
+          <td><code>Element</code></td>
+          <td><code>String</code></td>
+          <td>Lee el valor textual del atributo especificado.</td>
+        </tr>
+        <tr>
+          <td><code>elem.getElementsByTagName(String tag)</code></td>
+          <td><code>Element</code> / <code>Document</code></td>
+          <td><code>NodeList</code></td>
+          <td>Busca recursivamente todas las etiquetas coincidentes en el subárbol.</td>
+        </tr>
+        <tr>
+          <td><code>padre.appendChild(Node hijo)</code></td>
+          <td><code>Node</code></td>
+          <td><code>Node</code></td>
+          <td><strong>Engancha el nuevo nodo</strong> como último hijo dentro de la jerarquía del padre.</td>
+        </tr>
+        <tr>
+          <td><code>padre.removeChild(Node hijo)</code></td>
+          <td><code>Node</code></td>
+          <td><code>Node</code></td>
+          <td>Desvincula y elimina el nodo hijo especificado del árbol en memoria.</td>
+        </tr>
+        <tr>
+          <td><code>node.getNodeType()</code></td>
+          <td><code>Node</code></td>
+          <td><code>short</code></td>
+          <td>Retorna el tipo de nodo (<code>Node.ELEMENT_NODE == 1</code>, <code>Node.TEXT_NODE == 3</code>).</td>
+        </tr>
+        <tr>
+          <td><code>node.getTextContent()</code></td>
+          <td><code>Node</code></td>
+          <td><code>String</code></td>
+          <td>Extrae todo el contenido de texto dentro del nodo y sus descendientes.</td>
+        </tr>
+        <tr>
+          <td><code>node.setTextContent(String texto)</code></td>
+          <td><code>Node</code></td>
+          <td><code>void</code></td>
+          <td>Sobreescribe el contenido textual del nodo.</td>
+        </tr>
+        <tr>
+          <td><code>TransformerFactory.newInstance()</code></td>
+          <td>Factoría</td>
+          <td><code>TransformerFactory</code></td>
+          <td>Crea la factoría del motor XSLT/Transformer.</td>
+        </tr>
+        <tr>
+          <td><code>tf.setOutputProperty(OutputKeys.INDENT, "yes")</code></td>
+          <td><code>Transformer</code></td>
+          <td><code>void</code></td>
+          <td>Configura el formateo visual activando la sangría (*pretty-print*).</td>
+        </tr>
+        <tr>
+          <td><code>tf.transform(Source src, Result res)</code></td>
+          <td><code>Transformer</code></td>
+          <td><code>void</code></td>
+          <td><strong>Vuelca físicamente el árbol DOM</strong> (<code>new DOMSource(doc)</code>) al archivo (<code>new StreamResult(f)</code>).</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <h4>C. Mapeo Declarativo con JAXB (Java Architecture for XML Binding)</h4>
+    <div class="code-card">
+      <div class="code-header">
+        <span>GestorCompletoDOM.java</span>
+        <span class="lang">JAVA 21</span>
+      </div>
+      <pre><code>import java.io.File;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.*;
+
+public class GestorCompletoDOM {
+
+    public static void crearCatalogoXml(File destino) throws Exception {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.newDocument(); // Documento nuevo en blanco
+
+        // 1. Crear nodo raíz: <catalogo>
+        Element raiz = doc.createElement("catalogo");
+        doc.appendChild(raiz);
+
+        // 2. Crear producto con atributo id y etiquetas hijas
+        Element producto = doc.createElement("producto");
+        producto.setAttribute("id", "P-100");
+
+        Element nombre = doc.createElement("nombre");
+        nombre.setTextContent("Monitor Gaming 27 pulgadas");
+        producto.appendChild(nombre);
+
+        Element precio = doc.createElement("precio");
+        precio.setTextContent("249.99");
+        producto.appendChild(precio);
+
+        raiz.appendChild(producto);
+
+        // 3. Volcar árbol DOM a disco con sangrado de 4 espacios
+        Transformer tf = TransformerFactory.newInstance().newTransformer();
+        tf.setOutputProperty(OutputKeys.INDENT, "yes");
+        tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+        tf.transform(new DOMSource(doc), new StreamResult(destino));
+        System.out.println("✅ Catálogo XML generado exitosamente con DOM.");
+    }
+
+    public static void modificarPreciosDOM(File origen) throws Exception {
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.parse(origen);
+        doc.getDocumentElement().normalize(); // Limpieza obligatoria
+
+        NodeList productos = doc.getElementsByTagName("producto");
+        for (int i = 0; i < productos.getLength(); i++) {
+            Node n = productos.item(i);
+            // FILTRADO ESTRICTO: Descartar nodos de texto vacíos (#text)
+            if (n.getNodeType() == Node.ELEMENT_NODE) {
+                Element elem = (Element) n;
+                Element elemPrecio = (Element) elem.getElementsByTagName("precio").item(0);
+                double precioActual = Double.parseDouble(elemPrecio.getTextContent());
+                double precioNuevo = precioActual * 1.10; // Incremento del 10%
+                elemPrecio.setTextContent(String.format("%.2f", precioNuevo).replace(',', '.'));
+            }
+        }
+
+        // Guardamos las modificaciones sobre el mismo archivo
+        Transformer tf = TransformerFactory.newInstance().newTransformer();
+        tf.setOutputProperty(OutputKeys.INDENT, "yes");
+        tf.transform(new DOMSource(doc), new StreamResult(origen));
+        System.out.println("✅ Precios actualizados en disco tras modificación en RAM.");
+    }
+}</code></pre>
+    </div>
+
+    <!-- MANERA 2: SAX -->
+    <h4>B. Manera 2: SAX (Simple API for XML)</h4>
     <p>
-      <strong>Concepto</strong>: Permite vincular directamente clases Java (POJOs) con estructuras de etiquetas XML mediante anotaciones, eliminando la necesidad de programar manualmente recorridos por árboles o bucles de nodos.
+      <strong>Concepto</strong>: Analizador unidireccional y reactivo (*Push*). No construye ningún árbol en memoria; lee secuencialmente de arriba hacia abajo y dispara eventos que son procesados por los métodos de una clase que hereda de <code>DefaultHandler</code>. Es el estándar para archivos de cientos de megabytes o gigabytes donde DOM agotaría la memoria RAM.
     </p>
-    <ul>
-      <li><code>@XmlRootElement(name = "catalogo")</code>: Marca la clase que representa el elemento raíz del XML.</li>
-      <li><code>@XmlElement(name = "articulo")</code>: Asocia un campo con una etiqueta hija.</li>
-      <li><code>@XmlAttribute(name = "id")</code>: Guarda el atributo como parte de la etiqueta XML.</li>
-      <li><strong>Marshalling</strong>: Objeto Java $\longrightarrow$ Documento XML (usando <code>Marshaller.marshal()</code>).</li>
-      <li><strong>Unmarshalling</strong>: Documento XML $\longrightarrow$ Objeto Java (usando <code>Unmarshaller.unmarshal()</code>).</li>
-    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Método Callback (<code>DefaultHandler</code>)</th>
+          <th>Parámetros</th>
+          <th>Cuándo se dispara y qué labor realizar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>startDocument()</code></td>
+          <td>Ninguno</td>
+          <td>Se ejecuta exactamente una vez al comenzar a leer el archivo XML. Ideal para resetear listas y acumuladores.</td>
+        </tr>
+        <tr>
+          <td><code>startElement(uri, localName, qName, attributes)</code></td>
+          <td><code>String uri, localName, qName, Attributes attributes</code></td>
+          <td><strong>Se dispara al encontrar una etiqueta de apertura</strong> (ej. <code>&lt;producto id="P-100"&gt;</code>). <code>qName</code> da el nombre de la etiqueta. Se leen atributos con <code>attributes.getValue("id")</code> y se limpia el acumulador de texto.</td>
+        </tr>
+        <tr>
+          <td><code>characters(char[] ch, int start, int length)</code></td>
+          <td><code>char[] ch, int start, int length</code></td>
+          <td><strong>Se dispara cuando lee texto dentro de una etiqueta.</strong> ⚠️ *¡Atención!* El parser puede llamar a este método varias veces seguidas para un mismo texto; **es obligatorio acumularlo con <code>StringBuilder.append()</code>**.</td>
+        </tr>
+        <tr>
+          <td><code>endElement(uri, localName, qName)</code></td>
+          <td><code>String uri, localName, qName</code></td>
+          <td><strong>Se dispara al encontrar la etiqueta de cierre</strong> (ej. <code>&lt;/producto&gt;</code>). Momento en el que se extrae el texto del acumulador, se parsea a su tipo y se añade a la colección o informe.</td>
+        </tr>
+        <tr>
+          <td><code>endDocument()</code></td>
+          <td>Ninguno</td>
+          <td>Se ejecuta al finalizar completamente el documento. Ideal para imprimir estadísticas o cerrar bases de datos.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-card">
+      <div class="code-header">
+        <span>AnalizadorCatalogoSAX.java</span>
+        <span class="lang">JAVA 21</span>
+      </div>
+      <pre><code>import java.io.File;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class AnalizadorCatalogoSAX {
+    public static void procesarConSAX(File archivoXml) throws Exception {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser saxParser = factory.newSAXParser();
+
+        DefaultHandler handler = new DefaultHandler() {
+            private StringBuilder sb = new StringBuilder();
+            private String idActual;
+            private double precioActual;
+            private boolean dentroDePrecio = false;
+
+            @Override
+            public void startElement(String uri, String localName, String qName, Attributes atts) {
+                sb.setLength(0); // Limpiamos acumulador
+                if (qName.equalsIgnoreCase("producto")) {
+                    idActual = atts.getValue("id");
+                } else if (qName.equalsIgnoreCase("precio")) {
+                    dentroDePrecio = true;
+                }
+            }
+
+            @Override
+            public void characters(char[] ch, int start, int length) {
+                sb.append(ch, start, length); // Acumulación estricta de caracteres
+            }
+
+            @Override
+            public void endElement(String uri, String localName, String qName) {
+                if (qName.equalsIgnoreCase("precio") && dentroDePrecio) {
+                    precioActual = Double.parseDouble(sb.toString().trim());
+                    dentroDePrecio = false;
+                } else if (qName.equalsIgnoreCase("producto")) {
+                    System.out.printf("⚡ [SAX Event] Producto ID: %s | Precio: %.2f €%n", idActual, precioActual);
+                }
+            }
+        };
+
+        System.out.println("Iniciando análisis SAX con 0 MB de consumo de árbol:");
+        saxParser.parse(archivoXml, handler);
+    }
+}</code></pre>
+    </div>
+
+    <!-- MANERA 3: STAX -->
+    <h4>C. Manera 3: StAX (Streaming API for XML - Pull Parsing)</h4>
+    <p>
+      <strong>Concepto</strong>: A diferencia de SAX (donde el parser te empuja eventos de forma ininterrumpida), en StAX **el programador tiene el control del bucle** mediante un cursor iterativo (<code>XMLStreamReader</code> para lectura y <code>XMLStreamWriter</code> para escritura). Permite detener la lectura con un <code>break</code> cuando se encuentra el dato buscado, ahorrando tiempo de CPU.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Instrucción / Método</th>
+          <th>Clase</th>
+          <th>Retorno</th>
+          <th>Qué hace exactamente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>reader.hasNext()</code></td>
+          <td><code>XMLStreamReader</code></td>
+          <td><code>boolean</code></td>
+          <td>Comprueba si quedan más eventos por procesar en el flujo del fichero.</td>
+        </tr>
+        <tr>
+          <td><code>reader.next()</code></td>
+          <td><code>XMLStreamReader</code></td>
+          <td><code>int</code></td>
+          <td><strong>Avanza el cursor al siguiente token</strong> y devuelve su tipo (<code>START_ELEMENT</code>, <code>CHARACTERS</code>, <code>END_ELEMENT</code>).</td>
+        </tr>
+        <tr>
+          <td><code>reader.getLocalName()</code></td>
+          <td><code>XMLStreamReader</code></td>
+          <td><code>String</code></td>
+          <td>Retorna el nombre de la etiqueta XML sobre la que está posicionado el cursor.</td>
+        </tr>
+        <tr>
+          <td><code>reader.getElementText()</code></td>
+          <td><code>XMLStreamReader</code></td>
+          <td><code>String</code></td>
+          <td>**Consume automáticamente** el texto interior de la etiqueta hasta su cierre.</td>
+        </tr>
+        <tr>
+          <td><code>reader.getAttributeValue(null, "id")</code></td>
+          <td><code>XMLStreamReader</code></td>
+          <td><code>String</code></td>
+          <td>Lee de forma directa el valor del atributo especificado.</td>
+        </tr>
+        <tr>
+          <td><code>writer.writeStartDocument("UTF-8", "1.0")</code></td>
+          <td><code>XMLStreamWriter</code></td>
+          <td><code>void</code></td>
+          <td>Escribe la cabecera estándar de prólogo XML.</td>
+        </tr>
+        <tr>
+          <td><code>writer.writeStartElement("producto")</code></td>
+          <td><code>XMLStreamWriter</code></td>
+          <td><code>void</code></td>
+          <td>Escribe la etiqueta de apertura <code>&lt;producto&gt;</code>.</td>
+        </tr>
+        <tr>
+          <td><code>writer.writeAttribute("id", "P-100")</code></td>
+          <td><code>XMLStreamWriter</code></td>
+          <td><code>void</code></td>
+          <td>Inserta un atributo en la etiqueta que se encuentra abierta.</td>
+        </tr>
+        <tr>
+          <td><code>writer.writeCharacters("Texto")</code></td>
+          <td><code>XMLStreamWriter</code></td>
+          <td><code>void</code></td>
+          <td>Inserta texto plano dentro de la etiqueta.</td>
+        </tr>
+        <tr>
+          <td><code>writer.writeEndElement()</code></td>
+          <td><code>XMLStreamWriter</code></td>
+          <td><code>void</code></td>
+          <td>Cierra la última etiqueta abierta (ej. <code>&lt;/producto&gt;</code>).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-card">
+      <div class="code-header">
+        <span>LectorStAXPull.java</span>
+        <span class="lang">JAVA 21</span>
+      </div>
+      <pre><code>import java.io.FileInputStream;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+
+public class LectorStAXPull {
+    public static void buscarProductoPorId(String rutaXml, String idBuscado) throws Exception {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        try (FileInputStream fis = new FileInputStream(rutaXml)) {
+            XMLStreamReader reader = factory.createXMLStreamReader(fis);
+
+            while (reader.hasNext()) {
+                int evento = reader.next();
+                if (evento == XMLStreamConstants.START_ELEMENT) {
+                    if ("producto".equalsIgnoreCase(reader.getLocalName())) {
+                        String id = reader.getAttributeValue(null, "id");
+                        if (idBuscado.equals(id)) {
+                            System.out.println("🎯 Producto encontrado con StAX: " + id);
+                            break; // ¡VENTAJA DE STAX!: Detenemos el parseo inmediatamente sin leer el resto
+                        }
+                    }
+                }
+            }
+            reader.close();
+        }
+    }
+}</code></pre>
+    </div>
+
+    <!-- MANERA 4: JAXB -->
+    <h4>D. Manera 4: JAXB (Jakarta XML Binding)</h4>
+    <p>
+      <strong>Concepto</strong>: Tecnología de enlace declarativo. Asocia clases POJO con etiquetas XML mediante anotaciones en el código Java. Elimina por completo la necesidad de navegar por árboles de nodos o controlar cursores:
+      <br>• <strong>Marshaller</strong>: Convierte un Objeto Java en un archivo XML (Java $\longrightarrow$ XML).
+      <br>• <strong>Unmarshaller</strong>: Convierte un archivo XML en un Objeto Java en RAM (XML $\longrightarrow$ Java).
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Anotación / Instrucción</th>
+          <th>Dónde se ubica</th>
+          <th>Qué hace exactamente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>@XmlRootElement(name = "catalogo")</code></td>
+          <td>Sobre la clase</td>
+          <td>Define la clase como el <strong>elemento raíz de todo el documento XML</strong>.</td>
+        </tr>
+        <tr>
+          <td><code>@XmlElement(name = "producto")</code></td>
+          <td>Sobre atributo o getter</td>
+          <td>Asocia la propiedad con una etiqueta XML hija interior.</td>
+        </tr>
+        <tr>
+          <td><code>@XmlAttribute(name = "id")</code></td>
+          <td>Sobre atributo o getter</td>
+          <td>Guarda la propiedad como un atributo dentro de la etiqueta.</td>
+        </tr>
+        <tr>
+          <td><code>@XmlTransient</code></td>
+          <td>Sobre atributo o getter</td>
+          <td><strong>Excluye el campo</strong>: no se exportará ni leerá del XML.</td>
+        </tr>
+        <tr>
+          <td><code>@XmlElementWrapper(name = "lista")</code></td>
+          <td>Sobre colecciones (<code>List</code>)</td>
+          <td>Crea una etiqueta contenedora envolvente alrededor de los elementos de la lista.</td>
+        </tr>
+        <tr>
+          <td><code>JAXBContext.newInstance(Clase.class)</code></td>
+          <td>Factoría</td>
+          <td>Construye el contexto JAXB analizando las anotaciones reflectivas de la clase raíz.</td>
+        </tr>
+        <tr>
+          <td><code>marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)</code></td>
+          <td><code>Marshaller</code></td>
+          <td>Activa la sangría y los saltos de línea automáticos en el XML resultante.</td>
+        </tr>
+        <tr>
+          <td><code>marshaller.marshal(objeto, file)</code></td>
+          <td><code>Marshaller</code></td>
+          <td><strong>Vuelca el objeto Java en el archivo XML físico en disco.</strong></td>
+        </tr>
+        <tr>
+          <td><code>unmarshaller.unmarshal(file)</code></td>
+          <td><code>Unmarshaller</code></td>
+          <td><strong>Lee el XML y devuelve la instancia Java poblada con todos sus datos.</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-card">
+      <div class="code-header">
+        <span>ArticuloJAXB.java & GestorJAXB.java</span>
+        <span class="lang">JAVA 21</span>
+      </div>
+      <pre><code>import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
+import java.io.File;
+
+@XmlRootElement(name = "articulo")
+@XmlType(propOrder = { "nombre", "precio" })
+class Articulo {
+    private String id;
+    private String nombre;
+    private double precio;
+
+    // CONSTRUCTOR VACÍO OBLIGATORIO para que JAXB pueda instanciar la clase por reflexión
+    public Articulo() {}
+
+    public Articulo(String id, String nombre, double precio) {
+        this.id = id; this.nombre = nombre; this.precio = precio;
+    }
+
+    @XmlAttribute(name = "id")
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    @XmlElement(name = "denominacion")
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    @XmlElement(name = "pvp")
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+}
+
+public class GestorJAXB {
+    public static void main(String[] args) throws Exception {
+        File destino = new File("datos/articulo_jaxb.xml");
+        JAXBContext ctx = JAXBContext.newInstance(Articulo.class);
+
+        // 1. MARSHALLING: Java -> XML
+        Marshaller m = ctx.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // Sangría bonita
+        Articulo art = new Articulo("ART-99", "Impresora Láser", 189.50);
+        m.marshal(art, destino);
+        System.out.println("✅ XML generado con Marshaller.");
+
+        // 2. UNMARSHALLING: XML -> Java
+        Unmarshaller u = ctx.createUnmarshaller();
+        Articulo recuperado = (Articulo) u.unmarshal(destino);
+        System.out.println("📥 Objeto recuperado: " + recuperado.getNombre() + " (" + recuperado.getPrecio() + " €)");
+    }
+}</code></pre>
+    </div>
+
+    <div class="callout callout-activity">
+      <div class="callout-header">💻 Trabajo Síncrono en Aula: Actividades 3.1, 3.2, 3.3 y 3.4</div>
+      <p>
+        Abre tu IDE y completa el Bloque 3 del <strong>Cuaderno de Aula</strong>: practica la navegación y volcado con DOM (3.1 y 3.2), la ingesta masiva sin RAM con SAX (3.3) y el mapeo POJO anotado con JAXB (3.4).
+      </p>
+    </div>
   </section>
 
   <div class="page-break"></div>

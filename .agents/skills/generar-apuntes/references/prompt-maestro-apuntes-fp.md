@@ -81,6 +81,14 @@ Desarrolla **todos** los contenidos relevantes de la unidad de forma exhaustiva 
 Cada concepto, tecnología o API nueva que se introduzca debe desarrollarse obligatoriamente siguiendo la secuencia de 4 fases:
 $$\mathbf{Concepto \longrightarrow Explicación \ Detallada \longrightarrow Ejemplo \ de \ Código \ Documentado \longrightarrow Aplicación \ Práctica \ Real}$$
 
+> 📌 **REGLA METODOLÓGICA DE FICHA DE INSTRUCCIÓN / MÉTODO (OBLIGATORIA)**:
+> Para cada herramienta, clase o tecnología abordada (ej. `ObjectOutputStream`, `RandomAccessFile`, `DocumentBuilder`, `Transformer`, `SAXParser`, `JAXB`, etc.), no te limites a mencionarla o resumirla. **Debes proporcionar la lista completa de todas las instrucciones y métodos esenciales que se necesitan para trabajar con ella.**
+> Para cada instrucción o método, debes:
+> 1. **Definir con precisión qué hace**: Explicar qué ocurre exactamente a bajo nivel en memoria RAM o en el disco físico.
+> 2. **Especificar parámetros y retorno**: Qué recibe y qué devuelve (o qué excepciones lanza).
+> 3. **Aportar un ejemplo de código Java didáctico**: Un fragmento de código claro, funcional y comentado donde se vea la instrucción en acción.
+> 4. **Explicar el funcionamiento paso a paso**: Guiar al alumno para que entienda el flujo de ejecución de la instrucción.
+
 ### 4. Ejemplos prácticos
 Incluye ejemplos suficientes para que el alumno pueda ver cómo se aplica la teoría.
 Los ejemplos deben aumentar progresivamente de dificultad:

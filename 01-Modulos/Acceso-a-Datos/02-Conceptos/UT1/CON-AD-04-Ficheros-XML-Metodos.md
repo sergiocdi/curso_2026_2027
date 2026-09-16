@@ -16,151 +16,136 @@ estado: revisado
 
 ## 👨‍🏫 Introducción del Profesor: El Ecosistema XML en Java
 
-El formato **XML (eXtensible Markup Language)** ha sido durante décadas el estándar de facto para la configuración de servidores empresariales, intercambio de información entre sistemas heterogéneos (servicios SOAP) y almacenamiento de documentos estructurados con metadatos.
+El formato **XML (eXtensible Markup Language)** es un estándar universal estructurado, independiente de plataforma y legible tanto por personas como por sistemas. Es el formato oficial para intercambio tributario (Facturae), mensajería interbancaria (SEPA ISO 20022), servicios web SOAP y configuraciones empresariales complejas.
 
-A diferencia del texto plano no estructurado o de los ficheros binarios propietarios, el XML ofrece:
-1. **Auto-descriptividad**: Etiquetas semánticas comprensibles por humanos y máquinas.
-2. **Jerarquía estricta en árbol**: Elemento raíz único, elementos anidados y atributos.
-3. **Independencia absoluta**: Neutral respecto al sistema operativo, lenguaje y arquitectura.
-
-En el currículo de 2º DAM debemos responder a una pregunta clave:
-**¿Qué tecnología de Java debemos escoger según el tamaño del archivo y las necesidades del proyecto?**
-A lo largo de este tema exploraremos las cuatro maneras esenciales de trabajar con XML:
-- **DOM**: El árbol completo en memoria RAM (ideal para modificar, consultar libremente o generar XMLs medianos).
-- **SAX**: Lectura reactiva orientada a eventos *Push* (ideal para extraer datos de archivos masivos con mínimo consumo de RAM).
-- **StAX**: Lectura orientada a flujo *Pull* mediante cursor/iterador (control total en el hilo del programador).
-- **JAXB**: Mapeo declarativo Objeto-Relacional/XML con anotaciones (la vía más limpia y orientada a POO).
+En Java existen cuatro tecnologías fundamentales para su tratamiento. Cada una responde a una necesidad técnica concreta:
+1. **DOM**: Carga el árbol completo en memoria RAM. Ideal para consultar, modificar y generar XMLs pequeños y medianos (< 20 MB).
+2. **SAX**: Parser unidireccional reactivo (*Push*). Ideal para extraer información de ficheros gigantescos (gigabytes) con consumo de RAM plano.
+3. **StAX**: Parser por flujo controlado por el programador (*Pull*). Permite detener la lectura o escribir XMLs de forma iterativa y eficiente.
+4. **JAXB**: Mapeo declarativo Objeto-XML mediante anotaciones POJO. Elimina la manipulación manual de nodos.
 
 ---
 
-## 🌳 1. Manera 1: DOM (Document Object Model)
+## 🌳 1. Manera 1: DOM (Document Object Model) y `Transformer`
 
-### 1.1 Fundamentos y Arquitectura en Memoria
-El procesador DOM lee el documento XML completo desde disco y construye en la memoria RAM una estructura de datos idéntica: un **árbol jerárquico de nodos** (`org.w3c.dom.*`).
-- Todo es un nodo (`Node`).
+### 1.1 Arquitectura del Árbol en Memoria
+DOM convierte todo el archivo XML en una estructura de nodos en memoria RAM (`org.w3c.dom.*`):
 - El documento completo es un `Document`.
 - Las etiquetas son `Element`.
-- Los valores dentro de las etiquetas son nodos de texto `Text`.
+- El texto dentro de las etiquetas son nodos hijos `Text`.
 - Los parámetros dentro de las etiquetas son `Attr`.
 
-```
-          <concesionario>               <- Elemento Raíz (DocumentElement)
-             /          \
-      <coche id="1">   <coche id="2">   <- Elementos Hijos
-        /        \
-    <marca>     <precio>               <- Elementos Nieto
-      |            |
-   "Toyota"     "24500"                <- Nodos Text (#text)
-```
+### 🛠️ Ficha Técnica de Instrucciones de DOM (Lectura y Navegación)
 
-> [!WARNING]
-> **La trampa de los nodos `#text` (espacios y saltos de línea)**:
-> En XML, los saltos de línea y tabuladores entre etiquetas son interpretados por el parser DOM como nodos de texto (`#text`) con espacios en blanco. Si recorres los hijos con `nodo.getChildNodes()`, te toparás con nodos de texto vacíos.
-> **Solución de aula**: Comprobar siempre `if (nodo.getNodeType() == Node.ELEMENT_NODE)` y llamar a `doc.getDocumentElement().normalize()` inmediatamente tras el parseo.
+| Instrucción / Método | Parámetros | Retorno | Qué hace exactamente a bajo nivel |
+| :--- | :--- | :--- | :--- |
+| `DocumentBuilderFactory.newInstance()` | Ninguno | Factoría | Crea la factoría proveedora de parsers DOM de la JVM. |
+| `factory.newDocumentBuilder()` | Ninguno | `DocumentBuilder` | Construye el parser DOM concreto. |
+| `builder.parse(File f)` | `File f` | `Document` | **Lee el archivo entero y construye el árbol completo de objetos en RAM.** |
+| `doc.getDocumentElement()` | Ninguno | `Element` | Obtiene el nodo raíz principal del documento XML. |
+| `doc.normalize()` | Ninguno | `void` | **Unifica y limpia el árbol**: fusiona nodos de texto fragmentados y elimina espacios adyacentes. |
+| `elem.getElementsByTagName(String tag)` | `String tag` | `NodeList` | Busca de forma recursiva todos los elementos con esa etiqueta. |
+| `nodeList.getLength()` | Ninguno | `int` | Devuelve cuántos nodos contiene la lista. |
+| `nodeList.item(int index)` | `int index` | `Node` | Retorna el nodo situado en esa posición (base 0). |
+| `node.getNodeType()` | Ninguno | `short` | Devuelve el tipo de nodo (`Node.ELEMENT_NODE == 1`, `Node.TEXT_NODE == 3`). |
+| `elem.getAttribute(String name)` | `String name` | `String` | Retorna el valor del atributo dentro de la etiqueta. |
+| `node.getTextContent()` | Ninguno | `String` | Devuelve el texto contenido dentro de la etiqueta y de todos sus hijos. |
 
-### 1.2 Lectura y Consulta con DOM
-```java
-import java.io.File;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.*;
+---
 
-public class LectorDOM {
-    public static void leerCatalogo(File ficheroXml) {
-        try {
-            // 1. Crear factoría y constructor
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+### 🛠️ Ficha Técnica de Instrucciones de DOM (Creación, Modificación y Volcado)
 
-            // 2. Parsear el archivo al árbol DOM en memoria
-            Document doc = builder.parse(ficheroXml);
-            doc.getDocumentElement().normalize(); // Limpia nodos de texto huérfanos
+| Instrucción / Método | Parámetros | Retorno | Qué hace exactamente |
+| :--- | :--- | :--- | :--- |
+| `builder.newDocument()` | Ninguno | `Document` | Crea un árbol XML nuevo y completamente vacío en memoria RAM. |
+| `doc.createElement(String tag)` | `String tag` | `Element` | **Crea una etiqueta nueva** asociada a la factoría del documento. |
+| `elem.setAttribute(String k, String v)` | `String k, String v` | `void` | Añade o modifica un atributo en la etiqueta. |
+| `elem.setTextContent(String text)` | `String text` | `void` | Asigna el texto interior de la etiqueta creando su nodo `Text` hijo. |
+| `nodoPadre.appendChild(Node hijo)` | `Node hijo` | `Node` | **Engancha el nuevo nodo** al final de la lista de hijos del padre. |
+| `nodoPadre.removeChild(Node hijo)` | `Node hijo` | `Node` | Desvincula y elimina el nodo hijo del árbol en memoria. |
+| `TransformerFactory.newInstance()` | Ninguno | Factoría | Crea la factoría para construir el serializador XML a disco. |
+| `tfFactory.newTransformer()` | Ninguno | `Transformer` | Instancia el motor de transformación XSLT/XML. |
+| `tf.setOutputProperty(key, value)` | `String k, String v` | `void` | Configura el volcado: `OutputKeys.INDENT = "yes"` para sangría y `{http://xml.apache.org/xslt}indent-amount = "4"`. |
+| `tf.transform(Source src, Result res)` | `DOMSource, StreamResult` | `void` | **Vuelca físicamente el árbol DOM de la RAM al fichero en disco.** |
 
-            System.out.println("Elemento Raíz: " + doc.getDocumentElement().getNodeName());
+---
 
-            // 3. Buscar todos los elementos de tipo <vehiculo>
-            NodeList listaVehiculos = doc.getElementsByTagName("vehiculo");
-
-            for (int i = 0; i < listaVehiculos.getLength(); i++) {
-                Node nodo = listaVehiculos.item(i);
-                if (nodo.getNodeType() == Node.ELEMENT_NODE) {
-                    Element elemento = (Element) nodo;
-                    String matricula = elemento.getAttribute("matricula");
-                    String marca = elemento.getElementsByTagName("marca").item(0).getTextContent();
-                    String modelo = elemento.getElementsByTagName("modelo").item(0).getTextContent();
-                    double precio = Double.parseDouble(elemento.getElementsByTagName("precio").item(0).getTextContent());
-
-                    System.out.printf("  🚗 [%s] %s %s - %.2f €%n", matricula, marca, modelo, precio);
-                }
-            }
-        } catch (Exception e) {
-            System.err.println("Error al parsear DOM: " + e.getMessage());
-        }
-    }
-}
-```
-
-### 1.3 Creación y Escritura de XML con DOM y `Transformer`
-Para generar un nuevo archivo XML desde Java:
-1. Creamos un `Document` vacío con `builder.newDocument()`.
-2. Añadimos el elemento raíz con `doc.createElement()` y `doc.appendChild()`.
-3. Construimos los hijos, asignamos atributos con `setAttribute()` y texto con `setTextContent()`.
-4. Volcamos el árbol en disco usando `TransformerFactory` y `Transformer` con salida formateada.
+### 💻 Ejemplo Completo de DOM: Creación y Lectura con Explicación
 
 ```java
+package es.cifpaviles.ad.ut1.xml;
+
 import java.io.File;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.w3c.dom.*;
 
-public class GeneradorDOM {
-    public static void exportarCatalogo(File destino) {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
+public class EjemploDOMCompleto {
 
-            // Raíz: <concesionario>
-            Element raiz = doc.createElement("concesionario");
-            doc.appendChild(raiz);
+    private static final String RUTA_XML = "datos/catalogo_coches.xml";
 
-            // Hijo 1: <vehiculo matricula="9823-XYZ">
-            Element vehiculo = doc.createElement("vehiculo");
-            vehiculo.setAttribute("matricula", "9823-XYZ");
+    public static void main(String[] args) throws Exception {
+        crearXmlConDOM();
+        leerXmlConDOM();
+    }
 
-            Element marca = doc.createElement("marca");
-            marca.setTextContent("Seat");
-            vehiculo.appendChild(marca);
+    public static void crearXmlConDOM() throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.newDocument(); // Documento vacío en RAM
 
-            Element modelo = doc.createElement("modelo");
-            modelo.setTextContent("León");
-            vehiculo.appendChild(modelo);
+        // 1. Crear elemento raíz: <concesionario>
+        Element raiz = doc.createElement("concesionario");
+        doc.appendChild(raiz);
 
-            Element precio = doc.createElement("precio");
-            precio.setTextContent("19500.00");
-            vehiculo.appendChild(precio);
+        // 2. Crear coche 1 con atributo matricula y etiquetas hijas
+        Element coche1 = doc.createElement("coche");
+        coche1.setAttribute("matricula", "1234-ABC");
 
-            raiz.appendChild(vehiculo);
+        Element marca1 = doc.createElement("marca");
+        marca1.setTextContent("Toyota");
+        coche1.appendChild(marca1);
 
-            // Volcado a disco físico con indentación bonita (pretty print)
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        Element precio1 = doc.createElement("precio");
+        precio1.setTextContent("24500.00");
+        coche1.appendChild(precio1);
 
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(destino);
-            transformer.transform(source, result);
+        raiz.appendChild(coche1); // Colgamos el coche de la raíz
 
-            System.out.println("✅ Archivo XML generado con DOM correctamente.");
-        } catch (Exception e) {
-            System.err.println("Error al generar XML: " + e.getMessage());
+        // 3. Volcado formateado a disco con Transformer
+        Transformer tf = TransformerFactory.newInstance().newTransformer();
+        tf.setOutputProperty(OutputKeys.INDENT, "yes");
+        tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
+        tf.transform(new DOMSource(doc), new StreamResult(new File(RUTA_XML)));
+        System.out.println("✅ Archivo XML creado con DOM y Transformer en: " + RUTA_XML);
+    }
+
+    public static void leerXmlConDOM() throws Exception {
+        File f = new File(RUTA_XML);
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = builder.parse(f);
+
+        doc.getDocumentElement().normalize(); // Limpieza obligatoria de espacios adyacentes
+        System.out.println("\n🌳 Leyendo árbol DOM desde RAM (Raíz: " + doc.getDocumentElement().getNodeName() + "):");
+
+        NodeList listaCoches = doc.getElementsByTagName("coche");
+
+        for (int i = 0; i < listaCoches.getLength(); i++) {
+            Node nodo = listaCoches.item(i);
+
+            // FILTRADO ESTRICTO: Ignorar nodos de texto vacíos (#text)
+            if (nodo.getNodeType() == Node.ELEMENT_NODE) {
+                Element elemCoche = (Element) nodo;
+                String matricula = elemCoche.getAttribute("matricula");
+                String marca = elemCoche.getElementsByTagName("marca").item(0).getTextContent();
+                double precio = Double.parseDouble(elemCoche.getElementsByTagName("precio").item(0).getTextContent());
+
+                System.out.printf("  🚗 Coche [%s] Marca: %-10s | Precio: %.2f €%n",
+                                  matricula, marca, precio);
+            }
         }
     }
 }
@@ -171,18 +156,26 @@ public class GeneradorDOM {
 ## ⚡ 2. Manera 2: SAX (Simple API for XML)
 
 ### 2.1 El Modelo Orientado a Eventos (Push Parsing)
-¿Qué ocurre si la Agencia Tributaria o una aseguradora nos envía un archivo XML de **8 Gigabytes** con millones de facturas?
-Si intentamos cargarlo con DOM, la aplicación colapsará inmediatamente con `OutOfMemoryError`, ya que DOM multiplica por 4 o 5 el tamaño del archivo en memoria RAM.
+Para ficheros masivos de varios gigabytes (facturación, censos), DOM es inviable porque colapsa la memoria con `OutOfMemoryError`.
+**SAX lee secuencialmente hacia adelante como una cinta transportadora**. Dispara eventos que son atendidos por la clase `DefaultHandler`.
 
-**SAX** es la solución:
-- No almacena nada en memoria.
-- Lee el archivo secuencialmente desde el primer byte hasta el último.
-- A medida que se encuentra etiquetas, dispara **callbacks (eventos)** que el programador atiende en una clase que hereda de `org.xml.sax.helpers.DefaultHandler`:
-  - `startElement(...)`: Se dispara al abrir una etiqueta (ej. `<vehiculo matricula="...">`).
-  - `characters(...)`: Se dispara cuando lee texto dentro de una etiqueta.
-  - `endElement(...)`: Se dispara al cerrar una etiqueta (ej. `</vehiculo>`).
+### 🛠️ Ficha Técnica de Callbacks de `DefaultHandler`
+
+| Método Callback | Parámetros | Cuándo se dispara y qué hacer en él |
+| :--- | :--- | :--- |
+| `startDocument()` | Ninguno | Se dispara una sola vez al inicio del archivo. Ideal para inicializar contadores y colecciones. |
+| `startElement(...)` | `uri, localName, qName, attributes` | **Se dispara al encontrar una etiqueta de apertura** (ej. `<coche matricula="...">`). `qName` contiene el nombre de la etiqueta y `attributes.getValue("nombre")` lee los atributos. Se debe limpiar el acumulador de texto. |
+| `characters(...)` | `char[] ch, int start, int length` | **Se dispara cuando lee texto dentro de la etiqueta.** ⚠️ *¡Atención!* El parser puede llamar a este método varias veces seguidas para un mismo texto; **es obligatorio acumular con `StringBuilder.append()`**. |
+| `endElement(...)` | `uri, localName, qName` | **Se dispara al encontrar la etiqueta de cierre** (ej. `</coche>`). Es el momento de extraer el texto acumulado del `StringBuilder`, parsearlo y procesar la entidad. |
+| `endDocument()` | Ninguno | Se dispara al terminar de leer todo el documento XML. Ideal para emitir informes finales. |
+
+---
+
+### 💻 Ejemplo Completo de SAX con Acumulador de Texto Seguro
 
 ```java
+package es.cifpaviles.ad.ut1.xml;
+
 import java.io.File;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -190,58 +183,55 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class LectorSAX {
+public class EjemploSAXCompleto {
 
-    // Clase manejadora de eventos
-    private static class CatalogoHandler extends DefaultHandler {
-        private StringBuilder bufferTexto = new StringBuilder();
-        private String matriculaActual;
-        private String marcaActual;
-        private String modeloActual;
-        private double precioActual;
+    public static void main(String[] args) throws Exception {
+        File f = new File("datos/catalogo_coches.xml");
 
-        @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) {
-            bufferTexto.setLength(0); // Limpiamos el buffer acumulador de texto
-            if ("vehiculo".equalsIgnoreCase(qName)) {
-                matriculaActual = attributes.getValue("matricula");
-            }
-        }
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser saxParser = factory.newSAXParser();
 
-        @Override
-        public void characters(char[] ch, int start, int length) {
-            // El parser puede llamar a characters() varias veces para un mismo texto, por eso acumulamos
-            bufferTexto.append(ch, start, length);
-        }
+        ManejadorCochesSAX handler = new ManejadorCochesSAX();
+        System.out.println("⚡ Iniciando parseo reactivo SAX sin consumo de RAM:");
+        saxParser.parse(f, handler);
+    }
+}
 
-        @Override
-        public void endElement(String uri, String localName, String qName) {
-            String valor = bufferTexto.toString().trim();
-            switch (qName.toLowerCase()) {
-                case "marca":
-                    marcaActual = valor;
-                    break;
-                case "modelo":
-                    modeloActual = valor;
-                    break;
-                case "precio":
-                    precioActual = Double.parseDouble(valor);
-                    break;
-                case "vehiculo":
-                    System.out.printf("⚡ [SAX Event] Coche %s: %s %s - %.2f €%n",
-                            matriculaActual, marcaActual, modeloActual, precioActual);
-                    break;
-            }
+class ManejadorCochesSAX extends DefaultHandler {
+
+    private StringBuilder bufferTexto = new StringBuilder();
+    private String matriculaActual;
+    private String marcaActual;
+    private double precioActual;
+
+    @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        bufferTexto.setLength(0); // Vaciamos el acumulador al entrar en cualquier etiqueta
+
+        if (qName.equalsIgnoreCase("coche")) {
+            // Leemos el atributo usando attributes.getValue()
+            matriculaActual = attributes.getValue("matricula");
         }
     }
 
-    public static void parsear(File archivoXml) {
-        try {
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-            saxParser.parse(archivoXml, new CatalogoHandler());
-        } catch (Exception e) {
-            System.err.println("Error procesando SAX: " + e.getMessage());
+    @Override
+    public void characters(char[] ch, int start, int length) {
+        // Acumulamos los caracteres en el buffer (no asumir una sola llamada)
+        bufferTexto.append(ch, start, length);
+    }
+
+    @Override
+    public void endElement(String uri, String localName, String qName) {
+        String texto = bufferTexto.toString().trim();
+
+        if (qName.equalsIgnoreCase("marca")) {
+            marcaActual = texto;
+        } else if (qName.equalsIgnoreCase("precio")) {
+            precioActual = Double.parseDouble(texto);
+        } else if (qName.equalsIgnoreCase("coche")) {
+            // Fin del elemento coche: mostramos los datos consolidados
+            System.out.printf("  [SAX Event] Coche procesado -> Matrícula: %s | Marca: %s | Precio: %.2f €%n",
+                              matriculaActual, marcaActual, precioActual);
         }
     }
 }
@@ -249,51 +239,63 @@ public class LectorSAX {
 
 ---
 
-## 🧭 3. Manera 3: StAX (Streaming API for XML - Pull Parsing)
+## 🎛️ 3. Manera 3: StAX (Streaming API for XML - Pull Parsing)
 
-Mientras que SAX es *Push* (el parser tiene el control y empuja eventos a tu `DefaultHandler`), **StAX** es *Pull*: el programador tiene el control del bucle de ejecución y pide el siguiente evento cuando lo necesita (`reader.next()`).
+### 3.1 Control Total del Bucle (Pull vs Push)
+A diferencia de SAX (donde el parser te "empuja" eventos cuando él quiere), en StAX **el programador tiene el control del bucle mediante un cursor iterativo** (`XMLStreamReader` y `XMLStreamWriter`). Permite detener la lectura en cualquier momento con un simple `break`.
 
-### Ventajas de StAX
-1. Es bidireccional: incluye `XMLStreamReader` (lectura ultrarrápida) y `XMLStreamWriter` (escritura directa a disco sin crear nodos en memoria).
-2. Permite detener la lectura en cualquier momento cuando ya hemos encontrado lo que buscábamos (`break`), cosa que en SAX es muy engorrosa.
+### 🛠️ Ficha Técnica de Instrucciones de StAX (Lectura con `XMLStreamReader`)
+
+| Instrucción / Método | Retorno | Qué hace exactamente |
+| :--- | :---: | :--- |
+| `reader.hasNext()` | `boolean` | Comprueba si quedan más eventos/tokens por procesar en el flujo. |
+| `reader.next()` | `int` | **Avanza el cursor al siguiente evento** y devuelve su código entero (`START_ELEMENT`, `CHARACTERS`, `END_ELEMENT`). |
+| `reader.getEventType()` | `int` | Consulta el código del evento actual donde está posicionado el cursor. |
+| `reader.getLocalName()` | `String` | Retorna el nombre de la etiqueta (`coche`, `marca`, etc.). |
+| `reader.getAttributeValue(null, name)` | `String` | Lee directamente el valor del atributo indicado sin recorrer listas. |
+| `reader.getElementText()` | `String` | **Lee directamente todo el texto interior** de la etiqueta actual hasta su cierre. |
+
+---
+
+### 💻 Ejemplo Completo de Lectura con StAX (Pull)
 
 ```java
+package es.cifpaviles.ad.ut1.xml;
+
 import java.io.FileInputStream;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
-public class LectorStAX {
-    public static void leerPrecios(String ruta) {
+public class EjemploStAXPull {
+
+    public static void main(String[] args) throws Exception {
         XMLInputFactory factory = XMLInputFactory.newInstance();
-        try (FileInputStream fis = new FileInputStream(ruta)) {
+
+        try (FileInputStream fis = new FileInputStream("datos/catalogo_coches.xml")) {
             XMLStreamReader reader = factory.createXMLStreamReader(fis);
 
-            String etiquetaActual = "";
+            System.out.println("🎛️ Procesando XML con StAX Pull Cursor:");
+
+            // El programador maneja el bucle while a voluntad
             while (reader.hasNext()) {
                 int evento = reader.next();
 
-                switch (evento) {
-                    case XMLStreamConstants.START_ELEMENT:
-                        etiquetaActual = reader.getLocalName();
-                        if ("vehiculo".equals(etiquetaActual)) {
-                            System.out.print("Matrícula: " + reader.getAttributeValue(null, "matricula") + " -> ");
-                        }
-                        break;
-                    case XMLStreamConstants.CHARACTERS:
-                        String texto = reader.getText().trim();
-                        if (!texto.isEmpty() && "precio".equals(etiquetaActual)) {
-                            System.out.println("Precio: " + texto + " €");
-                        }
-                        break;
-                    case XMLStreamConstants.END_ELEMENT:
-                        etiquetaActual = "";
-                        break;
+                if (evento == XMLStreamConstants.START_ELEMENT) {
+                    String nombreTag = reader.getLocalName();
+
+                    if ("coche".equalsIgnoreCase(nombreTag)) {
+                        String matricula = reader.getAttributeValue(null, "matricula");
+                        System.out.println("-> Coche encontrado con matrícula: " + matricula);
+                    } else if ("marca".equalsIgnoreCase(nombreTag)) {
+                        // getElementText() consume automáticamente el evento CHARACTERS
+                        System.out.println("   Marca: " + reader.getElementText());
+                    } else if ("precio".equalsIgnoreCase(nombreTag)) {
+                        System.out.println("   Precio: " + reader.getElementText() + " €");
+                    }
                 }
             }
             reader.close();
-        } catch (Exception e) {
-            System.err.println("Error StAX: " + e.getMessage());
         }
     }
 }
@@ -301,90 +303,112 @@ public class LectorStAX {
 
 ---
 
-## 🏷️ 4. Manera 4: JAXB (Mapeo Declarativo Objeto-XML)
+## 🎯 4. Manera 4: JAXB (Jakarta XML Binding)
 
-**JAXB (Jakarta XML Binding)** es el estándar más productivo para aplicaciones de gestión empresarial.
-En lugar de manipular nodos o interceptar eventos manualmente, anotamos nuestras clases Java (POJOs) y JAXB se encarga de:
-- **Marshalling**: Convertir objetos Java en XML estructurado.
-- **Unmarshalling**: Parsear XML y transformarlo directamente en objetos Java.
+### 4.1 Mapeo Declarativo sin Manipulación de Nodos
+JAXB elimina por completo el código de bajo nivel. Vincula clases POJO con etiquetas XML mediante anotaciones estándar:
+- **Marshalling**: Convierte un objeto Java en un fichero XML.
+- **Unmarshalling**: Lee un fichero XML y crea directamente el objeto Java poblado.
 
-*(Nota didáctica: Desde Java 11, JAXB se incluye mediante dependencias Maven `jakarta.xml.bind:jakarta.xml.bind-api` y `org.glassfish.jaxb:jaxb-runtime`).*
+### 🛠️ Ficha Técnica de Anotaciones de JAXB
 
-### 4.1 Definición del Modelo de Datos Anotado
+| Anotación | Dónde se coloca | Qué hace exactamente |
+| :--- | :--- | :--- |
+| `@XmlRootElement(name = "catalogo")` | Sobre la clase | Marca la clase que representará la **etiqueta raíz del documento XML**. |
+| `@XmlElement(name = "coche")` | Sobre campo o getter | Asocia la propiedad con una **etiqueta hija interior**. |
+| `@XmlAttribute(name = "matricula")` | Sobre campo o getter | Asocia la propiedad con un **atributo de la etiqueta**. |
+| `@XmlTransient` | Sobre campo o getter | **Excluye el campo**: no se guardará ni leerá del XML. |
+| `@XmlElementWrapper(name = "lista_coches")` | Sobre colecciones (`List`) | Genera una etiqueta contenedora envolvente alrededor de la lista de elementos. |
+
+---
+
+### 💻 Ejemplo Completo de JAXB: Marshalling y Unmarshalling
+
+#### Paso 1: Clase POJO Anotada
 ```java
+package es.cifpaviles.ad.ut1.xml;
+
 import jakarta.xml.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
-@XmlRootElement(name = "concesionario")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class ConcesionarioXML {
+@XmlRootElement(name = "vehiculo")
+@XmlType(propOrder = { "marca", "modelo", "precio" }) // Fija el orden de las etiquetas
+public class VehiculoJAXB {
 
-    @XmlElement(name = "vehiculo")
-    private List<VehiculoXML> vehiculos = new ArrayList<>();
-
-    public List<VehiculoXML> getVehiculos() { return vehiculos; }
-    public void setVehiculos(List<VehiculoXML> v) { this.vehiculos = v; }
-}
-
-@XmlAccessorType(XmlAccessType.FIELD)
-class VehiculoXML {
-    @XmlAttribute(name = "matricula")
     private String matricula;
-
-    @XmlElement
     private String marca;
-
-    @XmlElement
     private String modelo;
-
-    @XmlElement
     private double precio;
 
-    // Constructores y Getters/Setters obligatorios
-    public VehiculoXML() {}
-    public VehiculoXML(String matricula, String marca, String modelo, double precio) {
+    // CONSTRUCTOR VACÍO OBLIGATORIO para que JAXB pueda instanciar la clase por reflexión
+    public VehiculoJAXB() {}
+
+    public VehiculoJAXB(String matricula, String marca, String modelo, double precio) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.precio = precio;
     }
+
+    @XmlAttribute(name = "matricula")
+    public String getMatricula() { return matricula; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
+
+    @XmlElement(name = "marca")
+    public String getMarca() { return marca; }
+    public void setMarca(String marca) { this.marca = marca; }
+
+    @XmlElement(name = "modelo")
+    public String getModelo() { return modelo; }
+    public void setModelo(String modelo) { this.modelo = modelo; }
+
+    @XmlElement(name = "precio")
+    public double getPrecio() { return precio; }
+    public void setPrecio(double precio) { this.precio = precio; }
+
+    @Override
+    public String toString() {
+        return String.format("VehiculoJAXB [%s] %s %s - %.2f €", matricula, marca, modelo, precio);
+    }
 }
 ```
 
-### 4.2 Marshaller y Unmarshaller en Acción
+#### Paso 2: Serialización y Deserialización con JAXBContext
 ```java
+package es.cifpaviles.ad.ut1.xml;
+
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import java.io.File;
 
-public class GestorJAXB {
+public class EjemploJAXBCompleto {
 
-    public static void guardar(File destino, ConcesionarioXML datos) throws Exception {
-        JAXBContext context = JAXBContext.newInstance(ConcesionarioXML.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // Formato legible con sangría
-        marshaller.marshal(datos, destino);
-    }
+    public static void main(String[] args) throws Exception {
+        File destino = new File("datos/vehiculo_jaxb.xml");
 
-    public static ConcesionarioXML cargar(File origen) throws Exception {
-        JAXBContext context = JAXBContext.newInstance(ConcesionarioXML.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        return (ConcesionarioXML) unmarshaller.unmarshal(origen);
+        // 1. Crear el contexto JAXB indicando la clase raíz a mapear
+        JAXBContext contexto = JAXBContext.newInstance(VehiculoJAXB.class);
+
+        // =====================================================================
+        // MARSHALLING: Objeto Java -> Archivo XML
+        // =====================================================================
+        Marshaller marshaller = contexto.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // Sangría bonita
+
+        VehiculoJAXB coche = new VehiculoJAXB("5678-DEF", "Ford", "Focus", 21000.00);
+        marshaller.marshal(coche, destino);
+        System.out.println("✅ Objeto exportado a XML con Marshaller en: " + destino.getAbsolutePath());
+
+        // =====================================================================
+        // UNMARSHALLING: Archivo XML -> Objeto Java
+        // =====================================================================
+        Unmarshaller unmarshaller = contexto.createUnmarshaller();
+        VehiculoJAXB cocheRecuperado = (VehiculoJAXB) unmarshaller.unmarshal(destino);
+
+        System.out.println("\n📥 Objeto Java deserializado desde XML:");
+        System.out.println("  " + cocheRecuperado);
+        System.out.println("  Marca leída: " + cocheRecuperado.getMarca());
+        System.out.println("  Precio leído: " + cocheRecuperado.getPrecio() + " €");
     }
 }
 ```
-
----
-
-## 📊 5. Tabla Comparativa Definitiva para Exámenes
-
-| Criterio | DOM | SAX | StAX | JAXB |
-| :--- | :--- | :--- | :--- | :--- |
-| **Modelo de proceso** | Árbol completo en RAM | Flujo de eventos (*Push*) | Flujo de eventos (*Pull*) | Mapeo Objeto-XML |
-| **Consumo de memoria** | Muy alto ($\approx 4\times$ el XML) | Prácticamente nulo ($\sim 0$ KB) | Prácticamente nulo ($\sim 0$ KB) | Moderado (tamaño de los objetos) |
-| **Modificación de nodos** | Sencilla y directa | No permite modificar | Permite escribir con Writer | Modificas el objeto Java y re-guardas |
-| **Acceso aleatorio (XPath)** | Sí, total y bidireccional | No, solo secuencial hacia adelante | No, secuencial | Sí, navegando por el grafo de objetos |
-| **Velocidad en ficheros grandes** | Muy lenta (o `OutOfMemory`) | Ultrarrápida | Ultrarrápida | Buena en datasets normales |
-| **Caso de uso recomendado** | Ficheros `< 10` MB que requieren consultas XPath o ediciones frecuentes. | Lectura de volcados masivos (`> 50` MB a gigabytes). | Procesamiento selectivo donde queremos controlar el bucle. | Configuración de aplicaciones y APIs REST/SOAP basadas en POJOs. |
