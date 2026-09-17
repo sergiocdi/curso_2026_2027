@@ -35,9 +35,10 @@ Se gestionará un fichero binario `inventario.dat` compuesto por registros de pr
 - **Tamaño total por registro**: $\mathbf{26\text{ bytes}}$.
 
 **Requisitos**:
-1. Desarrollar el método `insertarProducto(int posicion, int id, String codigo, int stock, double precio)` que sitúe el puntero en la posición correspondiente (`posicion * 26`) y escriba los datos.
+1. Desarrollar el método `insertarProducto(int posicion, int id, String codigo, int stock, double precio)` que sitúe el puntero en la posición correspondiente (`posicion * 26`) con `raf.seek()` y escriba los datos.
 2. Desarrollar el método `actualizarStock(int posicion, int nuevoStock)` que salte con `seek()` directamente al byte del stock ($+14$ desde el inicio del registro) y sobrescriba únicamente esos 4 bytes.
-3. Desarrollar el método `mostrarInventario()` que lea secuencialmente todos los registros hasta el final (`raf.getFilePointer() < raf.length()`).
+3. Desarrollar el método `mostrarInventario()` que lea secuencialmente todos los registros comprobando que `raf.getFilePointer() < raf.length()`.
+4. Desarrollar el método `truncarInventario(int maxRegistros)` que ajuste el tamaño exacto del fichero en disco mediante `raf.setLength((long) maxRegistros * 26)` y use `raf.skipBytes(n)` para desplazamientos relativos hacia adelante.
 
 ---
 

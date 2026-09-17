@@ -39,6 +39,13 @@ modalidad: "Virtual"
 
 ---
 
-## 👥 2. Seguimiento Operativo del Grupo
+## 🖥️ 3. Presentaciones de Aula y Dinámica Docente
+- 🚀 **[[PI-Presentacion-Inicial-Modulo|Diapositivas de Inicio de Curso (Guía Docente 2º DAM)]]**:
+  - [🌐 Ver Presentación Interactiva (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.html)
+  - [📄 Descargar Diapositivas (PDF A4 Apaisado)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.pdf)
+
+---
+
+## 👥 4. Seguimiento Operativo del Grupo
 - 🎯 **[[Dashboard-Grupo-DAM2-Proyecto|Panel de Seguimiento DAM2 Virtual - Proyecto]]**
   - [[Seguimiento-Proyectos-Fases|Hitos y Fases de Alumnos]] | [[Cuaderno-Notas-DAM2-Proyecto|Calificaciones y Tribunales]]

@@ -85,6 +85,10 @@ SORT ud ASC, file.name ASC
 - 📋 **[[PRAC-AD-Evaluacion-Inicial|Práctica de Evaluación Inicial: Diagnóstico en Java y Persistencia Básica]]**:
   - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.html) · [📄 PDF Imprimible con Rúbrica (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.pdf)
 
+### 🛠️ Práctica de Afianzamiento UT1 (Proyecto Capstone Multi-Formato):
+- 🚀 **[[PRAC-AD-UT1-Gestor-Ficheros-MultiFormato|Práctica de Afianzamiento UT1: CLI de Migración y Gestión Multi-Formato de Catálogo]]**:
+  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.html) · [📄 PDF Imprimible con Rúbrica de 10 Puntos (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.pdf)
+
 ---
 
 ## ❓ 6. Banco de Preguntas de Test y Evaluación

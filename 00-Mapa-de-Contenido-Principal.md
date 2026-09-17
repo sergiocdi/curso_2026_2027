@@ -2,7 +2,7 @@
 tipo: moc_principal
 curso_academico: "2026-2027"
 profesor: "Profesor Sergio"
-actualizado: 2026-09-16
+actualizado: 2026-09-17
 ---
 
 # 🎓 Panel de Control Docente - Curso 2026-2027
@@ -41,7 +41,7 @@ SORT file.name ASC
 - 💻 **[[Dashboard-Grupo-DAM2-Virtual|DAM2 Virtual - Acceso a Datos]]**
   - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.pdf) | [[Compilador-Programacion-Didactica-AD-Distancia|Programación]] | [[Cronograma-AD-Virtual|Cronograma Quincenal]] | [[Seguimiento-Tutorias-AD-Virtual|Tutorías]]
 - 🚀 **[[Dashboard-Grupo-DAM2-Proyecto|DAM2 Virtual - Proyecto Intermodular 2]]**
-  - [[Seguimiento-Proyectos-Fases|Seguimiento de Entregas]] | [[Cuaderno-Notas-DAM2-Proyecto|Calificaciones]] | [[Enunciado-Proyecto-Intermodular-2|Enunciado]] | [[Plantilla-Memoria-Proyecto|Plantilla Memoria]] | [[Rubrica-Evaluacion-Proyecto|Rúbrica]]
+  - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.pdf) | [[Compilador-Programacion-Didactica-PI|Programación]] | [[Seguimiento-Proyectos-Fases|Seguimiento de Entregas]] | [[Cuaderno-Notas-DAM2-Proyecto|Calificaciones]] | [[Enunciado-Proyecto-Intermodular-2|Enunciado]] | [[Plantilla-Memoria-Proyecto|Plantilla Memoria]] | [[Rubrica-Evaluacion-Proyecto|Rúbrica]]
 - 🌱 **[[Dashboard-Grupo-DAW1-Sostenibilidad|DAW1 Virtual - Sostenibilidad]]**
   - [[Calendario-Sesiones-Sostenibilidad-Virtual|Calendario de Sesiones (Miércoles)]] | [[Cronograma-Sostenibilidad-Virtual|Cronograma]] | [[Cuaderno-Notas-DAW1-Sostenibilidad|Cuaderno de Calificaciones]]
 - 🔌 **[[Dashboard-Grupo-SMR-Redes|SMR Presencial - Redes Locales]]**
@@ -73,6 +73,9 @@ SORT modulo ASC, ud ASC
 - 🔌 **[[EV-INIC-RL-Test-y-Preguntas-Cortas|Redes Locales (1º SMR)]]**: Cuestionario tipo test (10 preguntas) + 4 supuestos prácticos ([📝 Word Alumnado (.docx)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/04-Banco-Items/Evaluacion-Inicial/EV-INIC-RL-Prueba-Inicial-Alumnado.docx) · [📄 PDF Imprimible](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/04-Banco-Items/Evaluacion-Inicial/EV-INIC-RL-Prueba-Inicial-Alumnado.pdf) | [🔑 Solucionario Docente](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/04-Banco-Items/Evaluacion-Inicial/EV-INIC-RL-Solucionario-Docente.docx)).
 - 💾 **[[PRAC-AD-Evaluacion-Inicial|Acceso a Datos (2º DAM)]]**: Práctica de diagnóstico en Java 21 y Persistencia Básica ([🌐 HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.pdf)).
 - 🌱 **[[EV-INIC-SOST-Test-Diagnostico-Sostenibilidad|Sostenibilidad Aplicada (1º DAW)]]**: Cuestionario tipo test (15 preguntas) sobre ODS, huella de carbono y sector digital.
+
+### 🛠️ Prácticas de Afianzamiento por Unidades:
+- 💾 **[[PRAC-AD-UT1-Gestor-Ficheros-MultiFormato|Acceso a Datos UT1: CLI de Migración y Gestión Multi-Formato de Catálogo]]**: Texto CSV, RAF, Serialización y XML DOM/SAX ([🌐 HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.pdf)).
 
 ---
 

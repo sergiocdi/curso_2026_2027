@@ -1035,7 +1035,8 @@ try (DataInputStream dis = new DataInputStream(
               <li>Los flujos convencionales son <strong>secuenciales</strong> (para leer el dato 1000 hay que leer los 999 anteriores).</li>
               <li><code>RandomAccessFile</code> permite saltar a cualquier byte arbitrario mediante el método <code>seek(long posicionBytes)</code>.</li>
               <li><code>getFilePointer()</code>: Retorna la posición actual del cursor.</li>
-              <li><code>length()</code>: Retorna el tamaño total en bytes del fichero.</li>
+              <li><code>length()</code>: Retorna el tamaño total en bytes del fichero (con <code>setLength(n)</code> podemos truncarlo o extenderlo).</li>
+              <li><code>skipBytes(int n)</code>: Salta <code>n</code> bytes hacia adelante sin necesidad de leerlos.</li>
               <li>Modos de apertura: <code>"r"</code> (solo lectura) y <code>"rw"</code> (lectura y escritura).</li>
             </ul>
           </div>
@@ -1135,8 +1136,9 @@ public static void actualizarSalarioDirecto(String ruta, int indiceRegistro, dou
           </div>
         </div>
         <div class="code-block">
-// Guardar: ObjectOutputStream oos = new ObjectOutputStream(fos); oos.writeObject(alumno);
-// Cargar:  ObjectInputStream ois = new ObjectInputStream(fis); Alumno a = (Alumno) ois.readObject();</div>
+// Guardar: try (ObjectOutputStream oos = new ObjectOutputStream(fos)) { oos.writeObject(alumno); oos.flush(); }
+// Cargar:  try (ObjectInputStream ois = new ObjectInputStream(fis)) { Alumno a = (Alumno) ois.readObject(); }
+// Tip Pro: oos.reset() limpia la caché interna de referencias si modificas un objeto antes de volver a escribirlo</div>
         <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">
           <div class="box-title" style="font-size: 16.5px; margin-bottom: 2px;">💻 Práctica en Vivo en Aula: Actividad 2.4</div>
           <p style="font-size: 15px; margin: 0;">Turno en el IDE: desarrolla la <strong>Actividad 2.4</strong> del Cuaderno de Aula (serialización de usuarios con campos <code>transient</code> y control de <code>serialVersionUID</code>).</p>
@@ -1455,24 +1457,36 @@ tf.transform(new DOMSource(doc), new StreamResult(new File("concesionario.xml"))
               <span class="card-title">StAX (Pull Parser)</span>
               <span class="card-badge">XMLStreamReader</span>
             </div>
-            <p class="card-desc">
-              A diferencia de SAX (donde el parser te empuja eventos), en StAX el programador tiene el control del bucle mediante un cursor:
-              <br><code>while(reader.hasNext()) { int ev = reader.next(); }</code>
-              <br>Permite detener la lectura en cualquier momento con un simple <code>break</code>.
+            <p class="card-desc" style="margin-bottom: 8px;">
+              A diferencia de SAX (Push), en StAX el programador gobierna el cursor y avanza a demanda:
             </p>
+            <div class="code-block" style="font-size: 13.5px; padding: 10px; margin: 0;">
+XMLStreamReader r = XMLInputFactory.newInstance()
+    .createXMLStreamReader(new FileReader("data.xml"));
+while (r.hasNext()) {
+    if (r.next() == XMLStreamConstants.START_ELEMENT 
+            && "precio".equals(r.getLocalName())) {
+        System.out.println("Precio: " + r.getElementText());
+    }
+}</div>
           </div>
           <div class="card">
             <div class="card-header">
               <span class="card-title">JAXB (Jakarta XML Binding)</span>
               <span class="card-badge">Mapeo Anotado</span>
             </div>
-            <p class="card-desc">
-              Vincula clases POJO con etiquetas XML:
-              <br>• <code>@XmlRootElement(name="almacen")</code>
-              <br>• <code>@XmlElement</code> y <code>@XmlAttribute</code>
-              <br>• <strong>Marshaller:</strong> Objeto Java -> Archivo XML.
-              <br>• <strong>Unmarshaller:</strong> Archivo XML -> Objeto Java.
+            <p class="card-desc" style="margin-bottom: 8px;">
+              Mapeo declarativo POJO con <code>@XmlRootElement</code>, <code>@XmlElement</code> y <code>@XmlAttribute</code>:
             </p>
+            <div class="code-block" style="font-size: 13.5px; padding: 10px; margin: 0;">
+JAXBContext ctx = JAXBContext.newInstance(Producto.class);
+// Marshaller: Java -> XML con sangría
+Marshaller m = ctx.createMarshaller();
+m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+m.marshal(producto, new File("producto.xml"));
+// Unmarshaller: XML -> Java
+Producto p = (Producto) ctx.createUnmarshaller()
+    .unmarshal(new File("producto.xml"));</div>
           </div>
         </div>
         <div class="didactic-box highlight-box" style="padding: 10px 18px; margin-top: 10px;">

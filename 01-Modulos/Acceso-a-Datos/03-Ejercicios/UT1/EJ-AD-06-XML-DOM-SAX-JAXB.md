@@ -66,8 +66,18 @@ Dado un fichero XML con miles de productos:
 
 ---
 
+### Reto 4: Extracción Rápida con Cursor StAX (`BuscadorStAX.java`)
+1. Instanciar `XMLInputFactory` y obtener un cursor `XMLStreamReader` sobre el catálogo.
+2. Implementar el bucle de control `while (reader.hasNext())` avanzando con `reader.next()`.
+3. Al detectar `XMLStreamConstants.START_ELEMENT`, si la etiqueta es `<producto>`, leer su atributo `id` con `reader.getAttributeValue(null, "id")`.
+4. Si la etiqueta es `<precio>`, extraer el texto mediante `reader.getElementText()`.
+5. Demostrar la ventaja de Pull Parser frente a Push (SAX): detener la lectura con un `break` en cuanto se encuentre un producto con precio superior a 50€, sin necesidad de parsear el resto del documento.
+
+---
+
 ## 🔍 Criterios de Evaluación
-- **Normalización de documentos y control de nodos `#text` en DOM**: 30%.
-- **Correcta acumulación en buffer y gestión de estados en SAX**: 30%.
+- **Normalización de documentos y control de nodos `#text` en DOM**: 25%.
+- **Correcta acumulación en buffer y gestión de estados en SAX**: 25%.
 - **Anotaciones y configuración adecuada de contexto en JAXB**: 25%.
-- **Buenas prácticas en el volcado con `Transformer` (indentación y UTF-8)**: 15%.
+- **Control de cursor e interrupción anticipada con StAX**: 15%.
+- **Buenas prácticas en el volcado con `Transformer` (indentación y UTF-8)**: 10%.

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Práctica de Afianzamiento UT1: CLI de Migración y Gestión Multi-Formato de Catálogo - Acceso a Datos - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE PRÁCTICAS Y PROYECTOS TÉCNICOS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   Optimizado para visualización en pantalla y exportación a PDF (A4)
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+  --callout-danger-bg: #fef2f2;
+  --callout-danger-border: #dc2626;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 40px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.official-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-title-box {
+  margin-bottom: 18px;
+}
+
+.practice-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* 2. CUADRO TÉCNICO DE METADATOS */
+.technical-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 3. SECCIÓN CURRICULAR (BADGES) */
+.curricular-section {
+  background-color: #f1f5f9;
+  border-left: 4px solid var(--color-primary);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 26px;
+}
+
+.curricular-title {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.badge-ra, .badge-ce {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.badge-ra {
+  background-color: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+}
+
+.badge-ce {
+  background-color: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+}
+
+.curricular-desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* 4. CONTENIDO Y SECCIONES */
+section {
+  margin-bottom: 26px;
+}
+
+.section-heading {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-primary);
+  border-bottom: 1.5px solid var(--color-border-subtle);
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-heading span {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.subsection-heading {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 14px 0 8px 0;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin: 8px 0 14px 22px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* CAJAS DIDÁCTICAS (CALLOUTS) */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 14px 0;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-color: var(--callout-info-border);
+}
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info .callout-title { color: #0369a1; }
+.callout-warning .callout-title { color: #b45309; }
+
+/* CÓDIGO */
+pre {
+  background-color: var(--code-bg);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* 5. TABLA DE RÚBRICA ANALÍTICA */
+.rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.rubric-table th, .rubric-table td {
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.rubric-table th {
+  background-color: #f1f5f9;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+}
+
+.rubric-score {
+  display: inline-block;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.rubric-table tr:nth-child(even) td {
+  background-color: #fcfdfe;
+}
+
+/* PIE DE PÁGINA */
+.practice-footer {
+  margin-top: 30px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* REGLAS DE IMPRESIÓN Y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 12px;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .page-break {
+    page-break-before: always;
+    break-before: page;
+  }
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  pre, .callout, .rubric-table, .technical-meta-grid, .curricular-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones · Principado de Asturias</span>
+      </div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50' y='65' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>FP</text></svg>" alt="Logo CIFP Avilés" class="official-logo">
+    </div>
+
+    <div class="practice-title-box">
+      <h1 class="practice-title">Práctica de Afianzamiento: Gestor de Catálogo Multi-Formato</h1>
+      <div class="practice-subtitle">Consolidación de Flujos de Texto (CSV/NIO.2), Persistencia Binaria (RAF/Serialización) y Ecosistema XML (DOM/SAX/StAX/JAXB)</div>
+    </div>
+
+    <!-- CUADRO TÉCNICO -->
+    <div class="technical-meta-grid">
+      <div class="meta-field">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Ciclo y Curso</span>
+        <span class="meta-value">DAM 2º Curso · 2026-2027</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Modalidad y Duración</span>
+        <span class="meta-value">Presencial / Distancia · 180 min (3 sesiones)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Carácter de la Tarea</span>
+        <span class="meta-value">Formativa · Afianzamiento previo a examen</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALINEACIÓN CURRICULAR -->
+  <section class="curricular-section">
+    <div class="curricular-title">Alineación Curricular Oficial (Real Decreto 455/2010 · Currículo Asturias)</div>
+    <div class="badge-container">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.a (Clases de E/S y Flujos)</span>
+      <span class="badge-ce">CE1.b (Ficheros de Texto)</span>
+      <span class="badge-ce">CE1.c (Ficheros Binarios y RAF)</span>
+      <span class="badge-ce">CE1.d (Serialización de Objetos)</span>
+      <span class="badge-ce">CE1.e (Procesamiento XML: DOM, SAX, JAXB)</span>
+    </div>
+    <p class="curricular-desc">
+      Esta práctica de afianzamiento integra todos los saberes básicos de la Unidad de Trabajo 1. El estudiante desarrolla una aplicación CLI robusta que ingesta datos en texto plano delimitado, optimiza accesos directos en almacenamiento binario y transforma los catálogos a formatos estructurados XML, aplicando un tratamiento exhaustivo de excepciones y control de recursos.
+    </p>
+  </section>
+
+  <!-- 1. CONTEXTO TÉCNICO -->
+  <section>
+    <h2 class="section-heading"><span>1.</span> Contexto Técnico del Reto</h2>
+    <p>
+      La distribuidora tecnológica <strong>ElectroTech S.L.</strong> se encuentra en pleno proceso de modernización de su plataforma logística. En la actualidad, coexisten tres terminales desconectados que generan y consumen información en formatos incompatibles:
+    </p>
+    <ol>
+      <li><strong>Terminales Punto de Venta (TPV)</strong>: Exportan diariamente ficheros de texto delimitados por comas (<code>CSV</code>) con codificación conflictiva (Windows-1252 / ISO-8859-1) que contienen líneas incompletas o corruptas por fallos de conectividad.</li>
+      <li><strong>Servidores de Almacén</strong>: Demandan ficheros binarios compactos de acceso aleatorio (<code>.dat</code>) para consultar o modificar el stock físico en milisegundos mediante <code>RandomAccessFile</code>, sin necesidad de reescribir todo el fichero.</li>
+      <li><strong>Pasarelas B2B y Auditoría</strong>: Exigen volcados estructurados en formato <code>XML</code> para sincronizar el catálogo con clientes externos y copias de seguridad de objetos Java serializados (<code>.ser</code>).</li>
+    </ol>
+    <p>
+      Tu cometido como desarrollador/a de la división de persistencia consiste en construir una herramienta de consola (CLI) en <strong>Java 21</strong> estructurada en paquetes limpios que realice la ingesta, limpieza, conversión, consulta directa y exportación entre estos formatos.
+    </p>
+  </section>
+
+  <!-- 2. REQUERIMIENTOS DETALLADOS -->
+  <section>
+    <h2 class="section-heading"><span>2.</span> Requerimientos Funcionales y Técnicos Paso a Paso</h2>
+
+    <h3 class="subsection-heading">Tarea 1: Ingesta, Validación y Limpieza de Fichero de Texto CSV (2.0 puntos)</h3>
+    <ol>
+      <li><strong>Lectura controlada con Charset</strong>: Leer el archivo <code>data/productos_import.csv</code> especificando explícitamente <code>StandardCharsets.ISO_8859_1</code> mediante <code>Files.newBufferedReader()</code>.</li>
+      <li><strong>Validación rigurosa de líneas</strong>:
+        <ul>
+          <li>Estructura esperada por registro: <code>id,referencia,categoria,precio,stock</code>.</li>
+          <li>Descartar líneas vacías o que comiencen por comentario (<code>#</code> o <code>;</code>).</li>
+          <li>Validar que la línea posee exactamente 5 campos y que <code>precio</code> (double) y <code>stock</code> (int) son numéricamente válidos.</li>
+          <li>Las líneas erróneas o corruptas deben descartarse y registrarse en <code>data/errores_csv.log</code> indicando el número de línea, la causa del error y el contenido original.</li>
+        </ul>
+      </li>
+      <li><strong>Normalización a memoria</strong>: Cargar los productos limpios y válidos en una colección <code>List&lt;Producto&gt;</code> en memoria.</li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 2: Almacenamiento Binario, RAF y Serialización (3.0 puntos)</h3>
+    <ol>
+      <li><strong>Exportación Binaria Compacta (`DataOutputStream`)</strong>: Volcar los productos válidos en <code>data/catalogo.dat</code> escribiendo de manera tipada: <code>writeInt(id)</code>, <code>writeUTF(referencia)</code>, <code>writeUTF(categoria)</code>, <code>writeDouble(precio)</code> y <code>writeInt(stock)</code>.</li>
+      <li><strong>Gestor de Stock Directo con `RandomAccessFile`</strong>:
+        <ul>
+          <li>Definir registros de longitud fija (ej. 4B id + 20B referencia en chars + 20B categoria en chars + 8B precio + 4B stock = <strong>56 bytes fijos</strong>).</li>
+          <li>Implementar <code>actualizarStockEnDisco(int posicion, int nuevoStock)</code> utilizando <code>raf.seek(offset)</code> para sobrescribir exclusivamente los 4 bytes del campo stock en disco sin reescribir el resto del archivo.</li>
+          <li>Verificar la posición con <code>raf.getFilePointer()</code> y asegurar que no sobrepasa <code>raf.length()</code>.</li>
+        </ul>
+      </li>
+      <li><strong>Backup de Objetos con Serialización (`ObjectOutputStream`)</strong>:
+        <ul>
+          <li>La clase <code>Producto</code> debe implementar <code>Serializable</code> con <code>serialVersionUID = 1L</code>.</li>
+          <li>Marcar el campo <code>transient double margenBeneficioInterno</code> para asegurar que el coste sensible de proveedor no se persiste en el disco.</li>
+          <li>Implementar <code>backupIncremental(File archivo, Producto prod)</code> utilizando la técnica <code>MiObjectOutputStream</code> para evitar corrupción de cabecera (<code>StreamCorruptedException</code>) al realizar anexados (append).</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 3: Catálogo XML y Ecosistema de Parsers (3.0 puntos)</h3>
+    <ol>
+      <li><strong>Generación DOM con Transformer (`DOMSource` y `StreamResult`)</strong>:
+        <ul>
+          <li>Construir en memoria el árbol DOM mediante <code>DocumentBuilder.newDocument()</code> con la raíz <code>&lt;catalogo fecha="AAAA-MM-DD"&gt;</code> y elementos <code>&lt;producto id="..."&gt;</code>.</li>
+          <li>Volcar a <code>data/catalogo.xml</code> utilizando <code>Transformer</code> configurado con sangría de 4 espacios (<code>OutputKeys.INDENT = "yes"</code> y <code>indent-amount = 4</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Consultas DOM</strong>: Implementar un método que reciba una categoría (ej. <code>"Informatica"</code>), navegue por el árbol normalizado (<code>doc.getDocumentElement().normalize()</code>) ignorando nodos <code>#text</code> (<code>Node.ELEMENT_NODE</code>) y devuelva el stock total acumulado de dicha categoría.</li>
+      <li><strong>Alternativa de Alto Rendimiento (SAX o StAX)</strong>: Implementar un analizador reactivo con <code>DefaultHandler</code> (SAX) o iterativo con <code>XMLStreamReader</code> (StAX) que imprima por consola el número total de productos y el producto con precio más elevado sin cargar el árbol en memoria RAM.</li>
+    </ol>
+
+    <h3 class="subsection-heading">Tarea 4: Arquitectura, Clean Code y Manejo de Excepciones (2.0 puntos)</h3>
+    <ol>
+      <li><strong>Estructura de paquetes profesional</strong>:
+        <pre><code>es.cifpaviles.dam.catalogo/
+├── modelo/               (Producto.java, Categoria.java)
+├── servicio/             (FicheroTextoService, FicheroBinarioService, FicheroXmlService)
+├── excepcion/            (CatalogoCorruptoException, ProductoNotFoundException)
+├── util/                 (MiObjectOutputStream.java)
+└── app/                  (AppConsola.java - Menú interactivo con Scanner)</code></pre>
+      </li>
+      <li><strong>Uso estricto de `try-with-resources`</strong> en todos los flujos de lectura y escritura para garantizar la liberación inmediata de descriptores de archivo.</li>
+      <li><strong>Captura selectiva y tipada</strong> de excepciones (<code>FileNotFoundException</code>, <code>EOFException</code>, <code>InvalidClassException</code>, <code>ParserConfigurationException</code>, <code>TransformerException</code>).</li>
+    </ol>
+  </section>
+
+  <!-- 3. ENTORNO Y POLÍTICA DE IA -->
+  <section class="no-break">
+    <h2 class="section-heading"><span>3.</span> Entorno de Desarrollo y Regulación de Inteligencia Artificial</h2>
+    <div class="callout callout-info">
+      <div class="callout-title">💻 Entorno de Desarrollo de Referencia</div>
+      <p>El entorno de trabajo principal en el aula es <strong>Eclipse IDE 2024 / 2025</strong> configurado con <strong>Java SE 21 LTS</strong>. Se admite el uso de IntelliJ IDEA o VS Code siempre que se respete la jerarquía estándar de paquetes y dependencias Java nativas.</p>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ Política de Uso de Inteligencia Artificial (1ª Evaluación)</div>
+      <p>En las prácticas y retos formativos de la 1ª Evaluación, las herramientas de IA generativa (ChatGPT, Claude, Copilot) <strong>se permiten exclusivamente para la resolución de dudas teóricas o comprensión de mensajes de error</strong>. No se recomienda su uso para generar el código de la práctica, con el fin de afianzar la destreza mental autónoma requerida en los exámenes presenciales de aula. El docente podrá solicitar la <strong>defensa oral individual</strong> de cualquier fragmento de código entregado.</p>
+    </div>
+  </section>
+
+  <!-- 4. RÚBRICA ANALÍTICA -->
+  <section class="page-break">
+    <h2 class="section-heading"><span>4.</span> Rúbrica Analítica de Evaluación (Total: 10.0 Puntos)</h2>
+    <table class="rubric-table">
+      <thead>
+        <tr>
+          <th style="width: 24%;">Criterio / Ponderación</th>
+          <th style="width: 19%;">Excelente (100%)</th>
+          <th style="width: 19%;">Notable (75%)</th>
+          <th style="width: 19%;">Aprobado (50%)</th>
+          <th style="width: 19%;">Insuficiente (&lt;50%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Ficheros de Texto y NIO.2</strong><br><span class="rubric-score">[2.0 Puntos]</span><br><em>CE1.a, CE1.b</em></td>
+          <td>Lectura con <code>Files.newBufferedReader</code> y <code>StandardCharsets</code> impecable; validación exhaustiva de campos y log de descarte en <code>errores_csv.log</code> con formato riguroso.</td>
+          <td>Lee y normaliza el CSV correctamente. Detecta líneas erróneas pero el formato del log es básico o no indica número de línea.</td>
+          <td>Lee el archivo en UTF-8 sin controlar codificaciones conflictivas o interrumpe la ejecución ante registros corruptos sin registrar log.</td>
+          <td>No utiliza buffers, fallos graves en parsing de cadenas (<code>split</code>) o incapacidad de leer el archivo CSV.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Persistencia Binaria, RAF y Serialización</strong><br><span class="rubric-score">[3.0 Puntos]</span><br><em>CE1.c, CE1.d</em></td>
+          <td>Manejo exacto de tipos con <code>DataStreams</code>; cálculo matemático impecable de offsets con <code>seek()</code> y registros de 56B en RAF; serialización con <code>serialVersionUID</code>, <code>transient</code> y <code>MiObjectOutputStream</code> sin corrupción.</td>
+          <td>Escritura binaria y serialización correctas; actualización RAF funcional con pequeñas imprecisiones en el cálculo de longitud o ausencia de <code>transient</code>.</td>
+          <td>Realiza la escritura binaria pero actualiza registros reescribiendo el archivo completo en lugar de usar <code>seek()</code> posicional directo, o falla en append de objetos.</td>
+          <td>Ficheros binarios corruptos por orden incorrecto de lectura de tipos primitivos, o no implementa <code>Serializable</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Ecosistema XML (DOM, Transformer y SAX/StAX)</strong><br><span class="rubric-score">[3.0 Puntos]</span><br><em>CE1.e</em></td>
+          <td>Construcción DOM limpia serializada con <code>Transformer</code> sangrado (pretty-print); consultas DOM precisas esquivando nodos <code>#text</code>; procesador reactivo SAX o Pull StAX funcional con consumo mínimo de RAM.</td>
+          <td>Genera el XML formateado y ejecuta consultas DOM correctas. El parser SAX/StAX funciona pero acumula datos en memoria o tiene ligeras advertencias.</td>
+          <td>Genera el XML sin indentación legible y la consulta DOM falla ante saltos de línea al no validar <code>ELEMENT_NODE</code>; no implementa SAX ni StAX.</td>
+          <td>Documento XML mal formado, etiquetas no anidadas correctamente o colapso del programa ante parseo de nodos.</td>
+        </tr>
+        <tr>
+          <td><strong>4. Arquitectura, Clean Code y Excepciones</strong><br><span class="rubric-score">[2.0 Puntos]</span><br><em>CE1.a, Calidad</em></td>
+          <td>Estructura modular perfecta en paquetes (modelo, servicio, util, app); uso riguroso de <code>try-with-resources</code> sin fugas de descriptores; menú CLI interactivo claro y captura diferenciada de excepciones.</td>
+          <td>Código limpio y empaquetado adecuado; gestión segura de flujos; menú funcional con gestión genérica de algunas excepciones (<code>Exception</code>).</td>
+          <td>Clases concentradas en un único paquete o método <code>main</code> monolítico; cierra los flujos manualmente sin <code>try-with-resources</code>.</td>
+          <td>Fugas masivas de recursos (ficheros bloqueados en disco), código no compila o excepciones no controladas que provocan volcados de traza en consola.</td>
+        </tr>
+        <tr style="background-color: #f1f5f9; font-weight: 800;">
+          <td colspan="4" style="text-align: right; text-transform: uppercase;">Puntuación Total Máxima:</td>
+          <td style="color: var(--color-primary); font-size: 13px;">10.0 PUNTOS</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. INSTRUCCIONES DE ENTREGA -->
+  <section class="no-break">
+    <h2 class="section-heading"><span>5.</span> Instrucciones de Entrega y Evaluación</h2>
+    <p>
+      El proyecto deberá entregarse a través de la plataforma del curso (Moodle / Google Classroom) o repositorio en GitHub Classroom antes de la fecha límite fijada por el docente:
+    </p>
+    <ul>
+      <li><strong>Formato</strong>: Archivo comprimido <code>Apellido1_Apellido2_Nombre_UT1_Catálogo.zip</code> o enlace al repositorio Git limpio (sin carpetas <code>bin/</code>, <code>target/</code> ni <code>.settings/</code>).</li>
+      <li><strong>Carpeta `data/`</strong>: Debe incluirse con los ficheros de muestra generados durante las pruebas (<code>productos_import.csv</code>, <code>errores_csv.log</code>, <code>catalogo.dat</code>, <code>backup_catalogo.ser</code> y <code>catalogo.xml</code>).</li>
+      <li><strong>Memoria Técnica Breve</strong>: Documento Markdown (<code>README.md</code>) que describa la arquitectura del proyecto, la fórmula de cálculo del tamaño de registro en <code>RandomAccessFile</code> y capturas de consola demostrando la ejecución del menú.</li>
+    </ul>
+  </section>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="practice-footer">
+    <span>Acceso a Datos (2º DAM) · Unidad de Trabajo 1: Manejo de Ficheros</span>
+    <span>CIFP Avilés · Docente: Sergio Capdevila Díez</span>
+    <span>Curso Académico 2026-2027</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
