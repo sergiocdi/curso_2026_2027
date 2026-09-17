@@ -65,12 +65,14 @@ SORT file.name ASC
 
 ## 💻 Actividades y Prácticas
 - 📓 **Cuaderno de Actividades de Aula Acompañado (Síncrono Teoría-Práctica)**:
-  - [🌐 Cuaderno Interactivo de Aula - Alumnado (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula.pdf)
-  - 🔒 [🌐 Guía Docente y Solucionario Explicado (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula-Profesor.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula-Profesor.pdf) · [[AD-UT1-Cuaderno-Actividades-Aula-Profesor|📝 Guía Markdown]]
-- 📝 **Retos Técnicos Evaluables**:
-  - `[[EJ-AD-04-Procesador-Texto-NIO2]]`: Ficheros de texto, sanitización de ISO a UTF-8 y análisis con streams.
-  - `[[EJ-AD-05-Binarios-RAF-Serializacion-Append]]`: Registros binarios fijos con RAF y persistencia sin corrupción.
-  - `[[EJ-AD-06-XML-DOM-SAX-JAXB]]`: Catálogo XML mediante DOM, SAX reactivo y JAXB declarativo.
+  - [🌐 Cuaderno Interactivo de Aula - Alumnado (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula.pdf) · [[AD-UT1-Cuaderno-Actividades-Aula|📝 Cuaderno Markdown]]
+  - 🔒 [🌐 Guía Docente y Solucionario Explicado (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula-Profesor.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula-Profesor.pdf) · [[AD-UT1-Cuaderno-Actividades-Aula-Profesor|📝 Guía Markdown]]
+- 📚 **Hojas de Ejercicios Complementarios por Bloques**:
+  - `[[AD-UT1-B1-Ejercicios-Texto-NIO2]]`: Ficheros de texto, sanitización de ISO a UTF-8 y análisis forense con Streams (Solución: `[[AD-UT1-B1-Soluciones-Texto-NIO2]]`).
+  - `[[AD-UT1-B2-Ejercicios-Binarios-RAF]]`: Telemetría con DataStreams, almacén in-situ con RAF y append con MiObjectOutputStream (Solución: `[[AD-UT1-B2-Soluciones-Binarios-RAF]]`).
+  - `[[AD-UT1-B3-Ejercicios-XML]]`: Facturación DOM con Transformer, analizador reactivo SAX/StAX y mapeo POJO JAXB (Solución: `[[AD-UT1-B3-Soluciones-XML]]`).
+- 🛠️ **Proyecto Capstone de Unidad**:
+  - `[[PRAC-AD-UT1-Gestor-Ficheros-MultiFormato]]`: CLI de migración y gestión multi-formato de catálogo ([🌐 HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/02-Ejercicios-Complementarios/Proyecto-Capstone/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.html) · [📄 PDF A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/02-Ejercicios-Complementarios/Proyecto-Capstone/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.pdf)).
 
 ```dataview
 TABLE tipo_actividad, dificultad, tiempo_estimado_min + " min" as "Tiempo"

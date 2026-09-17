@@ -75,19 +75,25 @@ WHERE tipo = "ejercicio"
 SORT ud ASC, file.name ASC
 ```
 
-### 🚀 Cuaderno de Actividades de Aula Acompañado (Sincronizado con Teoría):
-- 📓 **[[AD-UT1-Cuaderno-Actividades-Aula|Cuaderno de Actividades de Aula UT1 (12 Actividades Guiadas - Alumnado)]]**:
-  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula.html) · [📄 PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula.pdf)
+### 📓 5.1. Cuadernos de Actividades de Aula Acompañados (`01-Cuaderno-Actividades/`):
+- 📓 **[[AD-UT1-Cuaderno-Actividades-Aula|Cuaderno de Actividades de Aula UT1 (14 Actividades Guiadas - Alumnado)]]**:
+  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula.html) · [📄 PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula.pdf)
 - 🔒 **[[AD-UT1-Cuaderno-Actividades-Aula-Profesor|Guía Docente y Solucionario Explicado UT1 (Profesor)]]**:
-  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula-Profesor.html) · [📄 PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/AD-UT1-Cuaderno-Actividades-Aula-Profesor.pdf)
+  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula-Profesor.html) · [📄 PDF Imprimible (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/01-Cuaderno-Actividades/AD-UT1-Cuaderno-Actividades-Aula-Profesor.pdf)
 
-### 🚀 Práctica Diagnóstica Oficial (Evaluación Inicial):
+### 📚 5.2. Hojas de Ejercicios Complementarios por Bloques (`02-Ejercicios-Complementarios/`):
+- 🔤 **Bloque 1 (Ficheros de Texto Plano y Java NIO.2)**:
+  - 📝 [[AD-UT1-B1-Ejercicios-Texto-NIO2|Hoja de Ejercicios B1 (Alumnado)]] · 🔑 [[AD-UT1-B1-Soluciones-Texto-NIO2|Solucionario Explicado B1 (Docente)]]
+- 🔢 **Bloque 2 (Ficheros Binarios, RAF y Serialización)**:
+  - 📝 [[AD-UT1-B2-Ejercicios-Binarios-RAF|Hoja de Ejercicios B2 (Alumnado)]] · 🔑 [[AD-UT1-B2-Soluciones-Binarios-RAF|Solucionario Explicado B2 (Docente)]]
+- 🌳 **Bloque 3 (Ecosistema XML: DOM, SAX, StAX y JAXB)**:
+  - 📝 [[AD-UT1-B3-Ejercicios-XML|Hoja de Ejercicios B3 (Alumnado)]] · 🔑 [[AD-UT1-B3-Soluciones-XML|Solucionario Explicado B3 (Docente)]]
+
+### 🛠️ 5.3. Prácticas Oficiales y Proyectos Capstone:
 - 📋 **[[PRAC-AD-Evaluacion-Inicial|Práctica de Evaluación Inicial: Diagnóstico en Java y Persistencia Básica]]**:
   - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.html) · [📄 PDF Imprimible con Rúbrica (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/Evaluacion-Inicial/PRAC-AD-Evaluacion-Inicial.pdf)
-
-### 🛠️ Práctica de Afianzamiento UT1 (Proyecto Capstone Multi-Formato):
 - 🚀 **[[PRAC-AD-UT1-Gestor-Ficheros-MultiFormato|Práctica de Afianzamiento UT1: CLI de Migración y Gestión Multi-Formato de Catálogo]]**:
-  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.html) · [📄 PDF Imprimible con Rúbrica de 10 Puntos (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.pdf)
+  - [🌐 Versión Web HTML](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/02-Ejercicios-Complementarios/Proyecto-Capstone/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.html) · [📄 PDF Imprimible con Rúbrica de 10 Puntos (A4)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/03-Ejercicios/UT1/02-Ejercicios-Complementarios/Proyecto-Capstone/PRAC-AD-UT1-Gestor-Ficheros-MultiFormato.pdf)
 
 ---
 

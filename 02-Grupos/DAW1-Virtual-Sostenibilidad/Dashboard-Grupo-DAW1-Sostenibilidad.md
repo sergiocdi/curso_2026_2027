@@ -18,6 +18,7 @@ horario_tutoria: "Miércoles 15:45 - 16:40 (Aula C212) y soporte en foros"
 ---
 
 ## ⚡ Accesos Directos
+- 🚀 [Presentación 1er Día (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Sostenibilidad/07-Presentaciones/Presentacion-Inicial/SOST-Distancia-Presentacion-Inicial.html) · [PDF Apaisado](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Sostenibilidad/07-Presentaciones/Presentacion-Inicial/SOST-Distancia-Presentacion-Inicial.pdf)
 - 📅 [[Calendario-Sesiones-Sostenibilidad-Virtual|Calendario Anual de Sesiones (Miércoles 15:45 - 16:40)]]
 - 🗓️ [[Cronograma-Sostenibilidad-Virtual|Cronograma Quincenal por Hitos]]
 - 📊 [[Cuaderno-Notas-DAW1-Sostenibilidad|Cuaderno de Calificaciones]]

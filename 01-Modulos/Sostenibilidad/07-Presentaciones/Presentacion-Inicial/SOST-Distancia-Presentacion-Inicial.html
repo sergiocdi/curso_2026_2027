@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentación Inicial: Sostenibilidad Aplicada (1º DAW Virtual) - CIFP Avilés</title>
+  <style>
+/* ==========================================================================
+   SISTEMA PROFESIONAL DE PRESENTACIONES DE AULA - CIFP AVILÉS (FP)
+   Formato 16:9 Panorámico · Navegación Teclado / PDI · Modo Impresión PDF A4
+   Docente: Sergio Capdevila Díez
+   ========================================================================== */
+
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Paleta Corporativa Modo Aula */
+  --bg-dark: #0b1120;
+  --bg-slide: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-hover: #27354f;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --primary: #38bdf8;
+  --primary-dark: #0284c7;
+  --accent-blue: #60a5fa;
+  --accent-amber: #fbbf24;
+  --accent-emerald: #34d399;
+  --accent-purple: #c084fc;
+  --accent-red: #f87171;
+
+  --border: #334155;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-primary: rgba(56, 189, 248, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* 1. BARRA DE PROGRESO */
+#progress-bar {
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  width: 0%;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+/* 2. VIEWPORT Y CONTENEDOR 16:9 */
+#presentation-viewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 30px;
+}
+
+.slide {
+  position: absolute;
+  width: 94vw;
+  max-width: 1440px;
+  height: 84vh;
+  aspect-ratio: 16 / 9;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 40px 52px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-light);
+  opacity: 0;
+  transform: translateY(8px) scale(0.995);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.slide.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 3. PORTADA INSTITUCIONAL (SLIDE 1) */
+.slide-cover {
+  background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+              linear-gradient(135deg, #0f172a 0%, #070d18 100%);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.cover-institution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inst-title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.inst-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.cover-logo-box {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cover-logo-box img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.cover-body {
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cover-badge-unit {
+  align-self: flex-start;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #0369a1;
+  background: #e0f2fe;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  border: 1px solid #7dd3fc;
+}
+
+.cover-title {
+  font-size: 46px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  color: #cbd5e1;
+  max-width: 980px;
+  line-height: 1.45;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.cover-meta-item span {
+  font-size: 14px;
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+/* 4. ENCABEZADO DE DIAPOSITIVAS ESTÁNDAR */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.slide-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slide-tag, .slide-badge {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 4px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.slide-subtitle {
+  font-size: 19px;
+  color: var(--text-muted);
+}
+
+.slide-header-logo {
+  background: #ffffff;
+  padding: 4px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.slide-header-logo img {
+  height: 36px;
+  width: auto;
+}
+
+/* 5. CONTENIDO DE DIAPOSITIVA */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+/* Layouts en rejilla */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-primary);
+}
+
+.card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-desc {
+  font-size: 18px;
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+.highlight-box {
+  background: rgba(56, 189, 248, 0.08);
+  border-left: 5px solid var(--primary);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+}
+
+.warning-box {
+  background: rgba(251, 191, 36, 0.08);
+  border-left: 5px solid var(--accent-amber);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: #fef08a;
+}
+
+.concept-box {
+  background: rgba(52, 211, 153, 0.08);
+  border-left: 5px solid var(--accent-emerald);
+  padding: 16px 24px;
+  border-radius: 0 10px 10px 0;
+  font-size: 18.5px;
+  line-height: 1.55;
+  color: #a7f3d0;
+}
+
+ul.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+ul.bullet-list li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 18.5px;
+  line-height: 1.55;
+}
+
+ul.bullet-list li::before {
+  content: "➜";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Tablas */
+table.slide-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+
+table.slide-table th, table.slide-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+table.slide-table th {
+  background: #1e293b;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+
+table.slide-table tr:nth-child(even) td {
+  background: rgba(30, 41, 59, 0.4);
+}
+
+/* Código */
+pre.code-block {
+  background: #020617;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: #38bdf8;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+/* 6. PIE DE DIAPOSITIVA */
+.slide-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-author {
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-author span.dot {
+  color: var(--primary);
+}
+
+.slide-counter {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  background: rgba(56, 189, 248, 0.1);
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+/* 7. CONTROLES FLOTANTES */
+#controls {
+  height: 52px;
+  background: #090d16;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 90;
+}
+
+.control-btn {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.control-btn:hover {
+  background: var(--border);
+  color: #ffffff;
+}
+
+/* 8. MODO IMPRESIÓN (PDF A4 LANDSCAPE - CERO PÁGINAS EN BLANCO) */
+@page {
+  size: 297mm 210mm; /* A4 Landscape */
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: auto !important;
+    display: block !important;
+  }
+
+  #progress-bar,
+  #controls,
+  #nav-controls,
+  .controls-overlay,
+  .controls,
+  nav,
+  .nav-btn,
+  .control-btn,
+  .btn-nav,
+  #keyboard-hints,
+  .keyboard-hint {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+
+  #presentation-viewport {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .slide {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    box-sizing: border-box !important;
+    aspect-ratio: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    opacity: 1 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 10mm 16mm 8mm 16mm !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .slide:last-child,
+  .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  /* Ajustes optimizados para maquetación impresa A4 Apaisada */
+  .slide-cover {
+    padding: 14mm 20mm 12mm 20mm !important;
+  }
+
+  .cover-header {
+    padding-bottom: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .cover-title {
+    font-size: 30px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .cover-subtitle {
+    font-size: 15px !important;
+    line-height: 1.4 !important;
+  }
+
+  .cover-meta-grid {
+    padding: 10px 16px !important;
+    gap: 10px !important;
+  }
+
+  .cover-meta-item strong {
+    font-size: 10px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .cover-meta-item span {
+    font-size: 12.5px !important;
+  }
+
+  .slide-header {
+    padding-bottom: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .slide-tag, .slide-badge {
+    font-size: 11px !important;
+    padding: 2px 10px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .slide-title {
+    font-size: 25px !important;
+    line-height: 1.25 !important;
+  }
+
+  .slide-subtitle {
+    font-size: 15px !important;
+    margin-top: 2px !important;
+    line-height: 1.35 !important;
+  }
+
+  .slide-header-logo {
+    padding: 3px 10px !important;
+  }
+
+  .slide-header-logo img {
+    height: 30px !important;
+  }
+
+  .slide-content, .slide-body {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    min-height: 0 !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .grid-2 {
+    gap: 16px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .grid-3 {
+    gap: 14px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .card {
+    padding: 12px 16px !important;
+    border-radius: 10px !important;
+    gap: 6px !important;
+  }
+
+  .card-title {
+    font-size: 18px !important;
+    margin-bottom: 3px !important;
+    line-height: 1.3 !important;
+  }
+
+  .card-badge {
+    font-size: 11.5px !important;
+    padding: 2px 10px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .card-desc {
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  .bullet-list {
+    gap: 5px !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  .bullet-list li {
+    font-size: 14.5px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 2px !important;
+  }
+
+  .step-card {
+    padding: 12px 16px !important;
+    gap: 14px !important;
+  }
+
+  .step-badge {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    font-size: 15px !important;
+  }
+
+  .highlight-box, .warning-box, .concept-box {
+    padding: 12px 16px !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+    font-size: 14.5px !important;
+    line-height: 1.45 !important;
+    border-radius: 8px !important;
+  }
+
+  .slide-footer {
+    margin-top: auto !important;
+    padding-top: 6px !important;
+    font-size: 12px !important;
+    flex-shrink: 0 !important;
+    border-top: 1px solid var(--border) !important;
+  }
+
+  .slide-counter {
+    padding: 2px 8px !important;
+    font-size: 12px !important;
+  }
+
+  .cover-logo-box, .slide-header-logo {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Barra de progreso superior -->
+  <div id="progress-bar"></div>
+
+  <!-- Contenedor Principal de la Presentación -->
+  <main id="presentation-viewport">
+
+    <!-- ====================================================================
+         SLIDE 1: PORTADA INSTITUCIONAL
+         ==================================================================== -->
+    <section class="slide slide-cover active" id="slide-1" data-title="Portada">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Consejería de Educación</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">CURSO 2026 - 2027 · 1º DAW · MODALIDAD A DISTANCIA / VIRTUAL</div>
+        <h1 class="cover-title">Sostenibilidad Aplicada al Sistema Productivo</h1>
+        <p class="cover-subtitle">Presentación de inicio de curso: guía docente, competencias en desarrollo web, criterios ASG, cálculo de huella digital, ecodiseño web y sistema de evaluación oficial.</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item">
+          <strong>Módulo Curricular</strong>
+          <span>Sostenibilidad Aplicada (Código 1708 · DAW)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Ciclo y Modalidad</strong>
+          <span>1º DAW (Grado Superior) · Virtual / Distancia</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Horario y Sesiones</strong>
+          <span>Miércoles 15:45 - 16:40 h (Aula C212 + Campus Virtual)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Carga Horaria Oficial</strong>
+          <span>30 horas lectivas (1 hora lectiva semanal)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Profesor Responsable</strong>
+          <span>Sergio Capdevila Díez (Jefe Dpto. Informática)</span>
+        </div>
+        <div class="cover-meta-item">
+          <strong>Resultados de Aprendizaje</strong>
+          <span>RA1 a RA6 (16,67% cada uno · LOMLOE)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 2: BIENVENIDA Y DATOS DEL DOCENTE
+         ==================================================================== -->
+    <section class="slide" id="slide-2" data-title="Bienvenida y Docente">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Docencia y Tutoría · Departamento de Informática</span>
+          <h2 class="slide-title">Bienvenida al Módulo y Canales de Comunicación</h2>
+          <p class="slide-subtitle">Vuestra referencia docente y organizativa para acompañaros a lo largo de este curso formativo</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">👨‍🏫 Perfil y Responsabilidad Docente</div>
+            <p class="card-desc">El módulo de Sostenibilidad en 1º DAW Virtual está a cargo del Jefe de Departamento de Informática del centro:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Docente</strong>: Sergio Capdevila Díez.</li>
+              <li><strong>Departamento</strong>: Informática y Comunicaciones (CIFP Avilés).</li>
+              <li><strong>Ubicación del Aula</strong>: Aula C212 (Edificio Principal, planta 2).</li>
+              <li><strong>Coordinación</strong>: Integración transversal de la sostenibilidad con los módulos técnicos de programación, bases de datos y entornos.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📫 Vías Oficiales de Contacto y Tutoría</div>
+            <p class="card-desc">Disponemos de canales ágiles y estructurados para resolver cualquier necesidad pedagógica:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Campus Virtual Moodle (Preferente)</strong>: Mensajería privada y foros temáticos de dudas por unidad.</li>
+              <li><strong>Correo Institucional</strong>: <code>scapdevila@educastur.org</code> (para gestiones oficiales y convocatorias).</li>
+              <li><strong>Tutoría Individual</strong>: Atención personalizada telemática (Teams) o presencial con cita previa concertada por correo o Moodle.</li>
+              <li><strong>Foros de Clase</strong>: Espacio colaborativo para resolver incidencias técnicas y dudas compartidas.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          💡 <strong>Compromiso Docente:</strong> La modalidad virtual requiere autonomía, pero nunca estaréis solos. Las dudas planteadas en los foros se responden con prontitud para asegurar un ritmo de aprendizaje fluido y sin bloqueos.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">02 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 3: HORARIO Y DINÁMICA DE LA MODALIDAD VIRTUAL
+         ==================================================================== -->
+    <section class="slide" id="slide-3" data-title="Horario y Metodología Virtual">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Organización Semanal · 30 Horas Lectivas</span>
+          <h2 class="slide-title">Horario, Sesiones Telemáticas y Campus Virtual</h2>
+          <p class="slide-subtitle">Una sesión semanal síncrona de 55 minutos complementada con trabajo continuo en Moodle</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">🕒 Sesión Síncrona</div>
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">Miércoles 15:45 - 16:40 h</div>
+            <p class="card-desc">Tutoría colectiva semanal retransmitida desde el Aula C212:</p>
+            <ul class="bullet-list" style="font-size: 13.5px;">
+              <li>Explicación guiada de saberes básicos.</li>
+              <li>Resolución de dudas en vivo y debate.</li>
+              <li>Pautas para los retos prácticos quincenales.</li>
+              <li>Grabación íntegra disponible en Moodle.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🖥️ Campus Moodle</div>
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">Centro Neurálgico</div>
+            <p class="card-desc">La plataforma centralizada donde se gestiona todo el módulo:</p>
+            <ul class="bullet-list" style="font-size: 13.5px;">
+              <li>Apuntes temáticos y presentaciones visuales.</li>
+              <li>Buzones oficiales de entrega con fecha límite.</li>
+              <li>Cuestionarios de autoevaluación continua.</li>
+              <li>Foros de debate y consultas por unidad.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📅 Ritmo y Calendario</div>
+            <div class="card-badge" style="background: rgba(251, 191, 36, 0.15); color: var(--accent-amber);">36 Sesiones Activas</div>
+            <p class="card-desc">Planificación anual ajustada al calendario escolar oficial de Avilés:</p>
+            <ul class="bullet-list" style="font-size: 13.5px;">
+              <li>Inicio: 23 de septiembre de 2026.</li>
+              <li>1ª Evaluación: Enero 2027 (UT1 a UT3).</li>
+              <li>2ª Evaluación: Mayo 2027 (UT4 a UT6).</li>
+              <li>Días festivos contemplados en el calendario.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          📌 <strong>Asistencia y Flexibilidad:</strong> La asistencia a las sesiones de los miércoles no es obligatoria para la evaluación continua, pero sí <strong>altamente recomendada</strong>. Si por motivos laborales o personales no puedes conectarte en directo, es imprescindible visualizar la grabación durante la misma semana.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">03 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 4: ¿POR QUÉ SOSTENIBILIDAD EN DESARROLLO WEB?
+         ==================================================================== -->
+    <section class="slide" id="slide-4" data-title="Sostenibilidad en DAW">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Contexto Profesional · Sector IT & Web</span>
+          <h2 class="slide-title">¿Por qué Sostenibilidad en Desarrollo de Aplicaciones Web?</h2>
+          <p class="slide-subtitle">El impacto ambiental de la tecnología digital y la exigencia de perfiles profesionales verdes</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🌐 La Huella Oculta del Ecosistema Digital</div>
+            <p class="card-desc">Existe la falsa creencia de que "lo digital no contamina". La realidad de los datos muestra un escenario crítico:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Consumo Eléctrico Global</strong>: Los data centers y las redes de telecomunicaciones consumen entre el 3% y el 4% de la electricidad mundial.</li>
+              <li><strong>Emisiones de CO₂</strong>: El sector TIC genera un volumen de gases de efecto invernadero superior al de toda la industria de la aviación comercial.</li>
+              <li><strong>El Desafío de la IA y el Big Data</strong>: Entrenar y consultar modelos de IA multiplica exponencialmente la demanda de energía y refrigeración por agua.</li>
+              <li><strong>Residuos Electrónicos (E-waste)</strong>: Crecimiento descontrolado de componentes obsoletos sin reciclar.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🚀 Green Software & Ventaja Competitiva</div>
+            <p class="card-desc">El desarrollo web eficiente es la solución técnica a este gran reto planetario e industrial:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Ecodiseño Web</strong>: Reducción de bytes transferidos, compresión inteligente de assets, fuentes ligeras y arquitecturas optimizadas.</li>
+              <li><strong>Eficiencia Algorítmica</strong>: Código limpio que minimiza ciclos de CPU/GPU en servidor y en terminales de cliente.</li>
+              <li><strong>Normativa Europea (CSRD & Taxonomía)</strong>: Las empresas están obligadas por ley a auditar y reportar la huella ambiental de su software e infraestructura.</li>
+              <li><strong>Alta Empleabilidad</strong>: Las empresas tecnológicas buscan activamente programadores formados en desarrollo sostenible y métricas ASG.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          🌱 <strong>Enfoque en DAW:</strong> Este módulo no es teoría abstracta ni relleno ecológico. Aprenderás a medir los gramos de $CO_2$ que emite una página web por visita, a optimizar el rendimiento y a aplicar los estándares de la <em>Green Software Foundation</em>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">04 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 5: ESTRUCTURA CURRICULAR: 6 UNIDADES Y 6 RAs
+         ==================================================================== -->
+    <section class="slide" id="slide-5" data-title="Estructura Curricular">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Diseño Modular Oficial · Real Decreto 659/2023</span>
+          <h2 class="slide-title">Estructura del Módulo: 6 Unidades y 6 RAs</h2>
+          <p class="slide-subtitle">Distribución equilibrada: 5 horas lectivas y 16,67% de peso en la calificación final por unidad</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th style="width: 10%;">Unidad</th>
+              <th style="width: 44%;">Denominación Oficial de la Unidad de Trabajo</th>
+              <th style="width: 12%; text-align: center;">Evaluación</th>
+              <th style="width: 10%; text-align: center;">Horas</th>
+              <th style="width: 12%; text-align: center;">Ponderación</th>
+              <th style="width: 12%; text-align: center;">RA Asociado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>UT 1</strong></td>
+              <td>La sostenibilidad en las organizaciones empresariales (ASG/ESG, CSRD)</td>
+              <td style="text-align: center;"><span style="color: var(--primary);">1ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 1</td>
+            </tr>
+            <tr>
+              <td><strong>UT 2</strong></td>
+              <td>Retos ambientales y sociales (Emergencia climática, emisiones Alcances 1-2-3)</td>
+              <td style="text-align: center;"><span style="color: var(--primary);">1ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 2</td>
+            </tr>
+            <tr>
+              <td><strong>UT 3</strong></td>
+              <td>Los ODS en el desempeño profesional y personal (Agenda 2030 en IT)</td>
+              <td style="text-align: center;"><span style="color: var(--primary);">1ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 3</td>
+            </tr>
+            <tr>
+              <td><strong>UT 4</strong></td>
+              <td>Economía verde y circular (Modelo circular, Ecodiseño y Green Software)</td>
+              <td style="text-align: center;"><span style="color: var(--accent-emerald);">2ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 4</td>
+            </tr>
+            <tr>
+              <td><strong>UT 5</strong></td>
+              <td>Actividades sostenibles y medioambiente (Auditoría web, huella digital, e-waste)</td>
+              <td style="text-align: center;"><span style="color: var(--accent-emerald);">2ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 5</td>
+            </tr>
+            <tr>
+              <td><strong>UT 6</strong></td>
+              <td>El plan de sostenibilidad (Elaboración, métricas, KPIs y defensa del plan)</td>
+              <td style="text-align: center;"><span style="color: var(--accent-emerald);">2ª Ev.</span></td>
+              <td style="text-align: center;">5 h</td>
+              <td style="text-align: center;"><strong>16,67 %</strong></td>
+              <td style="text-align: center;">RA 6</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="concept-box" style="margin-top: 10px;">
+          ⚖️ <strong>Principio de Paridad Curricular:</strong> Cada Unidad de Trabajo cuenta exactamente con el mismo peso matemático (1/6 = 16,67%). Superar el módulo exige demostrar competencia suficiente en todos y cada uno de los 6 Resultados de Aprendizaje.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">05 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 6: BLOQUE 1ª EVALUACIÓN (OCTUBRE A ENERO)
+         ==================================================================== -->
+    <section class="slide" id="slide-6" data-title="Bloque 1ª Evaluación">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">1ª Evaluación (Octubre - Enero) · 15 Horas Lectivas</span>
+          <h2 class="slide-title">Bloque 1ª Evaluación: Fundamentos y Retos Globales</h2>
+          <p class="slide-subtitle">De los marcos corporativos ASG al papel activo de los desarrolladores en los ODS</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">UT 1 · RA 1 (5h)</div>
+            <div class="card-title">🏢 Sostenibilidad Empresarial</div>
+            <p class="card-desc">Criterios ASG/ESG en las organizaciones:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Triple hélice: Ambiental, Social y Gobernanza.</li>
+              <li>Directiva europea CSRD e informes no financieros.</li>
+              <li>Estándares GRI y análisis de materialidad.</li>
+              <li>Finanzas sostenibles e inversión tecnológica responsable.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">UT 2 · RA 2 (5h)</div>
+            <div class="card-title">🌍 Retos Ambientales y Sociales</div>
+            <p class="card-desc">Límites planetarios y actividad económica:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Emergencia climática y huella de carbono.</li>
+              <li>Protocolo de GEI: Alcances 1, 2 y 3 (servidores y cloud).</li>
+              <li>Brecha digital, accesibilidad web e inclusión.</li>
+              <li>Vulnerabilidad de centros de datos ante el estrés térmico.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">UT 3 · RA 3 (5h)</div>
+            <div class="card-title">🎯 Los ODS en el Sector IT</div>
+            <p class="card-desc">La Agenda 2030 en el desarrollo de software:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Metas clave para DAW: ODS 7, 8, 9, 12 y 13.</li>
+              <li>Alineación de proyectos web con objetivos sostenibles.</li>
+              <li>Limpieza de basura digital (<em>data clutter</em>).</li>
+              <li>Código de conducta y hábitos profesionales responsables.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          📝 <strong>Hito de la 1ª Evaluación:</strong> Al concluir la UT3 (finales de enero de 2027), se realizará la prueba escrita sumativa de la 1ª Evaluación en Moodle, combinada con la entrega de los retos prácticos de las tres unidades.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">06 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 7: BLOQUE 2ª EVALUACIÓN (FEBRERO A MAYO)
+         ==================================================================== -->
+    <section class="slide" id="slide-7" data-title="Bloque 2ª Evaluación">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">2ª Evaluación (Febrero - Mayo) · 15 Horas Lectivas</span>
+          <h2 class="slide-title">Bloque 2ª Evaluación: Economía Circular, Ecodiseño y Plan</h2>
+          <p class="slide-subtitle">De la optimización del código fuente a la elaboración integral del Plan de Sostenibilidad</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">UT 4 · RA 4 (5h)</div>
+            <div class="card-title">♻️ Economía Circular & Green IT</div>
+            <p class="card-desc">Superación del modelo lineal en informática:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>De extraer-usar-tirar a regenerar y retener valor.</li>
+              <li>Análisis de Ciclo de Vida (ACV) de aplicaciones web.</li>
+              <li>Principios de <em>Green Software Engineering</em>.</li>
+              <li>Refactorización de código y lucha contra la obsolescencia.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">UT 5 · RA 5 (5h)</div>
+            <div class="card-title">⚡ Auditoría y Gestión de Residuos</div>
+            <p class="card-desc">Medición del impacto ambiental de servicios web:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Auditorías con <em>Website Carbon</em> y <em>Ecograder</em>.</li>
+              <li>Cálculo de emisiones de $CO_2$ por página y transacción.</li>
+              <li>PUE y energías renovables en servidores cloud.</li>
+              <li>Gestión de RAEE (e-waste) y directivas de reciclaje.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">UT 6 · RA 6 (5h)</div>
+            <div class="card-title">📊 El Plan de Sostenibilidad</div>
+            <p class="card-desc">Diseño e implantación en una empresa software:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Diagnóstico ambiental y matriz de materialidad.</li>
+              <li>Definición de objetivos SMART y KPIs de seguimiento.</li>
+              <li>Medidas correctoras en hosting, código y oficinas.</li>
+              <li>Redacción, presupuesto y defensa del plan de acción.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          🎯 <strong>Hito de la 2ª Evaluación:</strong> La 2ª Evaluación culmina en mayo de 2027 con la defensa del Plan de Sostenibilidad y el examen sumativo en Moodle sobre las UT4, UT5 y UT6.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">07 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 8: PROYECTO INTEGRADOR: AUDITORÍA Y PLAN DE SOSTENIBILIDAD
+         ==================================================================== -->
+    <section class="slide" id="slide-8" data-title="Proyecto Integrador">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Aplicación Práctica Real · Hilo Conductor</span>
+          <h2 class="slide-title">El Proyecto Integrador: Plan de Sostenibilidad de una Empresa Web</h2>
+          <p class="slide-subtitle">Un supuesto práctico profesional que aplicarás a una startup o empresa tecnológica real o simulada</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">🔍 Fase 1: Auditoría de Huella Digital y Diagnóstico</div>
+            <p class="card-desc">Medición objetiva y rigurosa del impacto ambiental del producto digital:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Auditoría Web Completa</strong>: Análisis de la web corporativa midiendo peso de página (DOM, imágenes, scripts, fonts) y emisiones medias por visita.</li>
+              <li><strong>Infraestructura Cloud</strong>: Verificación de centros de datos, procedencia de la energía (PUE) y cálculo de emisiones de Alcance 2 y 3.</li>
+              <li><strong>Matriz de Doble Materialidad</strong>: Identificación de impactos sobre el entorno y riesgos financieros para la empresa.</li>
+              <li><strong>Benchmark Competitivo</strong>: Comparativa de sostenibilidad frente a soluciones web similares del mercado.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📋 Fase 2: Plan de Acción y Medidas Técnicas</div>
+            <p class="card-desc">Propuesta de soluciones ingenieriles concretas para reducir la huella de carbono:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Optimización Frontend</strong>: Migración a formatos modernos (WebP/AVIF), compresión Brotli/Gzip, lazy loading y dark mode automático.</li>
+              <li><strong>Estrategia de Hosting Verde</strong>: Migración a proveedores acreditados con energía 100% renovable (The Green Web Foundation).</li>
+              <li><strong>Políticas Internas</strong>: Protocolo de teletrabajo eficiente, reutilización de equipos informáticos y gestión de e-waste.</li>
+              <li><strong>KPIs y Cuadro de Mando</strong>: Indicadores cuantitativos para evaluar el progreso anual de descarbonización.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          💼 <strong>Valor para vuestro Portafolio:</strong> El Plan de Sostenibilidad no quedará guardado en un cajón. Es un documento formal y profesional que podréis incluir en vuestro portfolio de desarrolladores web como valor diferencial en procesos de selección.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">08 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 9: SISTEMA DE EVALUACIÓN Y CALIFICACIÓN OFICIAL (50/50)
+         ==================================================================== -->
+    <section class="slide" id="slide-9" data-title="Evaluación y Calificación">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Normativa Oficial · Programación Aprobada CIFP Avilés</span>
+          <h2 class="slide-title">Sistema de Evaluación: 50% Retos Prácticos + 50% Exámenes</h2>
+          <p class="slide-subtitle">Evaluación continua, procesual y con exigencia de superación mínima en cada Resultado de Aprendizaje</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">50% de cada RA</div>
+            <div class="card-title">🛠️ Evaluación Formativa (Retos & Tareas)</div>
+            <p class="card-desc">Trabajo continuo desarrollado a lo largo de cada Unidad de Trabajo en Moodle:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Retos Prácticos Quincenales</strong>: Auditorías web, análisis de memorias GRI, cálculo de emisiones y matrices ASG.</li>
+              <li><strong>Entregas en Plazo</strong>: Respeto estricto a las fechas límite del calendario.</li>
+              <li><strong>Mecanismo de Rescate</strong>: Si en alguna unidad no se alcanza el 5 en los trabajos prácticos, su porcentaje se acumula en la prueba escrita sumativa de esa evaluación.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">50% de cada RA</div>
+            <div class="card-title">📝 Evaluación Sumativa (Pruebas Teórico-Prácticas)</div>
+            <p class="card-desc">Verificación individual de la adquisición de saberes y criterios de evaluación:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Pruebas Escritas en Moodle</strong>: Cuestionarios tipo test y supuestos prácticos aplicados al finalizar cada trimestre.</li>
+              <li><strong>1ª Evaluación (Enero)</strong>: Preguntas de UT1, UT2 y UT3.</li>
+              <li><strong>2ª Evaluación (Mayo)</strong>: Preguntas de UT4, UT5 y UT6.</li>
+              <li><strong>Requisito Mínimo Imprescindible</strong>: Obtener una calificación <strong>igual o superior a 5,0</strong> en la prueba sumativa para cada RA.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          ⚠️ <strong>Regla Estricta de Superación del Módulo:</strong> Todos los 6 RAs son mínimos obligatorios. Si un alumno obtiene una nota inferior a 5,0 en cualquiera de los 6 RAs, <strong>el módulo no se supera</strong> y la calificación máxima que figurará en el acta oficial será de <strong>4 (Suspenso)</strong>, aunque la media matemática supere el aprobado.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">09 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 10: CONVOCATORIAS Y RECUPERACIONES
+         ==================================================================== -->
+    <section class="slide" id="slide-10" data-title="Convocatorias y Recuperación">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Gestión del Rendimiento · Calendario de Recuperaciones</span>
+          <h2 class="slide-title">Convocatorias Oficiales y Filosofía de Recuperación</h2>
+          <p class="slide-subtitle">Solo se recuperan las Unidades y RAs pendientes, conservando las calificaciones superadas</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABuCAMAAAAj1dyRAAAAAXNSR0IArs4c6QAAARpQTFRFHD1QHThJHjJAGkFXGUZeElZ2FFJwF0plEFl7Fk5rDV2AAGePC2CFB2SKIh4fNx0jPjYfISUsLTIzICw3NHCKRxwoVRsrQD4/U0geV1ZWWFdXQkBAbRkydxg2YRovZVcedWQeenl6amlpa2pqe3p7YICAkhQ+ihU8gBY5mhJBg3AekHsdnIUdjZVwl5aWiYiJmJeXiomKuAtLvwlOohFEqg9GsQ1Jp48dooAkoJdavKEcurBosK+vu7u7pKOjvLu7sLCwpKSkxgZQyTFYy2JY0mVb24ZSxqkcz7Eb2Lkb2cNV0NDQxsbG2tra0dHR29vbx8bG4p806rgp4cEb8s8a6sga78gg7s4z7e3t5OTk9vb29/f37u7u////eRZTrQAABnRJREFUaN7tmm1D4kYQx+PpAV4kQK0iIAJKxYerWpCjpYAc1+thJUpPaEmQ7/81mpjsZjc7m92Nd33l/81hHvZ3Mzs7+5DRVv+/tFfmK/OV+V2Yi7veRa1g+MrXLnsT63syF/3LvAGp1rO+C9MaFIwI5S/Mb8y0J4eGUIWe/e2Ydi9vyOli8W2Y8kRZqpA5USG6EntYwFzUoGYr1WrH0Vm1Cvar+SJmn2mw2vnyOCM0H3fOsuGHBnZsph0yMnv+ZQbq9v0e/eShFZNp0T1Z7c4iND6nh+skFpMOnvPHmUDzDuXjQQzmhGzgTEj0qNSoUWb2iLf3xjNJPVZloJoY2Zkp6EtWDNVEjpU30je1IoRqAmR1PlPVuQiqRQ+S81kMdQPoRJJp5+N1JQi15JhB9unOYuoWR1LelmH2Jay8HY+73fF4LGHppQTTEvTlvHtORObeWfdRAL0TM7Fnq+DwOwNmti4U2x2+dzXeMNkDGuruwdN0tgM8XOUOGI0Xs7fs1FHhLw6ybLjNcRyZ0cweN37m76OXJGzyGOPlbyQTm1lhIrUiWgdlx9yEZEYxsZm/cQdchEL+/fpHBjZUA83U9J/+UkbS0H/+HI2O4WykgUG7pev6z/+qIkno359GjnbA0KWYaIOwrrv68XdVpGH4i7Svn0fPOkXXbR7TIs105Tl4XpFGGtlH362+kKF9HnOAexPLdfB7lVV8BbnVUwMtPnlMtNl7GzAdB4/Vtg6/fh4RaqLLC5iJXJvTKf2gxsw0SeZoH5i8NXYSW6eQCcUtklGmmKfAlEYwLwHX6vq2KtOgDG2h2QVmooRAId8qI40TytADNi1oTHeuUUxNnZmhmA22QwPmnX8zSSLTqKGr++Vq+XBTdH+7T7uXhkiGUfR+XJXc+9cks83uXzQmv6eACDrCnrkpYeYDftUw6v6v5VXYuS02z2tMCKVJ5rqHXAYvDCOZq6XjiR3KuTtMEGnMQoiN2qKLfLiq14dWiDlFvnWYT8Oh+7+4d+60oCCCmHkohJ4vuU1deXd/WVLMOupuh/ng/PPRC8U2yTxhMpFGOIhlpvz2Vh9R46ViFLPk3TmGAtfkM9cZ5tRrLxCfeeTdaZDMYzEzyWSEJ+xZIfPG820DGiyyzKSPKHKYZNw6MTT1Y6j8UmY9uBfJDMaKsf8SZkKV+fTsbVXfboRj6CiCSfWnM1D9vxvQbGaqjBXn3pEEcxg80FAcK2tMireo9mSYbYhp8XMfvTLJeQPgqaTEbMrmPjDfutNn0bk5Rc25XSZi0hPobgQTnMs2Dc/Q1fTZ0qK1kmBSQ2UUNZehJdgmydx6zrFuVyynw3snI8kwT0nkB3b7EDBNdkXt6A2G+pJgtqB02wfXYODy1lsolG7QmL8Sx1AZXOCaIBMF0TtqtOS8i8WP04eHqbfe8ZlH9ToO51K9XgRHyijDhBDJHEDZz0vzKjqgkNdsCJFM1KHbOmSotGgzy/7VHmePlIec6w2XuFsH7FqLw7wANyz6mtKCugVuVwq8vSBaVeeo5aa+peLd6xGYhAbcvX0BjCKVPQu9V8FzJ7X9pJk92FD5/WCoM3F+r/HPMBYGbKi+EQ+JzZxEnEmhKMpt6TEsDSPxCUYh6hwMG6rpYWhOtS+D2Tp8Kh86Y0SGhjbbjt69EQyS6zCymYHNDDOxoeEwEmXBciuMxOOE+fgQPjNGSTe0V/IG6jo3x7YZYuDZ8FEqwwwOjTd0gLoBdWsZIOLkDnzuYM7j7/CzCR3S23XqJCWzf9oCiKMPqDOBj5Lst45L3F5Kh5VOJZMbawcnjUa7OYKF48c4tCWYNq63yL3TIzSKUGuX71nwO1LwhSUSGoFsBsj+SopJfhZMxGEGfQl/GAS/RV4E0KQ68zpAHq6kmSRUSysyG8G7h7YCc0WU0WynVJjNg+DNAqc0gsO0ydqdjbQ0s5EhkLzCCN53e5twr5FLyDHbO4bQsauomggSamwnxMz2gSGFjKr9oAtctjfTkczTXepxfkVEdI2LGSod0hJpDvO6nKEf7a9iMpnCGmeGS6bCzA/H+yGgoKxGVLPUB6qktteSyc1Uqt0+bTT2d4G5TVA+JKzNouJXSjVhrZ+4Bs2sqRALE2GDUrV28lQZomxNoSnl4ZoUUb520u4LKhkLg4VkUyo1otwSUdUiUcVaWKs/qNHg2kXPVGsjXs2vZSLFefu1tvmV+WL9B9tKWJzBHPVRAAAAAElFTkSuQmCC" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">📅 1ª Evaluación</div>
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">Enero 2027</div>
+            <p class="card-desc">Cierre del primer bloque modular:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Evaluación de UT1, UT2 y UT3.</li>
+              <li>Informe de calificaciones intermedias orientativas en la plataforma.</li>
+              <li>Identificación de alumnos con dificultades tempranas para orientar refuerzo.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📅 2ª Evaluación y Ordinaria</div>
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">Mayo / Junio 2027</div>
+            <p class="card-desc">Evaluación del segundo bloque y cierre:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Evaluación de UT4, UT5 y UT6.</li>
+              <li>Prueba de Convocatoria Ordinaria (finales de mayo o principios de junio).</li>
+              <li>Ocasión para recuperar los RAs suspensos de la 1ª y/o 2ª evaluación.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📅 Convocatoria Extraordinaria</div>
+            <div class="card-badge" style="background: rgba(251, 191, 36, 0.15); color: var(--accent-amber);">Finales de Junio 2027</div>
+            <p class="card-desc">Segunda oportunidad oficial:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Prueba individualizada centrada exclusivamente en los RAs no superados.</li>
+              <li>Reentrega de actividades o proyectos que resultaron insuficientes.</li>
+              <li>Acta final definitiva del curso escolar.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="concept-box">
+          💡 <strong>Filosofía de Respeto al Trabajo Superado:</strong> En las convocatorias de recuperación (Ordinaria y Extraordinaria) <strong>no se vuelve a examinar de todo el módulo</strong>. Si has aprobado los RAs de la 1ª Evaluación (UT1, UT2 y UT3) con solvencia, solo tendrás que recuperar los RAs concretos que te hayan quedado pendientes de la 2ª Evaluación.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">10 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 11: MATERIALES DE ESTUDIO Y RECURSOS
+         ==================================================================== -->
+    <section class="slide" id="slide-11" data-title="Materiales y Recursos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Bibliografía y Herramientas · Acceso a Recursos</span>
+          <h2 class="slide-title">Manual de Referencia y Ecosistema de Herramientas</h2>
+          <p class="slide-subtitle">La combinación del libro de texto Editex con plataformas digitales avanzadas de auditoría</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">📖 Libro de Texto de Referencia</div>
+            <p class="card-desc">Manual oficial adoptado para el seguimiento teórico de los saberes básicos:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Título</strong>: <em>Sostenibilidad Aplicada al Sistema Productivo</em>.</li>
+              <li><strong>Editorial</strong>: EDITEX (Edición actualizada LOMLOE / RD 659/2023).</li>
+              <li><strong>Autores</strong>: Eva María García Navarro y Tomás Álvarez Sánchez.</li>
+              <li><strong>Estructura</strong>: Explicaciones directas, casos prácticos empresariales, resúmenes y baterías de preguntas tipo test muy alineadas con las pruebas de evaluación.</li>
+              <li><strong>Formato</strong>: Disponible en versión física en librerías o digital a través de la plataforma Editex.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">🛠️ Herramientas Digitales y Normativas</div>
+            <p class="card-desc">Plataformas que utilizaremos en las prácticas de aula y el proyecto integrador:</p>
+            <ul class="bullet-list mt-2">
+              <li><strong>Website Carbon Calculator</strong> (<code>websitecarbon.com</code>): Medición en vivo de huella digital por página web.</li>
+              <li><strong>Ecograder</strong>: Análisis de UX, hosting verde, peso de código y eficiencia.</li>
+              <li><strong>The Green Web Foundation</strong>: Base de datos mundial para verificar si un servidor cloud utiliza energía 100% renovable.</li>
+              <li><strong>Green Software Foundation</strong>: Principios de arquitectura sostenible, métricas SCI (<em>Software Carbon Intensity</em>) y buenas prácticas.</li>
+              <li><strong>Directiva CSRD & Estándares GRI</strong>: Modelos oficiales de reporte no financiero de la Unión Europea.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          📚 <strong>Apuntes en el Aula Virtual:</strong> Además del manual Editex, en Moodle dispondréis de presentaciones interactivas, guías paso a paso de cada herramienta y enlaces a informes reales de empresas tecnológicas de primer nivel (Google, Microsoft, AWS).
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">11 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 12: DECÁLOGO PARA EL ÉXITO EN MODALIDAD A DISTANCIA
+         ==================================================================== -->
+    <section class="slide" id="slide-12" data-title="Decálogo para el Éxito">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Orientación al Alumnado · Consejos Prácticos</span>
+          <h2 class="slide-title">Decálogo para Triunfar en la Modalidad a Distancia</h2>
+          <p class="slide-subtitle">10 pautas comprobadas para superar el módulo con excelentes resultados compaginando trabajo y estudio</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="padding: 12px 18px;">
+            <ul class="bullet-list" style="font-size: 13.5px; gap: 7px;">
+              <li><strong>1. Fija un horario semanal inamovible</strong>: Reserva 2 horas semanales fijas en tu agenda para este módulo. La constancia supera al esfuerzo de última hora.</li>
+              <li><strong>2. Sigue las sesiones síncronas</strong>: Conéctate los miércoles a las 15:45 h o visualiza la grabación íntegra antes del fin de semana.</li>
+              <li><strong>3. Entrega siempre en plazo</strong>: Los retos en Moodle están secuenciados para consolidar la teoría. Dejar acumular entregas genera estrés innecesario.</li>
+              <li><strong>4. Participa activamente en los foros</strong>: Tus dudas y soluciones ayudan al resto de compañeros y enriquecen la comunidad.</li>
+              <li><strong>5. Conecta la teoría con tu código</strong>: Cada vez que desarrolles una web en DAW, piensa en el peso de las imágenes, en el DOM y en el hosting.</li>
+            </ul>
+          </div>
+
+          <div class="card" style="padding: 12px 18px;">
+            <ul class="bullet-list" style="font-size: 13.5px; gap: 7px;">
+              <li><strong>6. Estudia con el libro Editex</strong>: Realiza los ejercicios y cuestionarios de autoevaluación que propone al final de cada unidad.</li>
+              <li><strong>7. Revisa las rúbricas antes de entregar</strong>: Conoce exactamente qué criterios de evaluación y evidencias se valoran en cada tarea.</li>
+              <li><strong>8. No temas preguntar en tutoría</strong>: Si un concepto o cálculo no queda claro, pide cita o escribe un mensaje en Moodle inmediatamente.</li>
+              <li><strong>9. Consulta tu cuaderno de notas</strong>: Supervisa periódicamente tus calificaciones en el Campus Virtual para controlar tu progreso por RA.</li>
+              <li><strong>10. Aprovecha el valor profesional</strong>: La sostenibilidad digital te diferenciará en el mercado laboral: domínala con orgullo.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="concept-box" style="margin-top: 8px;">
+          ⭐ <strong>La Clave del Éxito:</strong> Quien mantiene una constancia semanal de 1 hora de sesión + 1 hora de trabajo individual supera el módulo con notas de Notable y Sobresaliente.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">12 / 13</span>
+      </footer>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 13: PRIMEROS PASOS INMEDIATOS
+         ==================================================================== -->
+    <section class="slide" id="slide-13" data-title="Primeros Pasos">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Puesta en Marcha · Hoja de Ruta Inmediata</span>
+          <h2 class="slide-title">¿Qué Debes Hacer Esta Primera Semana?</h2>
+          <p class="slide-subtitle">Tu plan de acción para los próximos 7 días para arrancar el curso con paso firme</p>
+        </div>
+        <div class="slide-header-logo">
+          <img src="data:image/png;base64,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" alt="CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-title">1️⃣ Acceso al Campus</div>
+            <div class="card-badge" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">Hoy Mismo</div>
+            <p class="card-desc">Verifica tu acceso a la plataforma Moodle del CIFP Avilés:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Entra en el aula virtual de Sostenibilidad (1708).</li>
+              <li>Revisa los avisos del tablón general.</li>
+              <li>Preséntate en el <strong>Foro de Bienvenida</strong> explicando tu perfil e intereses en el ciclo DAW.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">2️⃣ Cuestionario Inicial</div>
+            <div class="card-badge" style="background: rgba(52, 211, 153, 0.15); color: var(--accent-emerald);">Antes del Domingo</div>
+            <p class="card-desc">Realiza la Evaluación Diagnóstica Inicial:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Cuestionario breve (15 preguntas) en Moodle.</li>
+              <li><strong>Carácter no calificable</strong> (no cuenta para la nota).</li>
+              <li>Permite calibrar el nivel de partida del grupo en conceptos ODS y tecnología ambiental.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-title">3️⃣ Preparar Materiales</div>
+            <div class="card-badge" style="background: rgba(251, 191, 36, 0.15); color: var(--accent-amber);">Próximo Miércoles</div>
+            <p class="card-desc">Listos para la primera sesión temática:</p>
+            <ul class="bullet-list" style="font-size: 13px;">
+              <li>Consigue el manual Editex de Sostenibilidad.</li>
+              <li>Descarga el calendario anual de sesiones.</li>
+              <li>Conéctate el próximo <strong>miércoles a las 15:45 h</strong> para dar comienzo a la <strong>UT 1: Sostenibilidad Empresarial y Criterios ASG</strong>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight-box" style="text-align: center; font-size: 18px; padding: 16px;">
+          🚀 <strong>¡Mucho ánimo y bienvenidos a 1º DAW! Iniciamos un curso fascinante hacia un desarrollo web responsable y sostenible.</strong>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span class="footer-module">Sostenibilidad Aplicada · 1º DAW Virtual</span>
+        <span class="footer-author">CIFP Avilés <span class="dot">·</span> Sergio Capdevila Díez</span>
+        <span class="slide-counter">13 / 13</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Controles flotantes interactivos para PDI / Navegación en pantalla -->
+  <nav class="controls-overlay" id="nav-controls">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva Anterior (Flecha Izquierda / RePág)">‹</button>
+    <button class="nav-btn" id="btn-next" title="Diapositiva Siguiente (Flecha Derecha / Espacio / AvPág)">›</button>
+    <button class="nav-btn btn-sm" id="btn-fullscreen" title="Pantalla Completa (F)">⛶</button>
+    <button class="nav-btn btn-sm" id="btn-print" title="Imprimir / Exportar a PDF (P)">🖨️</button>
+  </nav>
+
+  <!-- Script interactivo de control -->
+  <script>
+    (function() {
+      const slides = document.querySelectorAll('.slide');
+      const progressBar = document.getElementById('progress-bar');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      function updateSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        currentSlide = index;
+
+        slides.forEach((slide, i) => {
+          if (i === currentSlide) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        if (progressBar) {
+          const progress = ((currentSlide + 1) / totalSlides) * 100;
+          progressBar.style.width = progress + '%';
+        }
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) updateSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) updateSlide(currentSlide - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => {
+            console.error('Error al activar pantalla completa:', err);
+          });
+        } else {
+          if (document.exitFullscreen) document.exitFullscreen();
+        }
+      }
+
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          if (e.ctrlKey) return;
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      let touchStartX = 0;
+      window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diffX = touchEndX - touchStartX;
+        if (diffX < -50) nextSlide();
+        if (diffX > 50) prevSlide();
+      }, { passive: true });
+
+      updateSlide(0);
+    })();
+  </script>
+</body>
+</html>
