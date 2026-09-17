@@ -7,12 +7,17 @@ horas_estimadas: 35
 ra_asociados: ["RA2"]
 ce_asociados: ["CE2.a", "CE2.b", "CE2.c", "CE2.d", "CE2.e"]
 trimestre: 1
-estado: en_desarrollo
+estado: completado
 ---
 
 # UT2 / UD02: Manejo de Conectores (JDBC y Oracle Database)
 
 > **Módulo**: [[MOC-Acceso-a-Datos|Acceso a Datos]] | **Horas**: `35 h` | **Trimestre**: `1º` | **RA**: `RA2`
+>
+> 📖 **Apuntes Oficiales**: [[AD-UT2-Apuntes-Manejo-Conectores-JDBC|Ver Apuntes Web (.html)]] · [[AD-UT2-Apuntes-Manejo-Conectores-JDBC.pdf|PDF A4]]
+> 🖥️ **Presentación Didáctica**: [[AD-UT2-Pres-Teoria-Conectores-JDBC|Diapositivas de Aula (.html)]] · [[AD-UT2-Pres-Teoria-Conectores-JDBC.pdf|PDF Apaisado]]
+> 📘 **Cuaderno de Actividades de Aula**: [[AD-UT2-Cuaderno-Actividades-Aula|Versión Alumnado (.html)]] · [[AD-UT2-Cuaderno-Actividades-Aula.pdf|PDF]] | [[AD-UT2-Cuaderno-Actividades-Aula-Profesor|Solucionario Docente]] · [[AD-UT2-Cuaderno-Actividades-Aula-Profesor.pdf|PDF]]
+> 🛠️ **Proyecto Capstone**: [[PRAC-AD-UT2-Banco-Oracle-DAO-Transaccional|Sistema Bancario Transaccional DAO]] · [[PRAC-AD-UT2-Banco-Oracle-DAO-Transaccional.pdf|PDF con Rúbrica]]
 
 ---
 

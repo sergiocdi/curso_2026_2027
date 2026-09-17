@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT2: Manejo de Conectores (JDBC y Oracle Database) - Acceso a Datos (DAM2)</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE APUNTES DOCENTES - FORMACIÓN PROFESIONAL (FP)
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   Optimizado para visualización web y exportación a PDF (A4 vertical)
+   ========================================================================== */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, "Courier New", monospace;
+  
+  --color-bg: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  
+  --primary-900: #0f172a;
+  --primary-800: #1e293b;
+  --primary-700: #334155;
+  --primary-600: #0284c7;
+  --primary-50: #f0f9ff;
+  
+  --accent-blue: #2563eb;
+  --accent-blue-bg: #eff6ff;
+  --accent-blue-border: #93c5fd;
+
+  --accent-amber: #d97706;
+  --accent-amber-bg: #fffbeb;
+  --accent-amber-border: #fcd34d;
+
+  --accent-emerald: #059669;
+  --accent-emerald-bg: #f0fdf4;
+  --accent-emerald-border: #86efac;
+
+  --accent-purple: #7c3aed;
+  --accent-purple-bg: #faf5ff;
+  --accent-purple-border: #d8b4fe;
+
+  --accent-rose: #e11d48;
+  --accent-rose-bg: #fff1f2;
+  --accent-rose-border: #fecdd3;
+
+  --code-bg: #0f172a;
+  --code-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: #f8fafc;
+  line-height: 1.68;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 920px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 44px 52px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 1. Cabecera Institucional */
+.doc-header {
+  border-bottom: 3px solid var(--primary-800);
+  padding-bottom: 22px;
+  margin-bottom: 28px;
+}
+
+.doc-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.badge-fp {
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--accent-blue-border);
+}
+
+.doc-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--primary-900);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.doc-subtitle {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.doc-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  background: #f8fafc;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12.5px;
+}
+
+.meta-item strong {
+  color: var(--primary-800);
+}
+
+/* 2. Jerarquía de Títulos */
+h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary-900);
+  border-bottom: 2px solid var(--primary-600);
+  padding-bottom: 6px;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--primary-800);
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary-700);
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin-bottom: 14px;
+  padding-left: 24px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* 3. Cajas Didácticas (Callouts) */
+.callout {
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 16px 0;
+  border-left: 4px solid;
+  font-size: 13.5px;
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.callout-info {
+  background-color: var(--accent-blue-bg);
+  border-color: var(--accent-blue);
+  color: #1e40af;
+}
+.callout-info .callout-title { color: #1e3a8a; }
+
+.callout-warning {
+  background-color: var(--accent-amber-bg);
+  border-color: var(--accent-amber);
+  color: #92400e;
+}
+.callout-warning .callout-title { color: #78350f; }
+
+.callout-danger {
+  background-color: var(--accent-rose-bg);
+  border-color: var(--accent-rose);
+  color: #9f1239;
+}
+.callout-danger .callout-title { color: #881337; }
+
+.callout-activity {
+  background-color: var(--accent-purple-bg);
+  border-color: var(--accent-purple);
+  color: #581c87;
+}
+.callout-activity .callout-title { color: #3b0764; }
+
+.callout-tip {
+  background-color: var(--accent-emerald-bg);
+  border-color: var(--accent-emerald);
+  color: #065f46;
+}
+.callout-tip .callout-title { color: #064e3b; }
+
+/* 4. Fichas de Instrucción / Método */
+.method-card {
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--primary-600);
+  background: #ffffff;
+  border-radius: 6px;
+  margin: 18px 0;
+  padding: 16px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+.method-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px dashed var(--color-border);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.method-name {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--primary-900);
+}
+
+.method-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--primary-50);
+  color: var(--primary-600);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.method-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-size: 12.5px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+/* 5. Bloques de Código */
+pre {
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  padding: 14px 18px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 12px 0 16px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* 6. Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 12.5px;
+}
+
+th, td {
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #f1f5f9;
+  font-weight: 700;
+  color: var(--primary-900);
+}
+
+tr:nth-child(even) td {
+  background-color: #fafbfc;
+}
+
+/* 7. Pie de Página */
+.doc-footer {
+  margin-top: 36px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+}
+
+/* 8. Reglas de Impresión y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .method-card, .callout, pre, table, .doc-meta-grid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- =========================================================================
+       CABECERA INSTITUCIONAL Y PORTADA
+       ========================================================================= -->
+  <header class="doc-header">
+    <div class="doc-top-bar">
+      <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+      <span class="badge-fp">Formación Profesional D.O. Asturias</span>
+    </div>
+    <h1 class="doc-title">UT2: Manejo de Conectores (JDBC y Oracle Database)</h1>
+    <div class="doc-subtitle">Manual Técnico y Didáctico Completo: Arquitectura de Conexión, Consultas Seguras, Transacciones ACID, Procedimientos PL/SQL y Patrones de Persistencia</div>
+    
+    <div class="doc-meta-grid">
+      <div class="meta-item"><strong>Módulo:</strong> Acceso a Datos (0486)</div>
+      <div class="meta-item"><strong>Ciclo:</strong> DAM · 2º Curso</div>
+      <div class="meta-item"><strong>Unidad Didáctica:</strong> UD02 (35 horas)</div>
+      <div class="meta-item"><strong>Resultados Aprendizaje:</strong> RA2 (CE2.a - CE2.e)</div>
+      <div class="meta-item"><strong>Motor de Referencia:</strong> Oracle Database (19c/21c/23c)</div>
+      <div class="meta-item"><strong>Docente:</strong> Sergio Capdevila Díez</div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       BLOQUE 1: INTRODUCCIÓN CONTEXTUALIZADA
+       ========================================================================= -->
+  <section id="bloque-1">
+    <h2>1. Introducción y Contexto Profesional</h2>
+    <p>
+      En los sistemas empresariales modernos, las bases de datos relacionales continúan custodiando el núcleo transaccional más valioso de las organizaciones: cuentas bancarias, historiales clínicos, stocks de almacén y pedidos de comercio electrónico. En el ecosistema Java, la tecnología estándar y universal que permite a cualquier aplicación interactuar programáticamente con un sistema gestor relacional se denomina <strong>JDBC (Java Database Connectivity)</strong>.
+    </p>
+    <p>
+      JDBC actúa como una <strong>capa de abstracción estandarizada</strong> ubicada entre el código fuente Java y el motor de base de datos. Gracias a JDBC, un desarrollador utiliza exactamente las mismas clases e interfaces (<code>Connection</code>, <code>PreparedStatement</code>, <code>ResultSet</code>) para enviar sentencias SQL tanto si el motor subyacente es **Oracle Database**, PostgreSQL, MySQL o Microsoft SQL Server. La única pieza que varía es el <strong>driver JDBC</strong> específico suministrado por el fabricante del motor.
+    </p>
+    <p>
+      A lo largo de esta unidad trabajaremos sobre el motor empresarial por excelencia: <strong>Oracle Database</strong>. Aprenderás a configurar sus dependencias Maven, gestionar cadenas de conexión thin, ejecutar operaciones CRUD blindadas contra inyecciones SQL, controlar transacciones atómicas manuales con puntos de restauración (<code>Savepoint</code>), invocar lógica de negocio en PL/SQL mediante <code>CallableStatement</code> y estructurar tus aplicaciones bajo los patrones de arquitectura limpia más respetados en la industria: <strong>Singleton</strong>, <strong>DTO (Data Transfer Object)</strong> y <strong>DAO (Data Access Object)</strong>, junto con pools de conexiones de alta velocidad como <strong>HikariCP</strong>.
+    </p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">📦 Dependencia Maven del Driver Oficial de Oracle (`pom.xml`)</div>
+      <p>Para conectar tu proyecto Java 21 con Oracle Database 19c/21c/23c, añade el artefacto oficial a tu archivo <code>pom.xml</code>:</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.database.jdbc&lt;/groupId&gt;
+    &lt;artifactId&gt;ojdbc11&lt;/artifactId&gt;
+    &lt;version&gt;23.3.0.23.09&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 2: CONCEPTOS FUNDAMENTALES (DE LO INTUITIVO A LO FORMAL)
+       ========================================================================= -->
+  <section id="bloque-2">
+    <h2>2. Conceptos Fundamentales: La Analogía del Teléfono</h2>
+    <p>
+      Para asimilar el funcionamiento de JDBC antes de sumergirnos en la sintaxis formal, imaginemos el siguiente paralelismo con una llamada telefónica corporativa internacional:
+    </p>
+
+    <div class="callout callout-tip">
+      <div class="callout-title">📞 Analogía Didáctica: El Circuito de Comunicación JDBC</div>
+      <ul>
+        <li><strong>El Protocolo Telefónico (Driver):</strong> Para que dos personas hablen, necesitan una red telefónica compatible con los estándares del país de destino. El driver de Oracle (<code>ojdbc11.jar</code>) es el traductor de red que enseña a Java a hablar el dialecto binario propio de Oracle (*TNS / Oracle Net Services*).</li>
+        <li><strong>La Conexión Activa (Connection):</strong> Es el descolgado y establecimiento de la llamada entre tu aplicación y el puerto 1521 del servidor Oracle. Mientras la llamada está abierta, se consume ancho de banda y memoria en ambos extremos.</li>
+        <li><strong>El Mensaje o Petición (Statement / PreparedStatement):</strong> Es la pregunta u orden concreta que transmites por el auricular (*"Dígame el saldo del cliente 402"* o *"Transfiera 500 euros"*).</li>
+        <li><strong>La Libreta de Respuestas (ResultSet):</strong> Cuando el interlocutor te responde con una lista de 50 nombres, no te los dice todos de golpe en un microsegundo. Te los dicta fila a fila; tú vas apuntando con el cursor (<code>rs.next()</code>) hasta que dice *"no hay más"* (fin del cursor).</li>
+      </ul>
+    </div>
+
+    <h3>Arquitectura en Capas de JDBC</h3>
+    <p>
+      La especificación JDBC se divide estrictamente en dos niveles:
+    </p>
+    <ol>
+      <li><strong>JDBC API (Nivel de Aplicación):</strong> Definida en el paquete estándar <code>java.sql</code> del JDK. Contiene interfaces abstractas puras que no saben nada de ningún fabricante (<code>Connection</code>, <code>Statement</code>, <code>ResultSet</code>).</li>
+      <li><strong>JDBC Driver (Nivel de Implementación):</strong> Proporcionado por Oracle. Son las clases concretas que implementan dichas interfaces (por ejemplo, <code>oracle.jdbc.driver.OracleConnection</code>) y se comunican a bajo nivel por TCP/IP mediante el protocolo <em>Thin</em>.</li>
+    </ol>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 3: DESARROLLO PROGRESIVO Y FICHAS DE INSTRUCCIÓN / MÉTODO
+       ========================================================================= -->
+  <section id="bloque-3">
+    <h2>3. Desarrollo Exhaustivo y Fichas de Métodos de JDBC</h2>
+    <p>
+      A continuación se desglosan sistemáticamente todas las interfaces, clases y métodos fundamentales de la API JDBC. Cada instrucción se detalla con su impacto en bajo nivel, parámetros, retorno y código funcional.
+    </p>
+
+    <!-- 3.1 GESTIÓN DE CONEXIONES -->
+    <h3>3.1. Gestión de Conexiones: DriverManager y DataSource</h3>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">DriverManager.getConnection(String url, String user, String password)</span>
+        <span class="method-tag">java.sql.DriverManager</span>
+      </div>
+      <div class="method-details">
+        <div><strong>Retorno:</strong> <code>Connection</code> activa.</div>
+        <div><strong>Excepciones:</strong> <code>SQLException</code> si falla la red, puerto o credenciales.</div>
+      </div>
+      <p>
+        <strong>¿Qué hace en bajo nivel?</strong> Abre un socket TCP/IP contra la dirección IP y puerto indicados en la URL (por defecto 1521 en Oracle). Realiza el handshake de red con el <em>Listener</em> de Oracle, envía el paquete de autenticación criptográfica con el usuario y contraseña, y fuerza al servidor Oracle a instanciar un proceso de servicio y reservar un segmento de memoria privada (PGA) para la sesión.
+      </p>
+      <p><strong>Formato de la URL Thin de Oracle:</strong> <code>jdbc:oracle:thin:@host:puerto:SID</code> o con Service Name: <code>jdbc:oracle:thin:@//host:puerto/service_name</code>.</p>
+<pre><code>String url = "jdbc:oracle:thin:@localhost:1521:xe";
+String user = "c##dam2_user";
+String pass = "oraclePass123";
+
+try (Connection con = DriverManager.getConnection(url, user, pass)) {
+    System.out.println("✅ Conexión física establecida con éxito: " + con.getMetaData().getDatabaseProductVersion());
+} catch (SQLException e) {
+    System.err.printf("💥 Error de conexión [ORA-%05d]: %s%n", e.getErrorCode(), e.getMessage());
+}</code></pre>
+    </div>
+
+    <!-- LLAMADA SÍNCRONA AULA -->
+    <div class="callout callout-activity">
+      <div class="callout-title">💻 Trabajo Síncrono en Aula: Actividad 2.1</div>
+      <p>Abre tu IDE y resuelve la <strong>Actividad 2.1 del Cuaderno de Actividades</strong>: Configuración del entorno Maven con <code>ojdbc11</code> y prueba de conexión básica contra Oracle Database.</p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">HikariDataSource: Pool de Conexiones de Alto Rendimiento</span>
+        <span class="method-tag">com.zaxxer.hikari.HikariDataSource</span>
+      </div>
+      <div class="method-details">
+        <div><strong>Retorno:</strong> Instancia de <code>DataSource</code> pre-calentada.</div>
+        <div><strong>Ventaja:</strong> Latencia cero al reutilizar sockets físicos ya abiertos.</div>
+      </div>
+      <p>
+        <strong>¿Qué hace en bajo nivel?</strong> En lugar de abrir y destruir sockets en cada petición, HikariCP establece un conjunto fijo de conexiones físicas en segundo plano (por ejemplo, 10 sesiones permanentes en Oracle). Cuando el código solicita <code>dataSource.getConnection()</code>, el pool entrega en microsegundos una conexión libre. Al invocar <code>con.close()</code>, un proxy intercepta la llamada y devuelve la conexión al pool sin cerrar el socket físico.
+      </p>
+<pre><code>HikariConfig config = new HikariConfig();
+config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+config.setUsername("c##dam2_user");
+config.setPassword("oraclePass123");
+config.setMaximumPoolSize(10);
+config.setConnectionTimeout(10000); // 10 segundos espera máxima
+
+HikariDataSource ds = new HikariDataSource(config);
+
+// Préstamo ultrarrápido desde el pool
+try (Connection con = ds.getConnection()) {
+    // Operaciones JDBC...
+} // Aquí con.close() devuelve la conexión al pool</code></pre>
+    </div>
+
+    <!-- 3.2 SENTENCIAS PREPARADAS -->
+    <h3>3.2. Sentencias SQL Seguras: PreparedStatement vs Statement</h3>
+
+    <div class="callout callout-danger">
+      <div class="callout-title">⛔ El Peligro Letal de la Inyección SQL con Statement</div>
+      <p>
+        El uso de <code>java.sql.Statement</code> concatenando cadenas de texto permite que un usuario malintencionado altere la lógica de la sentencia enviada al motor:
+      </p>
+<pre><code>// CÓDIGO VULNERABLE (¡PROHIBIDO EN PRODUCCIÓN Y EXÁMENES!)
+String sql = "SELECT * FROM usuarios WHERE user = '" + inputUser + "' AND pass = '" + inputPass + "'";
+Statement st = con.createStatement();
+ResultSet rs = st.executeQuery(sql);</code></pre>
+      <p>
+        Si el atacante introduce como usuario <code>admin' --</code> o <code>' OR '1'='1</code>, la consulta resultante anula la comprobación de la contraseña y permite el acceso ilegítimo a cualquier cuenta.
+      </p>
+    </div>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">con.prepareStatement(String sql)</span>
+        <span class="method-tag">java.sql.Connection / PreparedStatement</span>
+      </div>
+      <div class="method-details">
+        <div><strong>Retorno:</strong> Objeto <code>PreparedStatement</code> precompilado.</div>
+        <div><strong>Seguridad:</strong> Inmunidad matemática absoluta frente a Inyección SQL.</div>
+      </div>
+      <p>
+        <strong>¿Por qué es seguro en bajo nivel?</strong> La sentencia SQL con interrogaciones <code>?</code> (parámetros posicionales) se envía al motor Oracle <strong>antes</strong> de recibir los datos. El optimizador de Oracle compila la consulta, crea el árbol sintáctico y define el plan de ejecución en la memoria compartida (SGA). Cuando posteriormente se asignan los valores con <code>setString()</code>, Oracle los trata estrictamente como datos literales puros, siendo totalmente imposible que un carácter especial como comillas o guiones altere la estructura de la consulta.
+      </p>
+      <p><strong>Fichas de Asignación de Parámetros (Índices basados en 1):</strong></p>
+      <ul>
+        <li><code>ps.setInt(int parameterIndex, int x)</code>: Asigna un entero de 32 bits.</li>
+        <li><code>ps.setString(int parameterIndex, String x)</code>: Asigna texto con escape automático de caracteres.</li>
+        <li><code>ps.setDouble(int parameterIndex, double x)</code>: Asigna un decimal de coma flotante.</li>
+        <li><code>ps.setDate(int parameterIndex, java.sql.Date d)</code>: Asigna una fecha SQL (solo año, mes y día).</li>
+        <li><code>ps.setTimestamp(int parameterIndex, java.sql.Timestamp t)</code>: Asigna fecha y hora con precisión de milisegundos.</li>
+        <li><code>ps.setNull(int parameterIndex, int sqlType)</code>: Inserta explícitamente un valor <code>NULL</code> de <code>java.sql.Types</code>.</li>
+      </ul>
+<pre><code>String sql = "INSERT INTO productos (id, nombre, precio, stock, fecha_alta) VALUES (?, ?, ?, ?, ?)";
+
+try (PreparedStatement ps = con.prepareStatement(sql)) {
+    ps.setInt(1, 101);
+    ps.setString(2, "Monitor Gaming 27\"");
+    ps.setDouble(3, 249.99);
+    ps.setInt(4, 15);
+    ps.setDate(5, java.sql.Date.valueOf("2026-09-17"));
+
+    int filasAfectadas = ps.executeUpdate();
+    System.out.println("Filas insertadas: " + filasAfectadas);
+}</code></pre>
+    </div>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">ps.executeUpdate() vs ps.executeQuery()</span>
+        <span class="method-tag">java.sql.PreparedStatement</span>
+      </div>
+      <div class="method-details">
+        <div><strong>executeUpdate():</strong> Para DML (INSERT, UPDATE, DELETE) y DDL. Retorna <code>int</code> (nº de filas afectadas).</div>
+        <div><strong>executeQuery():</strong> Exclusivo para SELECT. Retorna <code>ResultSet</code> con los datos.</div>
+      </div>
+      <p>
+        <strong>Regla de oro:</strong> Nunca invoques <code>executeQuery()</code> para una operación de modificación (lanzará una excepción en la mayoría de drivers), ni uses <code>executeUpdate()</code> para una consulta SELECT.
+      </p>
+    </div>
+
+    <!-- LLAMADA SÍNCRONA AULA -->
+    <div class="callout callout-activity">
+      <div class="callout-title">💻 Trabajo Síncrono en Aula: Actividades 2.2 y 2.3</div>
+      <p>Realiza las <strong>Actividades 2.2</strong> (Demostración de ataque de Inyección SQL con Statement) y <strong>2.3</strong> (Operaciones CRUD seguras y parametrizadas con PreparedStatement) del Cuaderno de Aula.</p>
+    </div>
+
+    <!-- 3.3 RESULTSET Y NAVEGACIÓN -->
+    <h3>3.3. Procesamiento de Resultados: La Interfaz ResultSet</h3>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">rs.next() y Métodos de Extracción Tipada</span>
+        <span class="method-tag">java.sql.ResultSet</span>
+      </div>
+      <div class="method-details">
+        <div><strong>rs.next():</strong> Avanza el cursor a la siguiente fila. Retorna <code>true</code> si existe o <code>false</code> al terminar.</div>
+        <div><strong>Posición Inicial:</strong> El cursor se sitúa inicialmente <em>antes de la primera fila</em> (Before First).</div>
+      </div>
+      <p>
+        <strong>¿Cómo funciona el cursor?</strong> Un <code>ResultSet</code> mantiene un puntero en memoria que apunta a una fila activa a la vez. Es obligatorio llamar a <code>rs.next()</code> al menos una vez antes de intentar leer cualquier dato, de lo contrario la JVM lanzará <code>SQLException: Cursor fuera de rango</code>.
+      </p>
+      <p><strong>Lectura Tipada por Nombre de Columna vs por Índice:</strong></p>
+      <ul>
+        <li>Por nombre (recomendado para mantenibilidad): <code>rs.getString("nombre")</code>, <code>rs.getDouble("precio")</code>.</li>
+        <li>Por índice (más rápido en bucles críticos, base 1): <code>rs.getString(1)</code>, <code>rs.getDouble(2)</code>.</li>
+        <li><strong>Detección de NULOS con <code>rs.wasNull()</code>:</strong> Los tipos primitivos Java (<code>int</code>, <code>double</code>, <code>boolean</code>) no pueden ser <code>null</code>. Si una columna numérica en Oracle contiene <code>NULL</code>, JDBC devuelve <code>0</code>. Para verificar si ese cero era un cero real o un nulo, debes comprobar inmediatamente: <code>if (rs.wasNull()) { ... }</code>.</li>
+      </ul>
+<pre><code>String sql = "SELECT id, nombre, salario, comision FROM empleados WHERE departamento = ?";
+
+try (PreparedStatement ps = con.prepareStatement(sql)) {
+    ps.setString(1, "Ventas");
+    try (ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String nombre = rs.getString("nombre");
+            double salario = rs.getDouble("salario");
+            
+            double comision = rs.getDouble("comision");
+            Double comisionObj = rs.wasNull() ? null : comision;
+
+            System.out.printf("Empleado #%d: %s | Salario: %.2f € | Comisión: %s%n",
+                    id, nombre, salario, (comisionObj != null ? comisionObj + " €" : "Sin comisión"));
+        }
+    }
+}</code></pre>
+    </div>
+
+    <!-- 3.4 TRANSACCIONES Y SAVEPOINTS -->
+    <h3>3.4. Transacciones ACID y Puntos de Restauración (Savepoint)</h3>
+    <p>
+      Por defecto, las conexiones JDBC operan con <strong>Auto-Commit activado</strong> (cada <code>executeUpdate</code> se graba de forma irreversible en disco inmediatamente). Para garantizar la integridad en transferencias o ventas compuestas, debemos gobernar la transacción manualmente.
+    </p>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">con.setAutoCommit(false), commit(), rollback() y setSavepoint()</span>
+        <span class="method-tag">java.sql.Connection / Savepoint</span>
+      </div>
+      <div class="method-details">
+        <div><strong>commit():</strong> Consolida permanentemente todas las operaciones pendientes en el disco de Oracle.</div>
+        <div><strong>rollback():</strong> Deshace todos los cambios realizados desde el inicio de la transacción o hasta un Savepoint.</div>
+      </div>
+      <p>
+        <strong>Protocolo Transaccional Obligatorio:</strong>
+      </p>
+      <ol>
+        <li>Desactivar confirmación automática: <code>con.setAutoCommit(false);</code>.</li>
+        <li>Ejecutar sentencias DML correlativas dentro de un bloque <code>try</code>.</li>
+        <li>Si todo concluye satisfactoriamente: <code>con.commit();</code>.</li>
+        <li>En caso de cualquier error (bloque <code>catch (SQLException e)</code>): <code>con.rollback();</code>.</li>
+        <li>En el bloque <code>finally</code>: restaurar <code>con.setAutoCommit(true);</code> antes de cerrar o devolver al pool.</li>
+      </ol>
+<pre><code>con.setAutoCommit(false); // 1. Iniciar transacción manual
+Savepoint sp = null;
+
+try {
+    // Operación 1: Descontar stock
+    actualizarStock(con, idProducto, cantidad);
+    
+    // Guardamos un punto de restauración parcial antes del módulo de fidelización
+    sp = con.setSavepoint("PuntoStockConfirmado");
+
+    try {
+        // Operación 2: Asignar puntos de fidelidad (opcional)
+        sumarPuntosFidelidad(con, idCliente, 50);
+    } catch (SQLException eFidelidad) {
+        // Si falla la fidelidad, revertimos solo esa parte sin anular el pedido principal
+        con.rollback(sp);
+        System.out.println("⚠️ No se pudieron asignar los puntos, pero el pedido continúa.");
+    }
+
+    con.commit(); // 2. Confirmar transacción completa
+    System.out.println("✅ Transacción confirmada en Oracle con éxito (COMMIT).");
+
+} catch (SQLException e) {
+    con.rollback(); // 3. Reversión total ante fallo crítico
+    System.err.println("💥 Error grave en pedido. Reversión total (ROLLBACK): " + e.getMessage());
+} finally {
+    con.setAutoCommit(true); // 4. Restaurar estado base
+}</code></pre>
+    </div>
+
+    <!-- LLAMADA SÍNCRONA AULA -->
+    <div class="callout callout-activity">
+      <div class="callout-title">💻 Trabajo Síncrono en Aula: Actividades 2.4 y 2.5</div>
+      <p>Resuelve las <strong>Actividades 2.4</strong> (Control transaccional estricto con rollback) y <strong>2.5</strong> (Gestión de puntos de restauración parciales con Savepoint) en tu IDE.</p>
+    </div>
+
+    <!-- 3.5 PROCEDIMIENTOS PL/SQL -->
+    <h3>3.5. Procedimientos y Funciones Almacenadas: CallableStatement</h3>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">con.prepareCall(String callSql) y registerOutParameter()</span>
+        <span class="method-tag">java.sql.CallableStatement</span>
+      </div>
+      <div class="method-details">
+        <div><strong>Sintaxis Procedimiento:</strong> <code>"{call NOMBRE_PROC(?, ?, ?)}"</code></div>
+        <div><strong>Sintaxis Función:</strong> <code>"{? = call NOMBRE_FUNC(?)}"</code></div>
+      </div>
+      <p>
+        <strong>¿Qué hace en bajo nivel?</strong> Ejecuta código PL/SQL compilado directamente en el motor Oracle. Los parámetros de salida (<code>OUT</code>) deben registrarse con su tipo SQL mediante <code>cs.registerOutParameter(posicion, java.sql.Types...)</code> <strong>antes</strong> de ejecutar la llamada, y recuperarse tras <code>cs.execute()</code> con <code>cs.getString()</code>, <code>cs.getDouble()</code>, etc.
+      </p>
+<pre><code>String call = "{call sp_calcular_descuento(?, ?, ?)}";
+
+try (CallableStatement cs = con.prepareCall(call)) {
+    // Parámetros de entrada (IN)
+    cs.setInt(1, 105);        // ID Cliente
+    cs.setDouble(2, 500.0);   // Importe compra
+
+    // Parámetro de salida (OUT)
+    cs.registerOutParameter(3, java.sql.Types.NUMERIC);
+
+    // Ejecución en el servidor Oracle
+    cs.execute();
+
+    // Lectura del valor devuelto por PL/SQL
+    double descuentoFinal = cs.getDouble(3);
+    System.out.printf("Importe final con descuento aplicado por Oracle: %.2f €%n", descuentoFinal);
+}</code></pre>
+    </div>
+
+    <!-- 3.6 METADATOS -->
+    <h3>3.6. Inspección Dinámica del Esquema: DatabaseMetaData y ResultSetMetaData</h3>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">ResultSetMetaData: Inspección de Columnas Dinámicas</span>
+        <span class="method-tag">java.sql.ResultSetMetaData</span>
+      </div>
+      <div class="method-details">
+        <div><strong>Obtención:</strong> <code>ResultSetMetaData rsmd = rs.getMetaData();</code></div>
+        <div><strong>Uso:</strong> Descubrimiento de estructura cuando la consulta no es conocida a priori.</div>
+      </div>
+      <p><strong>Métodos Fundamentales:</strong></p>
+      <ul>
+        <li><code>rsmd.getColumnCount()</code>: Número total de columnas retornadas.</li>
+        <li><code>rsmd.getColumnLabel(int col)</code>: Nombre o alias de la columna (base 1).</li>
+        <li><code>rsmd.getColumnTypeName(int col)</code>: Tipo de dato SQL en Oracle (ej. <code>VARCHAR2</code>, <code>NUMBER</code>).</li>
+        <li><code>rsmd.isNullable(int col)</code>: Indica si la columna admite nulos (<code>columnNoNulls</code>, <code>columnNullable</code>).</li>
+      </ul>
+<pre><code>ResultSetMetaData rsmd = rs.getMetaData();
+int columnas = rsmd.getColumnCount();
+
+for (int i = 1; i &lt;= columnas; i++) {
+    System.out.printf("Col %d: %-15s [Tipo: %-10s | Nulos: %s]%n",
+            i, rsmd.getColumnLabel(i), rsmd.getColumnTypeName(i),
+            (rsmd.isNullable(i) == ResultSetMetaData.columnNullable ? "SÍ" : "NO"));
+}</code></pre>
+    </div>
+
+    <!-- LLAMADA SÍNCRONA AULA -->
+    <div class="callout callout-activity">
+      <div class="callout-title">💻 Trabajo Síncrono en Aula: Actividades 2.6 y 2.7</div>
+      <p>Desarrolla en clase las <strong>Actividades 2.6</strong> (Invocación de procedimientos PL/SQL con CallableStatement) y <strong>2.7</strong> (Constructor dinámico de tablas ASCII con ResultSetMetaData).</p>
+    </div>
+
+    <!-- 3.7 PATRONES DE DISEÑO -->
+    <h3>3.7. Arquitectura Profesional: Patrones Singleton, DTO y DAO</h3>
+    <p>
+      En proyectos profesionales nunca mezclamos consultas SQL directas con la lógica de negocio ni con las pantallas de usuario. Aplicamos el desacoplamiento en 3 capas:
+    </p>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">Patrón DTO (Data Transfer Object) con Java Records</span>
+        <span class="method-tag">Modelo de Transporte Desacoplado</span>
+      </div>
+      <p>
+        Un DTO transporta datos limpios sin lógica de persistencia. En Java 21, la forma más limpia, inmutable y concisa de declarar un DTO es mediante <strong>Java Records</strong>:
+      </p>
+<pre><code>// DTO inmutable con constructor compacto, getters (id(), nombre()), equals y toString automáticos
+public record ProductoDTO(
+    int id,
+    String nombre,
+    double precio,
+    int stock,
+    String categoria
+) {}</code></pre>
+    </div>
+
+    <div class="method-card">
+      <div class="method-header">
+        <span class="method-name">Patrón DAO (Data Access Object): Interfaz Genérica e Implementación</span>
+        <span class="method-tag">Capa de Acceso a Datos</span>
+      </div>
+      <p>
+        El patrón DAO aísla completamente a la aplicación de la tecnología de base de datos. Se define una interfaz genérica que declara las operaciones CRUD y una implementación concreta para Oracle:
+      </p>
+<pre><code>// 1. Interfaz Genérica DAO
+public interface GenericDAO&lt;T, ID&gt; {
+    void insertar(T entity) throws SQLException;
+    Optional&lt;T&gt; buscarPorId(ID id) throws SQLException;
+    List&lt;T&gt; listarTodos() throws SQLException;
+    boolean actualizar(T entity) throws SQLException;
+    boolean eliminar(ID id) throws SQLException;
+}
+
+// 2. Implementación Concreta para Oracle Database
+public class ProductoDAOOracleImpl implements GenericDAO&lt;ProductoDTO, Integer&gt; {
+    private final DataSource dataSource;
+
+    public ProductoDAOOracleImpl(DataSource ds) {
+        this.dataSource = ds;
+    }
+
+    @Override
+    public Optional&lt;ProductoDTO&gt; buscarPorId(Integer id) throws SQLException {
+        String sql = "SELECT id, nombre, precio, stock, categoria FROM productos WHERE id = ?";
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(new ProductoDTO(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock"),
+                            rs.getString("categoria")
+                    ));
+                }
+            }
+        }
+        return Optional.empty();
+    }
+    // Resto de métodos CRUD...
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 4: EJEMPLOS PRÁCTICOS GRADUADOS
+       ========================================================================= -->
+  <section id="bloque-4">
+    <h2>4. Ejemplos Prácticos Graduados (Básico, Intermedio y Profesional)</h2>
+
+    <h3>4.1. Nivel Básico: Verificación de Conexión y SELECT DUAL en Oracle</h3>
+<pre><code>// Prueba elemental de conectividad con Oracle
+try (Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle")) {
+    try (Statement st = con.createStatement();
+         ResultSet rs = st.executeQuery("SELECT SYSDATE, USER FROM DUAL")) {
+        if (rs.next()) {
+            System.out.printf("Servidor Oracle activo. Fecha: %s | Usuario conectado: %s%n",
+                    rs.getString(1), rs.getString(2));
+        }
+    }
+}</code></pre>
+
+    <h3>4.2. Nivel Intermedio: Inserción por Lotes (Batch Processing) con PreparedStatement</h3>
+    <p>
+      Cuando se deben insertar miles de registros, enviar una petición de red por cada fila arruina el rendimiento. <code>addBatch()</code> acumula las órdenes en la memoria cliente y las envía a Oracle en un único viaje de red:
+    </p>
+<pre><code>String sql = "INSERT INTO auditoria_accesos (id, usuario, ip, fecha) VALUES (?, ?, ?, ?)";
+
+try (Connection con = ds.getConnection();
+     PreparedStatement ps = con.prepareStatement(sql)) {
+    
+    con.setAutoCommit(false); // Optimización transaccional del lote
+
+    for (int i = 1; i &lt;= 1000; i++) {
+        ps.setInt(1, i);
+        ps.setString(2, "usuario_" + i);
+        ps.setString(3, "192.168.1." + (i % 250));
+        ps.setTimestamp(4, new java.sql.Timestamp(System.currentTimeMillis()));
+        ps.addBatch(); // Encolar en el lote
+
+        if (i % 200 == 0) { // Enviar en paquetes de 200 órdenes
+            ps.executeBatch();
+        }
+    }
+    ps.executeBatch(); // Enviar restos
+    con.commit();
+    System.out.println("✅ 1.000 registros insertados en Oracle mediante Batch en pocos milisegundos.");
+}</code></pre>
+
+    <h3>4.3. Nivel Profesional: Coordinación Transaccional en Capa de Servicio</h3>
+    <p>
+      En una arquitectura empresarial, dos DAOs distintos (ej. <code>CuentaDAO</code> y <code>MovimientoDAO</code>) deben compartir <strong>la misma conexión física</strong> durante una operación transaccional para que el <code>commit</code> o <code>rollback</code> afecte a ambos:
+    </p>
+<pre><code>public class BancoService {
+    private final DataSource dataSource;
+
+    public BancoService(DataSource ds) { this.dataSource = ds; }
+
+    public void transferirFondos(String ibanOrigen, String ibanDestino, double importe) throws SQLException {
+        try (Connection con = dataSource.getConnection()) {
+            con.setAutoCommit(false); // Inicia unidad de trabajo atómica
+
+            CuentaDAO cuentaDAO = new CuentaDAOOracleImpl(con);
+            MovimientoDAO movimientoDAO = new MovimientoDAOOracleImpl(con);
+
+            try {
+                // 1. Descontar saldo
+                cuentaDAO.adeudar(ibanOrigen, importe);
+                // 2. Abonar saldo
+                cuentaDAO.abonar(ibanDestino, importe);
+                // 3. Registrar auditoría contable
+                movimientoDAO.registrar(new MovimientoDTO(ibanOrigen, ibanDestino, importe));
+
+                con.commit(); // Confirmar los 3 pasos juntos
+            } catch (SQLException e) {
+                con.rollback(); // Deshacer absolutamente todo si cualquier paso falla
+                throw new ServiceException("Error en transferencia bancaria: " + e.getMessage(), e);
+            } finally {
+                con.setAutoCommit(true);
+            }
+        }
+    }
+}</code></pre>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 5: CÓDIGO COMPLETO Y EXPLICACIÓN PASO A PASO
+       ========================================================================= -->
+  <section id="bloque-5">
+    <h2>5. Caso de Estudio Completo: Arquitectura DAO/DTO Bancaria</h2>
+    <p>
+      El siguiente esquema muestra el flujo completo de una consulta en tres capas desacopladas, utilizando HikariCP, PreparedStatement, DTO con Records y control de recursos:
+    </p>
+<pre><code>// 1. DTO de Transferencia de Datos
+public record CuentaBancaria(String iban, String titular, double saldo, boolean activa) {}
+
+// 2. Implementación del DAO
+public class CuentaBancariaDAO {
+    private final DataSource ds;
+    public CuentaBancariaDAO(DataSource ds) { this.ds = ds; }
+
+    public boolean actualizarSaldo(String iban, double nuevoSaldo) throws SQLException {
+        String sql = "UPDATE cuentas SET saldo = ? WHERE iban = ? AND activa = 1";
+        try (Connection con = ds.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setDouble(1, nuevoSaldo);
+            ps.setString(2, iban);
+            return ps.executeUpdate() > 0;
+        }
+    }
+}</code></pre>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 6: ERRORES HABITUALES, CAUSAS PROFUNDAS Y SOLUCIONES
+       ========================================================================= -->
+  <section id="bloque-6">
+    <h2>6. Errores Habituales en JDBC y Códigos ORA en Oracle</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Código / Excepción</th>
+          <th>Causa Profunda en Bajo Nivel</th>
+          <th>Cómo Detectarlo y Solucionarlo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ORA-01017: invalid username/password</strong></td>
+          <td>Credenciales erróneas o cuenta bloqueada por intentos fallidos en Oracle. En Oracle 12c+ los usuarios locales deben prefijarse con <code>c##</code>.</td>
+          <td>Verificar el usuario en SQL*Plus con <code>ALTER USER c##usuario ACCOUNT UNLOCK;</code> y revisar la contraseña exacta.</td>
+        </tr>
+        <tr>
+          <td><strong>ORA-00942: table or view does not exist</strong></td>
+          <td>La tabla no existe en el esquema conectado o el usuario no tiene privilegios de lectura (`SELECT ON esquema.tabla`).</td>
+          <td>Prefijar el esquema (<code>SELECT * FROM c##admin.clientes</code>) o conceder permisos: <code>GRANT SELECT ON clientes TO c##usuario;</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>SQLTransientConnectionException (Connection leak)</strong></td>
+          <td>El pool HikariCP se ha quedado sin conexiones disponibles porque se abrieron con <code>ds.getConnection()</code> sin bloque `try-with-resources`.</td>
+          <td>Activar en HikariCP <code>config.setLeakDetectionThreshold(5000);</code> para que imprima en consola qué línea de código olvidó cerrar la conexión.</td>
+        </tr>
+        <tr>
+          <td><strong>SQLException: Result set after last row</strong></td>
+          <td>Se intentó invocar un método de lectura (<code>rs.getString()</code>) tras haber finalizado el bucle <code>while (rs.next())</code> o sin haber llamado a <code>next()</code> previamente.</td>
+          <td>Asegurar que toda lectura de datos se encuentre dentro de un <code>if (rs.next())</code> o <code>while (rs.next())</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>SQLException: Exhausted Result Set</strong></td>
+          <td>Típico error en Oracle al intentar leer de un cursor cerrado o vacío sin comprobar el retorno de <code>rs.next()</code>.</td>
+          <td>Comprobar siempre <code>if (rs.next())</code> antes de acceder a la primera columna.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 7: BUENAS PRÁCTICAS DE LA INDUSTRIA (JUNIOR VS SENIOR)
+       ========================================================================= -->
+  <section id="bloque-7">
+    <h2>7. Buenas Prácticas de Ingeniería de Software (Junior vs Senior)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Aspecto de Persistencia</th>
+          <th>Enfoque del Desarrollador Junior</th>
+          <th>Estándar del Desarrollador Senior / Arquitecto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Creación de Conexiones</strong></td>
+          <td>Usa <code>DriverManager.getConnection()</code> en cada método, abriendo cientos de conexiones por minuto.</td>
+          <td>Configura un <strong>Pool de conexiones HikariCP</strong> dimensionado según la concurrencia y la memoria de Oracle.</td>
+        </tr>
+        <tr>
+          <td><strong>Construcción de Consultas</strong></td>
+          <td>Concatena variables Java con operadores <code>+</code> en objetos <code>Statement</code>.</td>
+          <td>Emplea <strong>exclusivamente PreparedStatement</strong> con parámetros posicionales <code>?</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Cierre de Recursos</strong></td>
+          <td>Cierra en el bloque <code>finally</code> comprobando nulos manualmente (propenso a leaks si <code>close()</code> lanza excepción).</td>
+          <td>Utiliza <strong>siempre bloques try-with-resources</strong> para cerrar automáticamente conexiones, sentencias y cursores.</td>
+        </tr>
+        <tr>
+          <td><strong>Gestión Transaccional</strong></td>
+          <td>Confía en el auto-commit por defecto; si una transferencia falla a la mitad, los datos quedan descompensados.</td>
+          <td>Desactiva el auto-commit (<code>false</code>), encierra las órdenes en <code>try-catch</code> y ejecuta <code>commit()</code> o <code>rollback()</code> explícitos.</td>
+        </tr>
+        <tr>
+          <td><strong>Estructura del Proyecto</strong></td>
+          <td>Escribe sentencias SQL dentro de la interfaz gráfica (Swing, JavaFX) o del controlador web.</td>
+          <td>Separa responsabilidades mediante <strong>DAO (Data Access Object)</strong> y <strong>DTO (Java Records)</strong> independientes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 8: TABLAS COMPARATIVAS ENTRE TECNOLOGÍAS
+       ========================================================================= -->
+  <section id="bloque-8">
+    <h2>8. Tablas Comparativas de Tecnologías JDBC</h2>
+
+    <h3>Comparativa: Tipos de Sentencias en JDBC</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Statement</th>
+          <th>PreparedStatement</th>
+          <th>CallableStatement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Compilación en Oracle</strong></td>
+          <td>Se compila en cada ejecución (Hard Parse lento)</td>
+          <td>Se compila una sola vez en la SGA (Soft Parse ultrarrápido)</td>
+          <td>Precompilada y almacenada en el motor (PL/SQL)</td>
+        </tr>
+        <tr>
+          <td><strong>Seguridad</strong></td>
+          <td>Vulnerable a Inyección SQL</td>
+          <td><strong>Inmune a Inyección SQL</strong></td>
+          <td><strong>Inmune a Inyección SQL</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Parámetros</strong></td>
+          <td>Ninguno (solo texto plano)</td>
+          <td>Parámetros de entrada <code>?</code> (IN)</td>
+          <td>Parámetros <code>IN</code>, <code>OUT</code> e <code>IN OUT</code></td>
+        </tr>
+        <tr>
+          <td><strong>Caso de Uso</strong></td>
+          <td>Scripts DDL únicos (CREATE, DROP)</td>
+          <td><strong>El 95% de las consultas y modificaciones en Java</strong></td>
+          <td>Procedimientos y funciones PL/SQL complejas</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Comparativa: Modelado de Datos (POJO Clásico vs Java Record)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Criterio</th>
+          <th>POJO Tradicional (Java Beans)</th>
+          <th>Java Record (Java 16+)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Mutabilidad</strong></td>
+          <td>Mutable (getters y setters)</td>
+          <td><strong>Inmutable por diseño</strong> (campos `private final`)</td>
+        </tr>
+        <tr>
+          <td><strong>Líneas de Código</strong></td>
+          <td>50 - 100 líneas (boilerplate de getters, constructor, equals, hashCode)</td>
+          <td><strong>1 línea de declaración concisa</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Uso Recomendado</strong></td>
+          <td>Entidades mutables de frameworks ORM (JPA/Hibernate)</td>
+          <td><strong>DTOs puros de transporte en JDBC</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 9: RESUMEN CLAVE DE LA UNIDAD
+       ========================================================================= -->
+  <section id="bloque-9">
+    <h2>9. Resumen Clave de la Unidad de Trabajo 2</h2>
+    <ul>
+      <li><strong>JDBC es la base de todo el ecosistema de persistencia en Java</strong>: Frameworks de alto nivel como Hibernate, Spring Data o MyBatis se construyen internamente sobre la API JDBC que has aprendido en esta unidad.</li>
+      <li><strong>PreparedStatement es innegociable</strong>: Separa la lógica de la consulta de los datos de entrada, garantizando seguridad absoluta frente a Inyección SQL y reutilización de planes en la SGA de Oracle.</li>
+      <li><strong>Las transacciones garantizan consistencia ACID</strong>: Desactivar <code>setAutoCommit(false)</code> permite coordinar múltiples operaciones dependientes, confirmando con <code>commit()</code> o deshaciendo con <code>rollback()</code> ante fallos.</li>
+      <li><strong>HikariCP minimiza latencias</strong>: El pooling de conexiones evita el elevado coste de abrir sockets TCP y negociar autenticaciones en cada petición.</li>
+      <li><strong>La arquitectura en capas desacopla el software</strong>: El patrón DTO transporta datos limpios, el patrón DAO aísla las sentencias SQL y la capa de servicio gobierna la lógica transaccional del negocio.</li>
+    </ul>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 10: CONCEPTOS QUE DEBES DOMINAR
+       ========================================================================= -->
+  <section id="bloque-10">
+    <h2>10. Conceptos que Debes Dominar (Habilidades Comprobables)</h2>
+    <ol>
+      <li>Configurar el driver <code>ojdbc11</code> en un proyecto Maven y conectarse a Oracle Database en localhost o contenedor Docker.</li>
+      <li>Construir consultas SELECT y sentencias DML (INSERT, UPDATE, DELETE) seguras mediante <code>PreparedStatement</code>.</li>
+      <li>Extraer datos de un <code>ResultSet</code> comprobando nulos con <code>rs.wasNull()</code> y mapeándolos a Java Records.</li>
+      <li>Implementar transacciones bancarias robustas con <code>commit()</code>, <code>rollback()</code> y puntos de restauración <code>Savepoint</code>.</li>
+      <li>Llamar a procedimientos PL/SQL con parámetros de entrada y salida mediante <code>CallableStatement</code> y <code>registerOutParameter()</code>.</li>
+      <li>Inspeccionar la estructura de tablas desconocidas en tiempo de ejecución con <code>ResultSetMetaData</code>.</li>
+      <li>Instanciar y configurar un pool de conexiones con <code>HikariDataSource</code> gobernado por un gestor Singleton.</li>
+      <li>Diseñar una arquitectura completa de persistencia aplicando una interfaz genérica <code>GenericDAO&lt;T, ID&gt;</code>.</li>
+    </ol>
+  </section>
+
+  <!-- =========================================================================
+       BLOQUE 11: GLOSARIO Y PREGUNTAS DE REPASO
+       ========================================================================= -->
+  <section id="bloque-11">
+    <h2>11. Glosario Técnico y Cuestionario de Repaso</h2>
+
+    <h3>Glosario de Términos</h3>
+    <ul>
+      <li><strong>JDBC (Java Database Connectivity):</strong> API del JDK que estandariza el acceso a bases de datos relacionales.</li>
+      <li><strong>Driver Thin de Oracle:</strong> Controlador JDBC de Tipo 4 escrito al 100% en Java puro que se comunica directamente por sockets con Oracle sin requerir software cliente nativo (Oracle Client) instalado.</li>
+      <li><strong>Soft Parse:</strong> Reutilización inmediata por parte de Oracle de un plan de consulta ya compilado en la memoria compartida (SGA), maximizada mediante el uso de <code>PreparedStatement</code>.</li>
+      <li><strong>Savepoint:</strong> Marcador intermedio dentro de una transacción que permite deshacer operaciones posteriores sin cancelar toda la transacción previa.</li>
+      <li><strong>Connection Leak:</strong> Pérdida de conexiones en un pool provocada por no invocar <code>close()</code> tras utilizarlas, lo que agota los canales disponibles y bloquea la aplicación.</li>
+      <li><strong>DAO (Data Access Object):</strong> Patrón arquitectónico que centraliza todas las operaciones de lectura y escritura contra la base de datos para una entidad concreta.</li>
+      <li><strong>DTO (Data Transfer Object):</strong> Objeto plano sin lógica diseñado para empaquetar y transferir datos entre capas de la aplicación.</li>
+    </ul>
+
+    <h3>Cuestionario de Autoevaluación (10 Preguntas de Repaso)</h3>
+    <ol>
+      <li>¿Cuál es la diferencia fundamental entre el JDBC Driver Manager y el Driver JDBC de un fabricante como Oracle?</li>
+      <li>¿Por qué una sentencia construida con <code>PreparedStatement</code> es inmune a ataques de Inyección SQL mientras que una con <code>Statement</code> es vulnerable?</li>
+      <li>¿Qué ocurre exactamente en el servidor de base de datos cuando se invoca <code>connection.close()</code> en una aplicación configurada con HikariCP frente a una conexión directa con <code>DriverManager</code>?</li>
+      <li>Si una columna de tipo <code>NUMBER</code> en Oracle contiene un valor <code>NULL</code>, ¿qué devolverá <code>rs.getInt("columna")</code> en Java y cómo podemos distinguir si era un cero real o un nulo?</li>
+      <li>¿Cuál es el valor por defecto de <code>connection.getAutoCommit()</code> en JDBC y por qué es peligroso en operaciones que implican múltiples tablas?</li>
+      <li>¿En qué casos es necesario invocar <code>callableStatement.registerOutParameter()</code> y qué consecuencia tiene omitir esta llamada antes de <code>cs.execute()</code>?</li>
+      <li>Explica la diferencia entre <code>DatabaseMetaData</code> y <code>ResultSetMetaData</code>, indicando un caso de uso representativo para cada interfaz.</li>
+      <li>¿Qué problema en tiempo de ejecución provocaría invocar <code>rs.getString(1)</code> inmediatamente después de ejecutar <code>ps.executeQuery()</code> sin haber llamado previamente a <code>rs.next()</code>?</li>
+      <li>¿Qué ventajas de legibilidad, inmutabilidad y mantenibilidad aportan los Java Records frente a los Java Beans tradicionales al modelar DTOs?</li>
+      <li>Describe el escenario técnico en el que resulta imprescindible utilizar un <code>Savepoint</code> dentro de una transacción compuesta.</li>
+    </ol>
+  </section>
+
+  <!-- =========================================================================
+       PIE DE PÁGINA
+       ========================================================================= -->
+  <footer class="doc-footer">
+    <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+    <span>Acceso a Datos · Unidad de Trabajo 2 (Manejo de Conectores)</span>
+    <span>Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

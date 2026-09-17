@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UT2: Manejo de Conectores (JDBC y Oracle Database) - CIFP Avilés</title>
+  <style>
+/* ==============================================================================
+   ESTILO INSTITUCIONAL DE PRESENTACIONES DE UNIDADES DE TRABAJO (TEMA CLARO)
+   CIFP Avilés · Ciclos Formativos de Grado Superior (DAM2 - Acceso a Datos)
+   Skill: generar-presentaciones-ut · Autoría: Sergio Capdevila Díez
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+  --bg-canvas: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f1f5f9;
+  --border-card: #e2e8f0;
+  --border-focus: #2563eb;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --color-primary: #1e40af;
+  --color-primary-light: #3b82f6;
+  --color-accent: #0284c7;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-purple: #9333ea;
+
+  --box-concept-bg: #eff6ff;
+  --box-concept-border: #2563eb;
+  --box-concept-text: #1e3a8a;
+
+  --box-highlight-bg: #f0fdf4;
+  --box-highlight-border: #16a34a;
+  --box-highlight-text: #14532d;
+
+  --box-warning-bg: #fffbeb;
+  --box-warning-border: #d97706;
+  --box-warning-text: #78350f;
+
+  --box-analogia-bg: #faf5ff;
+  --box-analogia-border: #9333ea;
+  --box-analogia-text: #581c87;
+
+  --box-error-bg: #fef2f2;
+  --box-error-border: #dc2626;
+  --box-error-text: #991b1b;
+
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 8px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 18px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, Monaco, monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: linear-gradient(90deg, #1e40af, #2563eb, #0284c7);
+  z-index: 1000;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#presentation-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  padding: 36px 60px 60px 60px;
+  background-color: var(--bg-canvas);
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+.slide.active {
+  display: flex;
+}
+
+/* Cabeceras de Diapositiva */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+  border-bottom: 2px solid var(--border-card);
+  padding-bottom: 12px;
+}
+
+.slide-header-left {
+  flex: 1;
+}
+
+.slide-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary);
+  background-color: var(--box-concept-bg);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--box-concept-border);
+  margin-bottom: 6px;
+}
+
+.action-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  background-color: #0284c7;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-left: 10px;
+}
+
+.slide-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.slide-subtitle {
+  font-size: 19px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: 3px;
+}
+
+.slide-header-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  margin-left: 20px;
+}
+
+/* Cuerpo de la Diapositiva */
+.slide-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* Tarjetas */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card-badge {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background-color: var(--bg-card-alt);
+  color: var(--text-secondary);
+}
+
+.card-desc, .bullet-list li {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 24px;
+}
+
+.bullet-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: -2px;
+  color: var(--color-primary);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Cajas Didácticas */
+.didactic-box {
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 18px;
+  line-height: 1.5;
+  border-left: 6px solid;
+}
+
+.concept-box {
+  background-color: var(--box-concept-bg);
+  border-left-color: var(--box-concept-border);
+  color: var(--box-concept-text);
+}
+
+.highlight-box {
+  background-color: var(--box-highlight-bg);
+  border-left-color: var(--box-highlight-border);
+  color: var(--box-highlight-text);
+}
+
+.warning-box {
+  background-color: var(--box-warning-bg);
+  border-left-color: var(--box-warning-border);
+  color: var(--box-warning-text);
+}
+
+.analogia-box {
+  background-color: var(--box-analogia-bg);
+  border-left-color: var(--box-analogia-border);
+  color: var(--box-analogia-text);
+}
+
+.error-comun-box {
+  background-color: var(--box-error-bg);
+  border-left-color: var(--box-error-border);
+  color: var(--box-error-text);
+}
+
+.box-title {
+  display: block;
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+/* Bloques de Código */
+.code-block {
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 14px 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin-top: 6px;
+}
+
+/* Tablas */
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  font-size: 16px;
+}
+
+.table-custom th, .table-custom td {
+  padding: 10px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.table-custom th {
+  background-color: var(--bg-card-alt);
+  color: var(--text-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+/* Pie de Diapositiva */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-card);
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.footer-center {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Portada Especial */
+.slide-cover {
+  padding: 40px 65px;
+  justify-content: space-between;
+}
+
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 14px;
+}
+
+.cover-institution .inst-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.cover-institution .inst-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.cover-logo-box img {
+  height: 60px;
+}
+
+.cover-body {
+  margin: 18px 0;
+}
+
+.cover-badge-unit {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.cover-title {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.cover-subtitle {
+  font-size: 21px;
+  color: var(--text-secondary);
+  max-width: 900px;
+  line-height: 1.4;
+}
+
+.cover-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  padding: 14px 20px;
+  border-radius: 12px;
+}
+
+.cover-meta-item strong {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cover-meta-item span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Controles de Navegación */
+#nav-controls {
+  position: fixed;
+  bottom: 16px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-lg);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  z-index: 999;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.nav-btn:hover {
+  background-color: var(--bg-card-alt);
+  color: var(--color-primary);
+}
+
+.slide-indicator {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  padding: 0 6px;
+}
+
+.keyboard-hint {
+  position: fixed;
+  bottom: 20px;
+  left: 24px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--border-card);
+  z-index: 999;
+  transition: opacity 0.5s;
+}
+
+/* Reglas de Impresión y PDF */
+@page {
+  size: 297mm 210mm landscape;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 297mm !important;
+    height: auto !important;
+    background: #ffffff !important;
+    overflow: visible !important;
+  }
+  #progress-bar, #nav-controls, .keyboard-hint {
+    display: none !important;
+    height: 0 !important;
+  }
+  #presentation-viewport {
+    width: 297mm !important;
+    height: auto !important;
+    display: block !important;
+    position: static !important;
+  }
+  .slide {
+    display: flex !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    padding: 14mm 18mm 12mm 18mm !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+  }
+  .slide:last-child, .slide:last-of-type {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+  .slide-title { font-size: 24pt !important; }
+  .slide-subtitle { font-size: 13pt !important; }
+  .card-title { font-size: 15pt !important; }
+  .card-desc, .bullet-list li, .didactic-box { font-size: 11pt !important; }
+  .code-block { font-size: 8.5pt !important; padding: 8px !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <main id="presentation-viewport">
+
+    <!-- SLIDE 01: PORTADA -->
+    <section class="slide slide-cover active" id="slide-1">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+          <span class="inst-sub">Principado de Asturias · Dpto. Informática y Comunicaciones</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body">
+        <div class="cover-badge-unit">UNIDAD DE TRABAJO 02 · PERSISTENCIA RELACIONAL</div>
+        <h1 class="cover-title">Manejo de Conectores (JDBC y Oracle Database)</h1>
+        <p class="cover-subtitle">Arquitectura JDBC 4.3, Sentencias Parametrizadas, Procedimientos Almacenados, Transacciones ACID, Inspección de Metadatos, Pools de Conexiones de Alto Rendimiento (HikariCP) y Patrones DAO / DTO</p>
+      </div>
+
+      <div class="cover-meta-grid">
+        <div class="cover-meta-item"><strong>Módulo Curricular</strong><span>Acceso a Datos (0486)</span></div>
+        <div class="cover-meta-item"><strong>Ciclo Formativo</strong><span>2º DAM (Desarrollo Multiplataforma)</span></div>
+        <div class="cover-meta-item"><strong>Resultados de Aprendizaje</strong><span>RA2 (CE2.a - CE2.h)</span></div>
+        <div class="cover-meta-item"><strong>Docente</strong><span>Sergio Capdevila Díez</span></div>
+        <div class="cover-meta-item"><strong>Duración Estimada</strong><span>35 Horas Lectivas (Trimestre 1)</span></div>
+        <div class="cover-meta-item"><strong>Stack Tecnológico</strong><span>Java 21 · Oracle Database 23c · Maven</span></div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">01 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 02: ARQUITECTURA JDBC -->
+    <section class="slide" id="slide-2">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Fundamentos de Conectividad</span>
+          <h2 class="slide-title">1. ¿Qué es JDBC y cuál es su Arquitectura?</h2>
+          <p class="slide-subtitle">Capa de abstracción estándar entre el código Java y los motores RDBMS relacionales</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Arquitectura en Capas JDBC</h3>
+              <span class="card-badge">Estándar Java SE</span>
+            </div>
+            <p class="card-desc" style="margin-bottom: 12px;">JDBC (<em>Java Database Connectivity</em>) desacopla la aplicación de las particularidades del motor SQL:</p>
+            <ul class="bullet-list">
+              <li><strong>Java Application</strong>: Invoca interfaces estándar del paquete <code>java.sql</code>.</li>
+              <li><strong>JDBC Driver Manager</strong>: Gestiona y enruta llamadas al conector adecuado.</li>
+              <li><strong>JDBC Driver (Vendor)</strong>: Implementa el protocolo binario del motor (Oracle, PostgreSQL, etc.).</li>
+              <li><strong>Database Server</strong>: Ejecuta consultas y gestiona el almacenamiento transaccional.</li>
+            </ul>
+          </div>
+
+          <div class="didactic-box analogia-box">
+            <span class="box-title">💡 Analogía Cotidiana: El Adaptador de Corriente Universal</span>
+            <p>Imagina viajar por todo el mundo con tus dispositivos electrónicos. Cada país tiene un enchufe de pared diferente (Oracle, PostgreSQL, MySQL), pero tu cargador tiene siempre la misma clavija (tu código Java).</p>
+            <p style="margin-top: 8px;">El <strong>Driver JDBC</strong> es el adaptador físico específico para cada país: la clavija de tu ordenador nunca cambia, pero el conector traduce al voltaje y geometría del enchufe local.</p>
+          </div>
+        </div>
+
+        <div class="didactic-box concept-box">
+          <span class="box-title">📌 El Conector Oracle Type 4 (Pure Java Thin Driver)</span>
+          En nuestro módulo utilizamos el driver oficial de Oracle <strong>ojdbc11</strong>. Es un conector de tipo 4: código 100% Java puro que se comunica directamente por TCP/IP con el puerto 1521 de Oracle sin requerir instalar clientes nativos C/C++ en el sistema operativo.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">02 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 03: CONEXION Y OJDBC11 -->
+    <section class="slide" id="slide-3">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Conectividad Práctica</span>
+          <span class="action-badge">💻 Actividad 2.1</span>
+          <h2 class="slide-title">2. Estableciendo Conexión con Oracle Database</h2>
+          <p class="slide-subtitle">Dependencia Maven, cadena de conexión (JDBC URL) y DriverManager</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Configuración Maven (pom.xml)</h3>
+              <span class="card-badge">com.oracle.database.jdbc</span>
+            </div>
+            <pre class="code-block"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.oracle.database.jdbc&lt;/groupId&gt;
+    &lt;artifactId&gt;ojdbc11&lt;/artifactId&gt;
+    &lt;version&gt;23.3.0.23.09&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+            <p class="card-desc" style="margin-top: 10px;">En JDBC 4.0+ ya <strong>no es obligatorio</strong> invocar <code>Class.forName("oracle.jdbc.OracleDriver")</code> gracias al mecanismo ServiceLoader de Java.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Sintaxis de Conexión en Java</h3>
+              <span class="card-badge">java.sql.DriverManager</span>
+            </div>
+            <pre class="code-block"><code>String url = "jdbc:oracle:thin:@localhost:1521:xe";
+String user = "c##dam2_user";
+String pass = "dam2_pass";
+
+try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+    System.out.println("¡Conexión establecida: " 
+        + conn.getMetaData().getDatabaseProductVersion());
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box warning-box">
+          <span class="box-title">⚠️ Particularidad Crítica de Oracle Database 12c, 19c y 23c</span>
+          Al crear usuarios comunes en la base de datos raíz (CDB), Oracle exige obligatoriamente que los nombres comiencen por el prefijo <code>c##</code> (ejemplo: <code>c##dam2_user</code>). Si olvidas este prefijo al crear el usuario en SQL*Plus, Oracle lanzará un error <code>ORA-65096</code>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">03 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 04: STATEMENT VS PREPAREDSTATEMENT -->
+    <section class="slide" id="slide-4">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Seguridad y Rendimiento</span>
+          <h2 class="slide-title">3. Statement vs PreparedStatement</h2>
+          <p class="slide-subtitle">Por qué la concatenación de texto en sentencias SQL es una práctica prohibida</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="border-left: 5px solid var(--color-danger);">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-danger);">❌ Statement (Peligroso)</h3>
+              <span class="card-badge">Vulnerable a Inyección SQL</span>
+            </div>
+            <pre class="code-block"><code>// Peligro: inyección SQL inmediata
+String sql = "SELECT * FROM usuarios WHERE email = '" 
+             + txtEmail + "' AND pass = '" + txtPass + "'";
+Statement st = conn.createStatement();
+ResultSet rs = st.executeQuery(sql);</code></pre>
+            <p class="card-desc" style="margin-top: 10px;">Si el usuario ingresa <code>admin' OR '1'='1</code>, la consulta altera su semántica y devuelve todos los registros saltándose la autenticación.</p>
+          </div>
+
+          <div class="card" style="border-left: 5px solid var(--color-success);">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-success);">✅ PreparedStatement (Seguro y Rápido)</h3>
+              <span class="card-badge">Compilación Previa</span>
+            </div>
+            <pre class="code-block"><code>// Seguro: parámetros posicionales '?'
+String sql = "SELECT * FROM usuarios WHERE email = ? AND pass = ?";
+try (PreparedStatement ps = conn.prepareStatement(sql)) {
+    ps.setString(1, txtEmail);
+    ps.setString(2, txtPass);
+    try (ResultSet rs = ps.executeQuery()) { ... }
+}</code></pre>
+            <p class="card-desc" style="margin-top: 10px;">El motor compila y optimiza el árbol de ejecución una sola vez. Los valores entran como parámetros tipados sin alterar el código SQL.</p>
+          </div>
+        </div>
+
+        <div class="didactic-box highlight-box">
+          <span class="box-title">🚀 Ventaja Doble: Seguridad Absoluta + Caché de Ejecución en Oracle</span>
+          Oracle almacena los planes de ejecución en la <em>Shared Pool (SGA)</em>. Usar <code>PreparedStatement</code> permite a Oracle reutilizar el plan existente para miles de llamadas con parámetros distintos (<em>Soft Parse</em>), disparando el rendimiento hasta un 400%.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">04 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 05: OPERACIONES CRUD -->
+    <section class="slide" id="slide-5">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Operaciones DML</span>
+          <span class="action-badge">💻 Actividad 2.2</span>
+          <h2 class="slide-title">4. Operaciones CRUD con PreparedStatement</h2>
+          <p class="slide-subtitle">Ejecución de INSERT, UPDATE, DELETE y recuperación de Claves Generadas</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Inserción con Claves Autogeneradas</h3>
+              <span class="card-badge">RETURN_GENERATED_KEYS</span>
+            </div>
+            <pre class="code-block"><code>String sql = "INSERT INTO productos (nombre, precio, stock) "
+           + "VALUES (?, ?, ?)";
+try (PreparedStatement ps = conn.prepareStatement(sql, 
+        Statement.RETURN_GENERATED_KEYS)) {
+    ps.setString(1, "Portátil HP");
+    ps.setBigDecimal(2, new BigDecimal("850.50"));
+    ps.setInt(3, 15);
+    
+    int filas = ps.executeUpdate(); // Retorna filas afectadas
+    
+    try (ResultSet rs = ps.getGeneratedKeys()) {
+        if (rs.next()) long id = rs.getLong(1);
+    }
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Actualización y Borrado</h3>
+              <span class="card-badge">executeUpdate()</span>
+            </div>
+            <pre class="code-block"><code>String sql = "UPDATE productos SET precio = ?, stock = stock + ? "
+           + "WHERE id_producto = ?";
+try (PreparedStatement ps = conn.prepareStatement(sql)) {
+    ps.setBigDecimal(1, nuevoPrecio);
+    ps.setInt(2, unidades);
+    ps.setLong(3, id);
+    
+    int actualizadas = ps.executeUpdate();
+    if (actualizadas == 0) {
+        throw new NoSuchElementException("Producto no hallado: " + id);
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box didactic-box" style="background-color: var(--bg-card-alt); border-left-color: var(--color-accent); color: var(--text-primary);">
+          <span class="box-title">⚖️ Regla Mnemotécnica de Métodos en JDBC</span>
+          <strong><code>executeQuery()</code></strong>: Exclusivo para consultas <code>SELECT</code> (retorna un <code>ResultSet</code>).<br>
+          <strong><code>executeUpdate()</code></strong>: Para sentencias DML (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) y DDL (<code>CREATE</code>, <code>ALTER</code>). Retorna un entero <code>int</code> indicando el recuento de filas modificadas.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">05 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 06: RESULTSET Y LECTURA -->
+    <section class="slide" id="slide-6">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Recuperación de Datos</span>
+          <span class="action-badge">💻 Actividad 2.3</span>
+          <h2 class="slide-title">5. Navegación y Lectura con ResultSet</h2>
+          <p class="slide-subtitle">El cursor de base de datos, métodos getters tipados y el tratamiento de nulos</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Bucle Típico de Lectura</h3>
+              <span class="card-badge">rs.next()</span>
+            </div>
+            <pre class="code-block"><code>String sql = "SELECT id, nombre, precio, fecha_alta FROM prod";
+try (PreparedStatement ps = conn.prepareStatement(sql);
+     ResultSet rs = ps.executeQuery()) {
+     
+    while (rs.next()) {
+        long id = rs.getLong("id");
+        String nom = rs.getString("nombre");
+        BigDecimal precio = rs.getBigDecimal("precio");
+        LocalDate fecha = rs.getObject("fecha_alta", LocalDate.class);
+        
+        System.out.println(id + " | " + nom + " | " + precio);
+    }
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">El Peligro de los NULLs y wasNull()</h3>
+              <span class="card-badge">Valores Primitivos</span>
+            </div>
+            <pre class="code-block"><code>int departamento = rs.getInt("id_departamento");
+// Si el valor era NULL en la BD, Java retorna 0.
+// Para verificar si era realmente null:
+if (rs.wasNull()) {
+    System.out.println("El empleado no tiene departamento asignado.");
+}
+
+// En Java Moderno (Java 8+):
+Integer dep = rs.getObject("id_departamento", Integer.class);
+// Retorna null de forma natural y limpia.</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box error-comun-box">
+          <span class="box-title">🛑 Error Típico: IndexOutOfBoundsException en JDBC</span>
+          A diferencia de los arrays y listas en Java que empiezan en el índice <code>0</code>, las columnas y parámetros en JDBC se indexan empezando en <strong>1</strong>. Si ejecutas <code>rs.getString(0)</code> o <code>ps.setString(0, ...)</code>, la JVM lanzará un <code>SQLException: Índice de columna no válido</code>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">06 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 07: PROCEDIMIENTOS ALMACENADOS CALLABLESTATEMENT -->
+    <section class="slide" id="slide-7">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Lógica en Base de Datos</span>
+          <span class="action-badge">💻 Actividad 2.4</span>
+          <h2 class="slide-title">6. Invocación de Procedimientos PL/SQL</h2>
+          <p class="slide-subtitle">Uso de CallableStatement con parámetros de entrada (IN) y salida (OUT)</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Procedimiento Almacenado en Oracle</h3>
+              <span class="card-badge">PL/SQL DDL</span>
+            </div>
+            <pre class="code-block"><code>CREATE OR REPLACE PROCEDURE sp_calcular_descuento (
+    p_id_cliente IN NUMBER,
+    p_total_compras OUT NUMBER,
+    p_porcentaje_desc OUT NUMBER
+) AS
+BEGIN
+    SELECT NVL(SUM(importe), 0) INTO p_total_compras
+    FROM pedidos WHERE id_cliente = p_id_cliente;
+    
+    IF p_total_compras > 1000 THEN p_porcentaje_desc := 15;
+    ELSE p_porcentaje_desc := 5;
+    END IF;
+END;</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Invocación en Java</h3>
+              <span class="card-badge">CallableStatement</span>
+            </div>
+            <pre class="code-block"><code>String sql = "{ call sp_calcular_descuento(?, ?, ?) }";
+try (CallableStatement cs = conn.prepareCall(sql)) {
+    cs.setLong(1, 105L); // Parámetro IN
+    
+    // Registrar parámetros OUT indicando el tipo SQL
+    cs.registerOutParameter(2, Types.NUMERIC);
+    cs.registerOutParameter(3, Types.NUMERIC);
+    
+    cs.execute(); // Ejecutar
+    
+    // Leer resultados
+    double total = cs.getDouble(2);
+    int descuento = cs.getInt(3);
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box concept-box">
+          <span class="box-title">📌 ¿Cuándo usar CallableStatement en el mundo profesional?</span>
+          Cuando las operaciones de cálculo masivo o transferencias bancarias residen directamente en el servidor de base de datos por rendimiento, seguridad o cumplimiento normativo de la organización, evitando transferir millones de registros por la red hasta la aplicación Java.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">07 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 08: CURSORES ORACLE SYS_REFCURSOR -->
+    <section class="slide" id="slide-8">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">PL/SQL Avanzado</span>
+          <h2 class="slide-title">7. Retorno de Conjuntos con SYS_REFCURSOR</h2>
+          <p class="slide-subtitle">Cómo devolver colecciones de datos completas desde funciones o paquetes Oracle</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Función PL/SQL con SYS_REFCURSOR</h3>
+              <span class="card-badge">Oracle 23c</span>
+            </div>
+            <pre class="code-block"><code>CREATE OR REPLACE FUNCTION fn_listar_empleados_dep(
+    p_dep_id IN NUMBER
+) RETURN SYS_REFCURSOR AS
+    v_cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_cursor FOR
+        SELECT id, nombre, salario 
+        FROM empleados 
+        WHERE id_departamento = p_dep_id;
+    RETURN v_cursor;
+END;</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Consumo en JDBC con Types.REF_CURSOR</h3>
+              <span class="card-badge">Java 21</span>
+            </div>
+            <pre class="code-block"><code>String sql = "{ ? = call fn_listar_empleados_dep(?) }";
+try (CallableStatement cs = conn.prepareCall(sql)) {
+    // Parámetro 1: Retorno de la función (Cursor)
+    cs.registerOutParameter(1, Types.REF_CURSOR);
+    cs.setInt(2, 10); // Departamento 10
+    
+    cs.execute();
+    
+    // Convertir el cursor devuelto a un ResultSet
+    try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+        while (rs.next()) {
+            System.out.println(rs.getString("nombre"));
+        }
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box highlight-box">
+          <span class="box-title">⚡ Estándar JDBC 4.2 vs Cast Nativo</span>
+          En Java 8+ / JDBC 4.2+, <code>Types.REF_CURSOR</code> está estandarizado en el paquete <code>java.sql.Types</code>. Antes requería <code>OracleTypes.CURSOR</code> de la librería privativa. Ahora el código es portable y limpio.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">08 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 09: TRANSACCIONES ACID -->
+    <section class="slide" id="slide-9">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Integridad Transaccional</span>
+          <span class="action-badge">💻 Actividad 2.5</span>
+          <h2 class="slide-title">8. Gestión Transaccional ACID en JDBC</h2>
+          <p class="slide-subtitle">Control manual de transacciones con setAutoCommit(false), commit() y rollback()</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Las 4 Propiedades ACID</h3>
+              <span class="card-badge">Bases de Datos Robustas</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Atomicidad (All-or-Nothing)</strong>: O se ejecutan todas las operaciones con éxito, o ninguna surte efecto.</li>
+              <li><strong>Consistencia</strong>: La base de datos pasa de un estado válido a otro cumpliendo restricciones.</li>
+              <li><strong>Aislamiento</strong>: Las operaciones simultáneas no interfieren entre sí.</li>
+              <li><strong>Durabilidad</strong>: Una vez confirmado el commit, los cambios sobreviven a caídas eléctricas.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Patrón Transaccional Canónico</h3>
+              <span class="card-badge">Try-Catch-Finally</span>
+            </div>
+            <pre class="code-block"><code>try (Connection conn = dataSource.getConnection()) {
+    conn.setAutoCommit(false); // 1. Desactivar auto-confirmación
+    try {
+        debitarCuenta(conn, origenId, importe);
+        acreditarCuenta(conn, destinoId, importe);
+        
+        conn.commit(); // 2. Confirmación atómica
+    } catch (Exception e) {
+        conn.rollback(); // 3. Deshacer en caso de error
+        throw e;
+    } finally {
+        conn.setAutoCommit(true); // 4. Restaurar
+    }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box warning-box">
+          <span class="box-title">⚠️ El Peligro del Modo Auto-Commit por Defecto</span>
+          Por defecto, cualquier conexión JDBC tiene <code>autoCommit = true</code>. Esto significa que cada <code>executeUpdate()</code> confirma inmediatamente el cambio en disco. Si en una transferencia bancaria falla el ingreso tras haber retirado el saldo, ¡el dinero desaparecerá en el limbo si no gestionas la transacción manualmente!
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">09 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 10: SAVEPOINTS Y PUNTOS DE RETORNO -->
+    <section class="slide" id="slide-10">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Transacciones Avanzadas</span>
+          <h2 class="slide-title">9. Puntos de Retorno Parcial: Savepoints</h2>
+          <p class="slide-subtitle">Deshacer operaciones intermedias sin perder el trabajo previo de la transacción</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">¿Qué es un Savepoint?</h3>
+              <span class="card-badge">java.sql.Savepoint</span>
+            </div>
+            <p class="card-desc" style="margin-bottom: 12px;">Un Savepoint actúa como un punto de restauración temporal dentro de una transacción activa:</p>
+            <ul class="bullet-list">
+              <li><code>conn.setSavepoint("nombre")</code>: Marca el punto actual.</li>
+              <li><code>conn.rollback(sp)</code>: Deshace únicamente las operaciones posteriores al punto.</li>
+              <li><code>conn.releaseSavepoint(sp)</code>: Libera los recursos del punto intermedio.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Ejemplo: Proceso por Lotes con Fallo Parcial</h3>
+              <span class="card-badge">Resiliencia</span>
+            </div>
+            <pre class="code-block"><code>conn.setAutoCommit(false);
+Savepoint sp = conn.setSavepoint("PuntoClienteA");
+try {
+    procesarCobroCliente(conn, clienteA);
+} catch (PaymentException pe) {
+    // Solo deshacemos el cliente A, manteniendo el resto
+    conn.rollback(sp);
+    registrarFallo(clienteA);
+}
+// Continuamos con el resto de clientes del lote...
+conn.commit();</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box analogia-box">
+          <span class="box-title">💡 Analogía Cotidiana: Puntos de Guardado en Videojuegos</span>
+          Imagina jugar un nivel largo de un videojuego. Antes de enfrentarte a una trampa peligrosa, tocas un <em>CheckPoint</em> (Savepoint). Si mueres en la trampa, reapareces en ese punto sin tener que empezar el juego entero desde el principio (rollback total).
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">10 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 11: METADATOS EN JDBC -->
+    <section class="slide" id="slide-11">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Introspección Dinámica</span>
+          <span class="action-badge">💻 Actividad 2.6</span>
+          <h2 class="slide-title">10. Inspección de Metadatos del Motor</h2>
+          <p class="slide-subtitle">DatabaseMetaData y ResultSetMetaData: conociendo la BD en tiempo de ejecución</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">DatabaseMetaData (Catálogo)</h3>
+              <span class="card-badge">conn.getMetaData()</span>
+            </div>
+            <p class="card-desc">Permite conocer las capacidades del motor, versión, soporte transaccional y tablas del usuario:</p>
+            <pre class="code-block"><code>DatabaseMetaData dmd = conn.getMetaData();
+System.out.println("Motor: " + dmd.getDatabaseProductName());
+System.out.println("Soporta Savepoints: " + dmd.supportsSavepoints());
+
+// Listar tablas de la base de datos
+try (ResultSet rs = dmd.getTables(null, "C##DAM2_USER", "%", new String[]{"TABLE"})) {
+    while (rs.next()) System.out.println("Tabla: " + rs.getString("TABLE_NAME"));
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">ResultSetMetaData (Columnas)</h3>
+              <span class="card-badge">rs.getMetaData()</span>
+            </div>
+            <p class="card-desc">Describe la estructura dinámica del resultado de cualquier consulta <code>SELECT</code>:</p>
+            <pre class="code-block"><code>ResultSetMetaData rsmd = rs.getMetaData();
+int columnas = rsmd.getColumnCount();
+
+for (int i = 1; i <= columnas; i++) {
+    System.out.printf("Col %d: %-15s Tipo: %s (%d)\n",
+        i,
+        rsmd.getColumnLabel(i),
+        rsmd.getColumnTypeName(i),
+        rsmd.getColumnDisplaySize(i));
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box highlight-box">
+          <span class="box-title">🛠️ Utilidad en Herramientas Profesionales</span>
+          ¿Cómo funcionan herramientas como DBeaver, DataGrip o SQL Developer para mostrar dinámicamente tablas en un árbol gráfico? ¡Utilizan exactamente las interfaces <code>DatabaseMetaData</code> y <code>ResultSetMetaData</code>!
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">11 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 12: EL PROBLEMA DE CREAR CONEXIONES A DEMANDA -->
+    <section class="slide" id="slide-12">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Rendimiento y Escalabilidad</span>
+          <h2 class="slide-title">11. El Problema del DriverManager a Demanda</h2>
+          <p class="slide-subtitle">Por qué abrir y cerrar conexiones en cada petición de usuario colapsa el servidor</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">El Coste Oculto de una Conexión</h3>
+              <span class="card-badge">~100-300 ms por Handshake</span>
+            </div>
+            <p class="card-desc" style="margin-bottom: 12px;">Cada vez que ejecutas <code>DriverManager.getConnection()</code>, ocurren los siguientes pasos en la red:</p>
+            <ul class="bullet-list">
+              <li><strong>Apertura de Socket TCP/IP</strong>: Negociación de red (SYN, SYN-ACK, ACK).</li>
+              <li><strong>Autenticación y Criptografía</strong>: Handshake SSL/TLS y validación de contraseñas.</li>
+              <li><strong>Proceso Dedicado en Servidor</strong>: En Oracle, se crea un proceso servidor en Linux/Unix que consume memoria RAM fija (PGA).</li>
+              <li><strong>Destrucción de Recursos</strong>: El cierre (close) exige liberar búferes y cerrar sockets.</li>
+            </ul>
+          </div>
+
+          <div class="didactic-box error-comun-box">
+            <span class="box-title">💥 El Escenario de Colapso en Producción</span>
+            Si tu aplicación web recibe 200 peticiones concurrentes por segundo e intentas abrir 200 conexiones con <code>DriverManager</code>:
+            <ul class="bullet-list" style="margin-top: 8px;">
+              <li>El tiempo de respuesta se degrada de 10ms a varios segundos.</li>
+              <li>La CPU del servidor de base de datos se satura gestionando handshakes en vez de procesar consultas SQL.</li>
+              <li>Oracle alcanza el límite <code>MAX_PROCESSES</code> y lanza el temido error <code>ORA-00020: maximum number of processes exceeded</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="didactic-box analogia-box">
+          <span class="box-title">💡 Analogía Cotidiana: La Flota de Taxis vs Comprar un Coche</span>
+          Si necesitas hacer un recado por la ciudad, no te compras un coche en un concesionario, lo matriculas, haces el seguro y luego lo achatarras al llegar a tu destino. En su lugar, tomas un taxi de la parada que ya está arrancado y disponible, lo usas durante el trayecto y lo dejas para que otro cliente lo use inmediatamente.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">12 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 13: POOL DE CONEXIONES HIKARICP -->
+    <section class="slide" id="slide-13">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Pool de Conexiones</span>
+          <span class="action-badge">💻 Actividad 2.7</span>
+          <h2 class="slide-title">12. HikariCP: El Estándar de la Industria</h2>
+          <p class="slide-subtitle">Arquitectura de piscina de conexiones pre-calentadas de cero latencia</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Dependencia Maven</h3>
+              <span class="card-badge">com.zaxxer.HikariCP</span>
+            </div>
+            <pre class="code-block"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.zaxxer&lt;/groupId&gt;
+    &lt;artifactId&gt;HikariCP&lt;/artifactId&gt;
+    &lt;version&gt;5.1.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+            <p class="card-desc" style="margin-top: 10px;">HikariCP es el connection pool por defecto en Spring Boot y el más rápido del ecosistema Java gracias a optimizaciones a nivel de bytecode y cerrojos sin contención.</p>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Configuración Profesional de la Fuente</h3>
+              <span class="card-badge">HikariConfig & HikariDataSource</span>
+            </div>
+            <pre class="code-block"><code>HikariConfig config = new HikariConfig();
+config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
+config.setUsername("c##dam2_user");
+config.setPassword("dam2_pass");
+
+config.setMaximumPoolSize(10);
+config.setMinimumIdle(2);
+config.setConnectionTimeout(30000); // 30s
+config.setIdleTimeout(600000);       // 10min
+
+HikariDataSource ds = new HikariDataSource(config);</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box highlight-box">
+          <span class="box-title">🔄 ¿Qué hace conn.close() al usar HikariCP?</span>
+          Cuando obtienes una conexión con <code>ds.getConnection()</code> y luego invocas <code>conn.close()</code> en el bloque <em>try-with-resources</em>, <strong>la conexión física NO se destruye</strong>. El proxy de HikariCP intercepta la llamada y devuelve la conexión a la piscina en estado <em>IDLE</em> para ser reutilizada inmediatamente en microsegundos.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">13 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 14: ARQUITECTURA EN CAPAS DAO / DTO -->
+    <section class="slide" id="slide-14">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Diseño Software Limpio</span>
+          <h2 class="slide-title">13. Separación de Responsabilidades: DAO y DTO</h2>
+          <p class="slide-subtitle">Desacoplar la interfaz gráfica y la lógica de negocio de las sentencias SQL</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">1. Modelo / DTO</h3>
+              <span class="card-badge">Data Transfer Object</span>
+            </div>
+            <p class="card-desc">Contenedor inmutable de datos o Java Record. No tiene lógica de negocio ni sentencias SQL:</p>
+            <pre class="code-block"><code>public record EmpleadoDTO(
+    Long id,
+    String nombre,
+    String email,
+    BigDecimal salario
+) {}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">2. Interfaz DAO</h3>
+              <span class="card-badge">Contrato de Persistencia</span>
+            </div>
+            <p class="card-desc">Define qué operaciones de datos se pueden realizar sin comprometer el motor subyacente:</p>
+            <pre class="code-block"><code>public interface EmpleadoDAO {
+    void create(EmpleadoDTO emp);
+    Optional&lt;EmpleadoDTO&gt; findById(Long id);
+    List&lt;EmpleadoDTO&gt; findAll();
+    void update(EmpleadoDTO emp);
+    void delete(Long id);
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">3. DAO Impl</h3>
+              <span class="card-badge">Implementación JDBC</span>
+            </div>
+            <p class="card-desc">Contiene el SQL real y las llamadas JDBC. Inyecta el DataSource y maneja excepciones:</p>
+            <pre class="code-block"><code>public class EmpleadoDAOJdbc 
+    implements EmpleadoDAO {
+    private final DataSource ds;
+    public EmpleadoDAOJdbc(DataSource ds) {
+        this.ds = ds;
+    }
+    // Implementación métodos...
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="didactic-box concept-box">
+          <span class="box-title">📌 ¿Por qué programar contra interfaces DAO?</span>
+          Si el día de mañana la empresa migra de Oracle a MongoDB o a un servicio REST API, la lógica de negocio y las pantallas no sufren ningún cambio; únicamente se escribe una nueva implementación <code>EmpleadoDAOMongo</code> que satisfaga el mismo contrato <code>EmpleadoDAO</code>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">14 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 15: IMPLEMENTACION DAO PROFESIONAL -->
+    <section class="slide" id="slide-15">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Patrón DAO en Acción</span>
+          <span class="action-badge">💻 Actividad 2.8</span>
+          <h2 class="slide-title">14. Implementación Canónica de un DAO</h2>
+          <p class="slide-subtitle">Tratamiento de excepciones personalizadas y mapeo limpio de ResultSet a Entidad</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Método findById con Optional</h3>
+              <span class="card-badge">Java 21</span>
+            </div>
+            <pre class="code-block"><code>@Override
+public Optional&lt;EmpleadoDTO&gt; findById(Long id) {
+    String sql = "SELECT id, nombre, email, salario FROM emp WHERE id = ?";
+    try (Connection conn = dataSource.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setLong(1, id);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return Optional.of(mapResultSet(rs));
+            }
+            return Optional.empty();
+        }
+    } catch (SQLException e) {
+        throw new PersistenceException("Error al consultar empleado " + id, e);
+    }
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Método Helper de Mapeo</h3>
+              <span class="card-badge">DRY (Don't Repeat Yourself)</span>
+            </div>
+            <pre class="code-block"><code>private EmpleadoDTO mapResultSet(ResultSet rs) throws SQLException {
+    return new EmpleadoDTO(
+        rs.getLong("id"),
+        rs.getString("nombre"),
+        rs.getString("email"),
+        rs.getBigDecimal("salario")
+    );
+}</code></pre>
+            <p class="card-desc" style="margin-top: 10px;">Centralizar el mapeo de columnas en un método privado garantiza que un cambio en la tabla solo requiera actualizar una única línea de código en todo el DAO.</p>
+          </div>
+        </div>
+
+        <div class="didactic-box highlight-box">
+          <span class="box-title">🛡️ Enmascaramiento de Excepciones: PersistenceException</span>
+          Nunca propagues <code>SQLException</code> hacia las capas superiores (servicios o controladores web). Es una excepción chequeada muy acoplada a JDBC. El DAO debe capturarla y relanzar una excepción unchecked de dominio como <code>PersistenceException</code>, protegiendo la arquitectura.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">15 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 16: MANEJO DE EXCEPCIONES SQLEXCEPTION -->
+    <section class="slide" id="slide-16">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Diagnóstico y Depuración</span>
+          <h2 class="slide-title">15. Anatomía de una SQLException</h2>
+          <p class="slide-subtitle">Extrayendo el código de error nativo del motor y el estándar SQLState</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Métodos de Diagnóstico de SQLException</h3>
+              <span class="card-badge">java.sql.SQLException</span>
+            </div>
+            <pre class="code-block"><code>try {
+    // Operación JDBC...
+} catch (SQLException e) {
+    System.err.println("Mensaje: " + e.getMessage());
+    System.err.println("SQLState: " + e.getSQLState());
+    System.err.println("Código Error Oracle: " + e.getErrorCode());
+    
+    if (e.getErrorCode() == 1) { // ORA-00001
+        System.err.println("¡Violación de clave primaria o única!");
+    } else if (e.getErrorCode() == 2292) { // ORA-02292
+        System.err.println("¡No se puede borrar: clave foránea referenciada!");
+    }
+}</code></pre>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Códigos de Error Habituales en Oracle</h3>
+              <span class="card-badge">Top Errores ORA</span>
+            </div>
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Identificador</th>
+                  <th>Causa Habitual</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>ORA-00001</strong></td>
+                  <td>unique constraint violated</td>
+                  <td>Inserción de clave primaria o valor unique duplicado.</td>
+                </tr>
+                <tr>
+                  <td><strong>ORA-02291</strong></td>
+                  <td>integrity constraint (FK)</td>
+                  <td>Clave foránea apunta a un registro padre inexistente.</td>
+                </tr>
+                <tr>
+                  <td><strong>ORA-01017</strong></td>
+                  <td>invalid username/password</td>
+                  <td>Credenciales erróneas o usuario bloqueado.</td>
+                </tr>
+                <tr>
+                  <td><strong>ORA-12541</strong></td>
+                  <td>TNS:no listener</td>
+                  <td>El servicio de base de datos Oracle no está iniciado.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="didactic-box didactic-box" style="background-color: var(--box-concept-bg); border-left-color: var(--box-concept-border); color: var(--box-concept-text);">
+          <span class="box-title">⛓️ Excepciones Encadenadas: e.getNextException()</span>
+          JDBC permite que un único fallo desencadene una lista enlazada de advertencias y errores secundarios. Puedes iterar sobre ellos usando un bucle <code>for (Throwable ex : e)</code> o <code>e.getNextException()</code> para obtener el registro forense completo de la base de datos.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">16 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 17: ERRORES TIPICOS DEL ALUMNADO -->
+    <section class="slide" id="slide-17">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Guía de Supervivencia</span>
+          <h2 class="slide-title">16. Errores Típicos en Exámenes y Prácticas</h2>
+          <p class="slide-subtitle">Los 4 descuidos más comunes al programar con JDBC y cómo evitarlos</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="border-left: 5px solid var(--color-danger);">
+            <div class="card-header">
+              <h3 class="card-title">1. Olvido del rs.next()</h3>
+              <span class="card-badge">Exhausted ResultSet</span>
+            </div>
+            <p class="card-desc">El cursor de un <code>ResultSet</code> apunta inicialmente <strong>antes de la primera fila</strong>. Si intentas llamar directamente a <code>rs.getString("col")</code> sin hacer previamente un <code>if (rs.next())</code> o <code>while (rs.next())</code>, la aplicación lanzará un error de cursor no posicionado.</p>
+          </div>
+
+          <div class="card" style="border-left: 5px solid var(--color-danger);">
+            <div class="card-header">
+              <h3 class="card-title">2. Fuga de Conexiones (Connection Leak)</h3>
+              <span class="card-badge">Pool Agotado</span>
+            </div>
+            <p class="card-desc">No usar <em>try-with-resources</em> para cerrar conexiones o sentencias. Al cabo de 10 consultas, la piscina de conexiones se queda sin recursos disponibles (<em>pool empty</em>) y la aplicación se congela indefinidamente esperando que se libere una conexión.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card" style="border-left: 5px solid var(--color-warning);">
+            <div class="card-header">
+              <h3 class="card-title">3. Olvidar conn.setAutoCommit(true)</h3>
+              <span class="card-badge">Conexión Sucia</span>
+            </div>
+            <p class="card-desc">Si devuelves al pool una conexión con <code>autoCommit = false</code> sin haber hecho rollback o sin restaurar el flag a true en el bloque <code>finally</code>, la siguiente consulta de otro hilo heredará ese estado transaccional sucio.</p>
+          </div>
+
+          <div class="card" style="border-left: 5px solid var(--color-warning);">
+            <div class="card-header">
+              <h3 class="card-title">4. Fechas obsoletas de java.util.Date</h3>
+              <span class="card-badge">API Anticuada</span>
+            </div>
+            <p class="card-desc">Usar <code>java.util.Date</code> en lugar de la moderna API <code>java.time</code> (<code>LocalDate</code>, <code>LocalDateTime</code>). Utiliza siempre <code>ps.setObject(i, localDate)</code> y <code>rs.getObject(col, LocalDate.class)</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">17 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 18: TABLA RESUMEN -->
+    <section class="slide" id="slide-18">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Comparativa de Componentes</span>
+          <h2 class="slide-title">17. Resumen de Clases e Interfaces Clave</h2>
+          <p class="slide-subtitle">Matriz de referencia rápida para el desarrollo con JDBC en Java 21</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <table class="table-custom">
+          <thead>
+            <tr>
+              <th>Componente</th>
+              <th>Tipo</th>
+              <th>Propósito Principal</th>
+              <th>Métodos Críticos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong><code>Connection</code></strong></td>
+              <td>Interfaz</td>
+              <td>Sesión activa con el motor RDBMS y delimitador transaccional.</td>
+              <td><code>prepareStatement()</code>, <code>commit()</code>, <code>rollback()</code>, <code>close()</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>PreparedStatement</code></strong></td>
+              <td>Interfaz</td>
+              <td>Sentencia SQL precompilada con parámetros tipados ('?').</td>
+              <td><code>setXxx()</code>, <code>executeQuery()</code>, <code>executeUpdate()</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>CallableStatement</code></strong></td>
+              <td>Interfaz</td>
+              <td>Ejecución de procedimientos y funciones almacenadas (PL/SQL).</td>
+              <td><code>registerOutParameter()</code>, <code>execute()</code>, <code>getXxx()</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>ResultSet</code></strong></td>
+              <td>Interfaz</td>
+              <td>Cursor sobre la tabla de resultados de una consulta SELECT.</td>
+              <td><code>next()</code>, <code>getXxx()</code>, <code>wasNull()</code>, <code>getMetaData()</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>HikariDataSource</code></strong></td>
+              <td>Clase</td>
+              <td>Piscina de conexiones precalentadas de alta velocidad.</td>
+              <td><code>getConnection()</code>, <code>close()</code></td>
+            </tr>
+            <tr>
+              <td><strong><code>DatabaseMetaData</code></strong></td>
+              <td>Interfaz</td>
+              <td>Catálogo global del motor de base de datos y soporte técnico.</td>
+              <td><code>getTables()</code>, <code>getColumns()</code>, <code>getPrimaryKeys()</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="didactic-box highlight-box" style="margin-top: 6px;">
+          <span class="box-title">💡 Todas implementan AutoCloseable</span>
+          Todas las interfaces de JDBC heredan de <code>java.lang.AutoCloseable</code>. La regla de oro es declarar <strong>siempre</strong> las conexiones, statements y resultsets dentro de los paréntesis del bloque <code>try (...)</code>.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">18 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 19: MAPA DE ACTIVIDADES SÍNCRONAS -->
+    <section class="slide" id="slide-19">
+      <header class="slide-header">
+        <div class="slide-header-left">
+          <span class="slide-badge">Metodología de Aula</span>
+          <h2 class="slide-title">18. Vinculación Síncrona: Cuaderno de Aula</h2>
+          <p class="slide-subtitle">Correspondencia 1 a 1 entre teoría impartida y prácticas en el IDE</p>
+        </div>
+      </header>
+
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Bloque 1: Conectividad y CRUD (Actividades 2.1 a 2.4)</h3>
+              <span class="card-badge">Parte 1</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Actividad 2.1</strong>: Conexión robusta a Oracle 23c con Driver OJDBC11.</li>
+              <li><strong>Actividad 2.2</strong>: Operaciones CRUD con PreparedStatement y claves autogeneradas.</li>
+              <li><strong>Actividad 2.3</strong>: Navegación de ResultSet y gestión limpia de valores nulos.</li>
+              <li><strong>Actividad 2.4</strong>: Invocación de Procedimientos PL/SQL con parámetros IN y OUT.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Bloque 2: Transacciones, Pools y DAO (Actividades 2.5 a 2.8)</h3>
+              <span class="card-badge">Parte 2</span>
+            </div>
+            <ul class="bullet-list">
+              <li><strong>Actividad 2.5</strong>: Transferencia bancaria transaccional con Commit, Rollback y Savepoints.</li>
+              <li><strong>Actividad 2.6</strong>: Extracción dinámica de metadatos (DatabaseMetaData e inspector de tablas).</li>
+              <li><strong>Actividad 2.7</strong>: Configuración de Pool HikariCP y prueba de carga concurrente.</li>
+              <li><strong>Actividad 2.8</strong>: Arquitectura completa de persistencia con patrón DAO y Java Records.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="didactic-box concept-box">
+          <span class="box-title">💻 Dinámica de Trabajo en las Sesiones</span>
+          Cada diapositiva teórica finaliza con una llamada a la acción hacia tu <strong>Cuaderno de Actividades de Aula</strong>. Al concluir la explicación, abrimos Eclipse IDE / Maven y resolvemos juntos la actividad guiada para fijar el concepto en el ordenador.
+        </div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">19 / 20</span>
+      </footer>
+    </section>
+
+    <!-- SLIDE 20: CIERRE -->
+    <section class="slide slide-cover" id="slide-20">
+      <header class="cover-header">
+        <div class="cover-institution">
+          <span class="inst-title">CIFP Avilés · Departamento de Informática</span>
+          <span class="inst-sub">Módulo Acceso a Datos · 2º Ciclo Formativo de Grado Superior DAM</span>
+        </div>
+        <div class="cover-logo-box">
+          <img src="data:image/png;base64,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" alt="Logo CIFP Avilés">
+        </div>
+      </header>
+
+      <div class="cover-body" style="text-align: center; margin: 30px 0;">
+        <h1 class="cover-title" style="font-size: 46px; color: var(--color-primary);">¡Manos a la Obra en el Aula!</h1>
+        <p class="cover-subtitle" style="margin: 0 auto; max-width: 780px;">
+          Abre tu entorno de desarrollo Eclipse IDE, verifica tu contenedor o servicio Oracle Database y comencemos con la primera actividad práctica guiada.
+        </p>
+        <div style="margin-top: 24px;">
+          <span style="font-size: 20px; font-weight: 700; color: var(--color-accent); background-color: var(--box-concept-bg); padding: 10px 24px; border-radius: 9999px; border: 1px solid var(--box-concept-border);">
+            📁 03-Ejercicios/UT2/01-Cuaderno-Actividades/AD-UT2-Cuaderno-Actividades-Aula.pdf
+          </span>
+        </div>
+      </div>
+
+      <div class="cover-meta-grid" style="grid-template-columns: repeat(2, 1fr);">
+        <div class="cover-meta-item"><strong>Profesor Titular</strong><span>Sergio Capdevila Díez</span></div>
+        <div class="cover-meta-item"><strong>Contacto y Consultas</strong><span>sergiocdi@cifpaviles.es</span></div>
+      </div>
+
+      <footer class="slide-footer">
+        <span>Acceso a Datos · UT2: JDBC y Oracle</span>
+        <span class="footer-center">CIFP Avilés · Sergio Capdevila Díez</span>
+        <span class="footer-page">20 / 20</span>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- Controles flotantes de navegación en pantalla -->
+  <div id="nav-controls">
+    <button class="nav-btn" id="btn-prev" title="Diapositiva anterior (Flecha Izquierda / RePág)">‹</button>
+    <span class="slide-indicator" id="slide-indicator">01 / 20</span>
+    <button class="nav-btn" id="btn-next" title="Siguiente diapositiva (Flecha Derecha / AvPág / Espacio)">›</button>
+    <button class="nav-btn" id="btn-fullscreen" title="Pantalla Completa (F)">⛶</button>
+    <button class="nav-btn" id="btn-print" title="Imprimir / Exportar a PDF (P)">🖨️</button>
+  </div>
+
+  <div class="keyboard-hint" id="keyboard-hint">
+    Atajos: <strong>←</strong> / <strong>→</strong> navegar · <strong>Espacio</strong> avanzar · <strong>F</strong> pantalla completa · <strong>P</strong> imprimir
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const totalSlides = slides.length;
+      let currentSlide = 0;
+
+      const progressBar = document.getElementById('progress-bar');
+      const slideIndicator = document.getElementById('slide-indicator');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const btnFullscreen = document.getElementById('btn-fullscreen');
+      const btnPrint = document.getElementById('btn-print');
+      const keyboardHint = document.getElementById('keyboard-hint');
+
+      function updateSlide(newIndex) {
+        if (newIndex < 0 || newIndex >= totalSlides) return;
+        slides[currentSlide].classList.remove('active');
+        currentSlide = newIndex;
+        slides[currentSlide].classList.add('active');
+
+        // Barra de progreso y contador
+        const pct = ((currentSlide + 1) / totalSlides) * 100;
+        progressBar.style.width = pct + '%';
+        const curStr = String(currentSlide + 1).padStart(2, '0');
+        const totStr = String(totalSlides).padStart(2, '0');
+        slideIndicator.textContent = `${curStr} / ${totStr}`;
+        btnPrev.disabled = currentSlide === 0;
+        btnNext.disabled = currentSlide === totalSlides - 1;
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) updateSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        if (currentSlide > 0) updateSlide(currentSlide - 1);
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(err => alert('Error: ' + err.message));
+        } else {
+          document.exitFullscreen();
+        }
+      }
+
+      btnNext.addEventListener('click', nextSlide);
+      btnPrev.addEventListener('click', prevSlide);
+      btnFullscreen.addEventListener('click', toggleFullscreen);
+      btnPrint.addEventListener('click', () => window.print());
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          updateSlide(0);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          updateSlide(totalSlides - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          e.preventDefault();
+          toggleFullscreen();
+        } else if (e.key === 'p' || e.key === 'P') {
+          e.preventDefault();
+          window.print();
+        }
+      });
+
+      setTimeout(() => {
+        if (keyboardHint) {
+          keyboardHint.style.opacity = '0';
+          setTimeout(() => keyboardHint.style.display = 'none', 600);
+        }
+      }, 5000);
+
+      updateSlide(0);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucionario Docente: JDBC, CRUD y Transacciones ACID - CIFP Avilés</title>
+  <style>
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+  --color-primary: #1e3a8a;
+  --color-accent: #0284c7;
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+.department-name {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.badge-doc {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+.badge-teacher {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.practice-subtitle {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #f1f5f9;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 11.5px;
+}
+.metadata-grid strong {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.curricular-section {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-subtle);
+  font-size: 11.5px;
+  align-items: center;
+}
+.badge-pill {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  background: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+}
+.exercise-box {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.exercise-box.sol { border-left-color: #16a34a; }
+.ex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.ex-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+.ex-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+p { margin-bottom: 8px; text-align: justify; }
+pre {
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  padding: 12px 14px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: #0369a1;
+  background: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+pre code { color: inherit; background: transparent; padding: 0; }
+.rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 11.5px;
+}
+.rubric-table th, .rubric-table td {
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  text-align: left;
+}
+.rubric-table th {
+  background: #f1f5f9;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+.footer {
+  margin-top: 30px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #64748b;
+}
+@media print {
+  body { background: #ffffff; font-size: 10.5pt; }
+  .document-container { max-width: 100%; margin: 0; padding: 0; box-shadow: none; }
+  pre { font-size: 8pt; }
+  .exercise-box { page-break-inside: avoid; border: 1px solid #cbd5e1; margin-bottom: 14px; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+</style>
+</head>
+<body>
+<div class="document-container">
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Dpto. Informática y Comunicaciones</span>
+        <span class="department-name">Ciclo Formativo Grado Superior: Desarrollo de Aplicaciones Multiplataforma (2º DAM)</span>
+      </div>
+      <span class="badge-doc badge-teacher">SOLUCIONARIO DOCENTE</span>
+    </div>
+    <h1 class="practice-title">Solucionario Docente: JDBC, CRUD y Transacciones ACID</h1>
+    <div class="practice-subtitle">Soluciones de referencia completas y documentadas para los ejercicios del Bloque 1</div>
+    <div class="metadata-grid">
+      <div><strong>Módulo</strong><span>Acceso a Datos (0486)</span></div><div><strong>Unidad</strong><span>UT2: JDBC y Oracle</span></div><div><strong>Bloque</strong><span>B1: CRUD y Transacciones</span></div><div><strong>Profesor</strong><span>Sergio Capdevila Díez</span></div>
+    </div>
+    <div class="curricular-section">
+      
+  <strong>Resultados de Aprendizaje:</strong> <span class="badge-pill">RA2</span>
+  <strong style="margin-left:14px;">Criterios de Evaluación:</strong> <code>CE2.a</code>, <code>CE2.c</code>, <code>CE2.d</code>, <code>CE2.g</code>
+
+    </div>
+  </header>
+
+  <main>
+    
+    <div class="exercise-box sol">
+      <div class="ex-header">
+        <span class="ex-title">Ejercicio 2.1: CLI Interactivo de Inventario con PreparedStatement</span>
+        <span class="ex-badge">45 min</span>
+      </div>
+      <p>Desarrolla una aplicación de consola en Java que se conecte a Oracle 23c y permita: (1) Añadir un artículo con nombre, precio y stock devolviendo el ID autogenerado, (2) Listar todos los artículos con formato de tabla ASCII, (3) Actualizar el stock de un producto buscando por ID.</p>
+      <div style="font-weight:700; color:#166534; margin-top:12px; font-size:12px; text-transform:uppercase;">🔑 Solución Completa y Código Funcional:</div>
+      <pre><code>package es.cifpaviles.dam2.ad.ut2.b1;
+
+import java.math.BigDecimal;
+import java.sql.*;
+
+public class InventarioCLI {
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String USER = "c##dam2_user";
+    private static final String PASS = "dam2_pass";
+
+    public static void main(String[] args) {
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            System.out.println("Conexión exitosa. Insertando producto de prueba...");
+            long id = insertarProducto(conn, "Teclado Mecánico RGB", new BigDecimal("79.95"), 12);
+            System.out.println("Producto insertado con ID: " + id);
+            
+            System.out.println("\nListando inventario:");
+            listarProductos(conn);
+
+            System.out.println("\nActualizando stock a 20 unidades...");
+            actualizarStock(conn, id, 20);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static long insertarProducto(Connection conn, String nombre, BigDecimal precio, int stock) throws SQLException {
+        String sql = "INSERT INTO productos (nombre, precio, stock) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, nombre);
+            ps.setBigDecimal(2, precio);
+            ps.setInt(3, stock);
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) return rs.getLong(1);
+            }
+        }
+        return -1;
+    }
+
+    public static void listarProductos(Connection conn) throws SQLException {
+        String sql = "SELECT id_producto, nombre, precio, stock FROM productos ORDER BY id_producto";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            System.out.printf("%-6s | %-25s | %-9s | %-5s\n", "ID", "NOMBRE", "PRECIO", "STOCK");
+            System.out.println("-------+---------------------------+-----------+------");
+            while (rs.next()) {
+                System.out.printf("%-6d | %-25s | %-9.2f | %-5d\n",
+                    rs.getLong("id_producto"), rs.getString("nombre"),
+                    rs.getBigDecimal("precio"), rs.getInt("stock"));
+            }
+        }
+    }
+
+    public static void actualizarStock(Connection conn, long id, int nuevoStock) throws SQLException {
+        String sql = "UPDATE productos SET stock = ? WHERE id_producto = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, nuevoStock);
+            ps.setLong(2, id);
+            int filas = ps.executeUpdate();
+            System.out.println("Filas actualizadas: " + filas);
+        }
+    }
+}</code></pre>
+    </div>
+    
+    <div class="exercise-box sol">
+      <div class="ex-header">
+        <span class="ex-title">Ejercicio 2.2: Transacción Bancaria con Savepoints y Auditoría de Fallos</span>
+        <span class="ex-badge">55 min</span>
+      </div>
+      <p>Crea una tabla `movimientos_auditoria (id NUMBER PRIMARY KEY, operacion VARCHAR2(100), estado VARCHAR2(20), fecha TIMESTAMP)`. Desarrolla una operación transaccional que intente transferir dinero. Si el saldo no alcanza, la transacción debe hacer rollback a un Savepoint para no mover dinero, pero debe registrar en la tabla de auditoría el intento fallido y confirmarlo.</p>
+      <div style="font-weight:700; color:#166534; margin-top:12px; font-size:12px; text-transform:uppercase;">🔑 Solución Completa y Código Funcional:</div>
+      <pre><code>package es.cifpaviles.dam2.ad.ut2.b1;
+
+import java.math.BigDecimal;
+import java.sql.*;
+
+public class TransaccionConAuditoria {
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private static final String USER = "c##dam2_user";
+    private static final String PASS = "dam2_pass";
+
+    public static void main(String[] args) {
+        ejecutarTransferenciaSegura(1L, 2L, new BigDecimal("5000.00")); // Provocará saldo insuficiente
+    }
+
+    public static void ejecutarTransferenciaSegura(long origen, long destino, BigDecimal importe) {
+        String sqlDebitar = "UPDATE cuentas_bancarias SET saldo = saldo - ? WHERE id = ? AND saldo &gt;= ?";
+        String sqlAcreditar = "UPDATE cuentas_bancarias SET saldo = saldo + ? WHERE id = ?";
+        String sqlAuditoria = "INSERT INTO movimientos_auditoria (id, operacion, estado, fecha) "
+                            + "VALUES (NVL((SELECT MAX(id)+1 FROM movimientos_auditoria),1), ?, ?, SYSTIMESTAMP)";
+
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASS)) {
+            conn.setAutoCommit(false);
+            Savepoint spInicio = conn.setSavepoint("PuntoInicial");
+
+            try {
+                // Paso 1: Intentar debitar
+                try (PreparedStatement ps = conn.prepareStatement(sqlDebitar)) {
+                    ps.setBigDecimal(1, importe);
+                    ps.setLong(2, origen);
+                    ps.setBigDecimal(3, importe);
+                    if (ps.executeUpdate() == 0) {
+                        throw new IllegalStateException("Saldo insuficiente en cuenta origen.");
+                    }
+                }
+
+                // Paso 2: Acreditar
+                try (PreparedStatement ps = conn.prepareStatement(sqlAcreditar)) {
+                    ps.setBigDecimal(1, importe);
+                    ps.setLong(2, destino);
+                    if (ps.executeUpdate() == 0) {
+                        throw new IllegalStateException("Cuenta destino inexistente.");
+                    }
+                }
+
+                // Paso 3: Registrar éxito
+                try (PreparedStatement psAud = conn.prepareStatement(sqlAuditoria)) {
+                    psAud.setString(1, "Transferencia de " + importe + " € de cuenta " + origen + " a " + destino);
+                    psAud.setString(2, "COMPLETADA");
+                    psAud.executeUpdate();
+                }
+
+                conn.commit();
+                System.out.println("[OK] Operación confirmada con éxito.");
+
+            } catch (Exception e) {
+                System.err.println("[AVISO] Fallo en la transferencia: " + e.getMessage());
+                // Deshacer debitos/créditos hasta el Savepoint
+                conn.rollback(spInicio);
+
+                // Registrar auditoría de fallo en una nueva transacción limpia
+                try (PreparedStatement psAud = conn.prepareStatement(sqlAuditoria)) {
+                    psAud.setString(1, "Transferencia fallida de " + importe + " €: " + e.getMessage());
+                    psAud.setString(2, "RECHAZADA");
+                    psAud.executeUpdate();
+                }
+                conn.commit(); // Confirmar registro de auditoría
+                System.out.println("[AUDITORÍA] Intento fallido registrado en el histórico.");
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+}</code></pre>
+    </div>
+    
+  </main>
+
+  <footer class="footer">
+    <span>CIFP Avilés · Módulo: Acceso a Datos (0486)</span>
+    <span>Profesor Sergio Capdevila Díez</span>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios Complementarios: Patrones DAO/DTO y Pools HikariCP - CIFP Avilés</title>
+  <style>
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+  --color-primary: #1e3a8a;
+  --color-accent: #0284c7;
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  text-transform: uppercase;
+}
+.department-name {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+.badge-doc {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+.badge-teacher {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.practice-subtitle {
+  font-size: 13.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #f1f5f9;
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 11.5px;
+}
+.metadata-grid strong {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.curricular-section {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+  padding: 8px 12px;
+  background: #fafafa;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-subtle);
+  font-size: 11.5px;
+  align-items: center;
+}
+.badge-pill {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  background: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+}
+.exercise-box {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 6px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.exercise-box.sol { border-left-color: #16a34a; }
+.ex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border-subtle);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.ex-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+.ex-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #f1f5f9;
+  color: #475569;
+}
+p { margin-bottom: 8px; text-align: justify; }
+pre {
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  padding: 12px 14px;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  color: #0369a1;
+  background: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+pre code { color: inherit; background: transparent; padding: 0; }
+.rubric-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 11.5px;
+}
+.rubric-table th, .rubric-table td {
+  border: 1px solid var(--color-border);
+  padding: 8px 10px;
+  text-align: left;
+}
+.rubric-table th {
+  background: #f1f5f9;
+  color: var(--color-primary);
+  font-weight: 700;
+}
+.footer {
+  margin-top: 30px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #64748b;
+}
+@media print {
+  body { background: #ffffff; font-size: 10.5pt; }
+  .document-container { max-width: 100%; margin: 0; padding: 0; box-shadow: none; }
+  pre { font-size: 8pt; }
+  .exercise-box { page-break-inside: avoid; border: 1px solid #cbd5e1; margin-bottom: 14px; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+</style>
+</head>
+<body>
+<div class="document-container">
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Dpto. Informática y Comunicaciones</span>
+        <span class="department-name">Ciclo Formativo Grado Superior: Desarrollo de Aplicaciones Multiplataforma (2º DAM)</span>
+      </div>
+      <span class="badge-doc">HOJA DE EJERCICIOS</span>
+    </div>
+    <h1 class="practice-title">Ejercicios Complementarios: Patrones DAO/DTO y Pools HikariCP</h1>
+    <div class="practice-subtitle">Hoja de ejercicios avanzados de arquitectura de persistencia empresarial y optimización con connection pools</div>
+    <div class="metadata-grid">
+      <div><strong>Módulo</strong><span>Acceso a Datos (0486)</span></div><div><strong>Unidad</strong><span>UT2: JDBC y Oracle</span></div><div><strong>Bloque</strong><span>B2: DAO, DTO y HikariCP</span></div><div><strong>Profesor</strong><span>Sergio Capdevila Díez</span></div>
+    </div>
+    <div class="curricular-section">
+      
+  <strong>Resultados de Aprendizaje:</strong> <span class="badge-pill">RA2</span>
+  <strong style="margin-left:14px;">Criterios de Evaluación:</strong> <code>CE2.b</code>, <code>CE2.g</code>, <code>CE2.h</code>
+
+    </div>
+  </header>
+
+  <main>
+    
+    <div class="exercise-box">
+      <div class="ex-header">
+        <span class="ex-title">Ejercicio 2.3: Configuración Avanzada de Pool HikariCP con Detección de Fugas</span>
+        <span class="ex-badge">40 min</span>
+      </div>
+      <p>Configura un DataSource HikariCP en Java 21 estableciendo: `maximumPoolSize=5`, `connectionTimeout=10000`, y `leakDetectionThreshold=5000` (5 segundos). Desarrolla una prueba donde se obtiene una conexión y deliberadamente se olvida invocar `conn.close()`. Observa en los logs cómo HikariCP reporta una fuga de conexión indicando la línea exacta del código causante.</p>
+    </div>
+    
+    <div class="exercise-box">
+      <div class="ex-header">
+        <span class="ex-title">Ejercicio 2.4: Capa de Persistencia Completa DAO/DTO con Transacciones Inyectadas</span>
+        <span class="ex-badge">60 min</span>
+      </div>
+      <p>Diseña una capa DAO para la entidad `Cliente (id, nif, nombre, activo)` y `Factura (id, id_cliente, total, fecha)`. Implementa un método de servicio `emitirFactura(ClienteDTO cliente, BigDecimal total)` que en una sola transacción cree el cliente si no existe y registre su primera factura utilizando el DataSource de HikariCP.</p>
+    </div>
+    
+  </main>
+
+  <footer class="footer">
+    <span>CIFP Avilés · Módulo: Acceso a Datos (0486)</span>
+    <span>Profesor Sergio Capdevila Díez</span>
+  </footer>
+</div>
+</body>
+</html>
