@@ -20,6 +20,8 @@
   --accent-purple: #7c3aed;
   
   --border-color: #e2e8f0;
+  --bg-card: #ffffff;
+  --bg-subtle: #f8fafc;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,17 +29,19 @@
 body {
   font-family: var(--font-sans);
   color: #1e293b;
-  background-color: #f8fafc;
+  background-color: #f1f5f9;
   line-height: 1.6;
-  font-size: 14px;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 960px;
+  margin: 20px auto;
   background: #ffffff;
   padding: 40px 50px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
 }
 
 .header {
@@ -64,46 +68,59 @@ body {
   padding: 4px 10px;
   border-radius: 9999px;
   border: 1px solid #bfdbfe;
+  font-weight: 700;
+  font-size: 11px;
 }
 
 h1 {
   font-size: 26px;
   font-weight: 800;
   color: var(--primary-900);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .subtitle {
-  font-size: 15px;
+  font-size: 14.5px;
   color: #64748b;
   margin-bottom: 16px;
 }
 
 .meta-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
-  background: #f1f5f9;
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 12px;
+  margin-bottom: 20px;
 }
 
 .meta-grid strong {
   display: block;
   font-size: 10.5px;
   text-transform: uppercase;
-  color: var(--primary-800);
+  color: #64748b;
+  margin-bottom: 2px;
 }
 
-h2 {
-  font-size: 18px;
-  font-weight: 700;
+.meta-grid span {
+  font-weight: 600;
+  color: var(--primary-900);
+}
+
+.section-title {
+  font-size: 19px;
+  font-weight: 800;
   color: var(--primary-900);
   border-bottom: 2px solid var(--border-color);
-  padding-bottom: 6px;
-  margin-top: 32px;
-  margin-bottom: 14px;
+  padding-bottom: 8px;
+  margin-top: 36px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .activity-card {
@@ -111,9 +128,9 @@ h2 {
   border: 1px solid var(--border-color);
   border-left: 5px solid var(--accent-blue);
   border-radius: 8px;
-  padding: 18px 22px;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  padding: 22px 26px;
+  margin-bottom: 26px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
 .activity-card.bin { border-left-color: var(--accent-emerald); }
@@ -122,13 +139,15 @@ h2 {
 .act-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--border-color);
+  padding-bottom: 10px;
 }
 
 .act-title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 16.5px;
+  font-weight: 800;
   color: var(--primary-900);
 }
 
@@ -136,50 +155,139 @@ h2 {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  padding: 3px 8px;
+  padding: 3px 10px;
   border-radius: 6px;
-  background: #f1f5f9;
+  white-space: nowrap;
+}
+
+.badge-text { background: #eff6ff; color: var(--accent-blue); }
+.badge-bin { background: #ecfdf5; color: var(--accent-emerald); }
+.badge-xml { background: #faf5ff; color: var(--accent-purple); }
+
+.act-meta-row {
+  display: flex;
+  gap: 18px;
+  font-size: 12px;
   color: #475569;
+  margin-bottom: 12px;
 }
 
-.act-desc {
+.act-meta-row strong {
+  color: var(--primary-800);
+}
+
+p { margin-bottom: 10px; text-align: justify; }
+
+.sub-heading {
   font-size: 13.5px;
-  color: #334155;
-  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--primary-800);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 14px 0 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-ul {
-  margin-left: 20px;
-  margin-bottom: 10px;
+/* Tablas */
+.table-instructions {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 14px 0;
+  font-size: 12px;
+}
+
+.table-instructions th, .table-instructions td {
+  border: 1px solid var(--border-color);
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.table-instructions th {
+  background-color: #f8fafc;
+  color: var(--primary-800);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+/* Bloques de Código */
+pre {
+  background-color: #0f172a;
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* Cajas Didácticas */
+.callout {
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 12.5px;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: #f0f9ff;
+  border-color: #0284c7;
+  color: #0369a1;
+}
+
+.callout-warning {
+  background-color: #fffbeb;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.callout-success {
+  background-color: #f0fdf4;
+  border-color: #16a34a;
+  color: #166534;
+}
+
+ol, ul {
+  margin: 8px 0 12px 22px;
 }
 
 li {
   margin-bottom: 4px;
-  font-size: 13px;
 }
 
-pre {
-  background: #0f172a;
-  color: #f8fafc;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  padding: 12px 14px;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin-top: 10px;
-}
-
+/* Impresión y PDF */
 @page {
   size: A4 portrait;
-  margin: 16mm 14mm 18mm 14mm;
+  margin: 14mm 14mm 14mm 14mm;
 }
 
 @media print {
-  body { background: #ffffff; font-size: 9.5pt; }
-  .container { max-width: 100%; padding: 0; box-shadow: none; }
-  .activity-card { page-break-inside: avoid; break-inside: avoid; margin-bottom: 14px; }
-  .page-break { page-break-before: always; break-before: page; }
-  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background-color: #ffffff; font-size: 11.5px; }
+  .container { max-width: 100%; margin: 0; padding: 0; box-shadow: none; }
+  .activity-card { page-break-inside: avoid; break-inside: avoid; margin-bottom: 20px; }
+  pre, .table-instructions, .callout { page-break-inside: avoid; break-inside: avoid; }
 }
   </style>
 </head>
@@ -187,205 +295,604 @@ pre {
 
 <div class="container">
 
+  <!-- CABECERA -->
   <header class="header">
     <div class="top-bar">
-      <span>CIFP Avilés · Departamento de Informática</span>
-      <span class="badge">DAM2 · Acceso a Datos</span>
+      <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+      <span class="badge">DAM 2º Curso · Curso 2026-2027</span>
     </div>
     <h1>📓 Cuaderno de Actividades de Aula: UT1 Manejo de Ficheros</h1>
-    <div class="subtitle">Guía de Prácticas Guiadas Síncronas para resolver en el IDE al ritmo de la explicación teórica</div>
+    <div class="subtitle">Documento de Trabajo Síncrono Acompañado · 14 Retos Guiados Paso a Paso en Eclipse IDE</div>
     
     <div class="meta-grid">
-      <div><strong>Módulo</strong>Acceso a Datos (0486)</div>
-      <div><strong>Unidad</strong>UT1 / UD01 (Persistencia Básica)</div>
-      <div><strong>Evaluación</strong>Formativa y Práctica de Aula</div>
-      <div><strong>Docente</strong>Sergio Capdevila Díez</div>
+      <div>
+        <strong>Módulo</strong>
+        <span>Acceso a Datos (0486)</span>
+      </div>
+      <div>
+        <strong>Unidad de Trabajo</strong>
+        <span>UT1: Manejo de Ficheros</span>
+      </div>
+      <div>
+        <strong>Proyecto IDE</strong>
+        <span>UT01_ManejoFicheros</span>
+      </div>
+      <div>
+        <strong>Docente</strong>
+        <span>Sergio Capdevila Díez</span>
+      </div>
     </div>
   </header>
 
-  <!-- BLOQUE 1 -->
-  <h2>🔤 Bloque 1: Ficheros de Texto Plano (java.io y Java NIO.2)</h2>
+  <!-- INTRODUCCIÓN METODOLÓGICA -->
+  <div class="callout callout-info">
+    <strong>🎯 Metodología de Trabajo en el Aula:</strong><br>
+    Cada vez que el profesor proyecte una diapositiva con el distintivo <strong>💻 Práctica en Vivo en Aula: Actividad X.Y</strong>, el alumnado abrirá su entorno de desarrollo (Eclipse / IntelliJ) y completará el reto práctico correspondiente en 10-15 minutos antes de avanzar a la siguiente sección teórica.
+  </div>
 
+  <!-- ===================================================================== -->
+  <!-- BLOQUE 1: FICHEROS DE TEXTO PLANO                                     -->
+  <!-- ===================================================================== -->
+  <h2 class="section-title">🔤 BLOQUE 1: Ficheros de Texto Plano (java.io y Java NIO.2)</h2>
+
+  <!-- ACTIVIDAD 1.1 -->
   <div class="activity-card">
     <div class="act-header">
-      <span class="act-title">Actividad 1.1: Diagnóstico de Charset y Conversión ISO-8859-1 a UTF-8</span>
-      <span class="act-badge">Slide 03 · Apuntes 1.0</span>
+      <div>
+        <div class="act-title">📌 Actividad 1.1: Diagnóstico de Charset y Conversión ISO-8859-1 a UTF-8</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 03</span>
+          <span><strong>Paquete:</strong> <code>act1_texto</code></span>
+          <span><strong>Clase:</strong> <code>Actividad1_1_Charset.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-text">Texto Plano</span>
     </div>
-    <p class="act-desc">Aprende a transformar ficheros legacy con caracteres especiales sin sufrir el fenómeno de Mojibake.</p>
-    <ul>
-      <li>Lee <code>datos/usuarios_legacy.txt</code> especificando <code>StandardCharsets.ISO_8859_1</code> con <code>BufferedReader</code>.</li>
-      <li>Escribe las líneas en <code>datos/usuarios_utf8.txt</code> usando <code>StandardCharsets.UTF_8</code> con <code>BufferedWriter</code>.</li>
-      <li>Comprueba que tildes, eñes y símbolos se visualizan correctamente en el sistema operativo.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Migración de ficheros legados exportados por bases de datos antiguas en Windows (<code>ISO-8859-1</code> o <code>Windows-1252</code>) hacia servidores web modernos en Linux (<code>UTF-8</code>), donde caracteres como tildes, eñes y diéresis se rompen visualmente (*Mojibake*).</p>
+
+    <div class="sub-heading">📂 Datos de Prueba (Crea <code>datos/usuarios_legacy.txt</code> en ISO-8859-1):</div>
+    <pre><code>1;García;Administración;garcia@empresa.com
+2;Muñoz;Diseño Gráfico;munoz@empresa.com
+3;Peña;Logística y Almacén;pena@empresa.com</code></pre>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Instrucción / Método</th><th>Parámetros</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Files.newBufferedReader(...)</code></td><td><code>Path, StandardCharsets.ISO_8859_1</code></td><td>Abre flujo de lectura decodificando los bytes en ISO-8859-1.</td></tr>
+        <tr><td><code>Files.newBufferedWriter(...)</code></td><td><code>Path, StandardCharsets.UTF_8</code></td><td>Abre flujo de escritura codificando en UTF-8 estándar.</td></tr>
+        <tr><td><code>br.readLine()</code></td><td>Ninguno</td><td>Lee una línea completa hasta <code>\n</code>. Devuelve <code>null</code> al final.</td></tr>
+        <tr><td><code>bw.write(s); bw.newLine();</code></td><td><code>String</code></td><td>Escribe la línea y añade el separador de salto de línea de la plataforma.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Crea la clase <code>Actividad1_1_Charset</code> en el paquete <code>act1_texto</code>.</li>
+      <li>Define las rutas: <code>Path origen = Path.of("datos", "usuarios_legacy.txt");</code> y <code>Path destino = Path.of("datos", "usuarios_utf8.txt");</code>.</li>
+      <li>Abre ambos flujos en un <code>try-with-resources</code> para garantizar el cierre seguro de archivos.</li>
+      <li>Implementa un bucle <code>while ((linea = br.readLine()) != null)</code> escribiendo cada línea con <code>bw.write(linea)</code> y <code>bw.newLine()</code>.</li>
+      <li>Muestra un mensaje por consola indicando el número de líneas migradas con éxito.</li>
+    </ol>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Alerta de Examen:</strong> Olvidar <code>bw.newLine()</code> causará que todas las líneas se escriban pegadas en una sola línea continua sin saltos.
+    </div>
+
+    <div class="callout callout-success">
+      <strong>✅ Resultado Esperado:</strong> Al abrir <code>datos/usuarios_utf8.txt</code> en el editor, las palabras <em>Administración</em>, <em>Diseño</em> y <em>Logística</em> deben verse perfectas sin ningún símbolo extraño. Consola: <code>✅ Migración completada: 3 líneas convertidas a UTF-8.</code>
+    </div>
   </div>
 
+  <!-- ACTIVIDAD 1.2 -->
   <div class="activity-card">
     <div class="act-header">
-      <span class="act-title">Actividad 1.2: Filtrado y Normalización con Buffers</span>
-      <span class="act-badge">Slide 04 · Apuntes 1.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 1.2: Filtrado y Normalización con BufferedReader y BufferedWriter</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 04</span>
+          <span><strong>Paquete:</strong> <code>act1_texto</code></span>
+          <span><strong>Clase:</strong> <code>Actividad1_2_ConfigSanitizer.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-text">Buffers</span>
     </div>
-    <p class="act-desc">Limpia y optimiza la lectura de un fichero de configuración con <code>BufferedReader</code> y <code>BufferedWriter</code>.</p>
-    <ul>
-      <li>Lee <code>config.ini</code> con <code>readLine()</code> en un bucle <code>while ((linea = br.readLine()) != null)</code>.</li>
-      <li>Descarta las líneas vacías o que inicien con <code>#</code> o <code>;</code>.</li>
-      <li>Escribe las líneas normalizadas en <code>config_clean.ini</code> usando <code>bw.newLine()</code>.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Sanitizar ficheros de configuración <code>.ini</code> sucios antes de que una aplicación los cargue, eliminando líneas vacías, comentarios (<code>#</code> o <code>;</code>) y espacios en blanco, y normalizando las claves a mayúsculas.</p>
+
+    <div class="sub-heading">📂 Datos de Prueba (Crea <code>datos/config.ini</code>):</div>
+    <pre><code># Configuración General del Servidor
+; Parámetros de Red
+servidor = 192.168.1.50
+puerto = 8080
+
+# Ajustes de Seguridad
+ssl_enabled = true
+timeout_segundos = 30</code></pre>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Método</th><th>Clase</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>linea.trim()</code></td><td><code>String</code></td><td>Elimina espacios en blanco iniciales y finales.</td></tr>
+        <tr><td><code>linea.startsWith("#")</code></td><td><code>String</code></td><td>Comprueba si la línea es un comentario.</td></tr>
+        <tr><td><code>linea.split("=", 2)</code></td><td><code>String</code></td><td>Divide la línea en exactamente dos partes: clave y valor.</td></tr>
+        <tr><td><code>bw.newLine()</code></td><td><code>BufferedWriter</code></td><td>Inserta un salto de línea nativo del sistema operativo.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Abre <code>datos/config.ini</code> con <code>BufferedReader</code> y <code>datos/config_clean.ini</code> con <code>BufferedWriter</code>.</li>
+      <li>En cada iteración, limpia con <code>linea = linea.trim()</code>.</li>
+      <li>Si <code>linea.isEmpty()</code> o empieza por <code>#</code> o <code>;</code>, sáltala con <code>continue</code>.</li>
+      <li>Divide por <code>=</code> limitando a 2 fragmentos: <code>String[] partes = linea.split("=", 2);</code>.</li>
+      <li>Escribe <code>partes[0].trim().toUpperCase() + "=" + partes[1].trim()</code> y añade <code>bw.newLine()</code>.</li>
+    </ol>
+
+    <div class="callout callout-success">
+      <strong>✅ Resultado Esperado:</strong> En <code>config_clean.ini</code> figurarán exactamente 4 líneas sin comentarios ni huecos:
+      <code>SERVIDOR=192.168.1.50</code>, <code>PUERTO=8080</code>, <code>SSL_ENABLED=true</code> y <code>TIMEOUT_SEGUNDOS=30</code>.
+    </div>
   </div>
 
+  <!-- ACTIVIDAD 1.3 -->
   <div class="activity-card">
     <div class="act-header">
-      <span class="act-title">Actividad 1.3: Factura Formateada con PrintWriter</span>
-      <span class="act-badge">Slide 05 · Apuntes 1.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 1.3: Generador de Informe Formateado con PrintWriter</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 05</span>
+          <span><strong>Paquete:</strong> <code>act1_texto</code></span>
+          <span><strong>Clase:</strong> <code>Actividad1_3_FacturaPrintWriter.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-text">Formato</span>
     </div>
-    <p class="act-desc">Utiliza métodos de formateo numérico y de columnas para emitir reportes claros.</p>
-    <ul>
-      <li>Instancia <code>PrintWriter</code> sobre <code>factura.txt</code> con <code>StandardCharsets.UTF_8</code>.</li>
-      <li>Usa <code>pw.printf("%-10s %-22s %8.2f€%n", ...)</code> para imprimir artículos y precios alineados.</li>
-      <li>Imprime el total final con dos decimales exactos.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Generar un informe de facturación comercial en disco donde las descripciones de artículos se alineen a la izquierda y los importes monetarios a la derecha con dos decimales y el símbolo del euro, formando columnas perfectas.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Instrucción / Máscara</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>pw.printf(formato, args...)</code></td><td>Aplica máscaras de formateo idénticas a C/POSIX.</td></tr>
+        <tr><td><code>%-10s</code></td><td>Cadena de 10 caracteres alineada a la <strong>izquierda</strong>.</td></tr>
+        <tr><td><code>%8.2f€</code></td><td>Decimal de 8 caracteres con 2 decimales alineado a la <strong>derecha</strong>.</td></tr>
+        <tr><td><code>%n</code></td><td>Salto de línea portable e independiente de la plataforma.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Instancia <code>PrintWriter</code> sobre <code>datos/factura.txt</code> con <code>StandardCharsets.UTF_8</code>.</li>
+      <li>Imprime la cabecera del informe con líneas separadoras y títulos de columna.</li>
+      <li>Escribe 3 artículos usando <code>pw.printf</code>:
+        <ul>
+          <li><code>PORT-01</code> | <code>Portátil 15 Pulgadas</code> | <code>750.50</code> | <code>2 uds</code></li>
+          <li><code>RAT-02</code> | <code>Ratón Inalámbrico</code> | <code>18.90</code> | <code>5 uds</code></li>
+          <li><code>MON-03</code> | <code>Monitor 27 IPS</code> | <code>199.99</code> | <code>1 ud</code></li>
+        </ul>
+      </li>
+      <li>Calcula la Base Imponible, el IVA (21%) y el Total Factura e imprímelos alineados al final.</li>
+    </ol>
+
+    <div class="callout callout-success">
+      <strong>✅ Resultado Esperado:</strong> Archivo <code>datos/factura.txt</code> generado con columnas perfectamente cuadradas.
+    </div>
   </div>
 
+  <!-- ACTIVIDAD 1.4 -->
   <div class="activity-card">
     <div class="act-header">
-      <span class="act-title">Actividad 1.4: Persistencia Instantánea con Java NIO.2</span>
-      <span class="act-badge">Slide 06 · Apuntes 1.2</span>
+      <div>
+        <div class="act-title">📌 Actividad 1.4: Operaciones Instantáneas con Java NIO.2 (Files)</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 06</span>
+          <span><strong>Paquete:</strong> <code>act1_texto</code></span>
+          <span><strong>Clase:</strong> <code>Actividad1_4_NIO2Files.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-text">NIO.2</span>
     </div>
-    <p class="act-desc">Guarda y lee archivos completos en memoria con <code>Files.writeString()</code> y <code>Files.readString()</code>.</p>
-    <ul>
-      <li>Crea una ruta moderna con <code>Path.of("config", "app.cfg")</code>.</li>
-      <li>Escribe una cadena de configuración multilínea con <code>StandardOpenOption.CREATE</code>.</li>
-      <li>Lee todo el contenido con <code>Files.readString()</code> y muéstralo por consola.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Guardar y recuperar archivos de configuración pequeños o medianos en una sola línea de código, sin el boilerplate tradicional de abrir y cerrar flujos manualmente.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Método de <code>Files</code></th><th>Retorno</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Files.writeString(Path, String)</code></td><td><code>Path</code></td><td>Guarda todo el texto en disco en UTF-8 en una única instrucción.</td></tr>
+        <tr><td><code>Files.readString(Path)</code></td><td><code>String</code></td><td>Recupera todo el archivo en una sola variable <code>String</code>.</td></tr>
+        <tr><td><code>Files.size(Path)</code></td><td><code>long</code></td><td>Retorna el tamaño en bytes del archivo en disco.</td></tr>
+        <tr><td><code>Files.exists(Path)</code></td><td><code>boolean</code></td><td>Comprueba la existencia física del archivo.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Define un <code>String config = "db.host=localhost\ndb.port=3306\ndb.user=admin\ndb.pass=secret";</code>.</li>
+      <li>Escríbelo en <code>datos/database.properties</code> con <code>Files.writeString()</code>.</li>
+      <li>Comprueba con <code>Files.size()</code> e imprime los bytes ocupados.</li>
+      <li>Recupera el contenido íntegro con <code>Files.readString()</code> y muéstralo por pantalla.</li>
+    </ol>
   </div>
 
+  <!-- ACTIVIDAD 1.5 -->
   <div class="activity-card">
     <div class="act-header">
-      <span class="act-title">Actividad 1.5: Análisis de Logs Masivos con Files.lines() (Lazy Stream)</span>
-      <span class="act-badge">Slide 07 · Apuntes 1.2</span>
+      <div>
+        <div class="act-title">📌 Actividad 1.5: Filtrado de Logs Masivos con Files.lines() (Stream Reactivo)</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 07</span>
+          <span><strong>Paquete:</strong> <code>act1_texto</code></span>
+          <span><strong>Clase:</strong> <code>Actividad1_5_LogStreaming.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-text">Streams</span>
     </div>
-    <p class="act-desc">Evita el error <code>OutOfMemoryError</code> procesando ficheros de log gigantescos con Streams reactivos.</p>
-    <ul>
-      <li>Abre un <code>Stream&lt;String&gt;</code> mediante <code>Files.lines(Path, StandardCharsets.UTF_8)</code> dentro de un <code>try-with-resources</code>.</li>
-      <li>Aplica <code>.filter(l -&gt; l.contains("[FATAL]"))</code> y cuenta el total con <code>.count()</code>.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Procesar un fichero de trazas de servidor de cientos de megabytes (<code>server.log</code>) extrayendo únicamente las incidencias críticas sin cargar todo el archivo en la memoria RAM del servidor.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Instrucción</th><th>Tipo</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Files.lines(Path)</code></td><td><code>Stream&lt;String&gt;</code></td><td>Abre un stream que lee bajo demanda (lazy) línea a línea.</td></tr>
+        <tr><td><code>.filter(l -> l.contains("[ERROR]"))</code></td><td>Intermedia</td><td>Descarta líneas normales y retiene únicamente errores.</td></tr>
+        <tr><td><code>.count()</code></td><td>Terminal</td><td>Devuelve el número total de errores localizados.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Alerta de Examen:</strong> Es <strong>obligatorio</strong> envolver <code>Files.lines()</code> en un bloque <code>try-with-resources</code> para liberar el descriptor del fichero del sistema operativo al terminar.
+    </div>
   </div>
 
-  <!-- BLOQUE 2 -->
-  <h2 class="page-break">🔢 Bloque 2: Ficheros Binarios y Serialización de Objetos</h2>
+  <!-- ===================================================================== -->
+  <!-- BLOQUE 2: FICHEROS BINARIOS Y SERIALIZACIÓN                           -->
+  <!-- ===================================================================== -->
+  <h2 class="section-title">🔢 BLOQUE 2: Ficheros Binarios y Serialización de Objetos</h2>
 
+  <!-- ACTIVIDAD 2.1 -->
   <div class="activity-card bin">
     <div class="act-header">
-      <span class="act-title">Actividad 2.1: Telemetría con DataOutputStream</span>
-      <span class="act-badge">Slide 09 · Apuntes 2.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 2.1: Telemetría de Sensores con DataOutputStream</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 09</span>
+          <span><strong>Paquete:</strong> <code>act2_binarios</code></span>
+          <span><strong>Clase:</strong> <code>Actividad2_1_DataOutputStream.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-bin">Binario</span>
     </div>
-    <p class="act-desc">Almacena magnitudes físicas tipadas en formato binario puro independiente de plataforma.</p>
-    <ul>
-      <li>Escribe en <code>sensores.dat</code> 3 registros con <code>writeInt(id)</code>, <code>writeUTF(nombre)</code>, <code>writeDouble(temp)</code> y <code>writeBoolean(alerta)</code>.</li>
-      <li>Verifica en disco que el archivo ocupa mucho menos espacio que su equivalente en texto.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Almacenar telemetría de sensores industriales ahorrando el máximo ancho de banda y disco, persistiendo tipos numéricos nativos en binario estricto (enteros a 4 bytes, dobles a 8 bytes) en lugar de cadenas de caracteres.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Método de <code>DataOutputStream</code></th><th>Bytes Ocupados</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>dos.writeInt(int)</code></td><td><strong>4 bytes</strong></td><td>Escribe entero de 32 bits en binario big-endian.</td></tr>
+        <tr><td><code>dos.writeUTF(String)</code></td><td><strong>2 + N bytes</strong></td><td>Escribe 2 bytes con la longitud seguidos de caracteres UTF-8.</td></tr>
+        <tr><td><code>dos.writeDouble(double)</code></td><td><strong>8 bytes</strong></td><td>Escribe número de coma flotante de 64 bits (IEEE 754).</td></tr>
+        <tr><td><code>dos.writeBoolean(boolean)</code></td><td><strong>1 byte</strong></td><td>Escribe <code>0x01</code> para <code>true</code> o <code>0x00</code> para <code>false</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Instancia <code>DataOutputStream</code> sobre <code>BufferedOutputStream</code> y <code>FileOutputStream("datos/telemetria.dat")</code>.</li>
+      <li>Escribe 3 sensores con la siguiente secuencia exacta:
+        <ul>
+          <li>Sensor 101: <code>101</code> (int), <code>"Caldera Central"</code> (String), <code>84.5</code> (double), <code>false</code> (boolean).</li>
+          <li>Sensor 102: <code>102</code> (int), <code>"Turbina 01"</code> (String), <code>102.3</code> (double), <code>true</code> (boolean).</li>
+          <li>Sensor 103: <code>103</code> (int), <code>"Compresor Gas"</code> (String), <code>45.0</code> (double), <code>false</code> (boolean).</li>
+        </ul>
+      </li>
+      <li>Cierra el flujo y comprueba en el explorador que el archivo ocupa menos de 75 bytes y es ilegible en un bloc de notas.</li>
+    </ol>
   </div>
 
+  <!-- ACTIVIDAD 2.2 -->
   <div class="activity-card bin">
     <div class="act-header">
-      <span class="act-title">Actividad 2.2: Detección Limpia de Fin con EOFException</span>
-      <span class="act-badge">Slide 10 · Apuntes 2.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 2.2: Detección Limpia de Fin de Archivo con EOFException</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 10</span>
+          <span><strong>Paquete:</strong> <code>act2_binarios</code></span>
+          <span><strong>Clase:</strong> <code>Actividad2_2_DataInputStreamEOF.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-bin">EOF Control</span>
     </div>
-    <p class="act-desc">Supera la trampa clásica de los métodos tipados de <code>DataInputStream</code>.</p>
-    <ul>
-      <li>Abre <code>sensores.dat</code> con <code>DataInputStream</code> en un bucle <code>while (true)</code>.</li>
-      <li>Lee los 4 tipos en el orden exacto y captura <code>EOFException</code> para cerrar limpiamente.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Leer secuencialmente un archivo binario hasta el final con <code>DataInputStream</code>. Al leer números primitivos, un <code>-1</code> puede ser un dato real válido (temperatura negativa), por lo que Java no retorna <code>-1</code> ni <code>null</code>, sino que lanza obligatoriamente <code>EOFException</code>.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <pre><code>try (DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)))) {
+    while (true) {
+        int id = dis.readInt();
+        String nom = dis.readUTF();
+        double temp = dis.readDouble();
+        boolean alr = dis.readBoolean();
+        System.out.printf("[%d] %s: %.2fºC (Alarma: %b)%n", id, nom, temp, alr);
+    }
+} catch (EOFException e) {
+    System.out.println("✅ Fin de fichero alcanzado limpiamente.");
+}</code></pre>
+
+    <div class="callout callout-warning">
+      <strong>⚠️ Alerta de Examen:</strong> Debes leer los campos en el <strong>mismo orden exacto</strong> en que fueron escritos. Si intentas leer <code>readDouble()</code> donde se escribió un <code>int</code>, los bytes se desfasarán por completo corrompiendo la lectura.
+    </div>
   </div>
 
+  <!-- ACTIVIDAD 2.3 -->
   <div class="activity-card bin">
     <div class="act-header">
-      <span class="act-title">Actividad 2.3: Modificación Directa con RandomAccessFile</span>
-      <span class="act-badge">Slides 11-12 · Apuntes 2.2</span>
+      <div>
+        <div class="act-title">📌 Actividad 2.3: Modificación Directa con RandomAccessFile (RAF)</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositivas 11 y 12</span>
+          <span><strong>Paquete:</strong> <code>act2_binarios</code></span>
+          <span><strong>Clase:</strong> <code>Actividad2_3_RandomAccessFile.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-bin">RAF</span>
     </div>
-    <p class="act-desc">Actualiza el saldo de un empleado en disco sin leer ni reescribir el archivo entero.</p>
+
+    <p><strong>Problema Profesional:</strong> Actualizar directamente en el disco físico el salario de un empleado concreto de una base de datos sin leer ni duplicar los demás registros.</p>
+
+    <div class="sub-heading">📐 Matemáticas del Registro Fijo (36 Bytes):</div>
+    <p><code>id</code> (4B) + <code>apellido</code> (10 chars con writeChars = 20B) + <code>departamento</code> (4B) + <code>salario</code> (8B) = <strong>36 Bytes</strong>.</p>
     <ul>
-      <li>Registros de 36 bytes: ID (4B) + Apellido (20B) + Dep (4B) + Salario (8B).</li>
-      <li>Calcula el offset con <code>offset = (indiceRegistro * 36) + 28</code>.</li>
-      <li>Posiciónate con <code>raf.seek(offset)</code> y sobrescribe con <code>raf.writeDouble(nuevoSaldo)</code>.</li>
+      <li>Inicio del registro <code>i</code>: <code>offset_base = i * 36</code></li>
+      <li>Ubicación del salario en registro <code>i</code>: <code>offset_salario = (i * 36) + 28</code> (4 + 20 + 4)</li>
     </ul>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <table class="table-instructions">
+      <thead>
+        <tr><th>Método</th><th>Utilidad</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>raf.seek(long pos)</code></td><td>Posiciona el cabezal en el byte absoluto <code>pos</code>.</td></tr>
+        <tr><td><code>raf.writeDouble(nuevoSalario)</code></td><td>Sobrescribe los 8 bytes del salario en disco.</td></tr>
+        <tr><td><code>raf.getFilePointer()</code></td><td>Devuelve la posición actual del cursor.</td></tr>
+        <tr><td><code>raf.length()</code></td><td>Devuelve el tamaño total en bytes del fichero.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Crea el archivo <code>datos/empleados.dat</code> con 3 empleados.</li>
+      <li>Implementa <code>modificarSalario(int posicion, double nuevoSalario)</code>:
+        <ul>
+          <li>Calcula el offset exacto: <code>(posicion * 36) + 28</code>.</li>
+          <li>Abre con <code>new RandomAccessFile(f, "rw")</code>.</li>
+          <li>Ejecuta <code>raf.seek(offset)</code> y <code>raf.writeDouble(nuevoSalario)</code>.</li>
+        </ul>
+      </li>
+      <li>Vuelve a leer el registro situando el cursor en <code>posicion * 36</code> y verifica que el salario se actualizó sin tocar el resto de datos.</li>
+    </ol>
   </div>
 
+  <!-- ACTIVIDAD 2.4 -->
   <div class="activity-card bin">
     <div class="act-header">
-      <span class="act-title">Actividad 2.4: Serialización con transient y serialVersionUID</span>
-      <span class="act-badge">Slide 13 · Apuntes 3.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 2.4: Serialización de Objetos con Campos Transient</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 13</span>
+          <span><strong>Paquete:</strong> <code>act2_binarios</code></span>
+          <span><strong>Clases:</strong> <code>Usuario.java</code>, <code>Actividad2_4_SerializacionTransient.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-bin">Serialización</span>
     </div>
-    <p class="act-desc">Persiste grafos de objetos completos en RAM protegiendo contraseñas sensibles.</p>
-    <ul>
-      <li>Modela <code>Usuario</code> implementando <code>Serializable</code> con <code>serialVersionUID = 1L;</code>.</li>
-      <li>Marca <code>private transient String passwordHash;</code>.</li>
-      <li>Serializa y deserializa comprobando que la contraseña recupera el valor <code>null</code>.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Guardar el estado completo de objetos en disco respetando la legalidad (RGPD), evitando que campos sensibles de memoria RAM (tokens de autenticación, contraseñas) se serialicen en el fichero físico.</p>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <pre><code>public class Usuario implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private int id;
+    private String username;
+    private transient String sessionToken; // ¡NO se guardará en disco!
+    // Constructor, getters y toString...
+}</code></pre>
+
+    <div class="sub-heading">📝 Procedimiento Paso a Paso:</div>
+    <ol>
+      <li>Crea la clase <code>Usuario</code> con el modificador <code>transient String sessionToken</code>.</li>
+      <li>Instancia dos usuarios con tokens activos y serialízalos en <code>datos/usuarios.ser</code> con <code>ObjectOutputStream.writeObject()</code>.</li>
+      <li>Deserialízalos con <code>ObjectInputStream.readObject()</code> y constata que <code>sessionToken</code> toma su valor por defecto: <code>null</code>.</li>
+    </ol>
   </div>
 
+  <!-- ACTIVIDAD 2.5 -->
   <div class="activity-card bin">
     <div class="act-header">
-      <span class="act-title">Actividad 2.5 (Reto): Append Seguro con MiObjectOutputStream</span>
-      <span class="act-badge">Slides 14-15 · Apuntes 3.2</span>
+      <div>
+        <div class="act-title">📌 Actividad 2.5: El Gran Reto - Persistencia Incremental sin StreamCorruptedException</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositivas 14 y 15</span>
+          <span><strong>Paquete:</strong> <code>act2_binarios</code></span>
+          <span><strong>Clase:</strong> <code>Actividad2_5_AppendObjetos.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-bin">MiObjectOutputStream</span>
     </div>
-    <p class="act-desc">Evita el temido <code>StreamCorruptedException</code> al añadir objetos a un archivo existente.</p>
-    <ul>
-      <li>Crea la subclase <code>MiObjectOutputStream</code> sobrescribiendo <code>writeStreamHeader()</code> en blanco.</li>
-      <li>Si el archivo mide 0 bytes usa <code>ObjectOutputStream</code>; si ya tiene datos usa <code>MiObjectOutputStream</code>.</li>
-      <li>Añade objetos en varias ejecuciones y léelos todos secuencialmente sin error.</li>
-    </ul>
+
+    <p><strong>Problema Profesional:</strong> Añadir objetos a un fichero serializado existente con <code>FileOutputStream(f, true)</code> provoca el colapso del stream con <code>StreamCorruptedException: invalid type code: AC</code>, debido a que el constructor de <code>ObjectOutputStream</code> inyecta una cabecera de 4 bytes intermedia en mitad del archivo.</p>
+
+    <div class="sub-heading">🛠️ Solución Docente Canónica:</div>
+    <pre><code>// 1. Subclase que anula la escritura de cabecera intermedia
+class MiObjectOutputStream extends ObjectOutputStream {
+    public MiObjectOutputStream(OutputStream out) throws IOException { super(out); }
+    @Override
+    protected void writeStreamHeader() throws IOException {
+        // Al dejar este método vacío, NO se escribe cabecera secundaria
+    }
+}
+
+// 2. Patrón de apertura según estado del fichero
+boolean yaExisteConDatos = f.exists() && f.length() > 0;
+try (FileOutputStream fos = new FileOutputStream(f, true);
+     ObjectOutputStream oos = yaExisteConDatos 
+             ? new MiObjectOutputStream(fos) 
+             : new ObjectOutputStream(fos)) {
+    oos.writeObject(nuevoUsuario);
+}</code></pre>
+
+    <div class="callout callout-success">
+      <strong>✅ Resultado Esperado:</strong> Al ejecutar el programa 3 veces y leer todos los objetos con un bucle <code>while(true)</code> hasta <code>EOFException</code>, se recuperan todos los registros limpiamente sin ninguna excepción de corrupción.
+    </div>
   </div>
 
-  <!-- BLOQUE 3 -->
-  <h2 class="page-break">🌳 Bloque 3: Ficheros XML (DOM, SAX, StAX y JAXB)</h2>
+  <!-- ===================================================================== -->
+  <!-- BLOQUE 3: FICHEROS XML                                                -->
+  <!-- ===================================================================== -->
+  <h2 class="section-title">🌳 BLOQUE 3: Ficheros XML (DOM, SAX, StAX y JAXB)</h2>
 
+  <!-- ACTIVIDAD 3.1 -->
   <div class="activity-card xml">
     <div class="act-header">
-      <span class="act-title">Actividad 3.1: Consulta y Modificación de Catálogo con DOM</span>
-      <span class="act-badge">Slide 17 · Apuntes 4.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 3.1: Consulta y Modificación de Catálogo con DOM</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 17</span>
+          <span><strong>Paquete:</strong> <code>act3_xml</code></span>
+          <span><strong>Clase:</strong> <code>Actividad3_1_DOMModificacion.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-xml">DOM</span>
     </div>
-    <p class="act-desc">Carga el árbol de nodos en RAM, normaliza y actualiza los precios un 10%.</p>
+
+    <p><strong>Problema Profesional:</strong> Cargar un documento XML en memoria RAM para inspeccionar elementos y modificar precios, evitando la trampa habitual de confundir los saltos de línea con etiquetas hijas (nodos <code>#text</code>).</p>
+
+    <div class="sub-heading">📂 Datos de Prueba (Crea <code>datos/catalogo.xml</code>):</div>
+    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalogo&gt;
+    &lt;producto id="P101"&gt;
+        &lt;nombre&gt;Disco SSD 1TB&lt;/nombre&gt;
+        &lt;precio&gt;79.99&lt;/precio&gt;
+        &lt;stock&gt;15&lt;/stock&gt;
+    &lt;/producto&gt;
+    &lt;producto id="P102"&gt;
+        &lt;nombre&gt;Memoria RAM 16GB&lt;/nombre&gt;
+        &lt;precio&gt;45.50&lt;/precio&gt;
+        &lt;stock&gt;30&lt;/stock&gt;
+    &lt;/producto&gt;
+&lt;/catalogo&gt;</code></pre>
+
+    <div class="sub-heading">🛠️ Instrucciones Java Clave:</div>
+    <ol>
+      <li><code>Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);</code></li>
+      <li><code>doc.getDocumentElement().normalize();</code> (¡Obligatorio para unir nodos de texto adyacentes!).</li>
+      <li>Recorrer <code>getElementsByTagName("producto")</code> verificando <code>if (nodo.getNodeType() == Node.ELEMENT_NODE)</code>.</li>
+      <li>Extraer el precio, multiplicarlo por <code>1.10</code> (+10% inflación) y actualizarlo con <code>setTextContent()</code>.</li>
+    </ol>
+  </div>
+
+  <!-- ACTIVIDAD 3.2 -->
+  <div class="activity-card xml">
+    <div class="act-header">
+      <div>
+        <div class="act-title">📌 Actividad 3.2: Generación de XML y Volcado Formateado con Transformer</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 18</span>
+          <span><strong>Paquete:</strong> <code>act3_xml</code></span>
+          <span><strong>Clase:</strong> <code>Actividad3_2_DOMTransformer.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-xml">Transformer</span>
+    </div>
+
+    <p><strong>Problema Profesional:</strong> Construir un árbol XML desde código Java y exportarlo a disco con sangría limpia (*pretty-print*) para intercambio de información entre sistemas externos.</p>
+
+    <div class="sub-heading">🛠️ Configuración Indentada de Transformer:</div>
+    <pre><code>Transformer tf = TransformerFactory.newInstance().newTransformer();
+tf.setOutputProperty(OutputKeys.INDENT, "yes");
+tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+tf.transform(new DOMSource(doc), new StreamResult(new File("datos/alumnos.xml")));</code></pre>
+  </div>
+
+  <!-- ACTIVIDAD 3.3 -->
+  <div class="activity-card xml">
+    <div class="act-header">
+      <div>
+        <div class="act-title">📌 Actividad 3.3: Analizador Reactivo sin Memoria con SAX</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 19</span>
+          <span><strong>Paquete:</strong> <code>act3_xml</code></span>
+          <span><strong>Clase:</strong> <code>Actividad3_3_SAXAnalizador.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-xml">SAX Push</span>
+    </div>
+
+    <p><strong>Problema Profesional:</strong> Calcular el valor total del inventario de un catálogo XML masivo (varios gigabytes) con consumo de memoria RAM cercano a 0 MB utilizando el procesador reactivo basado en eventos <code>DefaultHandler</code>.</p>
+
+    <div class="sub-heading">🛠️ Ciclo de Vida del Handler:</div>
     <ul>
-      <li>Parsea con <code>DocumentBuilder.parse()</code> y ejecuta <code>doc.getDocumentElement().normalize()</code>.</li>
-      <li>Recorre <code>getElementsByTagName("producto")</code> comprobando <code>Node.ELEMENT_NODE</code>.</li>
-      <li>Modifica el valor de <code>&lt;precio&gt;</code> con <code>setTextContent()</code>.</li>
+      <li><code>startElement()</code>: Limpiar acumulador con <code>buffer.setLength(0)</code>.</li>
+      <li><code>characters(ch, start, len)</code>: Acumular con <code>buffer.append(ch, start, len)</code> (¡el texto puede venir en trozos!).</li>
+      <li><code>endElement()</code>: Si la etiqueta es <code>"precio"</code>, parsear a double y sumar.</li>
+      <li><code>endDocument()</code>: Calcular y mostrar la media de precios final.</li>
     </ul>
   </div>
 
+  <!-- ACTIVIDAD 3.4 -->
   <div class="activity-card xml">
     <div class="act-header">
-      <span class="act-title">Actividad 3.2: Creación y Volcado con Transformer</span>
-      <span class="act-badge">Slide 18 · Apuntes 4.1</span>
+      <div>
+        <div class="act-title">📌 Actividad 3.4: Mapeo Declarativo Objeto-XML con JAXB</div>
+        <div class="act-meta-row">
+          <span><strong>Momento de Aula:</strong> Tras Diapositiva 20</span>
+          <span><strong>Paquete:</strong> <code>act3_xml</code></span>
+          <span><strong>Clases:</strong> <code>Curso.java</code>, <code>Actividad3_4_JAXBMapeo.java</code></span>
+        </div>
+      </div>
+      <span class="act-badge badge-xml">JAXB</span>
     </div>
-    <p class="act-desc">Construye un XML desde cero en Java y vuélcalo a disco con sangría formal.</p>
-    <ul>
-      <li>Crea un documento con <code>builder.newDocument()</code> y monta nodos con <code>createElement()</code>.</li>
-      <li>Aplica <code>Transformer</code> configurando <code>OutputKeys.INDENT = "yes"</code> y 4 espacios de sangría.</li>
-    </ul>
-  </div>
 
-  <div class="activity-card xml">
-    <div class="act-header">
-      <span class="act-title">Actividad 3.3: Analizador Estadístico Reactivo con SAX</span>
-      <span class="act-badge">Slide 19 · Apuntes 4.2</span>
-    </div>
-    <p class="act-desc">Calcula estadísticas de un catálogo con memoria RAM constante usando eventos push.</p>
-    <ul>
-      <li>Hereda de <code>DefaultHandler</code> e intercepta <code>startElement</code>, <code>characters</code> y <code>endElement</code>.</li>
-      <li>Suma precios en un acumulador e imprime el resultado al llegar a <code>endDocument()</code>.</li>
-    </ul>
-  </div>
+    <p><strong>Problema Profesional:</strong> Persistir y recuperar entidades complejas en XML mediante anotaciones declarativas (Jakarta XML Binding) sin manipular nodos DOM manualmente.</p>
 
-  <div class="activity-card xml">
-    <div class="act-header">
-      <span class="act-title">Actividad 3.4: Mapeo Declarativo con JAXB</span>
-      <span class="act-badge">Slide 20 · Apuntes 4.4</span>
-    </div>
-    <p class="act-desc">Automatiza la persistencia XML mediante anotaciones POJO sin manipular etiquetas.</p>
-    <ul>
-      <li>Anota tus clases con <code>@XmlRootElement</code>, <code>@XmlAccessorType</code> y <code>@XmlElement</code>.</li>
-      <li>Exporta objetos a XML con <code>Marshaller</code> y recupéralos con <code>Unmarshaller</code>.</li>
-    </ul>
+    <div class="sub-heading">🛠️ Código Esencial:</div>
+    <pre><code>@XmlRootElement(name = "curso")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Curso {
+    @XmlAttribute private String codigo;
+    @XmlElement private String nombre;
+    @XmlElement private int horas;
+    public Curso() {} // ¡Constructor vacío obligatorio para JAXB!
+}
+
+// Marshaller (Java -> XML)
+JAXBContext ctx = JAXBContext.newInstance(Curso.class);
+Marshaller m = ctx.createMarshaller();
+m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+m.marshal(curso, new File("datos/curso.xml"));
+
+// Unmarshaller (XML -> Java)
+Curso c = (Curso) ctx.createUnmarshaller().unmarshal(new File("datos/curso.xml"));</code></pre>
   </div>
 
 </div>
