@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejercicios Complementarios Bloque 3: Ecosistema XML en Java - Acceso a Datos</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE HOJAS DE EJERCICIOS Y PRÁCTICAS TÉCNICAS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   ========================================================================== */
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.official-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-title-box {
+  margin-bottom: 16px;
+}
+
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* 2. CUADRO TÉCNICO DE METADATOS */
+.technical-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 3. ALINEACIÓN CURRICULAR */
+.curricular-section {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.curricular-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-ra {
+  background-color: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-ce {
+  background-color: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.curricular-desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* CONTENIDO Y EJERCICIOS */
+.section-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  border-bottom: 1.5px solid var(--color-border-subtle);
+  padding-bottom: 6px;
+  margin: 28px 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exercise-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 24px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.exercise-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.exercise-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.level-basic { background: #dcfce7; color: #15803d; }
+.level-medium { background: #fef3c7; color: #b45309; }
+.level-advanced { background: #fee2e2; color: #b91c1c; }
+
+.exercise-body {
+  padding: 18px 20px;
+}
+
+.subsection-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 14px 0 6px 0;
+}
+
+.subsection-heading:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin: 6px 0 12px 22px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* CAJAS DIDÁCTICAS */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 12px 0;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-color: var(--callout-info-border);
+}
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info .callout-title { color: #0369a1; }
+.callout-warning .callout-title { color: #b45309; }
+
+/* CÓDIGO */
+pre {
+  background-color: var(--code-bg);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* TABLAS */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 12px;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid var(--color-border);
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #f1f5f9;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+/* PIE DE PÁGINA */
+.practice-footer {
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* REGLAS DE IMPRESIÓN Y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 11.5px;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .exercise-card {
+    box-shadow: none;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  pre, .callout, .data-table, .technical-meta-grid, .curricular-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones · Principado de Asturias</span>
+      </div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50' y='65' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>FP</text></svg>" alt="Logo CIFP Avilés" class="official-logo">
+    </div>
+
+    <div class="practice-title-box">
+      <h1 class="practice-title">Hoja de Ejercicios Complementarios: Bloque 3</h1>
+      <div class="practice-subtitle">Ecosistema XML: Modelos DOM, Transformaciones XSLT, Parsers SAX/StAX y Mapeo JAXB</div>
+    </div>
+
+    <!-- CUADRO TÉCNICO -->
+    <div class="technical-meta-grid">
+      <div class="meta-field">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Ciclo y Unidad</span>
+        <span class="meta-value">DAM 2º Curso · UT1</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Modalidad / Entorno</span>
+        <span class="meta-value">Presencial / Distancia · Java 21</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Destinatario / Carácter</span>
+        <span class="meta-value">Alumnado · Consolidación Técnica</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALINEACIÓN CURRICULAR -->
+  <section class="curricular-section">
+    <div class="curricular-title">Alineación Curricular Oficial (Real Decreto 455/2010 · Currículo Asturias)</div>
+    <div class="badge-container">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.e (Formatos de Intercambio de Información: XML)</span>
+    </div>
+    <p class="curricular-desc">
+      Este bloque cubre las cuatro grandes estrategias de procesamiento del estándar XML en la industria del software: creación y modificación de árboles en memoria RAM mediante <strong>DOM</strong> y serialización formateada con <strong>Transformer</strong>; procesamiento reactivo en <em>streaming</em> mediante eventos con <strong>SAX</strong>; control de cursor bajo demanda mediante <strong>StAX</strong> con salida anticipada; y mapeo bidireccional objeto-relacional declarativo mediante <strong>JAXB</strong>.
+    </p>
+  </section>
+
+  <!-- TABLA COMPARATIVA DE ESTRATEGIAS -->
+  <div class="callout callout-info">
+    <div class="callout-title">💡 Cuadro Resumen: Cuándo Utilizar Cada Tecnología XML</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Tecnología</th>
+          <th>Modelo</th>
+          <th>Consumo de RAM</th>
+          <th>Ventajas Principales</th>
+          <th>Caso de Uso Recomendado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DOM</strong></td>
+          <td>Árbol en RAM</td>
+          <td>Alto ($5\times - 10\times$ el XML)</td>
+          <td>Acceso bidireccional, inserción/borrado de nodos</td>
+          <td>Ficheros &lt; 50 MB con modificaciones complejas</td>
+        </tr>
+        <tr>
+          <td><strong>SAX</strong></td>
+          <td>Streaming Push (Eventos)</td>
+          <td>Mínimo ($O(1)$)</td>
+          <td>Máxima velocidad, no satura memoria</td>
+          <td>Ficheros gigantes (&gt; 500 MB) de solo lectura</td>
+        </tr>
+        <tr>
+          <td><strong>StAX</strong></td>
+          <td>Streaming Pull (Cursor)</td>
+          <td>Mínimo ($O(1)$)</td>
+          <td>El código manda, permite <code>break</code> anticipado</td>
+          <td>Búsquedas puntuales y pipelines de transformación</td>
+        </tr>
+        <tr>
+          <td><strong>JAXB</strong></td>
+          <td>Data Binding (Anotaciones)</td>
+          <td>Medio (Objetos Java)</td>
+          <td>Sin lidiar con nodos ni parsers manuales</td>
+          <td>Servicios web, APIs REST/SOAP y configuración</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- EJERCICIO 1 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Ejercicio 1: Generador de Facturas Electrónicas DOM con Transformer (<code>FacturaDOM.java</code>)</span>
+      <span class="exercise-level level-basic">Nivel Básico</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🏢 Contexto Empresarial:</div>
+      <p>
+        La legislación mercantil exige la emisión de facturas electrónicas en formato XML válido y formateado para su validación ante sistemas fiscales. Debes implementar un módulo en Java capaz de instanciar un árbol DOM desde cero y volcarlo a disco con indentación de 4 espacios.
+      </p>
+
+      <div class="subsection-heading">📄 Estructura XML Esperada (<code>datos/factura_electronica.xml</code>):</div>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;factura numero="FAC-2026-0042" fecha="2026-09-17"&gt;
+    &lt;emisor cif="B-33123456"&gt;
+        &lt;nombre&gt;ElectroTech S.L.&lt;/nombre&gt;
+        &lt;ciudad&gt;Avilés&lt;/ciudad&gt;
+    &lt;/emisor&gt;
+    &lt;cliente nif="71888999X"&gt;
+        &lt;nombre&gt;Desarrollos Astur S.A.&lt;/nombre&gt;
+        &lt;ciudad&gt;Gijón&lt;/ciudad&gt;
+    &lt;/cliente&gt;
+    &lt;lineas&gt;
+        &lt;linea id="1"&gt;
+            &lt;concepto&gt;Servidor Rack 1U&lt;/concepto&gt;
+            &lt;cantidad&gt;2&lt;/cantidad&gt;
+            &lt;precioUnitario&gt;850.00&lt;/precioUnitario&gt;
+        &lt;/linea&gt;
+        &lt;linea id="2"&gt;
+            &lt;concepto&gt;Switch Gigabit 24 Puertos&lt;/concepto&gt;
+            &lt;cantidad&gt;1&lt;/cantidad&gt;
+            &lt;precioUnitario&gt;145.50&lt;/precioUnitario&gt;
+        &lt;/linea&gt;
+    &lt;/lineas&gt;
+&lt;/factura&gt;</code></pre>
+
+      <div class="subsection-heading">⚙️ Instrucciones Técnicas Clave:</div>
+      <ol>
+        <li>Crea el documento vacío con <code>DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()</code>.</li>
+        <li>Construye la jerarquía con <code>doc.createElement()</code>, <code>doc.appendChild()</code>, <code>doc.createTextNode()</code> y <code>elemento.setAttribute()</code>.</li>
+        <li>Configura el serializador <code>Transformer</code>:
+          <ul>
+            <li><code>tf.setOutputProperty(OutputKeys.INDENT, "yes");</code></li>
+            <li><code>tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");</code></li>
+            <li><code>tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");</code></li>
+          </ul>
+        </li>
+        <li>Serializa el árbol mediante <code>tf.transform(new DOMSource(doc), new StreamResult(new File(...)))</code>.</li>
+      </ol>
+
+      <div class="subsection-heading">✅ Salida Esperada en Consola:</div>
+<pre><code>[DOM] Construyendo árbol XML en memoria...
+[DOM] Raíz '&lt;factura&gt;' y nodos de emisor, cliente y líneas ensamblados.
+[TRANSFORMER] Serializando documento a 'datos/factura_electronica.xml' con sangría de 4 espacios...
+[ÉXITO] Archivo generado correctamente (1.024 bytes). Inspección visual conforme a normativa.</code></pre>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 2 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Ejercicio 2: Modificador de Tarifas DOM In-Situ sin Corrupción por Nodos #text (<code>GestorTarifasDOM.java</code>)</span>
+      <span class="exercise-level level-medium">Nivel Intermedio</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🏢 Contexto Empresarial:</div>
+      <p>
+        El departamento comercial dispone de un catálogo <code>datos/catalogo_tienda.xml</code>. Durante las rebajas, se requiere una utilidad que aplique un descuento porcentual (ej. 15%) a todos los artículos pertenecientes a una categoría concreta (ej. <code>"Perifericos"</code>), modificando el XML original directamente en el disco.
+      </p>
+
+      <div class="subsection-heading">📋 Catálogo de Prueba (<code>datos/catalogo_tienda.xml</code>):</div>
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;catalogo&gt;
+    &lt;producto id="P01" categoria="Hardware"&gt;
+        &lt;nombre&gt;Disco SSD NVMe 1TB&lt;/nombre&gt;
+        &lt;precio&gt;89.95&lt;/precio&gt;
+        &lt;stock&gt;25&lt;/stock&gt;
+    &lt;/producto&gt;
+    &lt;producto id="P02" categoria="Perifericos"&gt;
+        &lt;nombre&gt;Raton Ergonomico Inalambrico&lt;/nombre&gt;
+        &lt;precio&gt;34.50&lt;/precio&gt;
+        &lt;stock&gt;12&lt;/stock&gt;
+    &lt;/producto&gt;
+    &lt;producto id="P03" categoria="Perifericos"&gt;
+        &lt;nombre&gt;Teclado Mecanico RGB&lt;/nombre&gt;
+        &lt;precio&gt;65.00&lt;/precio&gt;
+        &lt;stock&gt;8&lt;/stock&gt;
+    &lt;/producto&gt;
+&lt;/catalogo&gt;</code></pre>
+
+      <div class="subsection-heading">⚙️ Requerimientos Técnicos:</div>
+      <ol>
+        <li>Carga el XML con <code>DocumentBuilder.parse(archivo)</code> y normaliza con <code>doc.getDocumentElement().normalize()</code>.</li>
+        <li>Obtén la lista de nodos con <code>doc.getElementsByTagName("producto")</code>.</li>
+        <li><strong>Filtrado de Nodos:</strong> Al iterar, comprueba siempre <code>if (nodo.getNodeType() == Node.ELEMENT_NODE)</code> antes de castear a <code>Element</code>.</li>
+        <li>Si <code>producto.getAttribute("categoria").equalsIgnoreCase(categoriaObjetivo)</code>:
+          <ul>
+            <li>Localiza la etiqueta <code>&lt;precio&gt;</code> mediante <code>producto.getElementsByTagName("precio").item(0)</code>.</li>
+            <li>Calcula el precio rebajado y actualiza el texto del nodo con <code>nodoPrecio.setTextContent(String.format(Locale.US, "%.2f", nuevoPrecio))</code>.</li>
+          </ul>
+        </li>
+        <li>Sobrescribe el archivo en disco mediante <code>Transformer</code> preservando la indentación de 4 espacios.</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ La Trampa de los Nodos de Texto Whitespace (#text)</div>
+        <p>
+          En el estándar W3C DOM, los saltos de línea e indentaciones entre etiquetas se interpretan como nodos hijos de tipo texto (<code>#text</code>). Si intentas castear directamente un <code>Node</code> a <code>Element</code> sin comprobar <code>getNodeType() == Node.ELEMENT_NODE</code>, la JVM lanzará un <code>ClassCastException</code> instantáneo.
+        </p>
+      </div>
+
+      <div class="subsection-heading">✅ Salida Esperada en Consola:</div>
+<pre><code>[INFO] Aplicando 15,00% de descuento a productos de categoría 'Perifericos'...
+-> Modificado 'Raton Ergonomico Inalambrico': 34.50 € -> 29.32 €
+-> Modificado 'Teclado Mecanico RGB': 65.00 € -> 55.25 €
+[INFO] 'Disco SSD NVMe 1TB' omitido (Categoría: Hardware).
+[ÉXITO] Archivo 'datos/catalogo_tienda.xml' actualizado in-situ. 2 productos rebajados.</code></pre>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 3 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Ejercicio 3: Analizador Dual Streaming: Reactivo SAX vs Cursor StAX (<code>AnalizadorDualXML.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🏢 Contexto Empresarial:</div>
+      <p>
+        En pasarelas de pago o en la Agencia Tributaria se procesan ficheros XML de <strong>500 MB a 2 GB</strong>. Parsear estos volúmenes con DOM causaría un desbordamiento inmediato de memoria (<code>OutOfMemoryError</code>). Se requiere desarrollar dos soluciones basadas en flujos continuos (*streaming*):
+      </p>
+
+      <div class="subsection-heading">⚙️ Parte A: Parser Reactivo SAX (<code>CatalogoStatsHandler.java</code>):</div>
+      <ul>
+        <li>Crea una clase que herede de <code>org.xml.sax.helpers.DefaultHandler</code>.</li>
+        <li>Calcula en una única pasada secuencial hacia adelante:
+          <ol>
+            <li>Número total de productos en el catálogo.</li>
+            <li>Valor total de inventario ($\sum \text{precio} \times \text{stock}$).</li>
+            <li>Nombre y precio del artículo más caro.</li>
+          </ol>
+        </li>
+        <li><strong>Regla de oro de SAX:</strong> El método <code>characters(char[] ch, int start, int length)</code> puede fragmentar el texto en múltiples llamadas. Acumula siempre los caracteres en un <code>StringBuilder</code> y haz la conversión numérica únicamente en el evento <code>endElement()</code>.</li>
+      </ul>
+
+      <div class="subsection-heading">⚙️ Parte B: Cursor Pull StAX con Salida Anticipada (<code>BuscadorStAX.java</code>):</div>
+      <ul>
+        <li>Instancia <code>XMLInputFactory.newInstance().createXMLStreamReader(new FileInputStream(archivo))</code>.</li>
+        <li>Implementa el método <code>buscarProductoPorId(File archivo, String idBuscado)</code>.</li>
+        <li>Avanza el cursor mediante <code>while (reader.hasNext())</code> y <code>reader.next()</code>.</li>
+        <li>En cuanto detectes el evento <code>XMLStreamConstants.START_ELEMENT</code> correspondiente a un <code>&lt;producto&gt;</code> con el ID buscado, extrae sus datos y <strong>ejecuta un <code>break</code> para detener el bucle de inmediato</strong>.</li>
+        <li>Demuestra que StAX no necesita leer los 500 MB restantes si el elemento deseado se encontraba en la cabecera del documento.</li>
+      </ul>
+
+      <div class="subsection-heading">✅ Salida Esperada en Consola:</div>
+<pre><code>=== PARTE A: ANÁLISIS AGREGADO SAX (1 Pasada Streaming) ===
+Total productos procesados: 3
+Valor total del inventario: 3.181,50 €
+Producto con mayor precio: Disco SSD NVMe 1TB (89,95 €)
+Memoria RAM consumida por el parser: &lt; 2 MB (O(1))
+
+=== PARTE B: BÚSQUEDA SELECTIVA StAX (Pull Cursor) ===
+Buscando producto con ID 'P02'...
+-> ¡Encontrado en el evento 18! Nombre: Raton Ergonomico Inalambrico | Stock: 12
+[STAX BREAK] Bucle detenido inmediatamente. No se procesó el resto del archivo.</code></pre>
+    </div>
+  </article>
+
+  <!-- EJERCICIO 4 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Ejercicio 4: Mapeo Declarativo Objeto-XML con JAXB (<code>BibliotecaJAXB.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🏢 Contexto Empresarial:</div>
+      <p>
+        Una distribuidora de libros digitales necesita intercambiar su catálogo entre microservicios Java. En lugar de manipular nodos o cursores manualmente, se exige utilizar la API declarativa estándar <strong>Jakarta XML Binding (JAXB)</strong> mediante POJOs y anotaciones.
+      </p>
+
+      <div class="subsection-heading">⚙️ Requerimientos Técnicos y Modelado:</div>
+      <ol>
+        <li><strong>Clase <code>Libro</code>:</strong>
+          <ul>
+            <li>Anotaciones: <code>@XmlRootElement(name = "libro")</code> y <code>@XmlType(propOrder = {"titulo", "autor", "precio", "paginas"})</code>.</li>
+            <li>Atributo XML: <code>@XmlAttribute(name = "isbn") private String isbn;</code>.</li>
+            <li>Elementos hijos: <code>titulo</code> (String), <code>autor</code> (String), <code>precio</code> (double), <code>paginas</code> (int).</li>
+            <li><strong>Constructor obligatorio:</strong> Debe incluir constructor público sin parámetros (<code>public Libro() {}</code>) para que el motor de introspección de JAXB pueda instanciarlo.</li>
+          </ul>
+        </li>
+        <li><strong>Clase <code>Biblioteca</code>:</strong>
+          <ul>
+            <li>Anotación raíz: <code>@XmlRootElement(name = "biblioteca")</code>.</li>
+            <li>Atributo XML: <code>@XmlAttribute(name = "nombre") private String nombre;</code>.</li>
+            <li>Lista de libros: <code>@XmlElement(name = "libro") private List&lt;Libro&gt; libros;</code>.</li>
+            <li>Constructor sin parámetros y métodos getter/setter.</li>
+          </ul>
+        </li>
+        <li><strong>Exportación (Marshalling):</strong>
+          Instancia <code>JAXBContext context = JAXBContext.newInstance(Biblioteca.class);</code>, crea el <code>Marshaller</code>, activa <code>marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);</code> y guarda en <code>datos/biblioteca.xml</code>.
+        </li>
+        <li><strong>Importación (Unmarshalling):</strong>
+          Utiliza <code>Unmarshaller unmarshaller = context.createUnmarshaller();</code> para reconstruir el objeto <code>Biblioteca</code> desde el archivo XML y mostrar en consola el listado completo de libros con sus precios.
+        </li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ Requisito Estricto de JAXB: Constructores por Defecto</div>
+        <p>
+          Si una clase anotada con JAXB carece de un constructor público sin argumentos (<code>public MiClase() {}</code>), el <code>JAXBContext</code> fallará en tiempo de ejecución con una excepción fatal: <code>NoSuchMethodException: ...&lt;init&gt;()</code>.
+        </p>
+      </div>
+
+      <div class="subsection-heading">✅ Salida Esperada en Consola:</div>
+<pre><code>[JAXB MARSHALLING] Serializando instancia de Biblioteca 'Biblioteca Central Avilés'...
+-> Archivo 'datos/biblioteca.xml' generado con sangría y codificación UTF-8.
+
+[JAXB UNMARSHALLING] Reconstruyendo objetos Java desde XML...
+Biblioteca: Biblioteca Central Avilés
+- [978-84-12345] "El Quijote" de Miguel de Cervantes | 24,95 € (860 págs.)
+- [978-84-67890] "Clean Code" de Robert C. Martin | 42,50 € (464 págs.)
+- [978-84-55443] "Effective Java" de Joshua Bloch | 49,00 € (412 págs.)
+[ÉXITO] Mapeo bidireccional POJO-XML completado sin manipulaciones manuales de nodos.</code></pre>
+    </div>
+  </article>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+    <span>Acceso a Datos · Ciclo Formativo DAM · Curso 2026-2027</span>
+    <span>Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

@@ -79,39 +79,36 @@ Para que el proyecto pueda ser evaluado positivamente, debe cumplir rigurosament
  
  ```
  +-----------------------------------------------------------------------------------+
- |  ENTREGA 1: Intermedia (Primera Evaluación)                                       |
- |  - Anteproyecto: requisitos, casos de uso, diagrama E/R y mockups.                |
- |  - Repositorio Git inicial y prototipo funcional demostrable (MVP).               |
- |  - OBLIGATORIO: Cumplimiento estricto de FECHA Y FORMA.                           |
- |    Si no se entrega en fecha y forma, decae en ordinaria y pasa a extraordinaria. |
+ |  1ª ENTREGA PARCIAL (Primera Evaluación)                                          |
+ |  - Anteproyecto formal: requisitos, casos de uso, diagrama E/R y mockups.         |
+ |  - Justificación técnica del stack y repositorio Git inicial.                     |
+ |  - SIN PROTOTIPO FUNCIONAL (no se exige código ejecutable en esta fase).          |
  +-----------------------------------------------------------------------------------+
                                           │
                                           ▼
  +-----------------------------------------------------------------------------------+
- |  ENTREGAS PARCIALES COMPLEMENTARIAS (A Voluntad del Profesor)                     |
- |  - Hitos de verificación intermedia para seguimiento continuo del progreso.       |
+ |  2ª ENTREGA PARCIAL (Segunda Evaluación / Antes de Convocatoria Ordinaria)        |
+ |  - Entrega de TODO EL PROYECTO: Software v1.0, Memoria Oficial y Vídeo Teams.     |
+ |  - APROBADO DIRECTO DEL MÓDULO: Si se aprueban las dos parciales, se aprueba el   |
+ |    módulo directamente antes de ir a la primera convocatoria ordinaria.           |
  +-----------------------------------------------------------------------------------+
                                           │
                                           ▼
  +-----------------------------------------------------------------------------------+
- |  ENTREGA 2: Final Oficial                                                         |
- |                                                                                   |
- |  [OPCIÓN A: Convocatoria Ordinaria (Evaluación Ordinaria)]                         |
- |  - Solución completa 100% v1.0 + Memoria técnica definitiva + Vídeo de defensa.   |
- |  - Ponderación: 50% Proyecto Técnico / 30% Memoria Escrita / 20% Vídeo Exposición.|
- |                                                                                   |
- |  [OPCIÓN B: Convocatoria Extraordinaria (Evaluación Extraordinaria)]               |
- |  - Oportunidad oficial para alumnos con parciales o finales suspensos/no entrega. |
- |  - Subsanación de defectos técnicos + Memoria corregida + Segunda defensa.        |
+ |  CONVOCATORIAS ORDINARIAS OFICIALES (Recuperación con Todo el Proyecto)           |
+ |  - Para quienes no superen las entregas parciales por suspenso o no entrega.      |
+ |  - Presentación íntegra de TODO el proyecto (Software + Memoria + Vídeo).         |
+ |  - Convocatoria Ordinaria Oficial y Segunda Convocatoria Ordinaria / Extraordinaria.|
  +-----------------------------------------------------------------------------------+
  ```
  
  > [!CAUTION]
- > **Criterios Muy Estrictos: Fecha, Forma, Completitud y Autoría con IA**:
- > 1. **Puntualidad y Forma**: Todos los entregables deben ser subidos rigurosamente dentro del plazo y en el formato oficial. Si un estudiante no cumple en fecha y forma con la Entrega 1 (parcial de primera evaluación) o las parciales adicionales requeridas por el profesor, no podrá evaluarse en la Convocatoria Ordinaria y tendrá que presentarlo en la Convocatoria Extraordinaria.
- > 2. **Superación Obligatoria con Todos los Puntos Completados**: **No se podrá superar el Proyecto Intermodular 2 sin tener un 5,0 mínimo en la entrega final y todos los puntos tendrán que estar rigurosamente completados (vídeo demostrativo, código software operativo, memoria técnica oficial conforme a plantilla)**.
- > 3. **Entregas Adicionales**: A voluntad del profesor se podrán requerir entregas parciales complementarias durante el curso.
- > 4. **Uso de Inteligencia Artificial (IA) y Autoría del Código**: El uso de herramientas de IA está permitido siempre y cuando el estudiante **comprenda y domine con rigor lo que se está realizando** («sabiendo lo que se hace»). El profesor se reserva expresamente el derecho de realizar revisiones individuales del proyecto en las que preguntará por puntos y líneas específicas del código implementado; el alumno deberá aportar las explicaciones pertinentes demostrando el dominio técnico de la solución. Si las explicaciones aportadas no son válidas, resultan incoherentes o evidencian el desconocimiento del código presentado, **será motivo directo de calificación de suspenso en el módulo**.
+ > **Criterios Muy Estrictos: Fecha, Forma, Vías de Superación y Autoría con IA**:
+ > 1. **Superación por Evaluación Continua**: El módulo se supera aprobando las **dos entregas parciales**. Quien apruebe ambas parciales tiene el módulo superado antes de concurrir a la primera convocatoria ordinaria.
+ > 2. **Recuperación en Convocatorias Ordinarias con Todo el Proyecto**: Si no se superan las entregas parciales, se recupera en las dos convocatorias ordinarias oficiales presentando **todo el proyecto completo** (software 100% operativo en Git, memoria oficial según plantilla y vídeo grabado en Teams).
+ > 3. **Nota Mínima y Completitud**: **No se podrá superar el Proyecto Intermodular 2 sin tener un 5,0 mínimo en la entrega completa/final y todos los puntos tendrán que estar rigurosamente completados (vídeo demostrativo, código software operativo, memoria técnica oficial conforme a plantilla)**.
+ > 4. **Entregas Complementarias**: A voluntad del profesor se podrán requerir entregas intermedias adicionales durante el curso.
+ > 5. **Uso de Inteligencia Artificial (IA) y Autoría del Código**: El uso de herramientas de IA está permitido siempre y cuando el estudiante **comprenda y domine con rigor lo que se está realizando** («sabiendo lo que se hace»). El profesor se reserva expresamente el derecho de realizar revisiones individuales del proyecto en las que preguntará por puntos y líneas específicas del código implementado; el alumno deberá aportar las explicaciones pertinentes demostrando el dominio técnico de la solución. Si las explicaciones aportadas no son válidas, resultan incoherentes o evidencian el desconocimiento del código presentado, **será motivo directo de calificación de suspenso en el módulo**.
  >
  > 📢 **Publicación de Fechas Concretas**: Los plazos, días y horas límite exactos de cada entrega se notificarán y publicarán a lo largo del curso a través del **aula virtual** (Moodle / Teams).
  

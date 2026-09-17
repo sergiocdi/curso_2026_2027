@@ -13,7 +13,7 @@ modalidad: "Virtual"
 > **Módulo de Proyecto Intermodular de Fin de Ciclo (CIFP Avilés)**.
 > Itinerario formativo conjunto: integra las competencias de 1º (Java, Bases de Datos, Entornos) y 2º (Acceso a Datos, PMDM, PSP, SGE).
 > **Ponderación**: **10% Proyecto 1º DAM (no va a actas de 1º, aplica solo en 2º) + 90% Proyecto 2º DAM**.
-> **Régimen**: Estrictamente individual · Criterios estrictos de fecha y forma en entregables.
+> **Régimen**: Estrictamente individual · Superación por evaluación continua mediante 2 entregas parciales (aprobado antes de ordinaria) o recuperación en convocatorias ordinarias con todo el proyecto.
 
 ---
 

@@ -58,19 +58,19 @@ $$\text{Nota Proyecto Intermodular 2} = (0.50 \times \text{Proyecto Software}) +
 
 ## 5.3. Criterios Estrictos de Aprobación
 
-1. **Requisito Ineludible de Superación de la Entrega Final**:
-   - **No se podrá superar el Proyecto Intermodular 2 sin obtener una calificación mínima de 5,0 sobre 10 en la Entrega Final**.
-   - **Todos los puntos y componentes deberán estar obligatoriamente completados y entregados**: código software 100% operativo en repositorio Git, memoria técnica oficial redactada según plantilla institucional y vídeo demostrativo grabado en Microsoft Teams. La omisión o entrega incompleta de cualquiera de estos componentes impedirá superar el módulo.
-2. **Entregas Parciales Adicionales (a voluntad del profesor)**:
-   - A lo largo del curso, el profesor podrá requerir entregas parciales complementarias (a su voluntad/criterio) para verificar el progreso real, el diseño de la arquitectura, esquemas de bases de datos o sprints en Git.
-3. **Cumplimiento Inflexible en Fecha y Forma por Evaluación**:
-   - La entrega de todos los hitos debe realizarse estrictamente dentro del plazo fijado para cada evaluación y en los formatos establecidos.
-   - **Efecto de Incumplimiento en Parciales**: Si un estudiante no entrega en fecha y forma la Entrega 1 (parcial de la primera evaluación) o las parciales adicionales requeridas, decae en la evaluación continua ordinaria y **tendrá que presentar obligatoriamente dicho parcial en la siguiente convocatoria (Convocatoria Extraordinaria)**.
+1. **Superación del Módulo por Entregas Parciales (Evaluación Continua)**:
+   - **El módulo se podrá superar aprobando las dos entregas parciales** establecidas: la 1ª entrega parcial (anteproyecto y arquitectura, sin requerir prototipo funcional) y la 2ª entrega parcial (entrega integral de la solución: software, memoria y vídeo).
+   - Quien apruebe ambas entregas parciales **supera y aprueba el módulo directamente antes de concurrir a la primera convocatoria ordinaria**.
+2. **Recuperación en las Convocatorias Ordinarias (Todo el Proyecto)**:
+   - Los alumnos que no superen el módulo a través de las entregas parciales (por haber obtenido calificación insuficiente o no haber entregado en fecha y forma) **podrán recuperar en las dos convocatorias ordinarias oficiales presentando TODO el proyecto completo** (software 100% operativo en Git, memoria formal según plantilla y vídeo grabado en Teams).
+   - **Requisito Ineludible**: No se podrá superar el Proyecto Intermodular 2 sin obtener una calificación mínima de **5,0 sobre 10** en la entrega completa/final y tener todos los componentes obligatoriamente finalizados.
+3. **Entregas Parciales Complementarias (a voluntad del profesor)**:
+   - A lo largo del curso, el profesor podrá requerir entregas intermedias adicionales de verificación para verificar el ritmo continuo de trabajo en Git.
 4. **Uso de Inteligencia Artificial (IA) y Autoría del Código**:
    - El uso de herramientas de Inteligencia Artificial está permitido en el desarrollo del proyecto, siempre y cuando el estudiante **comprenda y domine con rigor lo que se está realizando** («sabiendo lo que se hace»).
    - El profesor se reserva expresamente el derecho de realizar revisiones individuales del proyecto en las que preguntará por puntos y líneas específicas del código implementado. El alumno deberá aportar las explicaciones pertinentes demostrando el dominio técnico de la solución.
    - Si las explicaciones aportadas no son válidas, resultan incoherentes o evidencian el desconocimiento del código presentado, **será motivo directo de calificación de suspenso en el módulo**.
 5. **Nota Mínima por Bloques**:
    - En Proyecto Intermodular 2 es preceptivo obtener al menos un **5,0 sobre 10** en cada uno de los tres bloques individuales de la rúbrica oficial: Proyecto Técnico ($\ge 5,0$), Memoria Escrita ($\ge 5,0$) y Vídeo de Exposición ($\ge 5,0$).
-6. **Convocatoria Extraordinaria**:
-   - Se conservarán para la convocatoria extraordinaria las calificaciones de aquellos bloques ya superados con 5,0 o más en la convocatoria ordinaria, debiendo subsanar y presentar únicamente los bloques no superados.
+6. **Conservación de Bloques en Convocatoria Extraordinaria**:
+   - Se conservarán para la convocatoria extraordinaria las calificaciones de aquellos bloques ya superados con 5,0 o más en la convocatoria previa, debiendo subsanar y presentar únicamente los bloques no superados.

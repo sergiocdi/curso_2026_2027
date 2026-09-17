@@ -29,18 +29,20 @@ El desarrollo del Proyecto Intermodular se articula a lo largo de los dos cursos
 ┌───────────────────────────────────────────────────────────────────────────────────┐
 │ 2º CURSO (DAM): PROYECTO INTERMODULAR 2 (90% de la Calificación del Módulo)       │
 │                                                                                   │
-│  [ENTREGA 1: Intermedia / MVP (Primera Evaluación)]                               │
-│  - Anteproyecto formal: especificación de requisitos, arquitectura y prototipo.   │
-│  - Repositorio Git con tablero de seguimiento y primer MVP demostrable.           │
-│  - Ponderación: 35% de la fase de 2º curso.                                       │
+│  [1ª ENTREGA PARCIAL: Anteproyecto y Arquitectura (Primera Evaluación)]           │
+│  - Especificación de requisitos, casos de uso, diagrama E/R y mockups.            │
+│  - Estructura del repositorio Git y justificación técnica del stack.              │
+│  - SIN PROTOTIPO FUNCIONAL (no se exige código ejecutable en esta fase).          │
 │                                                                                   │
-│  [ENTREGAS PARCIALES ADICIONALES (A Voluntad del Profesor)]                       │
-│  - Se podrán solicitar entregas intermedias adicionales para seguimiento continuo.│
+│  [2ª ENTREGA PARCIAL: Todo el Proyecto Completo (Segunda Evaluación)]             │
+│  - Entrega completa de la solución: Software v1.0 en Git, Memoria y Vídeo Teams.  │
+│  - SUPERACIÓN DIRECTA: Si se aprueban las dos parciales, se aprueba el módulo     │
+│    directamente antes de ir a la primera convocatoria ordinaria.                  │
 │                                                                                   │
-│  [ENTREGA 2: Final del Proyecto (Evaluación Ordinaria / Extraordinaria)]          │
-│  - Convocatoria Ordinaria (Evaluación Ordinaria): Solución v1.0, Memoria y Vídeo. │
-│  - Convocatoria Extraordinaria (Evaluación Extraordinaria): Segunda oportunidad.  │
-│  - Ponderación: 65% de la fase de 2º curso.                                       │
+│  [CONVOCATORIAS OFICIALES ORDINARIAS: Recuperación con Todo el Proyecto]          │
+│  - Para quienes no superen las entregas parciales por suspenso o no entrega.      │
+│  - Recuperación presentando TODO el proyecto completo (Software + Memoria + Vídeo)│
+│    en cualquiera de las dos convocatorias ordinarias oficiales.                   │
 └───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -48,12 +50,13 @@ El desarrollo del Proyecto Intermodular se articula a lo largo de los dos cursos
 
 ## 3.2. Calendario de Entregas de 2º Curso por Evaluaciones
 
-| Entrega / Hito | Contenido Obligatorio Exigido | Periodo / Evaluación | Régimen / Oportunidad |
+| Entrega / Hito | Contenido Obligatorio Exigido | Periodo / Evaluación | Régimen / Vía de Superación |
 | :---: | :--- | :---: | :---: |
-| **Entrega 1<br>(Intermedia / MVP)** | **Anteproyecto, Arquitectura y Prototipo Funcional MVP**:<br>- Especificación de requisitos, casos de uso y justificación de tecnologías elegidas.<br>- Diseño arquitectural: modelo de datos, diseño de servicios y mockups de interfaz.<br>- Repositorio Git inicial con primer prototipo funcional demostrable. | **Primera Evaluación** | Parcial de Evaluación Continua<br>*(Condición indispensable)* |
-| **Entregas Parciales Complementarias** | **Hitos de Seguimiento y Control Técnico**:<br>- A voluntad del profesor, se podrán solicitar entregas parciales adicionales (avances de modelado, endpoints API, módulos específicos o sprints en Git). | **A lo largo del curso<br>(a voluntad del profesor)** | Supervisión y trazabilidad continua |
-| **Entrega 2<br>(Final - Ordinaria)** | **Solución Completa v1.0, Memoria y Vídeo de Defensa**:<br>- Aplicación software 100% operativa (backend, persistencia, cliente y ficheros).<br>- Memoria técnica oficial en DOCX y PDF (30-90 páginas conforme a plantilla).<br>- Vídeo explicativo individual de 10 a 20 minutos grabado en Teams. | **Evaluación Ordinaria** | **Convocatoria Ordinaria**<br>*(Exige mínimo 5,0 y todos los puntos completados)* |
-| **Entrega 2<br>(Final - Extraordinaria)** | **Subsanación Integral y Segunda Oportunidad**:<br>- Subsanación de deficiencias técnicas detectadas en la ordinaria.<br>- Memoria técnica corregida y nuevo vídeo explicativo individual. | **Evaluación Extraordinaria** | **Convocatoria Extraordinaria** |
+| **1ª Entrega Parcial<br>(Anteproyecto y Diseño)** | **Anteproyecto, Arquitectura y Modelado (Sin Prototipo Funcional)**:<br>- Especificación de requisitos del sistema y casos de uso.<br>- Diseño arquitectural: modelo Entidad/Relación normalizado y mockups de interfaz.<br>- Justificación técnica del stack y repositorio Git inicial.<br>- *No requiere software funcional*. | **Primera Evaluación** | **Evaluación Continua**<br>*(1º Hito obligatorio en fecha y forma)* |
+| **2ª Entrega Parcial<br>(Proyecto Completo)** | **Solución Completa v1.0, Memoria Oficial y Vídeo de Defensa**:<br>- Aplicación software 100% operativa en Git (backend, datos, interfaz y ficheros).<br>- Memoria técnica formal en DOCX y PDF (30-90 páginas según plantilla).<br>- Vídeo explicativo individual en Teams (10-20 minutos). | **Segunda Evaluación**<br>*(Antes de la 1ª Convocatoria Ordinaria)* | **Aprobado Directo del Módulo**<br>*(Aprobando la 1ª y 2ª parcial se aprueba el módulo sin ir a ordinaria)* |
+| **Entregas Complementarias** | **Hitos de Seguimiento Técnico (a voluntad del profesor)**:<br>- Revisiones intermedias de esquemas de datos, endpoints o commits en Git para asegurar el trabajo continuado. | **A lo largo del curso** | Supervisión y trazabilidad continua |
+| **1ª Convocatoria Ordinaria<br>(Recuperación Oficial)** | **Presentación de Todo el Proyecto Completo**:<br>- Para alumnos que no hayan superado las dos parciales.<br>- Entrega íntegra de software operativo, memoria técnica oficial y vídeo de defensa. | **Evaluación Ordinaria Oficial** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
+| **2ª Convocatoria Ordinaria / Extraordinaria** | **Segunda Oportunidad Oficial (Todo el Proyecto)**:<br>- Subsanación de deficiencias detectadas en convocatorias o parciales previas.<br>- Presentación íntegra de la solución corregida. | **Evaluación Extraordinaria Oficial** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
 
 > 📢 **Comunicación de Fechas Concretas**: Las fechas y horas límite exactas de entrega de cada evaluación y de los hitos parciales se fijarán y comunicarán con la debida antelación a lo largo del curso a través del **aula virtual** (Moodle / Microsoft Teams).
 
@@ -62,11 +65,12 @@ El desarrollo del Proyecto Intermodular se articula a lo largo de los dos cursos
 ## 3.3. Criterios Muy Estrictos de Entrega: Fecha, Forma y Completitud
 
 > [!CAUTION]
-> ### ⛔ REGLA TAXATIVA: CUMPLIMIENTO EN FECHA, FORMA Y CONDICIÓN DE SUPERACIÓN
+> ### ⛔ REGLA TAXATIVA: CONDICIONES DE SUPERACIÓN Y RÉGIMEN DE CONVOCATORIAS
 > Para superar el módulo de Proyecto Intermodular 2, rigen los siguientes criterios de obligado cumplimiento:
 >
 > 1. **Puntualidad Absoluta**: La plataforma cerrará la recepción en el minuto exacto fijado. No se admitirá ninguna entrega extemporánea por canales alternativos.
 > 2. **Adecuación Formal**: La entrega debe respetar de manera exhaustiva el formato técnico requerido (código ejecutable y reproducible, repositorio accesible, memoria técnica según plantilla y vídeo en el intervalo de 10 a 20 minutos).
-> 3. **Incumplimiento en un Parcial**: **Si un alumno no cumple en fecha y forma con la Entrega 1 (parcial de la primera evaluación), decae automáticamente en la evaluación continua de la convocatoria ordinaria y tendrá que presentar obligatoriamente dicho parcial en la siguiente convocatoria (Convocatoria Extraordinaria)**. En ningún caso se permitirá concurrir a la entrega final ordinaria sin haber cumplido en fecha y forma el parcial previo.
-> 4. **Entregas Parciales Adicionales a Voluntad del Profesor**: A lo largo del curso, el profesor podrá requerir entregas parciales adicionales de verificación para asegurar la autenticidad y el progreso continuado del trabajo. Su cumplimiento en fecha y forma es igualmente preceptivo.
-> 5. **Condición Ineludible para Superar el Proyecto**: **No se podrá superar el Proyecto Intermodular 2 sin tener un 5,0 mínimo en la entrega final, y todos los puntos y componentes tendrán que estar obligatoriamente completados (vídeo demostrativo, código software operativo, memoria técnica oficial, etc.)**. La falta o entrega incompleta de cualquiera de estos elementos impedirá la superación del proyecto.
+> 3. **Superación del Módulo por Entregas Parciales**: **El módulo se podrá superar aprobando las dos entregas parciales (1ª y 2ª parcial)**. Quien apruebe ambas parciales en fecha y forma tiene el módulo superado y aprobado antes de concurrir a la primera convocatoria ordinaria.
+> 4. **Recuperación en las Convocatorias Ordinarias**: Si el alumno no supera el módulo a través de las parciales (por haber suspendido alguna entrega o no haber entregado en fecha y forma), **se podrá recuperar en las dos convocatorias ordinarias oficiales presentando TODO el proyecto completo** (software 100% operativo en Git, memoria oficial según plantilla y vídeo en Teams).
+> 5. **Entregas Parciales Adicionales a Voluntad del Profesor**: A lo largo del curso, el profesor podrá requerir entregas intermedias adicionales de verificación para asegurar la autenticidad y el progreso continuado del trabajo.
+> 6. **Condición Ineludible para Superar el Proyecto**: **No se podrá superar el Proyecto Intermodular 2 sin tener un 5,0 mínimo en la entrega final/completa, y todos los puntos y componentes tendrán que estar obligatoriamente completados (vídeo demostrativo, código software operativo, memoria técnica oficial, etc.)**. La falta o entrega incompleta de cualquiera de estos elementos impedirá la superación del proyecto.

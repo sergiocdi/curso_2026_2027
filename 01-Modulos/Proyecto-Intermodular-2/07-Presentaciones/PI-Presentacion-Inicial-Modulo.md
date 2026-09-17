@@ -29,20 +29,20 @@ Guía docente y presentación oficial interactiva para el inicio de curso del m�
 3. **El Puente con 1º DAM (De la Metodología al Código)**: Metodologías clásicas (predictivas: EDT, Gantt, presupuestos) y ágiles (Scrum, Kanban, User Stories). Evaluación de 1º mediante prueba tipo test (10%), no incluida en boletín de 1º, requerimiento de mínimo 5,0 para promediar en 2º.
 4. **¿En qué consiste el Proyecto Software de 2º?**: Arquitectura en capas desacoplada, modelo de datos relacional u orientado a documentos (NoSQL), mínimo 3 entidades relacionadas, CRUD completo, interfaz gráfica/móvil/web, módulo de ficheros (JSON/XML/CSV) y commits continuos en Git.
 5. **Dinámica de Clase: 1 Sesión Semanal en Teams**:
-   - **1ª Parte**: Exposición conceptual breve de metodologías, patrones y buenas prácticas.
-   - **2ª Parte**: Taller guiado de trabajo autónomo donde los alumnos avanzan en su código y resuelven dudas en vivo con el docente compartiendo pantalla.
+   - **1ª Parte**: Exposición conceptual breve de metodologías, arquitectura en capas, patrones y directrices oficiales.
+   - **2ª Parte**: Trabajo autónomo donde el alumnado avanza en su proyecto y plantea consultas de arquitectura y diseño conceptual. *No se entra a mirar ni depurar código en clase*: el troubleshooting, búsqueda de información y depuración es responsabilidad del estudiante.
+   - **Sesiones no grabadas**: Las clases *NO quedan grabadas*, siendo obligatoria y fundamental la conexión puntual y activa a Teams.
 6. **Los Tres Componentes de la Entrega Final**:
    - **Software Operativo (50%)**: Funcional v1.0, sin caídas, conectado a BD, ficheros y Git.
    - **Memoria Técnica Oficial (30%)**: Plantilla CIFP Avilés (30-90 págs.), diagramas UML/ER, manuales de instalación y usuario.
    - **Vídeo de Defensa en Teams (20%)**: 10 a 20 minutos con cámara, escritorio y ejecución fluida de casos de uso.
-7. **Calendario Oficial de Entregas y Seguimiento**:
-   - **Entrega 1 (MVP)** en 1ª evaluación (35% de 2º).
-   - **Entregas Parciales Complementarias** a voluntad del profesor para verificación continua del avance.
-   - **Entrega 2 (Final v1.0)** en convocatoria ordinaria y extraordinaria.
-   - Fechas específicas publicadas a lo largo del curso en el aula virtual de Educastur y Teams.
-8. **Criterios Muy Estrictos (Fecha, Forma y Completitud)**:
-   - Cumplimiento inflexible de plazos en parciales; la no entrega en fecha/forma conlleva decaer a convocatoria extraordinaria.
-   - Requisito de mínimo 5,0 en la entrega final y cumplimiento del 100% de los elementos requeridos (código, memoria y vídeo).
+7. **Calendario de Entregas Parciales y Convocatorias**:
+   - **1ª Entrega Parcial (1ª Evaluación)**: Anteproyecto, requisitos, casos de uso, diagrama E/R, mockups y repositorio Git. *Sin prototipo funcional*.
+   - **2ª Entrega Parcial (2ª Evaluación / Fin de Evaluación Continua)**: Entrega de **todo el proyecto completo** (Software v1.0, Memoria y Vídeo). Permite **aprobar y superar el módulo antes de ir a la primera convocatoria ordinaria**.
+   - **Recuperación en Convocatorias Ordinarias**: Quienes no superen por parciales concurren a las convocatorias oficiales presentando todo el proyecto.
+8. **Criterios y Vías de Superación**:
+   - **Superación por Evaluación Continua**: El módulo se supera aprobando las **dos entregas parciales** en fecha y forma (aprobando antes de la 1ª convocatoria).
+   - **Recuperación en Convocatorias Ordinarias**: Si no se superan las parciales, se recupera en las dos convocatorias ordinarias oficiales presentando todo el proyecto completo (mínimo de 5,0 y 100% de componentes completados).
 9. **Sistema de Calificación y Ponderación Final**:
    - $\text{Nota Final PI2} = (0.10 \times \text{Nota 1º}) + (0.90 \times \text{Nota 2º})$.
    - $\text{Nota 2º} = (0.50 \times \text{Software}) + (0.30 \times \text{Memoria}) + (0.20 \times \text{Vídeo})$ con mínimo $\ge 5,0$ en cada bloque.
