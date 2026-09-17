@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucionario Bloque 1: Ficheros de Texto Plano y Java NIO.2 - Acceso a Datos</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE SOLUCIONARIOS Y GUÍAS TÉCNICAS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   ========================================================================== */
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.official-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-title-box {
+  margin-bottom: 16px;
+}
+
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* 2. CUADRO TÉCNICO DE METADATOS */
+.technical-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 3. ALINEACIÓN CURRICULAR */
+.curricular-section {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.curricular-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-ra {
+  background-color: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-ce {
+  background-color: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.curricular-desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* CONTENIDO Y SOLUCIONES */
+.exercise-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 26px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.exercise-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.exercise-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.level-basic { background: #dcfce7; color: #15803d; }
+.level-medium { background: #fef3c7; color: #b45309; }
+.level-advanced { background: #fee2e2; color: #b91c1c; }
+
+.exercise-body {
+  padding: 18px 20px;
+}
+
+.subsection-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 14px 0 6px 0;
+}
+
+.subsection-heading:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin: 6px 0 12px 22px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* CAJAS DIDÁCTICAS */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 12px 0;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-color: var(--callout-info-border);
+}
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+}
+
+.callout-success {
+  background-color: var(--callout-success-bg);
+  border-color: var(--callout-success-border);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info .callout-title { color: #0369a1; }
+.callout-warning .callout-title { color: #b45309; }
+.callout-success .callout-title { color: #15803d; }
+
+/* CÓDIGO */
+pre {
+  background-color: var(--code-bg);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* PIE DE PÁGINA */
+.practice-footer {
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* REGLAS DE IMPRESIÓN Y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 11px;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .exercise-card {
+    box-shadow: none;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  pre, .callout, .technical-meta-grid, .curricular-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones · Principado de Asturias</span>
+      </div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50' y='65' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>FP</text></svg>" alt="Logo CIFP Avilés" class="official-logo">
+    </div>
+
+    <div class="practice-title-box">
+      <h1 class="practice-title">Solucionario Técnico: Bloque 1</h1>
+      <div class="practice-subtitle">Ficheros de Texto Plano, Charsets, Buffers y API Moderna Java NIO.2</div>
+    </div>
+
+    <!-- CUADRO TÉCNICO -->
+    <div class="technical-meta-grid">
+      <div class="meta-field">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Ciclo y Unidad</span>
+        <span class="meta-value">DAM 2º Curso · UT1</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Modalidad / Entorno</span>
+        <span class="meta-value">Presencial / Distancia · Java 21</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Destinatario / Carácter</span>
+        <span class="meta-value">Docente · Solución Oficial Comentada</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALINEACIÓN CURRICULAR -->
+  <section class="curricular-section">
+    <div class="curricular-title">Alineación Curricular Oficial (Real Decreto 455/2010 · Currículo Asturias)</div>
+    <div class="badge-container">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.a (Clases de E/S y Flujos)</span>
+      <span class="badge-ce">CE1.b (Ficheros de Texto Plano)</span>
+    </div>
+    <p class="curricular-desc">
+      Guía de resolución exhaustiva con código estándar Java 21 para los ejercicios de validación de ficheros CSV heterogéneos, generación de informes con <code>PrintWriter</code> formateado y análisis forense reactivo con Streams de Java NIO.2.
+    </p>
+  </section>
+
+  <!-- SOLUCIÓN EJERCICIO 1 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 1: Validador y Normalizador de CSV (<code>ValidadorCSV.java</code>)</span>
+      <span class="exercise-level level-basic">Nivel Básico</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Lectura en <code>ISO-8859-1</code>:</strong> Se abre con <code>Files.newBufferedReader(path, StandardCharsets.ISO_8859_1)</code> garantizando la interpretación fiel de tildes y eñes sin sustitución por caracteres anómalos.</li>
+        <li><strong>Uso de <code>split(";", -1)</code>:</strong> El parámetro <code>-1</code> preserva los campos vacíos al final de la línea para detectar columnas faltantes.</li>
+        <li><strong>Canalización de descartes:</strong> Se segregan los registros limpios en <code>UTF-8</code> y los descartes en <code>.log</code> sin interrumpir el flujo.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b1;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class ValidadorCSV {
+
+    public static void main(String[] args) {
+        Path rutaOrigen = Path.of("datos", "empleados_raw.csv");
+        Path rutaDestino = Path.of("datos", "empleados_limpios.csv");
+        Path rutaErrores = Path.of("datos", "empleados_errores.log");
+
+        int lineasValidas = 0;
+        int lineasRechazadas = 0;
+        int numeroFila = 0;
+
+        try (BufferedReader br = Files.newBufferedReader(rutaOrigen, StandardCharsets.ISO_8859_1);
+             BufferedWriter bwLimpios = Files.newBufferedWriter(rutaDestino, StandardCharsets.UTF_8);
+             BufferedWriter bwErrores = Files.newBufferedWriter(rutaErrores, StandardCharsets.UTF_8)) {
+
+            String linea;
+            // Preservar y trasladar la cabecera
+            if ((linea = br.readLine()) != null) {
+                numeroFila++;
+                bwLimpios.write(linea);
+                bwLimpios.newLine();
+            }
+
+            while ((linea = br.readLine()) != null) {
+                numeroFila++;
+                if (linea.trim().isEmpty()) continue;
+
+                String[] campos = linea.split(";", -1);
+                if (campos.length != 5) {
+                    bwErrores.write(String.format("[LÍNEA %d] Error: Columnas insuficientes (%d/5) -> %s%n",
+                            numeroFila, campos.length, linea));
+                    lineasRechazadas++;
+                    continue;
+                }
+
+                String dni = campos[0].trim();
+                String nombre = campos[1].trim();
+                String departamento = campos[2].trim();
+                String salarioStr = campos[3].trim();
+                String fechaAlta = campos[4].trim();
+
+                if (dni.isBlank()) {
+                    bwErrores.write(String.format("[LÍNEA %d] Error: DNI vacío o en blanco -> %s%n", numeroFila, linea));
+                    lineasRechazadas++;
+                    continue;
+                }
+
+                double salario;
+                try {
+                    salario = Double.parseDouble(salarioStr);
+                    if (salario <= 0) throw new NumberFormatException("Salario <= 0");
+                } catch (NumberFormatException e) {
+                    bwErrores.write(String.format("[LÍNEA %d] Error: Salario inválido ('%s') -> %s%n",
+                            numeroFila, salarioStr, linea));
+                    lineasRechazadas++;
+                    continue;
+                }
+
+                // Escribir registro normalizado
+                bwLimpios.write(String.format("%s;%s;%s;%.2f;%s", dni, nombre, departamento, salario, fechaAlta));
+                bwLimpios.newLine();
+                lineasValidas++;
+            }
+
+            System.out.printf("✅ Proceso completado: %d válidos, %d rechazados.%n", lineasValidas, lineasRechazadas);
+
+        } catch (IOException e) {
+            System.err.println("Error crítico de E/S: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 2 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 2: Generador de Informes de Ventas (<code>GeneradorInforme.java</code>)</span>
+      <span class="exercise-level level-medium">Nivel Intermedio</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Uso de <code>Locale.US</code> en <code>printf</code>:</strong> Garantiza formato numérico con punto decimal homogéneo si se requiere o coma estándar sin alterar la alineación.</li>
+        <li><strong>Alineación precisa:</strong> <code>%-6s</code> para strings a la izquierda, <code>%10.2f €</code> y <code>%8d</code> para campos numéricos y monetarios a la derecha.</li>
+        <li><strong>Backup automático en NIO.2:</strong> Empleo de <code>Files.copy()</code> con <code>StandardCopyOption.REPLACE_EXISTING</code> una vez cerrado el flujo de escritura.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b1;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Locale;
+
+public class GeneradorInforme {
+
+    public static void main(String[] args) {
+        Path entrada = Path.of("datos", "ventas_diarias.txt");
+        File salida = new File("datos/informe_ventas.txt");
+        Path backup = Path.of("datos", "backups", "informe_ventas_backup.txt");
+
+        double totalFacturacion = 0;
+        int totalUnidades = 0;
+        int numTiendas = 0;
+        String tiendaLider = "";
+        double maxVentas = -1;
+
+        try (BufferedReader br = Files.newBufferedReader(entrada, StandardCharsets.UTF_8);
+             PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(salida, StandardCharsets.UTF_8)))) {
+
+            pw.println("===============================================================================");
+            pw.println("                 INFORME DIARIO DE VENTAS - CADENA ASTUR RETAIL                ");
+            pw.println("===============================================================================");
+            pw.printf(Locale.US, "%-6s %-20s %14s %10s %14s%n", "ID", "CIUDAD", "IMPORTE NETO", "UNIDADES", "TICKET MEDIO");
+            pw.println("-------------------------------------------------------------------------------");
+
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                if (linea.isBlank() || linea.startsWith("#")) continue;
+
+                String[] p = linea.split("\\|");
+                String id = p[0].trim();
+                String ciudad = p[1].trim();
+                double importe = Double.parseDouble(p[2].trim());
+                int unidades = Integer.parseInt(p[3].trim());
+
+                double ticketMedio = unidades > 0 ? (importe / unidades) : 0;
+                totalFacturacion += importe;
+                totalUnidades += unidades;
+                numTiendas++;
+
+                if (importe > maxVentas) {
+                    maxVentas = importe;
+                    tiendaLider = ciudad;
+                }
+
+                pw.printf(Locale.US, "%-6s %-20s %12.2f € %10d %12.2f €%n",
+                        id, ciudad, importe, unidades, ticketMedio);
+            }
+
+            double mediaPorTienda = numTiendas > 0 ? (totalFacturacion / numTiendas) : 0;
+
+            pw.println("===============================================================================");
+            pw.printf(Locale.US, "TOTALES: %d Tiendas | Facturación Total: %12.2f € | Unidades: %d%n",
+                    numTiendas, totalFacturacion, totalUnidades);
+            pw.printf(Locale.US, "PROMEDIO POR TIENDA: %12.2f € | TIENDA LÍDER: %s (%.2f €)%n",
+                    mediaPorTienda, tiendaLider, maxVentas);
+            pw.println("===============================================================================");
+
+            System.out.println("✅ Informe generado en: " + salida.getPath());
+
+        } catch (IOException e) {
+            System.err.println("Error procesando ventas: " + e.getMessage());
+            return;
+        }
+
+        // Copia de seguridad atómica
+        try {
+            Files.createDirectories(backup.getParent());
+            Files.copy(salida.toPath(), backup, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("📦 Backup atómico generado en: " + backup);
+        } catch (IOException e) {
+            System.err.println("Error creando backup: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 3 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 3: Analizador Forense con NIO.2 y Streams (<code>LogAnalyzerNIO.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Consumo de memoria $O(1)$:</strong> <code>Files.lines()</code> lee secuencialmente bajo demanda. No se instancia ninguna lista completa en la memoria heap.</li>
+        <li><strong>Filtrado y volcado con <code>peek()</code>:</strong> Permite escribir las líneas anómalas en el archivo de alertas al mismo tiempo que se cuentan.</li>
+        <li><strong>Agrupación y ranking:</strong> <code>Collectors.groupingBy(..., Collectors.counting())</code> y ordenación con <code>comparingByValue().reversed()</code> y <code>limit(3)</code>.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b1;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class LogAnalyzerNIO {
+
+    public static void main(String[] args) {
+        Path logPath = Path.of("datos", "access.log");
+        Path alertasPath = Path.of("datos", "peticiones_sospechosas.txt");
+
+        try {
+            // 1. Conteo total de peticiones
+            try (Stream<String> lineas = Files.lines(logPath, StandardCharsets.UTF_8)) {
+                System.out.println("1. Total peticiones auditadas: " + lineas.count());
+            }
+
+            // 2. Filtrado de errores HTTP >= 400 y volcado a alertas
+            try (Stream<String> lineas = Files.lines(logPath, StandardCharsets.UTF_8);
+                 PrintWriter pw = new PrintWriter(Files.newBufferedWriter(alertasPath, StandardCharsets.UTF_8))) {
+
+                long errores = lineas.filter(l -> {
+                    String[] partes = l.split(" ");
+                    if (partes.length >= 9) {
+                        try {
+                            int status = Integer.parseInt(partes[partes.length - 2]);
+                            return status >= 400;
+                        } catch (NumberFormatException ignored) {}
+                    }
+                    return false;
+                }).peek(pw::println).count();
+
+                System.out.println("2. Peticiones de error (>=400) volcadas a alertas: " + errores);
+            }
+
+            // 3. Suma de bytes transmitidos en 200 OK
+            try (Stream<String> lineas = Files.lines(logPath, StandardCharsets.UTF_8)) {
+                long bytesTotales = lineas
+                        .filter(l -> l.contains("\" 200 "))
+                        .mapToLong(l -> {
+                            String[] partes = l.split(" ");
+                            try {
+                                return Long.parseLong(partes[partes.length - 1]);
+                            } catch (Exception e) {
+                                return 0L;
+                            }
+                        })
+                        .sum();
+
+                System.out.printf("3. Bytes totales transmitidos con éxito: %,d bytes%n", bytesTotales);
+            }
+
+            // 4. Top 3 Direcciones IP más activas
+            try (Stream<String> lineas = Files.lines(logPath, StandardCharsets.UTF_8)) {
+                System.out.println("4. Top 3 Direcciones IP más activas:");
+                lineas.map(l -> l.split(" ")[0].trim())
+                      .collect(Collectors.groupingBy(ip -> ip, Collectors.counting()))
+                      .entrySet().stream()
+                      .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                      .limit(3)
+                      .forEach(e -> System.out.printf("   - IP: %-15s -> %d peticiones%n", e.getKey(), e.getValue()));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Error en lectura NIO.2: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+    <span>Solucionario Oficial · Acceso a Datos (2º DAM)</span>
+    <span>Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

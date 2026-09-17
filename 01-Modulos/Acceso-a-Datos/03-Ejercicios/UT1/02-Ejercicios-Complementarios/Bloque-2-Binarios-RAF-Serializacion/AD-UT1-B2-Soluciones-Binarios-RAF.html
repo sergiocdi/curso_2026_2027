@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucionario Bloque 2: Ficheros Binarios, RAF y Serialización - Acceso a Datos</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE SOLUCIONARIOS Y GUÍAS TÉCNICAS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   ========================================================================== */
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.official-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-title-box {
+  margin-bottom: 16px;
+}
+
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* 2. CUADRO TÉCNICO DE METADATOS */
+.technical-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 3. ALINEACIÓN CURRICULAR */
+.curricular-section {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.curricular-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-ra {
+  background-color: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-ce {
+  background-color: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.curricular-desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* CONTENIDO Y SOLUCIONES */
+.exercise-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 26px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.exercise-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.exercise-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.level-basic { background: #dcfce7; color: #15803d; }
+.level-medium { background: #fef3c7; color: #b45309; }
+.level-advanced { background: #fee2e2; color: #b91c1c; }
+
+.exercise-body {
+  padding: 18px 20px;
+}
+
+.subsection-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 14px 0 6px 0;
+}
+
+.subsection-heading:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin: 6px 0 12px 22px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* CAJAS DIDÁCTICAS */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 12px 0;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-color: var(--callout-info-border);
+}
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+}
+
+.callout-success {
+  background-color: var(--callout-success-bg);
+  border-color: var(--callout-success-border);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info .callout-title { color: #0369a1; }
+.callout-warning .callout-title { color: #b45309; }
+.callout-success .callout-title { color: #15803d; }
+
+/* CÓDIGO */
+pre {
+  background-color: var(--code-bg);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* PIE DE PÁGINA */
+.practice-footer {
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* REGLAS DE IMPRESIÓN Y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 11px;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .exercise-card {
+    box-shadow: none;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  pre, .callout, .technical-meta-grid, .curricular-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones · Principado de Asturias</span>
+      </div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50' y='65' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>FP</text></svg>" alt="Logo CIFP Avilés" class="official-logo">
+    </div>
+
+    <div class="practice-title-box">
+      <h1 class="practice-title">Solucionario Técnico: Bloque 2</h1>
+      <div class="practice-subtitle">Ficheros Binarios, Acceso Posicional Directo (RAF) y Serialización Segura</div>
+    </div>
+
+    <!-- CUADRO TÉCNICO -->
+    <div class="technical-meta-grid">
+      <div class="meta-field">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Ciclo y Unidad</span>
+        <span class="meta-value">DAM 2º Curso · UT1</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Modalidad / Entorno</span>
+        <span class="meta-value">Presencial / Distancia · Java 21</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Destinatario / Carácter</span>
+        <span class="meta-value">Docente · Solución Oficial Comentada</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALINEACIÓN CURRICULAR -->
+  <section class="curricular-section">
+    <div class="curricular-title">Alineación Curricular Oficial (Real Decreto 455/2010 · Currículo Asturias)</div>
+    <div class="badge-container">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.c (Ficheros Binarios y Acceso Aleatorio)</span>
+      <span class="badge-ce">CE1.d (Serialización de Grafos de Objetos)</span>
+    </div>
+    <p class="curricular-desc">
+      Solucionario oficial que resuelve la persistencia binaria tipada con <code>DataStreams</code> y <code>EOFException</code>, el direccionamiento físico por cálculo de offsets mediante <code>RandomAccessFile</code> (44 bytes/registro), y la eliminación de cabeceras redundantes en serialización incremental con <code>MiObjectOutputStream</code>.
+    </p>
+  </section>
+
+  <!-- SOLUCIÓN EJERCICIO 1 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 1: Caja Negra de Flota IoT (<code>CajaNegraFlota.java</code>)</span>
+      <span class="exercise-level level-basic">Nivel Básico</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Simetría en Tipos Primitivos:</strong> El orden de lectura en <code>DataInputStream</code> debe coincidir exactamente con el de escritura (<code>writeInt</code>, <code>writeUTF</code>, <code>writeDouble</code> $\times 3$, <code>writeBoolean</code>).</li>
+        <li><strong>Cierre de Bucle con <code>EOFException</code>:</strong> Se implementa un <code>while(true)</code> intencionado, delegando en el bloque <code>catch (EOFException e)</code> la finalización ordenada de la lectura sin considerarlo un fallo.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b2;
+
+import java.io.*;
+
+public class CajaNegraFlota {
+    private static final String RUTA_FICHERO = "datos/flota_gps.dat";
+
+    public static void registrarPosicion(int idVehiculo, String matricula, double lat, double lon, double vel, boolean enRuta) {
+        File f = new File(RUTA_FICHERO);
+        f.getParentFile().mkdirs();
+
+        try (DataOutputStream dos = new DataOutputStream(
+                new BufferedOutputStream(new FileOutputStream(f, true)))) {
+
+            dos.writeInt(idVehiculo);
+            dos.writeUTF(matricula);
+            dos.writeDouble(lat);
+            dos.writeDouble(lon);
+            dos.writeDouble(vel);
+            dos.writeBoolean(enRuta);
+
+            System.out.printf("✅ Telemetría registrada: Vehículo %d (%s) - %.1f km/h%n", idVehiculo, matricula, vel);
+
+        } catch (IOException e) {
+            System.err.println("Error al escribir telemetría binaria: " + e.getMessage());
+        }
+    }
+
+    public static void generarInformeFlota() {
+        File f = new File(RUTA_FICHERO);
+        if (!f.exists()) {
+            System.out.println("No hay datos de telemetría registrados.");
+            return;
+        }
+
+        int totalRegistros = 0;
+        int excesosVelocidad = 0;
+
+        System.out.println("===================================================================");
+        System.out.println("             AUDITORÍA DE FLOTA: EXCESOS DE VELOCIDAD (>120 km/h) ");
+        System.out.println("===================================================================");
+
+        try (DataInputStream dis = new DataInputStream(
+                new BufferedInputStream(new FileInputStream(f)))) {
+
+            while (true) {
+                int id = dis.readInt();
+                String mat = dis.readUTF();
+                double lat = dis.readDouble();
+                double lon = dis.readDouble();
+                double vel = dis.readDouble();
+                boolean enRuta = dis.readBoolean();
+                totalRegistros++;
+
+                if (vel > 120.0) {
+                    excesosVelocidad++;
+                    System.out.printf("⚠️ ALERTA: Vehículo %d [%s] a %.2f km/h en pos (%.4f, %.4f) - En ruta: %b%n",
+                            id, mat, vel, lat, lon, enRuta);
+                }
+            }
+
+        } catch (EOFException e) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.printf("Fin de informe: %d tramas procesadas (%d infracciones detectadas).%n",
+                    totalRegistros, excesosVelocidad);
+        } catch (IOException e) {
+            System.err.println("Error leyendo fichero binario: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        registrarPosicion(1, "1234-BBB", 43.556, -5.924, 115.0, true);
+        registrarPosicion(2, "5678-CCC", 43.535, -5.661, 132.5, true);
+        registrarPosicion(3, "9012-DDD", 43.361, -5.849, 90.0, false);
+        registrarPosicion(2, "5678-CCC", 43.540, -5.670, 128.0, true);
+
+        generarInformeFlota();
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 2 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 2: Gestor de Almacén Directo en Disco (<code>AlmacenRAF.java</code>)</span>
+      <span class="exercise-level level-medium">Nivel Intermedio</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Longitud Fija e Invariabilidad:</strong> Los Strings se escriben con <code>writeChars()</code> tras rellenar con espacios o truncar mediante <code>ajustarTexto()</code>.</li>
+        <li><strong>Salto Quirúrgico de Offset:</strong> <code>raf.seek((pos * 44) + 40)</code> salta exactamente a los 4 bytes del campo <code>stock</code>, permitiendo actualizarlo sin tocar el ID ni los textos.</li>
+        <li><strong>Truncado Físico en Disco:</strong> <code>raf.setLength(maxRegistros * 44)</code> reduce instantáneamente el tamaño del fichero en disco.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b2;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+public class AlmacenRAF {
+    // 4B (id) + 16B (8 chars) + 20B (10 chars) + 4B (stock) = 44 Bytes
+    public static final int TAM_REGISTRO = 44;
+    private final File archivo;
+
+    public AlmacenRAF(String ruta) {
+        this.archivo = new File(ruta);
+        this.archivo.getParentFile().mkdirs();
+    }
+
+    private String ajustarTexto(String texto, int longitudFija) {
+        if (texto == null) texto = "";
+        if (texto.length() > longitudFija) {
+            return texto.substring(0, longitudFija);
+        }
+        StringBuilder sb = new StringBuilder(texto);
+        while (sb.length() < longitudFija) {
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+
+    public void insertarArticulo(int posicion, int id, String codigo, String nombre, int stock) throws IOException {
+        try (RandomAccessFile raf = new RandomAccessFile(archivo, "rw")) {
+            long offset = (long) posicion * TAM_REGISTRO;
+            raf.seek(offset);
+
+            raf.writeInt(id);
+            raf.writeChars(ajustarTexto(codigo, 8));   // 8 * 2 = 16 bytes
+            raf.writeChars(ajustarTexto(nombre, 10));  // 10 * 2 = 20 bytes
+            raf.writeInt(stock);                      // 4 bytes
+
+            System.out.printf("✅ Artículo insertado en posición %d (offset: %d bytes)%n", posicion, offset);
+        }
+    }
+
+    public void actualizarStock(int posicion, int nuevoStock) throws IOException {
+        try (RandomAccessFile raf = new RandomAccessFile(archivo, "rw")) {
+            long offsetStock = ((long) posicion * TAM_REGISTRO) + 40;
+            if (offsetStock + 4 > raf.length()) {
+                throw new IndexOutOfBoundsException("La posición " + posicion + " no existe en el fichero.");
+            }
+
+            raf.seek(offsetStock);
+            raf.writeInt(nuevoStock);
+
+            System.out.printf("🔄 Stock actualizado en disco para pos %d -> Nuevo stock: %d%n", posicion, nuevoStock);
+        }
+    }
+
+    public void consultarArticulo(int posicion) throws IOException {
+        try (RandomAccessFile raf = new RandomAccessFile(archivo, "r")) {
+            long offset = (long) posicion * TAM_REGISTRO;
+            if (offset + TAM_REGISTRO > raf.length()) {
+                System.out.println("❌ No existe registro en la posición " + posicion);
+                return;
+            }
+
+            raf.seek(offset);
+            int id = raf.readInt();
+
+            char[] cCod = new char[8];
+            for (int i = 0; i < 8; i++) cCod[i] = raf.readChar();
+            String codigo = new String(cCod).trim();
+
+            char[] cNom = new char[10];
+            for (int i = 0; i < 10; i++) cNom[i] = raf.readChar();
+            String nombre = new String(cNom).trim();
+
+            int stock = raf.readInt();
+
+            System.out.printf("📦 [Pos %d] ID: %d | Código: %s | Nombre: %s | Stock: %d uds.%n",
+                    posicion, id, codigo, nombre, stock);
+        }
+    }
+
+    public long obtenerTotalArticulos() throws IOException {
+        try (RandomAccessFile raf = new RandomAccessFile(archivo, "r")) {
+            return raf.length() / TAM_REGISTRO;
+        }
+    }
+
+    public void truncarAlmacen(int maxRegistros) throws IOException {
+        try (RandomAccessFile raf = new RandomAccessFile(archivo, "rw")) {
+            long nuevaLongitud = (long) maxRegistros * TAM_REGISTRO;
+            raf.setLength(nuevaLongitud);
+            System.out.printf("✂️ Archivo truncado a %d registros (%d bytes).%n", maxRegistros, nuevaLongitud);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        AlmacenRAF almacen = new AlmacenRAF("datos/articulos.dat");
+
+        almacen.insertarArticulo(0, 101, "COD-0001", "Monitor 4K", 15);
+        almacen.insertarArticulo(1, 102, "COD-0002", "Teclado Mec", 50);
+        almacen.insertarArticulo(2, 103, "COD-0003", "Mouse Pad", 100);
+
+        System.out.println("Antes de modificar:");
+        almacen.consultarArticulo(1);
+
+        almacen.actualizarStock(1, 42);
+
+        System.out.println("Después de modificar:");
+        almacen.consultarArticulo(1);
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 3 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 3: Auditoría Bancaria con Append Seguro y transient (<code>AuditoriaBancaria.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Subclase <code>MiObjectOutputStream</code>:</strong> Sobrescribe <code>writeStreamHeader()</code> vaciándolo para anular los 4 bytes de cabecera mágica (<code>0xACED</code>) que corromperían la lectura incremental.</li>
+        <li><strong>Protección de Información Sensible con <code>transient</code>:</strong> <code>private transient String pinAutorizacion</code> garantiza que el PIN vive en memoria durante la sesión pero se recupera como <code>null</code> en disco.</li>
+        <li><strong>Patrón Factory / Operador Ternario:</strong> Comprueba <code>archivo.exists() && archivo.length() > 0</code> para alternar limpiamente entre <code>ObjectOutputStream</code> estándar y <code>MiObjectOutputStream</code>.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b2;
+
+import java.io.*;
+import java.time.LocalDateTime;
+
+public class AuditoriaBancaria {
+
+    // 1. Subclase que anula la escritura de cabecera en modo append
+    public static class MiObjectOutputStream extends ObjectOutputStream {
+        public MiObjectOutputStream(OutputStream out) throws IOException {
+            super(out);
+        }
+
+        @Override
+        protected void writeStreamHeader() throws IOException {
+            // No escribe cabecera secundaria intermedia (0xACED0005)
+        }
+    }
+
+    // 2. Entidad Serializable con transient
+    public static class Transaccion implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private long id;
+        private String cuentaOrigen;
+        private String cuentaDestino;
+        private double importe;
+        private LocalDateTime fecha;
+        private transient String pinAutorizacion; // ¡NO se persiste!
+
+        public Transaccion(long id, String origen, String destino, double importe, String pin) {
+            this.id = id;
+            this.cuentaOrigen = origen;
+            this.cuentaDestino = destino;
+            this.importe = importe;
+            this.fecha = LocalDateTime.now();
+            this.pinAutorizacion = pin;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("[%s] ID: %d | %s -> %s | %.2f € | PIN RAM: %s",
+                    fecha.toLocalTime(), id, cuentaOrigen, cuentaDestino, importe, pinAutorizacion);
+        }
+    }
+
+    // 3. Método de registro con discriminación automática de cabecera
+    public static void registrarOperacion(File archivo, Transaccion t) {
+        archivo.getParentFile().mkdirs();
+        boolean yaExisteConDatos = archivo.exists() && archivo.length() > 0;
+
+        try (FileOutputStream fos = new FileOutputStream(archivo, true);
+             ObjectOutputStream oos = yaExisteConDatos 
+                     ? new MiObjectOutputStream(fos) 
+                     : new ObjectOutputStream(fos)) {
+
+            oos.writeObject(t);
+            oos.flush();
+            System.out.println("✅ Transacción registrada: ID " + t.id);
+
+        } catch (IOException e) {
+            System.err.println("Error al serializar transacción: " + e.getMessage());
+        }
+    }
+
+    // 4. Lectura secuencial completa hasta EOFException
+    public static void listarHistorial(File archivo) {
+        if (!archivo.exists()) {
+            System.out.println("No existe archivo de auditoría.");
+            return;
+        }
+
+        System.out.println("===================================================================");
+        System.out.println("             HISTORIAL DE AUDITORÍA BANCARIA (DESERIALIZACIÓN)     ");
+        System.out.println("===================================================================");
+
+        int contador = 0;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            while (true) {
+                Transaccion t = (Transaccion) ois.readObject();
+                contador++;
+                System.out.println("  " + t);
+            }
+        } catch (EOFException e) {
+            System.out.println("-------------------------------------------------------------------");
+            System.out.printf("Auditoría finalizada: %d transacciones recuperadas sin corrupción.%n", contador);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error: Clase Transaccion no encontrada.");
+        } catch (StreamCorruptedException e) {
+            System.err.println("💥 ERROR GRAVE: Stream corrupto por doble cabecera: " + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error de lectura: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        File f = new File("datos/transacciones.ser");
+        f.delete(); // Limpiar pruebas anteriores
+
+        registrarOperacion(f, new Transaccion(1001, "ES10-0001", "ES10-0002", 350.00, "1234"));
+        registrarOperacion(f, new Transaccion(1002, "ES10-0003", "ES10-0001", 1200.50, "9999"));
+        registrarOperacion(f, new Transaccion(1003, "ES10-0002", "ES10-0005", 75.25, "0000"));
+
+        listarHistorial(f);
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+    <span>Solucionario Oficial · Acceso a Datos (2º DAM)</span>
+    <span>Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

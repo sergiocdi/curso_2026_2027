@@ -19,7 +19,8 @@ horario_tutoria: "Miércoles 16:40 - 17:35 (Aula C213) y soporte GitHub"
 
 ## ⚡ Accesos Operativos
 - 📌 [[Seguimiento-Proyectos-Fases|Panel de Seguimiento y Estado de Entregas]]
-- 📊 [[Cuaderno-Notas-DAM2-Proyecto|Cuaderno de Calificaciones y Rúbricas]]
+- 📊 [[Cuaderno-Notas-DAM2-Proyecto|Cuaderno de Calificaciones y Rúbricas (2º DAM)]]
+- 📑 [[Calificaciones-Proyecto-Intermodular-1|Calificaciones Custodiadas 1º DAM - PIDM1 (10% de la Nota)]]
 - 🚀 [[Enunciado-Proyecto-Intermodular-2|Enunciado Oficial del Proyecto]]
 - 📋 [[Plantilla-Memoria-Proyecto|Plantilla Oficial de la Memoria (DOCX / PDF)]]
 - ⚖️ [[Rubrica-Evaluacion-Proyecto|Rúbrica Oficial de Calificación (50% / 30% / 20%)]]

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solucionario Bloque 3: Ecosistema XML en Java - Acceso a Datos</title>
+  <style>
+/* ==========================================================================
+   ESTILO PROFESIONAL DE SOLUCIONARIOS Y GUÍAS TÉCNICAS - FP
+   CIFP Avilés · Departamento de Informática y Comunicaciones
+   ========================================================================== */
+:root {
+  --font-sans: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+  
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: #cbd5e1;
+  --color-border-subtle: #e2e8f0;
+
+  --color-primary: #1e3a8a;
+  --color-primary-dark: #172554;
+  --color-primary-light: #dbeafe;
+  --color-accent: #0284c7;
+
+  --badge-ra-bg: #e0f2fe;
+  --badge-ra-text: #0369a1;
+  --badge-ra-border: #7dd3fc;
+
+  --badge-ce-bg: #f3e8ff;
+  --badge-ce-text: #7e22ce;
+  --badge-ce-border: #d8b4fe;
+
+  --callout-info-bg: #f0f9ff;
+  --callout-info-border: #0284c7;
+  --callout-warning-bg: #fffbeb;
+  --callout-warning-border: #f59e0b;
+  --callout-success-bg: #f0fdf4;
+  --callout-success-border: #16a34a;
+
+  --code-bg: #0f172a;
+  --code-text: #38bdf8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.55;
+  font-size: 13.5px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.document-container {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--color-surface);
+  padding: 38px 48px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* 1. CABECERA INSTITUCIONAL */
+.practice-header {
+  border-bottom: 2.5px solid var(--color-primary);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.institution-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.institution-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.department-name {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.official-logo {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.practice-title-box {
+  margin-bottom: 16px;
+}
+
+.practice-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.practice-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* 2. CUADRO TÉCNICO DE METADATOS */
+.technical-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.meta-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.meta-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* 3. ALINEACIÓN CURRICULAR */
+.curricular-section {
+  background: #ffffff;
+  border: 1px solid var(--color-border-subtle);
+  border-left: 4px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.curricular-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-ra {
+  background-color: var(--badge-ra-bg);
+  color: var(--badge-ra-text);
+  border: 1px solid var(--badge-ra-border);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-ce {
+  background-color: var(--badge-ce-bg);
+  color: var(--badge-ce-text);
+  border: 1px solid var(--badge-ce-border);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.curricular-desc {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* CONTENIDO Y SOLUCIONES */
+.exercise-card {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 26px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  overflow: hidden;
+}
+
+.exercise-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.exercise-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.exercise-level {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.level-basic { background: #dcfce7; color: #15803d; }
+.level-medium { background: #fef3c7; color: #b45309; }
+.level-advanced { background: #fee2e2; color: #b91c1c; }
+
+.exercise-body {
+  padding: 18px 20px;
+}
+
+.subsection-heading {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 14px 0 6px 0;
+}
+
+.subsection-heading:first-child {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+ul, ol {
+  margin: 6px 0 12px 22px;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* CAJAS DIDÁCTICAS */
+.callout {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 12px 0;
+  border-left: 4px solid;
+}
+
+.callout-info {
+  background-color: var(--callout-info-bg);
+  border-color: var(--callout-info-border);
+}
+
+.callout-warning {
+  background-color: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+}
+
+.callout-success {
+  background-color: var(--callout-success-bg);
+  border-color: var(--callout-success-border);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 12.5px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.callout-info .callout-title { color: #0369a1; }
+.callout-warning .callout-title { color: #b45309; }
+.callout-success .callout-title { color: #15803d; }
+
+/* CÓDIGO */
+pre {
+  background-color: var(--code-bg);
+  color: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  overflow-x: auto;
+  margin: 10px 0 14px 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+/* PIE DE PÁGINA */
+.practice-footer {
+  margin-top: 26px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* REGLAS DE IMPRESIÓN Y PDF */
+@page {
+  size: A4 portrait;
+  margin: 14mm 14mm 14mm 14mm;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+    font-size: 11px;
+  }
+  .document-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .exercise-card {
+    box-shadow: none;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 20px;
+  }
+  .no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  pre, .callout, .technical-meta-grid, .curricular-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+  </style>
+</head>
+<body>
+
+<div class="document-container">
+
+  <!-- CABECERA INSTITUCIONAL -->
+  <header class="practice-header">
+    <div class="header-top">
+      <div class="institution-block">
+        <span class="institution-name">CIFP Avilés · Centro Integrado de Formación Profesional</span>
+        <span class="department-name">Departamento de Informática y Comunicaciones · Principado de Asturias</span>
+      </div>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e3a8a'/><text x='50' y='65' font-size='50' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>FP</text></svg>" alt="Logo CIFP Avilés" class="official-logo">
+    </div>
+
+    <div class="practice-title-box">
+      <h1 class="practice-title">Solucionario Técnico: Bloque 3</h1>
+      <div class="practice-subtitle">Ecosistema XML: Modelos DOM, Transformaciones XSLT, Parsers SAX/StAX y Mapeo POJO JAXB</div>
+    </div>
+
+    <!-- CUADRO TÉCNICO -->
+    <div class="technical-meta-grid">
+      <div class="meta-field">
+        <span class="meta-label">Módulo Profesional</span>
+        <span class="meta-value">Acceso a Datos (0486)</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Ciclo y Unidad</span>
+        <span class="meta-value">DAM 2º Curso · UT1</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Modalidad / Entorno</span>
+        <span class="meta-value">Presencial / Distancia · Java 21</span>
+      </div>
+      <div class="meta-field">
+        <span class="meta-label">Destinatario / Carácter</span>
+        <span class="meta-value">Docente · Solución Oficial Comentada</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALINEACIÓN CURRICULAR -->
+  <section class="curricular-section">
+    <div class="curricular-title">Alineación Curricular Oficial (Real Decreto 455/2010 · Currículo Asturias)</div>
+    <div class="badge-container">
+      <span class="badge-ra">RA1: Manejo de Ficheros</span>
+      <span class="badge-ce">CE1.e (Formatos de Intercambio de Información: XML)</span>
+    </div>
+    <p class="curricular-desc">
+      Solucionario oficial que articula la creación y modificación de árboles jerárquicos DOM con <code>Transformer</code>, el procesamiento reactivo de eventos streaming con <code>SAXParser</code> y <code>DefaultHandler</code>, el control iterativo Pull con <code>XMLStreamReader</code> (StAX) y el intercambio bidireccional objeto-relacional declarativo mediante Jakarta XML Binding (JAXB).
+    </p>
+  </section>
+
+  <!-- SOLUCIÓN EJERCICIO 1 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 1: Generador de Facturas DOM con Transformer (<code>FacturaDOM.java</code>)</span>
+      <span class="exercise-level level-basic">Nivel Básico</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Construcción Jerárquica:</strong> Creación ordenada con <code>doc.createElement()</code>, asignación de atributos con <code>setAttribute()</code> y adición de nodos de texto con <code>setTextContent()</code>.</li>
+        <li><strong>Pretty-Print con Transformer:</strong> Se configuran las propiedades <code>OutputKeys.INDENT = "yes"</code> y la propiedad Apache <code>{http://xml.apache.org/xslt}indent-amount = "4"</code> para volcar el árbol con sangría profesional.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b3;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+
+public class FacturaDOM {
+
+    public static void main(String[] args) {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.newDocument();
+
+            // Elemento raíz: <factura>
+            Element raiz = doc.createElement("factura");
+            raiz.setAttribute("numero", "FAC-2026-0042");
+            raiz.setAttribute("fecha", "2026-09-17");
+            doc.appendChild(raiz);
+
+            // <emisor>
+            Element emisor = doc.createElement("emisor");
+            emisor.setAttribute("cif", "B-33123456");
+            Element nomEmisor = doc.createElement("nombre");
+            nomEmisor.setTextContent("ElectroTech S.L.");
+            Element ciuEmisor = doc.createElement("ciudad");
+            ciuEmisor.setTextContent("Avilés");
+            emisor.appendChild(nomEmisor);
+            emisor.appendChild(ciuEmisor);
+            raiz.appendChild(emisor);
+
+            // <cliente>
+            Element cliente = doc.createElement("cliente");
+            cliente.setAttribute("nif", "71888999X");
+            Element nomCliente = doc.createElement("nombre");
+            nomCliente.setTextContent("Desarrollos Astur S.A.");
+            Element ciuCliente = doc.createElement("ciudad");
+            ciuCliente.setTextContent("Gijón");
+            cliente.appendChild(nomCliente);
+            cliente.appendChild(ciuCliente);
+            raiz.appendChild(cliente);
+
+            // <lineas>
+            Element lineas = doc.createElement("lineas");
+            raiz.appendChild(lineas);
+
+            // Línea 1
+            Element l1 = doc.createElement("linea");
+            l1.setAttribute("id", "1");
+            Element c1 = doc.createElement("concepto");
+            c1.setTextContent("Servidor Rack 1U");
+            Element q1 = doc.createElement("cantidad");
+            q1.setTextContent("2");
+            Element p1 = doc.createElement("precioUnitario");
+            p1.setTextContent("850.00");
+            l1.appendChild(c1);
+            l1.appendChild(q1);
+            l1.appendChild(p1);
+            lineas.appendChild(l1);
+
+            // Línea 2
+            Element l2 = doc.createElement("linea");
+            l2.setAttribute("id", "2");
+            Element c2 = doc.createElement("concepto");
+            c2.setTextContent("Switch Gigabit 24 Puertos");
+            Element q2 = doc.createElement("cantidad");
+            q2.setTextContent("1");
+            Element p2 = doc.createElement("precioUnitario");
+            p2.setTextContent("145.50");
+            l2.appendChild(c2);
+            l2.appendChild(q2);
+            l2.appendChild(p2);
+            lineas.appendChild(l2);
+
+            // Serialización a disco con sangría
+            TransformerFactory tfFactory = TransformerFactory.newInstance();
+            Transformer tf = tfFactory.newTransformer();
+            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            File destino = new File("datos/factura_electronica.xml");
+            destino.getParentFile().mkdirs();
+            tf.transform(new DOMSource(doc), new StreamResult(destino));
+
+            System.out.println("✅ Factura XML generada e indentada en: " + destino.getPath());
+
+        } catch (Exception e) {
+            System.err.println("Error generando factura DOM: " + e.getMessage());
+        }
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 2 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 2: Modificador de Tarifas DOM In-Situ (<code>GestorTarifasDOM.java</code>)</span>
+      <span class="exercise-level level-medium">Nivel Intermedio</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Normalización Previa:</strong> <code>doc.getDocumentElement().normalize()</code> combina fragmentos de texto adyacentes producidos tras comentarios o entidades.</li>
+        <li><strong>Filtro Anti-#text:</strong> Comprobación sistemática <code>if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;</code> para descartar nodos de espacio en blanco.</li>
+        <li><strong>Sobrescritura In-Situ:</strong> Se reemplaza el contenido del nodo con <code>elemPrecio.setTextContent(...)</code> y se vuelve a volcar el documento sobre el mismo fichero con <code>Transformer</code>.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b3;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.util.Locale;
+
+public class GestorTarifasDOM {
+
+    public static void aplicarDescuentoCategoria(File archivo, String categoriaObjetivo, double porcentaje) {
+        try {
+            Document doc = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(archivo);
+
+            doc.getDocumentElement().normalize();
+
+            NodeList productos = doc.getElementsByTagName("producto");
+            int modificados = 0;
+
+            System.out.println("=================================================================");
+            System.out.printf("   APLICANDO %.1f%% DE DESCUENTO A CATEGORÍA: %s%n", porcentaje, categoriaObjetivo);
+            System.out.println("=================================================================");
+
+            for (int i = 0; i < productos.getLength(); i++) {
+                Node nodo = productos.item(i);
+                if (nodo.getNodeType() != Node.ELEMENT_NODE) continue;
+
+                Element elemProducto = (Element) nodo;
+                String cat = elemProducto.getAttribute("categoria");
+
+                if (categoriaObjetivo.equalsIgnoreCase(cat)) {
+                    NodeList hijos = elemProducto.getElementsByTagName("precio");
+                    if (hijos.getLength() > 0) {
+                        Element elemPrecio = (Element) hijos.item(0);
+                        double precioAntiguo = Double.parseDouble(elemPrecio.getTextContent().trim());
+                        double nuevoPrecio = precioAntiguo * (1.0 - (porcentaje / 100.0));
+
+                        elemPrecio.setTextContent(String.format(Locale.US, "%.2f", nuevoPrecio));
+
+                        String nombre = elemProducto.getElementsByTagName("nombre").item(0).getTextContent();
+                        System.out.printf("  - %-28s : %6.2f € -> %6.2f €%n", nombre, precioAntiguo, nuevoPrecio);
+                        modificados++;
+                    }
+                }
+            }
+
+            Transformer tf = TransformerFactory.newInstance().newTransformer();
+            tf.setOutputProperty(OutputKeys.INDENT, "yes");
+            tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            tf.transform(new DOMSource(doc), new StreamResult(archivo));
+
+            System.out.println("-----------------------------------------------------------------");
+            System.out.printf("✅ Tarifa actualizada en disco: %d productos modificados.%n", modificados);
+
+        } catch (Exception e) {
+            System.err.println("Error actualizando tarifas DOM: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        File f = new File("datos/catalogo_tienda.xml");
+        aplicarDescuentoCategoria(f, "Perifericos", 15.0);
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 3 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 3: Analizador Dual Streaming SAX y StAX (<code>AnalizadorDualXML.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Acumulador SAX en <code>characters()</code>:</strong> <code>buffer.append(ch, start, length)</code> previene pérdidas de datos cuando el parser fragmenta textos extensos en varios paquetes.</li>
+        <li><strong>StAX Pull con Salida Inmediata:</strong> En cuanto se detecta la etiqueta buscada y coincide el atributo <code>id</code>, se leen los datos y se ejecuta <code>break</code>, evitando procesar el resto de un fichero de 500 MB.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b3;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Locale;
+
+public class AnalizadorDualXML {
+
+    // PARTE A: SAX PUSH
+    public static class CatalogoStatsHandler extends DefaultHandler {
+        private final StringBuilder buffer = new StringBuilder();
+        private int totalProductos = 0;
+        private double valorTotalInventario = 0;
+        private double precioActual = 0;
+        private int stockActual = 0;
+        private String nombreMasCaro = "";
+        private double precioMasCaro = -1;
+        private String nombreActual = "";
+
+        @Override
+        public void startElement(String uri, String localName, String qName, Attributes attributes) {
+            buffer.setLength(0);
+            if (qName.equalsIgnoreCase("producto")) {
+                totalProductos++;
+            }
+        }
+
+        @Override
+        public void characters(char[] ch, int start, int length) {
+            buffer.append(ch, start, length);
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName) {
+            String texto = buffer.toString().trim();
+            if (qName.equalsIgnoreCase("nombre")) {
+                nombreActual = texto;
+            } else if (qName.equalsIgnoreCase("precio")) {
+                precioActual = Double.parseDouble(texto);
+                if (precioActual > precioMasCaro) {
+                    precioMasCaro = precioActual;
+                    nombreMasCaro = nombreActual;
+                }
+            } else if (qName.equalsIgnoreCase("stock")) {
+                stockActual = Integer.parseInt(texto);
+                valorTotalInventario += (precioActual * stockActual);
+            }
+        }
+
+        @Override
+        public void endDocument() {
+            System.out.println("=================================================================");
+            System.out.println("          INFORME ESTADÍSTICO SAX (CONSUMO RAM: ~0 KB)          ");
+            System.out.println("=================================================================");
+            System.out.printf(Locale.US, "1. Total productos analizados: %d%n", totalProductos);
+            System.out.printf(Locale.US, "2. Valor total del inventario: %,.2f €%n", valorTotalInventario);
+            System.out.printf(Locale.US, "3. Producto más caro: %s (%.2f €)%n", nombreMasCaro, precioMasCaro);
+            System.out.println("=================================================================");
+        }
+    }
+
+    public static void ejecutarSAX(File archivo) {
+        try {
+            SAXParserFactory.newInstance().newSAXParser().parse(archivo, new CatalogoStatsHandler());
+        } catch (Exception e) {
+            System.err.println("Error en parseo SAX: " + e.getMessage());
+        }
+    }
+
+    // PARTE B: StAX PULL
+    public static void buscarProductoPorIdStAX(File archivo, String idBuscado) {
+        System.out.println("\n--- Búsqueda Directa con StAX Cursor (Early Exit) ---");
+        try (FileReader fr = new FileReader(archivo)) {
+            XMLStreamReader reader = XMLInputFactory.newInstance().createXMLStreamReader(fr);
+
+            boolean enProductoObjetivo = false;
+            String nombre = "";
+            String precio = "";
+            String stock = "";
+
+            while (reader.hasNext()) {
+                int evento = reader.next();
+
+                if (evento == XMLStreamConstants.START_ELEMENT) {
+                    String tag = reader.getLocalName();
+                    if ("producto".equals(tag)) {
+                        String id = reader.getAttributeValue(null, "id");
+                        if (idBuscado.equalsIgnoreCase(id)) enProductoObjetivo = true;
+                    } else if (enProductoObjetivo) {
+                        if ("nombre".equals(tag)) nombre = reader.getElementText();
+                        else if ("precio".equals(tag)) precio = reader.getElementText();
+                        else if ("stock".equals(tag)) stock = reader.getElementText();
+                    }
+                } else if (evento == XMLStreamConstants.END_ELEMENT) {
+                    if ("producto".equals(reader.getLocalName()) && enProductoObjetivo) {
+                        System.out.printf("🎯 Encontrado con StAX: [%s] %s | Precio: %s € | Stock: %s uds.%n",
+                                idBuscado, nombre, precio, stock);
+                        System.out.println("⚡ Bucle StAX detenido con 'break' sin leer el resto del archivo.");
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error en búsqueda StAX: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        File f = new File("datos/catalogo_tienda.xml");
+        ejecutarSAX(f);
+        buscarProductoPorIdStAX(f, "P02");
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- SOLUCIÓN EJERCICIO 4 -->
+  <article class="exercise-card">
+    <div class="exercise-header">
+      <span class="exercise-title">Solución Ejercicio 4: Mapeo Declarativo Objeto-XML con JAXB (<code>BibliotecaJAXB.java</code>)</span>
+      <span class="exercise-level level-advanced">Nivel Avanzado</span>
+    </div>
+    <div class="exercise-body">
+      <div class="subsection-heading">🎯 Claves Técnicas de la Implementación:</div>
+      <ul>
+        <li><strong>Anotaciones Estándar Jakarta:</strong> <code>@XmlRootElement</code>, <code>@XmlAccessorType(XmlAccessType.FIELD)</code>, <code>@XmlAttribute</code> y <code>@XmlElement</code> vinculan automáticamente los atributos de la clase con las etiquetas XML.</li>
+        <li><strong>Constructores Vacíos:</strong> Imprescindibles para que el motor de introspección de JAXB pueda recrear las instancias en tiempo de ejecución.</li>
+        <li><strong>Marshaller y Formateo:</strong> <code>m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true)</code> asegura que el XML se genere con saltos de línea e indentación legible.</li>
+      </ul>
+
+      <div class="subsection-heading">💻 Código Fuente Completo:</div>
+<pre><code>package soluciones_b3;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+import jakarta.xml.bind.annotation.*;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class BibliotecaJAXB {
+
+    // 1. Clase Libro
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Libro {
+        @XmlAttribute
+        private String isbn;
+        @XmlElement
+        private String titulo;
+        @XmlElement
+        private String autor;
+        @XmlElement
+        private double precio;
+        @XmlElement
+        private int paginas;
+
+        public Libro() {} // Constructor vacío obligatorio
+
+        public Libro(String isbn, String titulo, String autor, double precio, int paginas) {
+            this.isbn = isbn;
+            this.titulo = titulo;
+            this.autor = autor;
+            this.precio = precio;
+            this.paginas = paginas;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("  * [%s] '%s' de %s (%d págs.) -> %.2f €",
+                    isbn, titulo, autor, paginas, precio);
+        }
+    }
+
+    // 2. Clase Biblioteca (Raíz)
+    @XmlRootElement(name = "biblioteca")
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Biblioteca {
+        @XmlAttribute
+        private String nombre;
+        @XmlElement(name = "libro")
+        private List<Libro> libros = new ArrayList<>();
+
+        public Biblioteca() {}
+
+        public Biblioteca(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public void agregarLibro(Libro l) {
+            this.libros.add(l);
+        }
+
+        public List<Libro> getLibros() {
+            return libros;
+        }
+    }
+
+    // 3. Operaciones Marshaller y Unmarshaller
+    public static void exportarBiblioteca(Biblioteca b, File destino) throws Exception {
+        JAXBContext context = JAXBContext.newInstance(Biblioteca.class);
+        Marshaller m = context.createMarshaller();
+        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+        destino.getParentFile().mkdirs();
+        m.marshal(b, destino);
+        System.out.println("✅ Biblioteca serializada a XML con JAXB en: " + destino.getPath());
+    }
+
+    public static Biblioteca importarBiblioteca(File origen) throws Exception {
+        JAXBContext context = JAXBContext.newInstance(Biblioteca.class);
+        Unmarshaller um = context.createUnmarshaller();
+        return (Biblioteca) um.unmarshal(origen);
+    }
+
+    public static void main(String[] args) throws Exception {
+        File f = new File("datos/biblioteca.xml");
+
+        Biblioteca bib = new Biblioteca("Biblioteca Municipal de Avilés");
+        bib.agregarLibro(new Libro("978-84-1", "Aprende Java 21 en FP", "Sergio Capdevila", 29.95, 450));
+        bib.agregarLibro(new Libro("978-84-2", "Patrones de Acceso a Datos", "Martin Fowler", 42.50, 520));
+        bib.agregarLibro(new Libro("978-84-3", "Arquitectura Limpia", "Robert C. Martin", 38.00, 380));
+
+        exportarBiblioteca(bib, f);
+
+        System.out.println("\n--- Recuperando desde XML con JAXB ---");
+        Biblioteca recuperada = importarBiblioteca(f);
+        System.out.println("Biblioteca cargada: " + recuperada.nombre);
+        recuperada.getLibros().forEach(System.out::println);
+    }
+}</code></pre>
+    </div>
+  </article>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="practice-footer">
+    <span>CIFP Avilés · Departamento de Informática y Comunicaciones</span>
+    <span>Solucionario Oficial · Acceso a Datos (2º DAM)</span>
+    <span>Docente: Sergio Capdevila Díez</span>
+  </footer>
+
+</div>
+
+</body>
+</html>

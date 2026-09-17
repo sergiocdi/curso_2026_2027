@@ -48,4 +48,4 @@ modalidad: "Virtual"
 
 ## 👥 4. Seguimiento Operativo del Grupo
 - 🎯 **[[Dashboard-Grupo-DAM2-Proyecto|Panel de Seguimiento DAM2 Virtual - Proyecto]]**
-  - [[Seguimiento-Proyectos-Fases|Hitos y Fases de Alumnos]] | [[Cuaderno-Notas-DAM2-Proyecto|Calificaciones y Tribunales]]
+  - [[Seguimiento-Proyectos-Fases|Hitos y Fases de Alumnos]] | [[Cuaderno-Notas-DAM2-Proyecto|Cuaderno de Calificaciones (2º DAM)]] | [[Calificaciones-Proyecto-Intermodular-1|Notas Custodiadas 1º DAM (10%)]]
