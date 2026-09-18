@@ -46,7 +46,8 @@ Dado que en 2º curso el alumnado realiza la FCT durante el tercer trimestre, la
 
 ---
 
-## 7.4. Vinculación con Resultados de Aprendizaje (RAs)
-- Los RAs 1, 2, 3 y 5 (nucleares) se evalúan tanto en las pruebas de la 1ª evaluación como en la implementación del Proyecto Intermodular de la 2ª evaluación.
-- Los RAs 4 y 6 (superficiales) se evalúan mediante supuestos básicos en las pruebas de la 1ª evaluación.
-- La superación de ambas evaluaciones garantiza el cumplimiento equilibrado de todos los RAs del currículo oficial.
+## 7.4. Evaluación Basada en Criterios (CE) y Rúbricas Ponderadas
+- **Tratamiento Integral de los Criterios de Evaluación**: Tanto en las pruebas de examen (1ª evaluación) como en el Proyecto Intermodular (2ª evaluación) se evaluarán de forma exhaustiva y articulada **todos los Criterios de Evaluación (CE1.a a CE6.c)** que componen el currículo del módulo.
+- **Cálculo de la Calificación por Superación de CEs**: La nota del alumnado emana directamente del grado de adquisición y superación de dichos Criterios de Evaluación.
+- **Alineación Estricta de Rúbricas**: Las pruebas escritas/prácticas y las **rúbricas analíticas de evaluación del proyecto están expresamente preparadas y calibradas para que sus puntuaciones coincidan exactamente con las ponderaciones porcentuales** asignadas a cada Criterio de Evaluación dentro de su respectivo RA (desglosadas en la Sección 3).
+- **Garantía Curricular**: La superación independiente de ambas partes (examen y proyecto) certifica el dominio equilibrado de todos los RAs (nucleares y complementarios) del perfil profesional.

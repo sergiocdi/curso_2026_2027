@@ -34,3 +34,10 @@ titulo: "Evaluación, Instrumentos y Criterios de Calificación Presencial"
   - **Arquitectura y Calidad Técnica de Datos (50%)**: Estructura DAO/JPA, transacciones, manejo de excepciones y conexión a motores BBDD.
   - **Funcionalidad CRUD y Persistencia Políglota (30%)**: Operaciones completas SQL + NoSQL y gestión de ficheros.
   - **Repositorio Git, Memoria y Defensa Individual en Aula (20%)**: Justificación oral en directo ante el docente de todas las decisiones técnicas tomadas. El uso de herramientas de IA está permitido durante el desarrollo del proyecto, pero el docente podrá exigir explicaciones exhaustivas o modificaciones en vivo para certificar que el alumno comprende y domina todo el código entregado.
+
+---
+
+## 7.4. Evaluación Integral por Criterios (CE) y Calibración de Rúbricas
+- **Cobertura Curricular Exhaustiva**: Tanto en los exámenes prácticos de la 1ª evaluación como en la defensa de la capa de datos del Proyecto Intermodular de la 2ª evaluación se tratarán de forma explícita e integrada **todos los Criterios de Evaluación (CE1.a a CE6.c)** que componen el currículo del módulo.
+- **Calificación por Superación de CEs**: La nota del estudiante se deriva directamente de la adquisición y superación de cada uno de los Criterios de Evaluación asociados a las tareas y pruebas.
+- **Rúbricas e Instrumentos Calibrados**: Los instrumentos de evaluación y las **rúbricas analíticas del proyecto están rigurosamente diseñadas y calibradas para coincidir al milímetro con los porcentajes y ponderaciones oficiales** establecidos para cada CE dentro de su Resultado de Aprendizaje (detallados en la Sección 3).

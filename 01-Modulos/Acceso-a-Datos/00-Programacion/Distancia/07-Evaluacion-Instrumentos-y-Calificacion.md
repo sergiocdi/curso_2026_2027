@@ -19,6 +19,10 @@ De conformidad con las características del ciclo formativo y la modalidad a dis
   - **RA4 (10%)**: Persistencia objeto-relacional y bases de datos orientadas a objetos/XML.
   - **RA5 (20%)**: Bases de datos NoSQL documentales (MongoDB y Spring Data Mongo).
   - **RA6 (10%)**: Creación y empaquetado de componentes JavaBeans en librerías JAR.
+- **Evaluación Basada en Criterios (CE) y Rúbricas Ponderadas**:
+  - En los exámenes se evaluarán de forma directa **todos los Criterios de Evaluación (CE1.a a CE6.c)**.
+  - La calificación final y parcial emana directamente de la superación demostrada de cada CE.
+  - Las **rúbricas analíticas e instrumentos de corrección de las pruebas están rigurosamente preparados y ponderados para coincidir con las proporciones porcentuales oficiales** establecidas para cada criterio y RA (Sección 3).
 - **Carácter Formativo de las Actividades de Moodle**: Las actividades prácticas propuestas en la plataforma sirven como entrenamiento y autoevaluación continua para afianzar los conceptos antes de los exámenes presenciales, sin ponderación penalizadora en la nota final.
 
 ---
