@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **6.65/10.0**. Aprobado. Repasar: par trenzado es medio físico (no recurso compartido); 192 es 11000000 (8 bits); 255 en hexadecimal es FF (no conversión dígito a dígito).

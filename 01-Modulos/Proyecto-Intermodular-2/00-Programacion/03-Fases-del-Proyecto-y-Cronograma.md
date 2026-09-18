@@ -23,26 +23,33 @@ El desarrollo del Proyecto Intermodular se articula a lo largo de los dos cursos
 │ - Metodología clásica (cascada, EDT, Gantt, presupuesto) y ágil (Scrum/Kanban).  │
 │ - NO SE INCLUIRÁ EN LAS NOTAS DEL 1º AÑO (no figura en actas de 1º).              │
 │ - Su calificación se aplicará exclusivamente a la nota final de PI2 (10%).        │
+│ - Hitos de Evaluación Oficial:                                                    │
+│   • 1ª Evaluación: 16/12/2026                                                     │
+│   • 2ª Evaluación: 17/03/2027                                                     │
+│   • 1ª Evaluación Final: 27/05/2027  ·  2ª Evaluación Final: 16/06/2027           │
 └───────────────────────────────────────────────────────────────────────────────────┘
                                           │
                                           ▼
 ┌───────────────────────────────────────────────────────────────────────────────────┐
 │ 2º CURSO (DAM): PROYECTO INTERMODULAR 2 (90% de la Calificación del Módulo)       │
 │                                                                                   │
-│  [1ª ENTREGA PARCIAL: Anteproyecto y Arquitectura (Primera Evaluación)]           │
+│  [1ª ENTREGA PARCIAL: Anteproyecto y Arquitectura]                                │
+│  - Fecha de 1ª Evaluación: 16/12/2026.                                            │
 │  - Especificación de requisitos, casos de uso, diagrama E/R y mockups.            │
 │  - Estructura del repositorio Git y justificación técnica del stack.              │
 │  - SIN PROTOTIPO FUNCIONAL (no se exige código ejecutable en esta fase).          │
 │                                                                                   │
-│  [2ª ENTREGA PARCIAL: Todo el Proyecto Completo (Segunda Evaluación)]             │
+│  [2ª ENTREGA PARCIAL: Todo el Proyecto Completo]                                  │
+│  - Fecha de 2ª Evaluación (2º DAM): 25/02/2027.                                   │
 │  - Entrega completa de la solución: Software v1.0 en Git, Memoria y Vídeo Teams.  │
 │  - SUPERACIÓN DIRECTA: Si se aprueban las dos parciales, se aprueba el módulo     │
 │    directamente antes de ir a la primera convocatoria ordinaria.                  │
 │                                                                                   │
 │  [CONVOCATORIAS OFICIALES ORDINARIAS: Recuperación con Todo el Proyecto]          │
+│  - 1ª Evaluación Final (1ª Ordinaria Oficial): 27/05/2027.                        │
+│  - 2ª Evaluación Final (2ª Ordinaria / Extraordinaria): 16/06/2027.               │
 │  - Para quienes no superen las entregas parciales por suspenso o no entrega.      │
-│  - Recuperación presentando TODO el proyecto completo (Software + Memoria + Vídeo)│
-│    en cualquiera de las dos convocatorias ordinarias oficiales.                   │
+│  - Recuperación presentando TODO el proyecto completo (Software + Memoria + Vídeo).│
 └───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -50,15 +57,20 @@ El desarrollo del Proyecto Intermodular se articula a lo largo de los dos cursos
 
 ## 3.2. Calendario de Entregas de 2º Curso por Evaluaciones
 
-| Entrega / Hito | Contenido Obligatorio Exigido | Periodo / Evaluación | Régimen / Vía de Superación |
+| Entrega / Hito | Contenido Obligatorio Exigido | Periodo / Fecha Oficial | Régimen / Vía de Superación |
 | :---: | :--- | :---: | :---: |
-| **1ª Entrega Parcial<br>(Anteproyecto y Diseño)** | **Anteproyecto, Arquitectura y Modelado (Sin Prototipo Funcional)**:<br>- Especificación de requisitos del sistema y casos de uso.<br>- Diseño arquitectural: modelo Entidad/Relación normalizado y mockups de interfaz.<br>- Justificación técnica del stack y repositorio Git inicial.<br>- *No requiere software funcional*. | **Primera Evaluación** | **Evaluación Continua**<br>*(1º Hito obligatorio en fecha y forma)* |
-| **2ª Entrega Parcial<br>(Proyecto Completo)** | **Solución Completa v1.0, Memoria Oficial y Vídeo de Defensa**:<br>- Aplicación software 100% operativa en Git (backend, datos, interfaz y ficheros).<br>- Memoria técnica formal en DOCX y PDF (30-90 páginas según plantilla).<br>- Vídeo explicativo individual en Teams (10-20 minutos). | **Segunda Evaluación**<br>*(Antes de la 1ª Convocatoria Ordinaria)* | **Aprobado Directo del Módulo**<br>*(Aprobando la 1ª y 2ª parcial se aprueba el módulo sin ir a ordinaria)* |
+| **1ª Entrega Parcial<br>(Anteproyecto y Diseño)** | **Anteproyecto, Arquitectura y Modelado (Sin Prototipo)**:<br>- Requisitos del sistema y casos de uso.<br>- Diseño arquitectural: diagrama E/R normalizado y mockups de interfaz.<br>- Justificación técnica del stack y repositorio Git inicial.<br>- *No requiere software funcional*. | **1ª Evaluación**<br>📅 **16/12/2026** | **Evaluación Continua**<br>*(Hito obligatorio en fecha y forma)* |
+| **2ª Entrega Parcial<br>(Proyecto Completo)** | **Solución Completa v1.0, Memoria Oficial y Vídeo Teams**:<br>- Aplicación software 100% operativa en Git (backend, datos, interfaz y ficheros).<br>- Memoria técnica formal en DOCX y PDF (30-90 páginas según plantilla).<br>- Vídeo explicativo individual en Teams (10-20 minutos). | **2ª Evaluación (2º DAM)**<br>📅 **25/02/2027**<br>*(Antes de 1ª Ordinaria)* | **Aprobado Directo del Módulo**<br>*(Aprobando 1ª y 2ª parcial se aprueba el módulo antes de ordinaria)* |
 | **Entregas Complementarias** | **Hitos de Seguimiento Técnico (a voluntad del profesor)**:<br>- Revisiones intermedias de esquemas de datos, endpoints o commits en Git para asegurar el trabajo continuado. | **A lo largo del curso** | Supervisión y trazabilidad continua |
-| **1ª Convocatoria Ordinaria<br>(Recuperación Oficial)** | **Presentación de Todo el Proyecto Completo**:<br>- Para alumnos que no hayan superado las dos parciales.<br>- Entrega íntegra de software operativo, memoria técnica oficial y vídeo de defensa. | **Evaluación Ordinaria Oficial** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
-| **2ª Convocatoria Ordinaria / Extraordinaria** | **Segunda Oportunidad Oficial (Todo el Proyecto)**:<br>- Subsanación de deficiencias detectadas en convocatorias o parciales previas.<br>- Presentación íntegra de la solución corregida. | **Evaluación Extraordinaria Oficial** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
+| **1ª Convocatoria Ordinaria<br>(1ª Evaluación Final)** | **Presentación de Todo el Proyecto Completo**:<br>- Para alumnos que no hayan superado las dos parciales.<br>- Entrega íntegra de software operativo, memoria técnica oficial y vídeo de defensa. | **1ª Evaluación Final**<br>📅 **27/05/2027** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
+| **2ª Convocatoria Ordinaria / Extraordinaria** | **Segunda Oportunidad Oficial (Todo el Proyecto)**:<br>- Subsanación de deficiencias detectadas en convocatorias o parciales previas.<br>- Presentación íntegra de la solución corregida. | **2ª Evaluación Final**<br>📅 **16/06/2027** | **Convocatoria Oficial**<br>*(Exige mínimo 5,0 y todos los componentes 100% completados)* |
 
-> 📢 **Comunicación de Fechas Concretas**: Las fechas y horas límite exactas de entrega de cada evaluación y de los hitos parciales se fijarán y comunicarán con la debida antelación a lo largo del curso a través del **aula virtual** (Moodle / Microsoft Teams).
+> 📢 **Sesiones Oficiales de Evaluación a Distancia**:  
+> - **Primera Evaluación**: 1º y 2º curso el **16/12/2026**.  
+> - **Segunda Evaluación**: 2º curso el **25/02/2027** · 1º curso el **17/03/2027**.  
+> - **1ª Evaluación Final**: 1º y 2º curso el **27/05/2027**.  
+> - **2ª Evaluación Final**: 1º y 2º curso el **16/06/2027**.  
+> Las horas y plazos exactos de cierre telemático se publicarán en el **aula virtual** (Moodle / Microsoft Teams).
 
 ---
 

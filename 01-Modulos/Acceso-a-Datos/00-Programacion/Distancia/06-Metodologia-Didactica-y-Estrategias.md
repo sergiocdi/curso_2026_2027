@@ -16,21 +16,21 @@ La formación a distancia en Acceso a Datos combina el autoaprendizaje guiado as
 2. **Clases Virtuales Síncronas (2 Horas los Lunes)**:
    - Sesión en directo mediante Microsoft Teams / Google Meet.
    - Demostración de *live coding*, resolución de los problemas más complejos planteados durante la semana y orientación de tareas.
-3. **Foros de Tutoría y Dudas Asíncronas**:
-   - Foros temáticos por unidad con compromiso de respuesta docente en menos de 48 horas laborables.
+3. **Resolución de Dudas y Tutorías Telemáticas**:
+   - Las dudas sobre los contenidos y actividades se resuelven a través de **Microsoft Teams** y durante las **sesiones síncronas de los lunes** (no a través de foros de Moodle).
+   - Las tutorías individuales se agendarán a través de **Microsoft Teams previa solicitud de cita por correo electrónico** corporativo.
 4. **Prácticas Integradoras por UT (Evaluación Formativa / No Calificables Numéricamente)**:
-   - Tareas de afianzamiento para que el alumnado compruebe su progreso real antes de los exámenes presenciales oficiales, que serán eminentemente prácticos en ordenador, evaluando los conocimientos teóricos a través de su aplicación directa.
-5. **Proyecto Intermodular Individual (2ª Evaluación)**:
-   - Desarrollo de la persistencia de datos tutorizado vía GitHub y en las sesiones virtuales de los lunes.
+   - Tareas y retos prácticos de afianzamiento en Moodle para que el alumnado compruebe su progreso real y asimile la arquitectura del código antes de los exámenes presenciales oficiales.
+5. **Preparación Intensiva para Exámenes Prácticos en Ordenador**:
+   - Todo el trabajo semanal y las demostraciones síncronas de los lunes están orientadas a dotar al alumnado de agilidad mental y técnica en la resolución de problemas reales sobre el IDE (Eclipse / Maven) de cara a las pruebas presenciales.
 
 ---
 
 ## 6.2. Política Docente sobre el Uso de Inteligencia Artificial (IA) a Distancia
 
-- **1ª Evaluación (Bloque Teórico-Práctico y Preparación de Pruebas Presenciales)**:
-  - **Uso como Herramienta de Estudio**: Se permite el uso de IA como tutor virtual complementario para solventar dudas teóricas o comprender mensajes de error.
-  - **Ejercicios y Tareas de Moodle**: **No se recomienda su utilización** para la resolución de las prácticas formativas. Apoyarse en la IA para resolver el código impide desarrollar la agilidad mental necesaria para superar los exámenes presenciales sin conexión.
-  - **Exámenes Presenciales Oficiales**: Queda **terminantemente prohibido** el uso de IA. Se realizarán en los equipos del centro sin acceso a herramientas de IA generativa.
-- **2ª Evaluación (Proyecto Intermodular)**:
-  - **Uso Autorizado**: Se **permite el empleo de herramientas de IA** como apoyo técnico en la fase de desarrollo del proyecto.
-  - **Defensa Técnica Individual**: El alumno podrá ser requerido para explicar minuciosamente el código, justificar patrones o realizar modificaciones en directo. La nota de la defensa dependerá de la demostración inequívoca de autoría y dominio técnico del proyecto.
+- **Estudio Autónomo y Resolución de Dudas**:
+  - Se autoriza el uso responsable de herramientas de Inteligencia Artificial como tutor virtual para clarificar conceptos teóricos, analizar trazas de error en el IDE o explorar documentación técnica.
+- **Ejercicios y Prácticas Formativas de Moodle**:
+  - **No se recomienda su utilización** para resolver el código de las actividades formativas. Depender de la IA para generar soluciones impide adquirir la destreza algorítmica y el dominio de sintaxis necesarios para resolver los supuestos prácticos en ordenador de forma autónoma.
+- **Exámenes Presenciales Oficiales (Parciales y Finales Ordinarios)**:
+  - Queda **terminantemente prohibido** el uso de cualquier herramienta de IA o conexión externa no autorizada durante los exámenes presenciales en el CIFP Avilés. Las pruebas se ejecutan en entorno controlado y cerrado, evaluando la competencia individual y real del estudiante.

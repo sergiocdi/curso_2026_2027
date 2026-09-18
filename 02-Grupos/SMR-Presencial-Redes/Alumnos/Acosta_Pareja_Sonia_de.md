@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **9.50/10.0**. Muy buen ejercicio. En el Reto 1 enfoca los recursos a red local de oficina (impresoras, servidores de ficheros) más que a internet doméstico. Conversiones impecables.

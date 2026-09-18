@@ -36,3 +36,20 @@ Para cada uno de los 6 Resultados de Aprendizaje (16,66% cada uno), la calificac
 - **Mínimos Exigibles**: Todos los criterios de evaluación y Resultados de Aprendizaje son mínimos obligatorios.
 - **Bloqueo en caso de no superación**: Para superar el módulo se debe alcanzar al menos un 5,0 en todos y cada uno de los 6 RAs. En caso de que no se supere algún Resultado de Aprendizaje, la calificación final máxima registrada en acta será de **4 (Suspenso)**, con independencia de que la media ponderada aritmética resulte superior.
 - **Formación en Empresa**: No aplica en este módulo formativo según la distribución horaria oficial.
+
+---
+
+## 5.4. Calendario Oficial de Evaluaciones y Convocatorias (Modalidad a Distancia)
+
+De conformidad con el calendario de evaluaciones fijado para las enseñanzas de Formación Profesional en Modalidad a Distancia del CIFP Avilés (Curso 2026-2027), las fechas oficiales de evaluación para el **1º curso de DAW** en este módulo son:
+
+| Convocatoria / Evaluación | Fecha Oficial | Cobertura Curricular | Procedimiento e Instrumento |
+| :--- | :---: | :---: | :--- |
+| **Primera Evaluación** | **16/12/2026** | UT 1, UT 2 y UT 3 (RA1, RA2, RA3) | Prueba escrita sumativa en Moodle + cierre de retos prácticos 1 a 3. |
+| **Segunda Evaluación** | **17/03/2027** | UT 4, UT 5 y UT 6 (RA4, RA5, RA6) | Prueba escrita sumativa en Moodle + entrega y defensa del Plan de Sostenibilidad. |
+| **1ª Evaluación Final (Convocatoria Ordinaria)** | **27/05/2027** | RAs no superados (RA1 a RA6) | Prueba de recuperación específica por Resultados de Aprendizaje pendientes. |
+| **2ª Evaluación Final (Convocatoria Extraordinaria)** | **16/06/2027** | RAs no superados (RA1 a RA6) | Prueba final extraordinaria y cierre definitivo de actas. |
+
+> [!NOTE]
+> **Filosofía de Recuperación Modular:** En las evaluaciones finales (ordinaria y extraordinaria), el alumnado conservará las calificaciones de los Resultados de Aprendizaje ya superados con nota igual o superior a 5,0, debiendo concurrir únicamente a los RAs pendientes.
+

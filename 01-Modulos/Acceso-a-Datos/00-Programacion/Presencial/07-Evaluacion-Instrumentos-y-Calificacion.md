@@ -10,12 +10,12 @@ titulo: "Evaluación, Instrumentos y Criterios de Calificación Presencial"
 
 ## 7.1. Estructura de Calificación Final (60% / 40%)
 
-$$\text{Nota Final} = 0.60 \cdot \text{Nota 1ª Evaluación} + 0.40 \cdot \text{Nota 2ª Evaluación}$$
+> **Nota Final = (0,60 × Nota 1ª Evaluación) + (0,40 × Nota 2ª Evaluación)**
 
 > [!IMPORTANT]
 > **Condición indispensable e innegociable de superación**:
 > Para aprobar el módulo es **estrictamente obligatorio obtener una calificación igual o superior a 5.0 en AMBAS evaluaciones de forma independiente**:
-> $$\text{Nota 1ª Evaluación} \ge 5.0 \quad \text{y} \quad \text{Nota 2ª Evaluación} \ge 5.0$$
+> **Nota 1ª Evaluación ≥ 5,0** &nbsp; y &nbsp; **Nota 2ª Evaluación ≥ 5,0**
 > Si alguna parte no alcanza el 5.0, el módulo quedará suspenso y deberá recuperarse la parte suspensa.
 
 ---

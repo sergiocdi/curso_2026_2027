@@ -8,7 +8,7 @@ titulo: "Planes de Recuperación (Presencial)"
 
 # 9. Planes de Recuperación Presencial
 
-Dado que se exige $\ge 5.0$ en ambas evaluaciones:
+Dado que se exige una calificación igual o superior a 5,0 (≥ 5,0) en ambas evaluaciones:
 
 1. **Recuperación de la 1ª Evaluación (60%)**:
    - Para el alumnado con calificación inferior a 5.0 en los exámenes de contenidos.

@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **6.30/10.0**. Aprobado. Repasar conversiones decimal a binario: 192 es 11000000 y 77 es 01001101; en hexadecimal el 255 se calcula sobre el byte completo (FF), no por cifras.

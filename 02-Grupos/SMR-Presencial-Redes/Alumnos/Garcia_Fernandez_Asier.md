@@ -43,4 +43,4 @@ observaciones: "Alumno repetidor de 1º SMR (Curso 2025-2026)."
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema. Alumno repetidor de 1º SMR (módulo de Redes Locales).
-
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **9.60/10.0** (Sobresaliente). Entrega revisada con Retos 4, 5 y 6 completados y correctos (conversiones decimal a binario en 8 bits, binario a decimal y hexadecimal por nibbles). Excelente recuperación.

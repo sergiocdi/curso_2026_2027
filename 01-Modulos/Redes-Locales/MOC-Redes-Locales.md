@@ -17,7 +17,7 @@ actualizado: 2026-09-15
 ---
 
 ## 📑 1. Programación Didáctica (Apartados Individuales y Ensamblador)
-- 🚀 **[[Compilador-Programacion-Didactica-RL|📄 Ver Programación Didáctica Completa Ensamblada]]**
+- 🚀 **[[Compilador-Programacion-Didactica-RL|📄 Ver Programación Didáctica Completa Ensamblada]]** · [🌐 Versión Web (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/00-Programacion/Programacion-Didactica-0225-Redes-Locales.html) · [📑 Documento PDF Oficial A4](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/00-Programacion/Programacion-Didactica-0225-Redes-Locales.pdf)
 
 ### Apartados Individuales:
 1. [[01-Identificacion-Modulo-RL|01. Identificación del Módulo y Datos Informativos]]

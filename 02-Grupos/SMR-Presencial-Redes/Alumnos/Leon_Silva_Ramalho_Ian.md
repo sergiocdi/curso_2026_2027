@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **8.25/10.0**. Notable. Buen dominio del binario. En Reto 6: 255 equivale a 0xFF (no 7xF); en Reto 1 atenuación es un factor de distancia en cables, no del aislamiento de equipos.

@@ -36,10 +36,11 @@ Guía docente y presentación oficial interactiva para el inicio de curso del m�
    - **Software Operativo (50%)**: Funcional v1.0, sin caídas, conectado a BD, ficheros y Git.
    - **Memoria Técnica Oficial (30%)**: Plantilla CIFP Avilés (30-90 págs.), diagramas UML/ER, manuales de instalación y usuario.
    - **Vídeo de Defensa en Teams (20%)**: 10 a 20 minutos con cámara, escritorio y ejecución fluida de casos de uso.
-7. **Calendario de Entregas Parciales y Convocatorias**:
-   - **1ª Entrega Parcial (1ª Evaluación)**: Anteproyecto, requisitos, casos de uso, diagrama E/R, mockups y repositorio Git. *Sin prototipo funcional*.
-   - **2ª Entrega Parcial (2ª Evaluación / Fin de Evaluación Continua)**: Entrega de **todo el proyecto completo** (Software v1.0, Memoria y Vídeo). Permite **aprobar y superar el módulo antes de ir a la primera convocatoria ordinaria**.
-   - **Recuperación en Convocatorias Ordinarias**: Quienes no superen por parciales concurren a las convocatorias oficiales presentando todo el proyecto.
+7. **Calendario Oficial de Entregas Parciales y Convocatorias (Distancia)**:
+   - **1ª Entrega Parcial (1ª Evaluación)**: **16/12/2026** (1º y 2º curso). Anteproyecto, requisitos, casos de uso, diagrama E/R, mockups y repositorio Git. *Sin prototipo funcional*.
+   - **2ª Entrega Parcial (2ª Evaluación 2º DAM)**: **25/02/2027** *(para 1º DAM la 2ª evaluación es el 17/03/2027)*. Entrega de **todo el proyecto completo** (Software v1.0, Memoria y Vídeo). Permite **aprobar y superar el módulo antes de ir a la primera convocatoria ordinaria**.
+   - **1ª Convocatoria Ordinaria (1ª Evaluación Final)**: **27/05/2027** (1º y 2º curso). Recuperación con todo el proyecto.
+   - **2ª Convocatoria Ordinaria / Extraordinaria (2ª Evaluación Final)**: **16/06/2027** (1º y 2º curso). Recuperación con todo el proyecto.
 8. **Criterios y Vías de Superación**:
    - **Superación por Evaluación Continua**: El módulo se supera aprobando las **dos entregas parciales** en fecha y forma (aprobando antes de la 1ª convocatoria).
    - **Recuperación en Convocatorias Ordinarias**: Si no se superan las parciales, se recupera en las dos convocatorias ordinarias oficiales presentando todo el proyecto completo (mínimo de 5,0 y 100% de componentes completados).

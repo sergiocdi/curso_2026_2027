@@ -561,15 +561,341 @@ table.matrix-table td.col-title {
 
 <section class="programacion-section mb-6">
 <h1>3. Resultados de Aprendizaje y Criterios de Evaluación</h1>
-<p>El currículo oficial del módulo se estructura en 6 Resultados de Aprendizaje (RAs):</p>
-<ol>
-<li><strong>RA1 (15%)</strong>: Desarrolla aplicaciones que gestionan información almacenada en ficheros, identificando el campo de aplicación de los mismos y utilizando clases específicas de flujos y la API Java NIO.2.</li>
-<li><strong>RA2 (20%)</strong>: Desarrolla aplicaciones que gestionan información en sistemas gestores de bases de datos relacionales, utilizando conectores (JDBC), pools de conexiones y sentencias SQL avanzadas con transacciones ACID.</li>
-<li><strong>RA3 (25%)</strong>: Gestiona la persistencia de los datos mediante herramientas de mapeo objeto-relacional (ORM), utilizando Spring Boot 3, Spring Data JPA e Hibernate sobre bases de datos empresariales.</li>
-<li><strong>RA4 (10%)</strong>: Desarrolla aplicaciones que gestionan información almacenada en bases de datos objeto-relacionales y nativas orientadas a objetos y XML.</li>
-<li><strong>RA5 (20%)</strong>: Desarrolla aplicaciones que almacenan y consultan información en sistemas gestores de bases de datos no relacionales (NoSQL) orientadas a documentos (MongoDB).</li>
-<li><strong>RA6 (10%)</strong>: Desarrolla y empaqueta componentes visuales y no visuales de acceso a datos, garantizando su reutilización e integración.</li>
-</ol>
+<p>El currículo oficial del módulo profesional de <strong>Acceso a Datos</strong> (0486) se articula en torno a 6 Resultados de Aprendizaje (RAs). A continuación se establece la ponderación de cada Resultado de Aprendizaje dentro del cómputo global del módulo (sumando el 100%), así como el desglose pormenorizado de los <strong>Criterios de Evaluación (CE)</strong> asociados, indicando el <strong>peso específico de cada criterio dentro de su correspondiente RA</strong> y su contribución efectiva a la calificación global del módulo.</p>
+
+<h2>3.1. Resumen de Ponderación Curricular por Resultados de Aprendizaje</h2>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Código RA</th>
+<th style="width: 58%; text-align: left;">Denominación Oficial del Resultado de Aprendizaje</th>
+<th style="width: 15%; text-align: center;">Peso Módulo</th>
+<th style="width: 15%; text-align: center;">Criterios</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA1</td>
+<td>Desarrolla aplicaciones que gestionan información almacenada en ficheros identificando el campo de aplicación de los mismos y utilizando clases específicas.</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">15%</td>
+<td style="text-align: center;">CE1.a &ndash; CE1.e (5)</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA2</td>
+<td>Desarrolla aplicaciones que gestionan información almacenada en bases de datos relacionales identificando el campo de aplicación de los mismos y utilizando conectores específicos (JDBC).</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">20%</td>
+<td style="text-align: center;">CE2.a &ndash; CE2.e (5)</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA3</td>
+<td>Gestiona la persistencia de los datos identificando herramientas de mapeo objeto relacional (ORM) y desarrollando aplicaciones que las utilizan (Hibernate / JPA).</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">25%</td>
+<td style="text-align: center;">CE3.a &ndash; CE3.e (5)</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA4</td>
+<td>Desarrolla aplicaciones que gestionan la información almacenada en bases de datos objeto-relacionales y nativas XML analizando sus características y utilizando los motores y lenguajes de consulta específicos.</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">10%</td>
+<td style="text-align: center;">CE4.a &ndash; CE4.d (4)</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA5</td>
+<td>Desarrolla aplicaciones que gestionan la información almacenada en bases de datos no relacionales (NoSQL) analizando sus características y seleccionando motores según requisitos (MongoDB / Redis).</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">20%</td>
+<td style="text-align: center;">CE5.a &ndash; CE5.d (4)</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">RA6</td>
+<td>Desarrolla componentes de acceso a datos empaquetables y reutilizables integrándolos en aplicaciones cliente.</td>
+<td style="text-align: center; font-weight: bold; color: var(--color-primary);">10%</td>
+<td style="text-align: center;">CE6.a &ndash; CE6.c (3)</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-primary-light);">
+<td style="text-align: center;">TOTAL</td>
+<td>Carga Curricular Total del Módulo Profesional</td>
+<td style="text-align: center; color: var(--color-primary-dark);">100%</td>
+<td style="text-align: center;">26 Criterios</td>
+</tr>
+</tbody>
+</table>
+
+<h2>3.2. Desglose Pormenorizado de Criterios de Evaluación y Ponderación Interna</h2>
+
+<h3>🔹 RA1: Gestión de Información en Ficheros y Formatos Estructurados (Peso en Módulo: 15%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Desarrolla aplicaciones que gestionan información almacenada en ficheros identificando el campo de aplicación de los mismos y utilizando clases específicas.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE1.a</td>
+<td>Se han utilizado clases para la gestión de ficheros y directorios (paquete <code>java.io</code> y API moderna <code>java.nio.file</code>).</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE1.b</td>
+<td>Se han utilizado flujos de caracteres y bytes para leer y escribir información en ficheros de texto y binarios tipados.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">3,75%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE1.c</td>
+<td>Se han implementado mecanismos de acceso secuencial y aleatorio gestionando punteros de lectura/escritura (<code>RandomAccessFile</code>).</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE1.d</td>
+<td>Se han serializado y deserializado objetos en flujos binarios gestionando versiones con <code>serialVersionUID</code>.</td>
+<td style="text-align: center; font-weight: bold;">15%</td>
+<td style="text-align: center;">2,25%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE1.e</td>
+<td>Se han procesado documentos XML y JSON utilizando parsers estándar y herramientas de binding (DOM, SAX, JAXB).</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA1:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">15,00%</td>
+</tr>
+</tbody>
+</table>
+
+<h3>🔹 RA2: Conectores y Bases de Datos Relacionales - JDBC (Peso en Módulo: 20%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Desarrolla aplicaciones que gestionan información almacenada en bases de datos relacionales identificando el campo de aplicación de los mismos y utilizando conectores específicos.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE2.a</td>
+<td>Se ha establecido la conexión con el motor de base de datos utilizando el driver y parámetros adecuados (Driver Thin en Oracle Database).</td>
+<td style="text-align: center; font-weight: bold;">15%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE2.b</td>
+<td>Se han ejecutado consultas y sentencias DML utilizando sentencias preparadas y parametrizadas (<code>PreparedStatement</code>) para evitar inyección SQL.</td>
+<td style="text-align: center; font-weight: bold;">30%</td>
+<td style="text-align: center;">6,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE2.c</td>
+<td>Se han recuperado y procesado conjuntos de resultados gestionando cursores y metadatos (<code>ResultSetMetaData</code> y <code>DatabaseMetaData</code>).</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">4,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE2.d</td>
+<td>Se han gestionado transacciones asegurando propiedades ACID, puntos de restauración (<code>Savepoint</code>) y control de rollbacks.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">5,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE2.e</td>
+<td>Se han configurado piscinas de conexiones de alto rendimiento (HikariCP) analizando su impacto en la escalabilidad y evitando fugas.</td>
+<td style="text-align: center; font-weight: bold;">10%</td>
+<td style="text-align: center;">2,00%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA2:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">20,00%</td>
+</tr>
+</tbody>
+</table>
+
+<h3>🔹 RA3: Mapeo Objeto-Relacional - ORM (Peso en Módulo: 25%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Gestiona la persistencia de los datos identificando herramientas de mapeo objeto relacional (ORM) y desarrollando aplicaciones que las utilizan.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE3.a</td>
+<td>Se han analizado las ventajas del mapeo objeto-relacional y la arquitectura de la especificación JPA frente a Hibernate nativo.</td>
+<td style="text-align: center; font-weight: bold;">15%</td>
+<td style="text-align: center;">3,75%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE3.b</td>
+<td>Se han mapeado clases y atributos a tablas relacionales mediante anotaciones JPA (<code>@Entity</code>, <code>@Table</code>, <code>@Id</code>, <code>@GeneratedValue</code>).</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">6,25%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE3.c</td>
+<td>Se han mapeado asociaciones y relaciones complejas (1:1, 1:N, N:M) y definido estrategias de carga (<code>LAZY</code> vs <code>EAGER</code>).</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">6,25%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE3.d</td>
+<td>Se han realizado consultas complejas orientadas a objetos mediante JPQL / HQL y repositorios Spring Data JPA.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">6,25%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE3.e</td>
+<td>Se ha gestionado el ciclo de vida de las entidades (New, Managed, Detached, Removed) y las transacciones en el contexto de persistencia.</td>
+<td style="text-align: center; font-weight: bold;">10%</td>
+<td style="text-align: center;">2,50%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA3:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">25,00%</td>
+</tr>
+</tbody>
+</table>
+
+<h3>🔹 RA4: Bases de Datos Objeto-Relacionales y Nativas XML (Peso en Módulo: 10%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Desarrolla aplicaciones que gestionan la información almacenada en bases de datos objeto-relacionales y nativas XML analizando sus características y utilizando los motores y lenguajes de consulta específicos.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE4.a</td>
+<td>Se han identificado las características diferenciales de las bases de datos objeto-relacionales y orientadas a objetos.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">2,50%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE4.b</td>
+<td>Se han utilizado tipos estructurados y colecciones de objetos en motores de bases de datos relacionales avanzados.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">2,50%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE4.c</td>
+<td>Se han realizado consultas sobre repositorios y bases de datos nativas XML mediante lenguajes de navegación y filtrado (XPath / XQuery).</td>
+<td style="text-align: center; font-weight: bold;">30%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE4.d</td>
+<td>Se han integrado sentencias XML en aplicaciones Java mediante APIs específicas de persistencia y colecciones documentales.</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">2,00%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA4:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">10,00%</td>
+</tr>
+</tbody>
+</table>
+
+<h3>🔹 RA5: Bases de Datos No Relacionales - NoSQL (Peso en Módulo: 20%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Desarrolla aplicaciones que gestionan la información almacenada en bases de datos no relacionales (NoSQL) analizando sus características y seleccionando motores según requisitos.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE5.a</td>
+<td>Se han clasificado los tipos de bases de datos NoSQL (documentales, clave-valor, columnas, grafos), el teorema CAP y el modelo BASE.</td>
+<td style="text-align: center; font-weight: bold;">20%</td>
+<td style="text-align: center;">4,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE5.b</td>
+<td>Se han realizado operaciones CRUD sobre colecciones y documentos en formato BSON/JSON en MongoDB.</td>
+<td style="text-align: center; font-weight: bold;">30%</td>
+<td style="text-align: center;">6,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE5.c</td>
+<td>Se han diseñado pipelines de agregación, ordenaciones, índices y filtros complejos sobre bases de datos documentales.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">5,00%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE5.d</td>
+<td>Se han conectado aplicaciones Java a bases de datos NoSQL utilizando controladores nativos (Java Driver) y Spring Data MongoDB.</td>
+<td style="text-align: center; font-weight: bold;">25%</td>
+<td style="text-align: center;">5,00%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA5:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">20,00%</td>
+</tr>
+</tbody>
+</table>
+
+<h3>🔹 RA6: Componentes de Acceso a Datos y Reutilización (Peso en Módulo: 10%)</h3>
+<p style="font-size: 8.5pt; color: var(--color-text-muted); margin-bottom: 4pt;"><em>Enunciado: Desarrolla componentes de acceso a datos empaquetables y reutilizables integrándolos en aplicaciones cliente.</em></p>
+<table>
+<thead>
+<tr>
+<th style="width: 12%; text-align: center;">Criterio</th>
+<th style="width: 64%; text-align: left;">Descripción Oficial del Criterio de Evaluación</th>
+<th style="width: 12%; text-align: center;">Peso en RA</th>
+<th style="width: 12%; text-align: center;">Peso Módulo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE6.a</td>
+<td>Se han diseñado componentes reutilizables de acceso a datos aplicando la especificación JavaBeans y empaquetado en librerías JAR.</td>
+<td style="text-align: center; font-weight: bold;">35%</td>
+<td style="text-align: center;">3,50%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE6.b</td>
+<td>Se han definido propiedades (simples, indexadas, ligadas), eventos personalizados y métodos de acceso persistente.</td>
+<td style="text-align: center; font-weight: bold;">35%</td>
+<td style="text-align: center;">3,50%</td>
+</tr>
+<tr>
+<td style="text-align: center; font-weight: bold;">CE6.c</td>
+<td>Se han integrado y probado los componentes empaquetados en proyectos cliente independientes verificando su desacoplamiento.</td>
+<td style="text-align: center; font-weight: bold;">30%</td>
+<td style="text-align: center;">3,00%</td>
+</tr>
+<tr style="font-weight: bold; background-color: var(--color-bg-alt);">
+<td colspan="2" style="text-align: right;">Subtotal RA6:</td>
+<td style="text-align: center; color: var(--color-primary);">100%</td>
+<td style="text-align: center; color: var(--color-primary-dark);">10,00%</td>
+</tr>
+</tbody>
+</table>
 </section>
 <hr class="section-divider">
 
@@ -627,77 +953,117 @@ table.matrix-table td.col-title {
 
 <section class="programacion-section mb-6">
 <h1>5. Unidades Didácticas y Temporalización a Distancia</h1>
-<h2>5.1. Marco Temporal (2º DAM Distancia: 2 Evaluaciones + FCT)</h2>
-<p>Al igual que en la modalidad presencial, el curso se concentra en <strong>dos evaluaciones lectivas</strong>, ya que en el <strong>tercer trimestre</strong> (a partir de marzo) el alumnado realiza la <strong>FCT (Formación en Centros de Trabajo)</strong> en empresas:</p>
+<h2>5.1. Marco Temporal (2º DAM Distancia: 2 Evaluaciones Lectivas + Prácticas FCT)</h2>
+<p>La organización del módulo a distancia difiere de la modalidad presencial:</p>
 <ul>
-<li><strong>Estructura de Trabajo</strong>: Quincenas formativas en la plataforma Moodle + <strong>2 horas de clase virtual síncrona los lunes</strong>.</li>
-<li><strong>1ª Evaluación (Septiembre - Diciembre)</strong>: Bloque Teórico-Práctico intensivo (<strong>60% de la calificación final</strong>).</li>
-<li><strong>2ª Evaluación (Enero - Marzo)</strong>: Proyecto Intermodular Individual (<strong>40% de la calificación final</strong>).</li>
+<li><strong>Sin Proyecto Intermodular en AD</strong>: En la modalidad a distancia, el Proyecto Intermodular <strong>no se realiza dentro del módulo de Acceso a Datos</strong> ni afecta a su carga horaria o calificación, desarrollándose de forma independiente.</li>
+<li><strong>Estructura Lectiva</strong>: Dos evaluaciones académicas intensivas compuestas por estudio autónomo en la plataforma Moodle y <strong>2 horas de clase virtual síncrona semanal los lunes</strong>.</li>
+<li><strong>1ª Evaluación (Septiembre - 16 Diciembre 2026)</strong>: Bloque Curricular 1 (Ficheros, Conectores Relacionales y ORM / JPA) &rarr; <strong>Primer Examen Parcial Práctico: 16/12/2026</strong>.</li>
+<li><strong>2ª Evaluación (Enero - 25 Febrero 2027)</strong>: Bloque Curricular 2 (BBDD Objeto-Relacionales, NoSQL MongoDB y Componentes) &rarr; <strong>Segundo Examen Parcial Práctico: 25/02/2027</strong>.</li>
+<li><strong>3ª Evaluación (Marzo - Junio 2027)</strong>: El alumnado que supera los módulos se incorpora a las empresas para cursar la <strong>FCT (Formación en Centros de Trabajo / Prácticas)</strong>.</li>
+<li><strong>Convocatorias Finales Ordinarias</strong>:
+  <ul>
+    <li><strong>1ª Convocatoria Final Ordinaria</strong>: <strong>27/05/2027</strong> (recuperación práctica presencial de parciales/RAs pendientes).</li>
+    <li><strong>2ª Convocatoria Final Ordinaria</strong>: <strong>16/06/2027</strong> (segunda oportunidad ordinaria para superar lo pendiente).</li>
+  </ul>
+</li>
 </ul>
 <hr />
-<h2>5.2. Planificación de Unidades en la 1ª Evaluación (Quincenas a Distancia)</h2>
+<h2>5.2. Planificación de Unidades y Exámenes por Evaluaciones</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align: center;">Quincena</th>
+<th style="text-align: center;">Período / Quincenas</th>
 <th style="text-align: left;">Unidad de Trabajo (UT)</th>
-<th style="text-align: center;">Grado de Cobertura</th>
 <th style="text-align: left;">Contenidos Clave en Plataforma y Clases Lunes</th>
-<th style="text-align: center;">RAs</th>
+<th style="text-align: center;">RAs Asociados</th>
+<th style="text-align: left;">Hito y Fecha Oficial de Evaluación</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><strong>Q1-Q2</strong></td>
-<td style="text-align: left;"><strong>UT1</strong></td>
-<td style="text-align: center;"><strong>Nuclear / Intensivo</strong></td>
-<td style="text-align: left;">Ficheros texto, binarios, serialización y Java NIO.2</td>
-<td style="text-align: center;">RA1</td>
+<td style="text-align: center;"><strong>Q1 - Q2</strong> <em>(15 Sep - 15 Oct)</em></td>
+<td style="text-align: left;"><strong>UT1: Manejo de Ficheros</strong></td>
+<td style="text-align: left;">Streams I/O, <code>Files</code>/<code>Path</code> (NIO.2), RAF, Serialización y XML</td>
+<td style="text-align: center;"><strong>RA1</strong> (15%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
 </tr>
 <tr>
-<td style="text-align: center;"><strong>Q3-Q4</strong></td>
-<td style="text-align: left;"><strong>UT2</strong></td>
-<td style="text-align: center;"><strong>Nuclear / Intensivo</strong></td>
-<td style="text-align: left;">Conectores JDBC, pools HikariCP, transacciones ACID y DAO/DTO</td>
-<td style="text-align: center;">RA2</td>
+<td style="text-align: center;"><strong>Q3 - Q4</strong> <em>(16 Oct - 15 Nov)</em></td>
+<td style="text-align: left;"><strong>UT2: Conectores BBDD Relacionales</strong></td>
+<td style="text-align: left;">Driver JDBC, transacciones ACID, pools HikariCP y patrón DAO/DTO</td>
+<td style="text-align: center;"><strong>RA2</strong> (20%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
 </tr>
 <tr>
-<td style="text-align: center;"><strong>Q5-Q6</strong></td>
-<td style="text-align: left;"><strong>UT3</strong></td>
-<td style="text-align: center;"><strong>Nuclear / Intensivo</strong></td>
-<td style="text-align: left;">Spring Boot 3, Hibernate y Spring Data JPA</td>
-<td style="text-align: center;">RA3</td>
+<td style="text-align: center;"><strong>Q5 - Q6</strong> <em>(16 Nov - 10 Dic)</em></td>
+<td style="text-align: left;"><strong>UT3: Mapeo Objeto-Relacional (ORM)</strong></td>
+<td style="text-align: left;">Spring Boot 3, Hibernate, Jakarta Persistence (JPA) y JPQL</td>
+<td style="text-align: center;"><strong>RA3</strong> (25%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
 </tr>
 <tr>
-<td style="text-align: center;"><strong>Q7</strong></td>
-<td style="text-align: left;"><strong>UT5</strong></td>
-<td style="text-align: center;"><strong>Nuclear / Intensivo</strong></td>
-<td style="text-align: left;">MongoDB, consultas BSON y Spring Data Mongo</td>
-<td style="text-align: center;">RA5</td>
+<td style="text-align: center;"><strong>1ª Evaluación</strong><br><strong>(16/12/2026)</strong></td>
+<td style="text-align: left;"><strong>1er Examen Parcial Práctico</strong></td>
+<td style="text-align: left;">Prueba práctica presencial en ordenador (CIFP Avilés)</td>
+<td style="text-align: center;"><strong>RA1, RA2, RA3</strong></td>
+<td style="text-align: left;"><strong>📝 Parcial 1 (Liberatorio)</strong><br><span style="color: #365f91; font-weight: bold;">Fecha: 16 de diciembre de 2026</span></td>
 </tr>
 <tr>
-<td style="text-align: center;"><strong>Q7</strong></td>
-<td style="text-align: left;"><strong>UT4</strong> y <strong>UT6</strong></td>
-<td style="text-align: center;"><em>Superficial / Básico</em></td>
-<td style="text-align: left;">Conceptos esenciales de persistencia OO y componentes</td>
-<td style="text-align: center;">RA4, RA6</td>
+<td style="text-align: center;"><strong>Q7 - Q8</strong> <em>(08 Ene - 06 Feb)</em></td>
+<td style="text-align: left;"><strong>UT4: BBDD Objeto-Relacionales y XML</strong></td>
+<td style="text-align: left;">Bases de datos orientadas a objetos (db4o) y persistencia XML nativa</td>
+<td style="text-align: center;"><strong>RA4</strong> (10%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
 </tr>
 <tr>
-<td style="text-align: center;"><strong>Dic.</strong></td>
-<td style="text-align: left;"><strong>Exámenes Presenciales 1ª Eval</strong></td>
-<td style="text-align: center;"><strong>Sumativo 1ª Eval</strong></td>
-<td style="text-align: left;">Pruebas presenciales obligatorias en el centro CIFP Avilés</td>
-<td style="text-align: center;">RA1-RA6</td>
+<td style="text-align: center;"><strong>Q9 - Q10</strong> <em>(07 Feb - 20 Feb)</em></td>
+<td style="text-align: left;"><strong>UT5: Bases de Datos NoSQL</strong></td>
+<td style="text-align: left;">MongoDB, formato BSON, filtros, agregaciones y Spring Data Mongo</td>
+<td style="text-align: center;"><strong>RA5</strong> (20%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Q11</strong> <em>(21 Feb - 24 Feb)</em></td>
+<td style="text-align: left;"><strong>UT6: Componentes de Acceso a Datos</strong></td>
+<td style="text-align: left;">Especificación JavaBeans, propiedades, eventos y empaquetado JAR</td>
+<td style="text-align: center;"><strong>RA6</strong> (10%)</td>
+<td style="text-align: left;">Formativa en Moodle</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2ª Evaluación</strong><br><strong>(25/02/2027)</strong></td>
+<td style="text-align: left;"><strong>2º Examen Parcial Práctico</strong></td>
+<td style="text-align: left;">Prueba práctica presencial en ordenador (CIFP Avilés)</td>
+<td style="text-align: center;"><strong>RA4, RA5, RA6</strong></td>
+<td style="text-align: left;"><strong>📝 Parcial 2 (Liberatorio)</strong><br><span style="color: #365f91; font-weight: bold;">Fecha: 25 de febrero de 2027</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>3ª Evaluación</strong> <em>(Marzo - Junio)</em></td>
+<td style="text-align: left;"><strong>FCT / Prácticas en Empresa</strong></td>
+<td style="text-align: left;">Incorporación a centros de trabajo (alumnado con módulos aprobados)</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: left;">Período de prácticas en empresa</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1ª Convocatoria Final</strong><br><strong>(27/05/2027)</strong></td>
+<td style="text-align: left;"><strong>1ª Evaluación Final Ordinaria</strong></td>
+<td style="text-align: left;">Examen práctico presencial en CIFP Avilés de parciales/RAs pendientes</td>
+<td style="text-align: center;"><strong>RA pendientes</strong></td>
+<td style="text-align: left;"><strong>🔄 1ª Convocatoria Ordinaria</strong><br><span style="color: #365f91; font-weight: bold;">Fecha: 27 de mayo de 2027</span></td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>2ª Convocatoria Final</strong><br><strong>(16/06/2027)</strong></td>
+<td style="text-align: left;"><strong>2ª Evaluación Final Ordinaria</strong></td>
+<td style="text-align: left;">Segunda oportunidad ordinaria de examen práctico de pendientes</td>
+<td style="text-align: center;"><strong>RA pendientes</strong></td>
+<td style="text-align: left;"><strong>🔄 2ª Convocatoria Ordinaria</strong><br><span style="color: #365f91; font-weight: bold;">Fecha: 16 de junio de 2027</span></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2>5.3. 2ª Evaluación: Proyecto Intermodular Individual a Distancia (Enero - Marzo)</h2>
-<ul>
-<li><strong>Desarrollo Individual</strong>: Cada alumno desarrolla de forma autónoma su proyecto transversal.</li>
-<li><strong>Horas de AD y Clases de los Lunes</strong>: Las 2 horas virtuales de los lunes se dedican al seguimiento telemático, resolución de dudas arquitectónicas y revisión de repositorios GitHub.</li>
-<li><strong>Entrega y Defensa</strong>: Repositorio Git y defensa técnica individual (telemática sincrónica o presencial en centro).</li>
-</ul>
+<div class="callout-box">
+<div class="callout-title">📌 Calendario Oficial del Principado de Asturias y CIFP Avilés</div>
+<p>Las fechas oficiales fijadas para las sesiones de evaluación y exámenes presenciales de distancia son: <strong>16/12/2026</strong> (1ª Eval), <strong>25/02/2027</strong> (2ª Eval de 2º curso), <strong>27/05/2027</strong> (1ª Convocatoria Final Ordinaria) y <strong>16/06/2027</strong> (2ª Convocatoria Final Ordinaria).</p>
+</div>
 </section>
 <hr class="section-divider">
 
@@ -706,80 +1072,119 @@ table.matrix-table td.col-title {
 <h2>6.1. Modelo Pedagógico Telemático</h2>
 <p>La formación a distancia en Acceso a Datos combina el autoaprendizaje guiado asíncrono con el acompañamiento síncrono semanal:</p>
 <ol>
-<li><strong>Materiales Curriculares Atómicos en Moodle</strong>:</li>
-<li>Apuntes técnicos maquetados (HTML y PDF), fragmentos de código ejecutable y videotutoriales explicativos.</li>
-<li><strong>Clases Virtuales Síncronas (2 Horas los Lunes)</strong>:</li>
-<li>Sesión en directo mediante Microsoft Teams / Google Meet.</li>
-<li>Demostración de <em>live coding</em>, resolución de los problemas más complejos planteados durante la semana y orientación de tareas.</li>
-<li><strong>Foros de Tutoría y Dudas Asíncronas</strong>:</li>
-<li>Foros temáticos por unidad con compromiso de respuesta docente en menos de 48 horas laborables.</li>
-<li><strong>Prácticas Integradoras por UT (Evaluación Formativa / No Calificables Numéricamente)</strong>:</li>
-<li>Tareas de afianzamiento para que el alumnado compruebe su progreso real antes de los exámenes presenciales obligatorios.</li>
-<li><strong>Proyecto Intermodular Individual (2ª Evaluación)</strong>:</li>
-<li>Desarrollo de la persistencia de datos tutorizado vía GitHub y en las sesiones virtuales de los lunes.</li>
+<li><strong>Materiales Curriculares Atómicos en Moodle</strong>: Apuntes técnicos maquetados (HTML y PDF), fragmentos de código ejecutable y guías paso a paso.</li>
+<li><strong>Clases Virtuales Síncronas (2 Horas los Lunes)</strong>: Sesión en directo semanal mediante Microsoft Teams. Explicación teórico-práctica, demostración de <em>live coding</em>, resolución prioritaria de dudas y orientación de actividades formativas.</li>
+<li><strong>Resolución de Dudas y Tutorías Telemáticas</strong>: Las dudas sobre los contenidos y actividades se resuelven a través de <strong>Microsoft Teams</strong> y durante las <strong>sesiones síncronas de los lunes</strong> (no a través de foros de Moodle). Las tutorías individuales se agendarán a través de <strong>Microsoft Teams previa solicitud de cita por correo electrónico</strong> corporativo.</li>
+<li><strong>Prácticas Integradoras por UT (Evaluación Formativa / No Calificables Numéricamente)</strong>: Tareas y retos prácticos de afianzamiento en Moodle para que el alumnado compruebe su progreso real y asimile la arquitectura del código antes de los exámenes presenciales oficiales.</li>
+<li><strong>Preparación Intensiva para Exámenes Prácticos en Ordenador</strong>: Todo el trabajo semanal y las demostraciones síncronas de los lunes están orientadas a dotar al alumnado de agilidad mental y técnica en la resolución de problemas reales sobre el IDE (Eclipse / Maven) de cara a las pruebas presenciales.</li>
 </ol>
 <hr />
 <h2>6.2. Política Docente sobre el Uso de Inteligencia Artificial (IA) a Distancia</h2>
 <ul>
-<li><strong>1ª Evaluación (Bloque Teórico-Práctico y Preparación de Pruebas Presenciales)</strong>:
-  <ul>
-    <li><strong>Uso como Herramienta de Estudio</strong>: Se permite el uso de IA como tutor virtual complementario para solventar dudas teóricas o comprender mensajes de error.</li>
-    <li><strong>Ejercicios y Tareas de Moodle</strong>: <strong>No se recomienda su utilización</strong> para la resolución de las prácticas formativas. Apoyarse en la IA para resolver el código impide desarrollar la agilidad mental necesaria para superar los exámenes presenciales sin conexión.</li>
-    <li><strong>Exámenes Presenciales Oficiales</strong>: Queda <strong>terminantemente prohibido</strong> el uso de IA. Se realizarán en los equipos del centro sin acceso a herramientas de IA generativa.</li>
-  </ul>
-</li>
-<li><strong>2ª Evaluación (Proyecto Intermodular)</strong>:
-  <ul>
-    <li><strong>Uso Autorizado</strong>: Se <strong>permite el empleo de herramientas de IA</strong> como apoyo técnico en la fase de desarrollo del proyecto.</li>
-    <li><strong>Defensa Técnica Individual</strong>: El alumno podrá ser requerido para explicar minuciosamente el código, justificar patrones o realizar modificaciones en directo. La nota de la defensa dependerá de la demostración inequívoca de autoría y dominio técnico del proyecto.</li>
-  </ul>
-</li>
+<li><strong>Estudio Autónomo y Resolución de Dudas</strong>: Se autoriza el uso responsable de herramientas de Inteligencia Artificial como tutor virtual para clarificar conceptos teóricos, analizar trazas de error en el IDE o explorar documentación técnica.</li>
+<li><strong>Ejercicios y Prácticas Formativas de Moodle</strong>: <strong>No se recomienda su utilización</strong> para resolver el código de las actividades formativas. Depender de la IA para generar soluciones impide adquirir la destreza algorítmica y el dominio de sintaxis necesarios para resolver los supuestos prácticos en ordenador de forma autónoma.</li>
+<li><strong>Exámenes Presenciales Oficiales (Parciales y Finales Ordinarios)</strong>: Queda <strong>terminantemente prohibido</strong> el uso de cualquier herramienta de IA o conexión externa no autorizada durante los exámenes presenciales en el CIFP Avilés. Las pruebas se ejecutan en entorno controlado y cerrado, evaluando la competencia individual y real del estudiante.</li>
 </ul>
 </section>
 <hr class="section-divider">
 
 <section class="programacion-section mb-6">
 <h1>7. Evaluación y Calificación a Distancia</h1>
-<h2>7.1. Estructura de Calificación Final (60% / 40%)</h2>
-<p>$$\text{Nota Final} = 0.60 \cdot \text{Nota 1ª Evaluación} + 0.40 \cdot \text{Nota 2ª Evaluación}$$</p>
-<blockquote>
-<p>[!IMPORTANT]
-<strong>Condición indispensable para aprobar el módulo a distancia</strong>:
-Es <strong>estrictamente obligatorio obtener una calificación igual o superior a 5.0 en AMBAS evaluaciones de forma independiente</strong>:
-$$\text{Nota 1ª Evaluación} \ge 5.0 \quad \text{y} \quad \text{Nota 2ª Evaluación} \ge 5.0$$
-Si alguna de las dos partes no alcanza el 5.0, el módulo quedará suspenso.</p>
-</blockquote>
-<hr />
-<h2>7.2. Instrumentos de la 1ª Evaluación a Distancia (60%)</h2>
+<h2>7.1. Modelo General de Evaluación: Exclusivamente Exámenes Prácticos en Ordenador</h2>
+<p>De conformidad con las características del ciclo formativo y la modalidad a distancia:</p>
 <ul>
-<li><strong>Exámenes Presenciales Prácticos Oficiales (100% de la 1ª Eval)</strong>:
+<li><strong>Evaluación 100% mediante Exámenes Prácticos</strong>: La calificación del módulo se obtiene <strong>exclusivamente mediante exámenes prácticos presenciales en ordenador</strong> en las aulas técnicas del CIFP Avilés.</li>
+<li><strong>Cobertura Curricular Exhaustiva (RA1 a RA6)</strong>: Las pruebas prácticas plantean ejercicios reales de desarrollo de software y persistencia en Java que evalúan de forma directa e integrada <strong>todos los Resultados de Aprendizaje</strong> del currículo:
   <ul>
-    <li>De conformidad con la normativa de FP a distancia del Principado de Asturias, las pruebas sumativas de evaluación son <strong>obligatoriamente presenciales</strong> en las instalaciones del CIFP Avilés, en ordenador y sin conexión externa ni uso de herramientas de Inteligencia Artificial.</li>
-    <li><strong>Carácter Práctico y Teoría Aplicada</strong>: Las pruebas son de naturaleza <strong>eminentemente práctica</strong>. No se plantean exámenes teóricos puros ni pruebas memorísticas: el conocimiento de la teoría es imprescindible, pero <strong>se evalúa a través de su aplicación práctica</strong> mediante la resolución de problemas técnicos y desarrollo de código en Java (manejo de ficheros, JDBC transaccional, entidades/repositorios JPA y persistencia documental MongoDB).</li>
+    <li><strong>RA1 (15%)</strong>: Ficheros (I/O, NIO.2, binarios, RAF y XML).</li>
+    <li><strong>RA2 (20%)</strong>: Conectores relacionales (JDBC, transacciones ACID, pool HikariCP, DAO/DTO).</li>
+    <li><strong>RA3 (25%)</strong>: Mapeo Objeto-Relacional (Spring Boot, Hibernate y JPA).</li>
+    <li><strong>RA4 (10%)</strong>: Persistencia objeto-relacional y bases de datos orientadas a objetos/XML.</li>
+    <li><strong>RA5 (20%)</strong>: Bases de datos NoSQL documentales (MongoDB y Spring Data Mongo).</li>
+    <li><strong>RA6 (10%)</strong>: Creación y empaquetado de componentes JavaBeans en librerías JAR.</li>
   </ul>
 </li>
-<li><strong>Prácticas por UT en Moodle</strong>: Formativas y de autoevaluación (no computan numéricamente; no se recomienda el uso de IA para afianzar la lógica autónoma del estudiante).</li>
+<li><strong>Carácter Formativo de las Actividades de Moodle</strong>: Las actividades prácticas propuestas en la plataforma sirven como entrenamiento y autoevaluación continua para afianzar los conceptos antes de los exámenes presenciales, sin ponderación penalizadora en la nota final.</li>
 </ul>
 <hr />
-<h2>7.3. Instrumentos de la 2ª Evaluación a Distancia (40%)</h2>
+<h2>7.2. Estructura de Exámenes Parciales (Liberatorios)</h2>
+<p>Se programan <strong>dos exámenes parciales prácticos</strong> a lo largo del curso:</p>
+<ol>
+<li><strong>Primer Examen Parcial Práctico (tras la 1ª Evaluación)</strong>: Se realiza una vez finalizado el bloque formativo de la 1ª evaluación (diciembre). Evalúa los ejercicios prácticos de <strong>RA1, RA2 y RA3</strong> (60% del peso curricular total).</li>
+<li><strong>Segundo Examen Parcial Práctico (tras la 2ª Evaluación)</strong>: Se realiza una vez finalizado el bloque formativo de la 2ª evaluación (marzo). Evalúa los ejercicios prácticos de <strong>RA4, RA5 y RA6</strong> (40% del peso curricular total).</li>
+</ol>
+<div class="callout-box">
+<div class="callout-title">🎯 Superación Directa del Módulo por Parciales</div>
+<p>Si el alumno obtiene una calificación igual o superior a 5.0 en cada uno de los dos parciales:</p>
+<p style="text-align: center; font-weight: bold; font-size: 11pt;">Nota Parcial 1 &ge; 5.0 &nbsp;&nbsp; y &nbsp;&nbsp; Nota Parcial 2 &ge; 5.0</p>
+<p><strong>El módulo quedará directamente superado</strong>, calculándose la calificación final como la media ponderada de los Resultados de Aprendizaje:</p>
+<p style="text-align: center; font-style: italic;">Calificación Final = 0.15 &middot; RA1 + 0.20 &middot; RA2 + 0.25 &middot; RA3 + 0.10 &middot; RA4 + 0.20 &middot; RA5 + 0.10 &middot; RA6</p>
+<p style="text-align: center; font-size: 8.5pt; color: #555;">(Equivalente a: Calificación Final = 0.60 &middot; Parcial 1 + 0.40 &middot; Parcial 2)</p>
+</div>
+<hr />
+<h2>7.3. Convocatorias Finales Ordinarias a Final de Curso (Superación de Pendientes)</h2>
+<p>Para aquel alumnado que no alcance el 5.0 en alguno de los exámenes parciales, o que no haya podido comparecer a los mismos, se habilitarán <strong>dos convocatorias finales ordinarias</strong> a final de curso:</p>
 <ul>
-<li><strong>Proyecto Intermodular Individual (Capa de Acceso a Datos)</strong>:
-  <ul>
-    <li><strong>Arquitectura técnica y calidad de persistencia (50%)</strong>.</li>
-    <li><strong>Funcionalidad CRUD, transacciones y modelo NoSQL (30%)</strong>.</li>
-    <li><strong>Repositorio GitHub, documentación y defensa técnica individual (20%)</strong> (sincrónica online o presencial). Se permite la utilización de herramientas de IA durante el desarrollo, pero se requerirá defensa oral y explicaciones detalladas para garantizar que el alumno es el autor y comprende íntegramente la arquitectura de datos implementada.</li>
-  </ul>
-</li>
+<li><strong>1ª Convocatoria Final Ordinaria</strong></li>
+<li><strong>2ª Convocatoria Final Ordinaria</strong></li>
 </ul>
+<h3>Reglas de las Convocatorias Finales Ordinarias:</h3>
+<ol>
+<li><strong>Liberación de Materia Aprobada</strong>: El alumnado <strong>conserva la parte superada en los parciales</strong> y únicamente debe presentarse a los ejercicios prácticos correspondientes a la <strong>materia o parcial que tenga pendiente</strong> (Bloque 1 / Parcial 1, Bloque 2 / Parcial 2, o ambos si suspendió los dos).</li>
+<li><strong>Doble Oportunidad Final</strong>: La existencia de dos convocatorias finales ordinarias permite al alumnado tener dos ocasiones independientes a final de curso para recuperar la parte pendiente antes de la evaluación extraordinaria.</li>
+<li><strong>Condición de Aprobado</strong>: Para superar el módulo en cualquiera de las convocatorias ordinarias, cada bloque/parcial debe alcanzar una calificación mínima de 5.0 puntos.</li>
+</ol>
+<h2>7.4. Calendario Oficial y Fechas de Exámenes Presenciales</h2>
+<p>Las sesiones oficiales de evaluación y los exámenes prácticos presenciales en el CIFP Avilés para 2º curso DAM a distancia quedan fijados en las siguientes fechas:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Evaluación / Convocatoria</th>
+<th style="text-align: center;">Fecha Oficial</th>
+<th style="text-align: left;">Contenido Curricular Evaluado</th>
+<th style="text-align: center;">Peso / Efecto Académico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1ª Evaluación (1er Parcial Práctico)</strong></td>
+<td style="text-align: center;"><strong>16/12/2026</strong></td>
+<td style="text-align: left;">Bloque 1: UT1 (RA1 15%), UT2 (RA2 20%) y UT3 (RA3 25%)</td>
+<td style="text-align: center;"><strong>60%</strong> (Liberatorio si &ge; 5.0)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2ª Evaluación (2º Parcial Práctico)</strong></td>
+<td style="text-align: center;"><strong>25/02/2027</strong></td>
+<td style="text-align: left;">Bloque 2: UT4 (RA4 10%), UT5 (RA5 20%) y UT6 (RA6 10%)</td>
+<td style="text-align: center;"><strong>40%</strong> (Liberatorio si &ge; 5.0)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>1ª Convocatoria Final Ordinaria</strong></td>
+<td style="text-align: center;"><strong>27/05/2027</strong></td>
+<td style="text-align: left;">Recuperación práctica presencial de parciales/RAs pendientes</td>
+<td style="text-align: center;">Superación ordinaria (se guardan partes aprobadas)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2ª Convocatoria Final Ordinaria</strong></td>
+<td style="text-align: center;"><strong>16/06/2027</strong></td>
+<td style="text-align: left;">Segunda oportunidad ordinaria presencial de pendientes</td>
+<td style="text-align: center;">Superación ordinaria final previa a extraordinaria</td>
+</tr>
+</tbody>
+</table>
+<div class="callout-box">
+<div class="callout-title">📌 Detalle de Calendario para 2º DAM Distancia</div>
+<p>La segunda evaluación de 2º DAM se celebra el <strong>25 de febrero de 2027</strong> (a diferencia de 1º curso, fijada el 17/03/2027) para posibilitar la incorporación temprana a las prácticas en empresa (<strong>FCT / DUAL</strong>) a partir de marzo.</p>
+</div>
 </section>
 <hr class="section-divider">
 
 <section class="programacion-section mb-6">
 <h1>8. Medidas de Atención a la Diversidad (DUA a Distancia)</h1>
 <ul>
-<li><strong>Flexibilidad Temporal</strong>: Materiales disponibles 24/7 en Moodle para adaptarse a los horarios laborales del alumnado.</li>
-<li><strong>Grabación de Clases Virtuales</strong>: Las 2 horas de clase síncrona de los lunes quedan grabadas y enlazadas en Moodle para consulta en diferido.</li>
-<li><strong>Canales Múltiples de Consulta</strong>: Foros públicos de dudas, mensajería privada y tutorías telemáticas personalizadas.</li>
+<li><strong>Flexibilidad Temporal</strong>: Materiales y recursos de aprendizaje disponibles 24/7 en el aula virtual de Moodle para adaptarse a los ritmos y horarios laborales del alumnado.</li>
+<li><strong>Acompañamiento Síncrono Semanal</strong>: 2 horas de clase virtual síncrona los lunes dedicadas al desarrollo de contenidos teórico-prácticos y, fundamentalmente, a la resolución directa de dudas de los materiales del aula virtual.</li>
+<li><strong>Canales de Consulta y Acompañamiento</strong>: Resolución continua de dudas a través de <strong>Microsoft Teams</strong> y en las sesiones síncronas semanales, así como tutorías individuales agendadas a través de Teams previa solicitud de cita por correo electrónico.</li>
 </ul>
 </section>
 <hr class="section-divider">
@@ -787,9 +1192,9 @@ Si alguna de las dos partes no alcanza el 5.0, el módulo quedará suspenso.</p>
 <section class="programacion-section mb-6">
 <h1>9. Planes de Recuperación a Distancia</h1>
 <ul>
-<li><strong>Recuperación 1ª Evaluación</strong>: Examen presencial global de recuperación en el CIFP Avilés para quienes obtengan &lt; 5.0.</li>
-<li><strong>Recuperación 2ª Evaluación</strong>: Corrección técnica de no conformidades en el repositorio Git del proyecto y re-defensa individual.</li>
-<li><strong>Convocatoria Extraordinaria</strong>: Se evalúa exclusivamente la parte o partes no superadas (&lt; 5.0), guardándose las calificaciones aprobadas en ordinaria.</li>
+<li><strong>Liberación de Materia por Parciales</strong>: Los exámenes parciales prácticos (Parcial 1 tras la 1ª Evaluación y Parcial 2 tras la 2ª Evaluación) son de carácter <strong>liberatorio</strong>. Quien obtenga una calificación &ge; 5.0 en un parcial ya no tiene que volver a examinarse de ese bloque temático ni de sus RAs asociados.</li>
+<li><strong>Convocatorias Finales Ordinarias a Final de Curso</strong>: Quienes no hayan alcanzado el 5.0 en alguno de los parciales o en ambos (o no se hayan presentado) dispondrán de <strong>dos convocatorias finales ordinarias</strong> a final de curso (1ª y 2ª Convocatoria Final Ordinaria). En ambas se evalúa <strong>exclusivamente la parte, parcial o RAs no superados</strong>, conservándose la nota del parcial aprobado.</li>
+<li><strong>Convocatoria Extraordinaria</strong>: En caso de no superar el módulo tras las dos convocatorias finales ordinarias, el estudiante podrá concurrir a la convocatoria extraordinaria oficial, evaluándose únicamente de la materia/RAs que continúen pendientes.</li>
 </ul>
 </section>
 <hr class="section-divider">
@@ -797,11 +1202,11 @@ Si alguna de las dos partes no alcanza el 5.0, el módulo quedará suspenso.</p>
 <section class="programacion-section mb-6">
 <h1>10. Recursos y Plataformas a Distancia</h1>
 <ul>
-<li><strong>Campus Virtual Moodle Educastur</strong>: Plataforma oficial de gestión del aprendizaje, entrega de tareas, foros técnicos y avisos.</li>
-<li><strong>Microsoft Teams / Google Meet</strong>: Herramientas para la impartición de las 2 horas de clase virtual síncrona los lunes.</li>
+<li><strong>Campus Virtual Moodle Educastur</strong>: Plataforma oficial de gestión del aprendizaje, repositorio de apuntes, enunciados y entrega de tareas formativas, y tablón de avisos oficiales.</li>
+<li><strong>Microsoft Teams</strong>: Plataforma oficial para las clases virtuales síncronas de los lunes, resolución interactiva de dudas y agendamiento de tutorías individuales (previa solicitud de cita por correo electrónico corporativo).</li>
 <li><strong>Entorno de Trabajo (IDE)</strong>: El entorno de desarrollo principal para las demostraciones en las sesiones síncronas y guías es <strong>Eclipse IDE</strong>, si bien el alumnado en modalidad a distancia tiene plena libertad para emplear otros entornos (IntelliJ IDEA, VS Code) siempre que los proyectos cumplan los estándares de compilación Maven/Java 21.</li>
 <li><strong>Software y Ecosistema</strong>: JDK 21 LTS, Apache Maven, Oracle Database (local o contenedor Docker), MongoDB Community y Git.</li>
-<li><strong>GitHub / GitHub Classroom</strong>: Plataforma de control de versiones y entrega de proyectos individuales.</li>
+<li><strong>GitHub / GitHub Classroom</strong>: Plataforma de control de versiones y alojamiento de proyectos técnicos.</li>
 <li><strong>Aula C212 (CIFP Avilés)</strong>: Puesto docente para emisión de clases virtuales y sede física para la realización de los exámenes presenciales oficiales.</li>
 </ul>
 </section>

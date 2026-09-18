@@ -5,7 +5,7 @@ titulo: Calendario Escolar Oficial y Períodos Lectivos
 comunidad_autonoma: "Principado de Asturias"
 municipio: "Avilés"
 normativa_referencia: "Resolución de la Consejería de Educación del Principado de Asturias / Consejo Escolar Municipal de Avilés"
-actualizado: 2026-09-07
+actualizado: 2026-09-17
 ---
 
 # 📅 Calendario Escolar Oficial - Curso 2026-2027
@@ -69,6 +69,17 @@ El Consejo Escolar Municipal de Avilés establece los dos días festivos locales
   - Del **14 al 18 de Junio de 2027**.
 - **Evaluación Extraordinaria (todos los cursos)**: 
   - Del **21 al 25 de Junio de 2027**.
+
+### 💻 Calendario Oficial de Evaluaciones - Modalidad a Distancia (CIFP Avilés)
+
+De conformidad con la resolución oficial para los ciclos formativos a distancia (DAM y DAW):
+
+| Convocatoria / Evaluación | 1º Curso (ej. Sostenibilidad) | 2º Curso (ej. Acceso a Datos / Proyecto) |
+| :--- | :---: | :---: |
+| **Primera Evaluación** | **16/12/2026** | **16/12/2026** |
+| **Segunda Evaluación** | **17/03/2027** | **25/02/2027** *(acceso a FCT)* |
+| **1ª Evaluación Final (Ordinaria)** | **27/05/2027** | **27/05/2027** |
+| **2ª Evaluación Final (Extraordinaria)** | **16/06/2027** | **16/06/2027** |
 
 ---
 

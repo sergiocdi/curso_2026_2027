@@ -43,4 +43,4 @@ observaciones: "Alumno repetidor de 1º SMR (Curso 2025-2026)."
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema. Alumno repetidor de 1º SMR (módulo de Redes Locales).
-
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **6.85/10.0**. Aprobado. Repasar: 192 en binario es 11000000 (no 10000001); 255 en hexadecimal es FF (no EE). Enfocar Reto 1 a recursos compartidos de red corporativa.

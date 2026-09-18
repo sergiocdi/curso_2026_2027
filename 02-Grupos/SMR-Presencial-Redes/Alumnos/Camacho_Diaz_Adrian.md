@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **9.80/10.0**. Casi perfecto. Todas las conversiones binarias, decimales y hexadecimales impecables con desarrollo riguroso.

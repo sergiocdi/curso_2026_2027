@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **9.30/10.0**. Sobresaliente en conversiones numéricas. En el Reto 1 cuida no confundir periféricos locales (pendrive USB) con recursos de red y detalla el riesgo de aislamiento.

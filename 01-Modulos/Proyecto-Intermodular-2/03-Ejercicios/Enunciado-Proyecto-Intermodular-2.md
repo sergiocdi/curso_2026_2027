@@ -79,7 +79,7 @@ Para que el proyecto pueda ser evaluado positivamente, debe cumplir rigurosament
  
  ```
  +-----------------------------------------------------------------------------------+
- |  1ª ENTREGA PARCIAL (Primera Evaluación)                                          |
+ |  1ª ENTREGA PARCIAL (1ª Evaluación: 16/12/2026)                                   |
  |  - Anteproyecto formal: requisitos, casos de uso, diagrama E/R y mockups.         |
  |  - Justificación técnica del stack y repositorio Git inicial.                     |
  |  - SIN PROTOTIPO FUNCIONAL (no se exige código ejecutable en esta fase).          |
@@ -87,7 +87,7 @@ Para que el proyecto pueda ser evaluado positivamente, debe cumplir rigurosament
                                           │
                                           ▼
  +-----------------------------------------------------------------------------------+
- |  2ª ENTREGA PARCIAL (Segunda Evaluación / Antes de Convocatoria Ordinaria)        |
+ |  2ª ENTREGA PARCIAL (2ª Evaluación 2º DAM: 25/02/2027)                            |
  |  - Entrega de TODO EL PROYECTO: Software v1.0, Memoria Oficial y Vídeo Teams.     |
  |  - APROBADO DIRECTO DEL MÓDULO: Si se aprueban las dos parciales, se aprueba el   |
  |    módulo directamente antes de ir a la primera convocatoria ordinaria.           |
@@ -96,9 +96,10 @@ Para que el proyecto pueda ser evaluado positivamente, debe cumplir rigurosament
                                           ▼
  +-----------------------------------------------------------------------------------+
  |  CONVOCATORIAS ORDINARIAS OFICIALES (Recuperación con Todo el Proyecto)           |
+ |  - 1ª Evaluación Final (1ª Ordinaria Oficial): 27/05/2027.                        |
+ |  - 2ª Evaluación Final (2ª Ordinaria / Extraordinaria): 16/06/2027.               |
  |  - Para quienes no superen las entregas parciales por suspenso o no entrega.      |
  |  - Presentación íntegra de TODO el proyecto (Software + Memoria + Vídeo).         |
- |  - Convocatoria Ordinaria Oficial y Segunda Convocatoria Ordinaria / Extraordinaria.|
  +-----------------------------------------------------------------------------------+
  ```
  
@@ -110,7 +111,12 @@ Para que el proyecto pueda ser evaluado positivamente, debe cumplir rigurosament
  > 4. **Entregas Complementarias**: A voluntad del profesor se podrán requerir entregas intermedias adicionales durante el curso.
  > 5. **Uso de Inteligencia Artificial (IA) y Autoría del Código**: El uso de herramientas de IA está permitido siempre y cuando el estudiante **comprenda y domine con rigor lo que se está realizando** («sabiendo lo que se hace»). El profesor se reserva expresamente el derecho de realizar revisiones individuales del proyecto en las que preguntará por puntos y líneas específicas del código implementado; el alumno deberá aportar las explicaciones pertinentes demostrando el dominio técnico de la solución. Si las explicaciones aportadas no son válidas, resultan incoherentes o evidencian el desconocimiento del código presentado, **será motivo directo de calificación de suspenso en el módulo**.
  >
- > 📢 **Publicación de Fechas Concretas**: Los plazos, días y horas límite exactos de cada entrega se notificarán y publicarán a lo largo del curso a través del **aula virtual** (Moodle / Teams).
+ > 📢 **Sesiones Oficiales de Evaluación a Distancia (CIFP Avilés)**:  
+ > - **Primera Evaluación**: 1º y 2º curso el **16/12/2026**.  
+ > - **Segunda Evaluación**: 2º curso el **25/02/2027** · 1º curso el **17/03/2027**.  
+ > - **1ª Evaluación Final (Ordinaria)**: 1º y 2º curso el **27/05/2027**.  
+ > - **2ª Evaluación Final (Extraordinaria)**: 1º y 2º curso el **16/06/2027**.  
+ > Las horas límites exactas de cierre en plataforma se notificarán y publicarán a lo largo del curso a través del **aula virtual** (Moodle / Teams).
  
  ---
  

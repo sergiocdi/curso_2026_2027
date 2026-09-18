@@ -3,7 +3,7 @@ tipo: compilador_programacion
 modulo: "Acceso a Datos"
 modalidad: "Presencial"
 curso_academico: "2026-2027"
-fecha_compilacion: 2026-09-14
+fecha_compilacion: 2026-09-18
 horas_semanales: 5
 distribucion_horaria: "Lunes (3h) y Miércoles (2h)"
 aula: "Aula C210"

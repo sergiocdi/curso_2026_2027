@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **7.60/10.0**. Buen trabajo general en señales y binario. Atención al hexadecimal en Reto 6: debes sustituir el 13 y 10 por las letras D y A (0xDA), y el 255 es 0xFF (no binario).

@@ -2,7 +2,7 @@
 tipo: moc_principal
 curso_academico: "2026-2027"
 profesor: "Profesor Sergio"
-actualizado: 2026-09-17
+actualizado: 2026-09-18
 ---
 
 # 🎓 Panel de Control Docente - Curso 2026-2027
@@ -19,7 +19,7 @@ Desde este panel puedes acceder a todos los módulos curriculares, a los grupos 
 | :--- | :--- | :--- | :---: | :---: |
 | **Acceso a Datos (Presencial)** | DAM2 | Presencial (5h: L 3h, X 2h) | [[MOC-Acceso-a-Datos\|Acceso a Datos]] | [[Compilador-Programacion-Didactica-AD-Presencial\|Ver Programación]] · [[Programacion-Didactica-0486-AD-Presencial.pdf\|PDF]] |
 | **Acceso a Datos (A Distancia)** | DAM2 | A Distancia (Lunes 2h virt.) | [[MOC-Acceso-a-Datos\|Acceso a Datos]] | [[Compilador-Programacion-Didactica-AD-Distancia\|Ver Programación]] · [[Programacion-Didactica-0486-AD-Distancia.pdf\|PDF]] |
-| **Redes Locales** | SMR1 / SMR | Presencial | [[MOC-Redes-Locales\|Redes Locales]] | [[Compilador-Programacion-Didactica-RL\|Ver Programación]] |
+| **Redes Locales** | SMR1 / SMR | Presencial | [[MOC-Redes-Locales\|Redes Locales]] | [[Compilador-Programacion-Didactica-RL\|Ver Programación]] · [[Programacion-Didactica-0225-Redes-Locales.pdf\|PDF]] |
 | **Proyecto Intermodular** | DAM 1º y 2º | Virtual | [[MOC-Proyecto-Intermodular\|Proyecto Intermodular (1º y 2º)]] | [[Compilador-Programacion-Didactica-PI\|Ver Programación Conjunta]] · [[Programacion-Didactica-Proyecto-Intermodular.pdf\|PDF Oficial]] |
 | **Sostenibilidad Aplicada** | DAW1 | Virtual | [[MOC-Sostenibilidad\|Sostenibilidad]] | [[Compilador-Programacion-Didactica-SOST\|Ver Programación]] · [[Programacion-Didactica-1708-Sostenibilidad.pdf\|PDF]] |
 
@@ -39,13 +39,13 @@ SORT file.name ASC
 - 🏫 **[[Dashboard-Grupo-DAM2-Presencial|DAM2 Presencial - Acceso a Datos]]**
   - [🚀 Presentación 1er Día (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Presencial-Presentacion-Inicial.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Presencial-Presentacion-Inicial.pdf) | [[Compilador-Programacion-Didactica-AD-Presencial|Programación]] | [[Planificacion-Temporalizacion-AD-Presencial|Calendario y Sesiones]] | [[Cuaderno-Notas-DAM2-Presencial|Calificaciones]]
 - 💻 **[[Dashboard-Grupo-DAM2-Virtual|DAM2 Virtual - Acceso a Datos]]**
-  - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.pdf) | [[Compilador-Programacion-Didactica-AD-Distancia|Programación]] | [[Cronograma-AD-Virtual|Cronograma Quincenal]] | [[Seguimiento-Tutorias-AD-Virtual|Tutorías]]
+  - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Acceso-a-Datos/07-Presentaciones/Presentacion-Inicial/AD-Distancia-Presentacion-Inicial.pdf) | [[Compilador-Programacion-Didactica-AD-Distancia|Programación]] | [[Cronograma-AD-Virtual|Cronograma y Sesiones]] | [[Seguimiento-Tutorias-AD-Virtual|Tutorías]]
 - 🚀 **[[Dashboard-Grupo-DAM2-Proyecto|DAM2 Virtual - Proyecto Intermodular 2]]**
   - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Proyecto-Intermodular-2/07-Presentaciones/Presentacion-Inicial/PI-Presentacion-Inicial-Modulo.pdf) | [[Compilador-Programacion-Didactica-PI|Programación]] | [[Seguimiento-Proyectos-Fases|Seguimiento de Entregas]] | [[Cuaderno-Notas-DAM2-Proyecto|Calificaciones]] | [[Calificaciones-Proyecto-Intermodular-1|Notas 1º DAM (10%)]] | [[Enunciado-Proyecto-Intermodular-2|Enunciado]] | [[Plantilla-Memoria-Proyecto|Plantilla Memoria]] | [[Rubrica-Evaluacion-Proyecto|Rúbrica]]
 - 🌱 **[[Dashboard-Grupo-DAW1-Sostenibilidad|DAW1 Virtual - Sostenibilidad]]**
   - [🚀 Presentación Inicio de Curso (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Sostenibilidad/07-Presentaciones/Presentacion-Inicial/SOST-Distancia-Presentacion-Inicial.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Sostenibilidad/07-Presentaciones/Presentacion-Inicial/SOST-Distancia-Presentacion-Inicial.pdf) | [[Calendario-Sesiones-Sostenibilidad-Virtual|Calendario de Sesiones (Miércoles)]] | [[Cronograma-Sostenibilidad-Virtual|Cronograma]] | [[Cuaderno-Notas-DAW1-Sostenibilidad|Cuaderno de Calificaciones]]
 - 🔌 **[[Dashboard-Grupo-SMR-Redes|SMR Presencial - Redes Locales]]**
-  - [🚀 Presentación 1er Día (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/07-Presentaciones/Presentacion-Inicial/RL-Presentacion-Inicial-Modulo-Redes-Locales.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/07-Presentaciones/Presentacion-Inicial/RL-Presentacion-Inicial-Modulo-Redes-Locales.pdf) | [[Planificacion-Temporalizacion-Redes-Presencial|Calendario y Sesiones]] | [[Cuaderno-Notas-SMR-Redes|Cuaderno de Calificaciones]] | [[Diario-Aula-SMR-Redes|Diario de Taller/Clase]]
+  - [🚀 Presentación 1er Día (HTML)](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/07-Presentaciones/Presentacion-Inicial/RL-Presentacion-Inicial-Modulo-Redes-Locales.html) · [PDF](file:///c:/Users/capsx/Documents/trabajo/proyectos%20IA/profe-sergio/01-Modulos/Redes-Locales/07-Presentaciones/Presentacion-Inicial/RL-Presentacion-Inicial-Modulo-Redes-Locales.pdf) | [[Planificacion-Temporalizacion-Redes-Presencial|Calendario y Sesiones]] | [[Cuaderno-Notas-SMR-Redes|Cuaderno de Calificaciones]] · [[Calificaciones-Reto-UT1.1|Reto UT1.1]] | [[Diario-Aula-SMR-Redes|Diario de Taller/Clase]]
 
 ---
 

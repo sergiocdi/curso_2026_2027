@@ -3,9 +3,9 @@ tipo: compilador_programacion
 modulo: "Acceso a Datos"
 modalidad: "Distancia"
 curso_academico: "2026-2027"
-fecha_compilacion: 2026-09-14
+fecha_compilacion: 2026-09-18
 clase_virtual_semanal: "Lunes (2h sincrónicas)"
-espacio_virtual: "Moodle Educastur + Teams/Meet"
+espacio_virtual: "Moodle Educastur + Microsoft Teams"
 ---
 
 # 📖 PROGRAMACIÓN DIDÁCTICA: ACCESO A DATOS (0486) — A DISTANCIA / VIRTUAL

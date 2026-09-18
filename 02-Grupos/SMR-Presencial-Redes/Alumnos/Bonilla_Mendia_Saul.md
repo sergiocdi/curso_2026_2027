@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **8.40/10.0**. Muy bien el método de divisiones sucesivas indicando el cero a la izquierda. Cuidado en Reto 6: 1010 en binario es 10 (A), no 5; el resultado es 0xDA.

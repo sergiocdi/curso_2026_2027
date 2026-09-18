@@ -24,15 +24,15 @@ actualizado: 2026-09-14
 - **Total Miércoles del Curso (14 Septiembre 2026 – 18 Junio 2027):** 40 miércoles.
 - **Miércoles No Lectivos / Festividades Oficiales:** **4 miércoles** (3 en vacaciones de Navidad y 1 en Semana Santa).
 - **Miércoles con Sesión Virtual Activa:** **36 sesiones** organizadas en:
-  - **1ª Evaluación (15 sesiones | 50% nota final):** 16 Septiembre 2026 – 13 Enero 2027 (UT1 a UT3 + Examen 1ª Ev).
-  - **2ª Evaluación (15 sesiones | 50% nota final):** 20 Enero 2027 – 05 Mayo 2027 (UT4 a UT6 + Examen 2ª Ev).
-  - **Fase Final, Recuperaciones y Cierre (6 sesiones):** 12 Mayo 2027 – 16 Junio 2027 (Recuperación ordinaria y extraordinaria).
+  - **1ª Evaluación (14 sesiones):** 16 Septiembre 2026 – **16 Diciembre 2026** (UT1 a UT3 + **Examen Oficial 1ª Ev el 16/12/2026**).
+  - **2ª Evaluación (10 sesiones):** 13 Enero 2027 – **17 Marzo 2027** (UT4 a UT6 + **Examen Oficial 2ª Ev el 17/03/2027**).
+  - **Fase de Consolidación, Refuerzo y Convocatorias Finales (12 sesiones):** 31 Marzo 2027 – 16 Junio 2027 (**1ª Eval. Final Ordinaria el 27/05/2027** y **2ª Eval. Final Extraordinaria el 16/06/2027**).
 
 ---
 
-## 🍂 1ª EVALUACIÓN: Fundamentos ASG, Retos Globales y ODS (15 Sesiones | RA1, RA2, RA3)
+## 🍂 1ª EVALUACIÓN: Fundamentos ASG, Retos Globales y ODS (14 Sesiones | RA1, RA2, RA3)
 
-> **Carga Lectiva:** 15 horas lectivas | **Ponderación:** 50% de la calificación final del módulo.
+> **Carga Lectiva:** 14 sesiones síncronas | **Fecha Oficial de Evaluación:** **16 de diciembre de 2026**.
 
 | Nº | Fecha | Horario | Estado | Unidad / RA | Temática de la Sesión Virtual y Dinámica de Aula | Hito / Tarea Moodle |
 | :-: | :---: | :---: | :---: | :---: | :--- | :--- |
@@ -48,52 +48,52 @@ actualizado: 2026-09-14
 | **10** | **18/11/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT02** (RA2) | **Medidas de Mitigación y Alianzas Transversales**: Descarbonización, eficiencia energética y alianzas multisectoriales (ODS 17). | **Entrega Reto Práctico 2 (RA2)** |
 | **11** | **25/11/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT03** (RA3) | **La Agenda 2030 en el Sector TIC**: Los 17 ODS y metas clave para el desarrollo de software (ODS 7, 8, 9, 12 y 13). | Apertura de la [[UT03-Los-ODS-en-el-Desempeno-Profesional-y-Personal\|UT3]] |
 | **12** | **02/12/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT03** (RA3) | **Alineación Profesional en Desarrollo Web**: Cómo impacta el código, las arquitecturas y los servicios digitales en los ODS. | Análisis de impacto de servicios web |
-| **13** | **09/12/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT03** (RA3) | **Riesgos y Empleabilidad Verde**: Nuevos perfiles laborales (Green IT, auditoría ESG) y requisitos de clientes concienciados. | Lanzamiento Reto Práctico 3 (RA3) |
-| **14** | **16/12/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT03** (RA3) | **Plan de Acción Personal y Profesional**: Consumo responsable, desconexión digital y eliminación de basura digital (*digital decluttering*). | **Entrega Reto Práctico 3 (RA3)** |
+| **13** | **09/12/2026** | 15:45 - 16:40 | 🟢 Lectiva | **UT03** (RA3) | **Empleabilidad Verde y Plan Personal**: Perfiles Green IT, hábitos sostenibles y cierre de la UT3. | **Entrega Reto Práctico 3 (RA3)** |
+| **14** | **16/12/2026** | 15:45 - 16:40 | 🟢 Evaluación | **EV1** | 📝 **Prueba Oficial de la 1ª Evaluación**: Examen teórico-práctico en Moodle (RA1, RA2 y RA3) y cierre de entregas antes de Navidad. | **Examen Oficial 1ª Evaluación (16/12/2026)** |
 | — | **23/12/2026** | — | 🔴 **FESTIVO** | — | 🏖️ **VACACIONES DE NAVIDAD** (23 Dic 2026 – 10 Ene 2027) · Sin sesión virtual. | Período vacacional |
 | — | **30/12/2026** | — | 🔴 **FESTIVO** | — | 🏖️ **VACACIONES DE NAVIDAD** · Sin sesión virtual. | Período vacacional |
 | — | **06/01/2027** | — | 🔴 **FESTIVO** | — | 🏖️ **FESTIVIDAD DE REYES / NAVIDAD** · Sin sesión virtual (retorno Lunes 11). | Período vacacional |
-| **15** | **13/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **EV1** | 📝 **Prueba Escrita Teórico-Práctica de la 1ª Evaluación** en plataforma Moodle (cobertura sumativa de RA1, RA2 y RA3). | **Examen Oficial 1ª Evaluación** |
 
 ---
 
-## ❄️ 2ª EVALUACIÓN: Economía Circular, Ecodiseño Web y Plan de Sostenibilidad (15 Sesiones | RA4, RA5, RA6)
+## ❄️ 2ª EVALUACIÓN: Economía Circular, Ecodiseño Web y Plan de Sostenibilidad (10 Sesiones | RA4, RA5, RA6)
 
-> **Carga Lectiva:** 15 horas lectivas | **Ponderación:** 50% de la calificación final del módulo.
+> **Carga Lectiva:** 10 sesiones síncronas | **Fecha Oficial de Evaluación:** **17 de marzo de 2027**.
 
 | Nº | Fecha | Horario | Estado | Unidad / RA | Temática de la Sesión Virtual y Dinámica de Aula | Hito / Tarea Moodle |
 | :-: | :---: | :---: | :---: | :---: | :--- | :--- |
-| **16** | **20/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Economía Circular vs Modelo Lineal**: Principios de regeneración, eliminación de residuos y retención de valor en tecnología. | Apertura de la [[UT04-Economia-Verde-y-Circular\|UT4]] |
-| **17** | **27/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Análisis de Ciclo de Vida (ACV)**: Fases *cradle-to-grave* y *cradle-to-cradle* aplicadas a productos y servicios software. | Taller de análisis ACV |
-| **18** | **03/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Ecodiseño de Software (Green Software)**: Optimización de transferencia de datos, formatos modernos (WebP/AVIF) y compresión. | Lanzamiento Reto Práctico 4 (RA4) |
-| **19** | **10/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Obsolescencia y Ciclo de Vida del Software**: Mantenibilidad, refactorización eficiente y consumo de CPU/GPU en clientes. | Debate: Obsolescencia de software |
-| **20** | **17/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Transición Ecológica y Nuevos Modelos de Negocio**: Servicios web sostenibles y computación verde bajo demanda. | **Entrega Reto Práctico 4 (RA4)** |
-| **21** | **24/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Medición del Impacto Ambiental en Entornos Digitales**: Cuantificación de energía en servidores, redes y terminales de usuario. | Apertura de la [[UT05-Actividades-Sostenibles-y-Medioambiente\|UT5]] |
-| **22** | **03/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Herramientas de Auditoría Web**: Medición práctica con *Website Carbon Calculator*, *Ecograder* y *GreenFrame* ($g\ CO_2$/visita). | Taller práctico de medición |
-| **23** | **10/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Infraestructuras y Eficiencia en Centros de Datos**: Métrica PUE (*Power Usage Effectiveness*), refrigeración y hosting renovable. | Lanzamiento Reto Práctico 5 (RA5) |
-| **24** | **17/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Residuos Electrónicos (RAEE / e-waste) y Normativa Ambiental**: Directivas europeas, reciclaje y derecho a reparar. | **Entrega Reto Práctico 5 (RA5)** |
+| **15** | **13/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Apertura de la 2ª Evaluación**: Economía circular vs modelo lineal, regeneración y valor en IT. | Apertura de la [[UT04-Economia-Verde-y-Circular\|UT4]] |
+| **16** | **20/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Análisis de Ciclo de Vida (ACV)**: Fases *cradle-to-grave* aplicadas a productos y servicios software. | Taller de análisis ACV |
+| **17** | **27/01/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT04** (RA4) | **Ecodiseño y Green Software**: Optimización de transferencia de datos, compresión y assets web. | **Entrega Reto Práctico 4 (RA4)** |
+| **18** | **03/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Apertura de la UT5**: Medición de impacto ambiental digital (servidores, redes y terminales). | Apertura de la [[UT05-Actividades-Sostenibles-y-Medioambiente\|UT5]] |
+| **19** | **10/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Herramientas de Auditoría Web**: Medición práctica con *Website Carbon* y *Ecograder* ($g\ CO_2$/visita). | Taller práctico de medición web |
+| **20** | **17/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT05** (RA5) | **Centros de Datos y RAEE**: Métrica PUE, hosting verde renovable y reciclaje de hardware informático. | **Entrega Reto Práctico 5 (RA5)** |
+| **21** | **24/02/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Apertura de la UT6**: El Plan de Sostenibilidad corporativo, diagnóstico ambiental y objetivos SMART. | Apertura de la [[UT06-El-Plan-de-Sostenibilidad\|UT6]] |
+| **22** | **03/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Matriz de Materialidad y Medidas**: Propuesta técnica de descarbonización web y hosting verde. | Taller Matriz de Materialidad |
+| **23** | **10/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Cuadro de Mando y Memoria**: Indicadores KPI de sostenibilidad y redacción ejecutiva del plan. | **Entrega Reto Práctico 6 (RA6)** |
+| **24** | **17/03/2027** | 15:45 - 16:40 | 🟢 Evaluación | **EV2** | 📝 **Prueba Oficial de la 2ª Evaluación**: Examen en Moodle (RA4, RA5 y RA6) y defensa del Plan de Sostenibilidad. | **Examen Oficial 2ª Evaluación (17/03/2027)** |
 | — | **24/03/2027** | — | 🔴 **FESTIVO** | — | 🏖️ **VACACIONES DE SEMANA SANTA** (22 al 28 Marzo + 29 Marzo Lunes de Bollo) · Sin sesión virtual. | Período vacacional |
-| **25** | **31/03/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **El Plan de Sostenibilidad Corporativo**: Diagnóstico ambiental de partida, compromiso corporativo y objetivos SMART en IT. | Apertura de la [[UT06-El-Plan-de-Sostenibilidad\|UT6]] |
-| **26** | **07/04/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Matriz de Doble Materialidad**: Evaluación cruzada de riesgos ambientales/sociales y su impacto en el modelo de negocio. | Taller Matriz de Materialidad |
-| **27** | **14/04/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Diseño del Plan de Acción**: Medidas correctoras, proveedores de hosting verde, políticas de compras sostenibles y plazos. | Lanzamiento Reto Práctico 6 (RA6) |
-| **28** | **21/04/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Cuadro de Mando e Indicadores KPI**: Métricas cuantitativas (intensidad de carbono, % energía verde, paridad e inclusión). | Taller de KPIs sostenibles |
-| **29** | **28/04/2027** | 15:45 - 16:40 | 🟢 Lectiva | **UT06** (RA6) | **Elaboración del Informe de Sostenibilidad**: Redacción ejecutiva, directivas de reporte CSRD/GRI y prevención del *Greenwashing*. | **Entrega Reto Práctico 6 (RA6)** |
-| **30** | **05/05/2027** | 15:45 - 16:40 | 🟢 Lectiva | **EV2** | 📝 **Prueba Escrita Teórico-Práctica de la 2ª Evaluación** en plataforma Moodle (cobertura sumativa de RA4, RA5 y RA6). | **Examen Oficial 2ª Evaluación** |
 
 ---
 
-## 🚀 FASE FINAL: Consolidación, Recuperaciones y Cierre (6 Sesiones)
+## 🚀 FASE FINAL: Consolidación, Refuerzo y Convocatorias Finales (12 Sesiones)
 
 > Período dedicado al refuerzo pedagógico, cierre de actas ordinarias y convocatorias extraordinarias.
 
 | Nº | Fecha | Horario | Estado | Finalidad de la Sesión y Atención al Alumnado | Hito Académico |
 | :-: | :---: | :---: | :---: | :--- | :--- |
-| **31** | **12/05/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Sesión de Devolución y Revisión**: Publicación de notas provisionales, feedback personalizado en retos y atención de dudas. | Publicación de Calificaciones Provisionales |
-| **32** | **19/05/2027** | 15:45 - 16:40 | 🟢 Evaluación | **Prueba de Recuperación Ordinaria**: Cuestionario y re-entrega de tareas para alumnado con RAs pendientes (RA1 a RA6). | **Recuperación Convocatoria Ordinaria** |
-| **33** | **26/05/2027** | 15:45 - 16:40 | 🟢 Cierre | **Cierre de Evaluación Ordinaria**: Publicación de notas definitivas ordinarias y orientación formativa para la convocatoria extraordinaria. | **Cierre de Actas Ordinarias** |
-| **34** | **02/06/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Tutoría de Refuerzo Extraordinaria**: Asesoramiento telemático y resolución de dudas específicas de preparación para junio. | Preparación Convocatoria Extraordinaria |
-| **35** | **09/06/2027** | 15:45 - 16:40 | 🟢 Evaluación | **Pruebas de la Convocatoria Extraordinaria de Junio**: Examen global por RAs no superados en Moodle. | **Examen Convocatoria Extraordinaria** |
-| **36** | **16/06/2027** | 15:45 - 16:40 | 🟢 Cierre | **Cierre Definitivo de Curso**: Publicación de actas extraordinarias, balance final y despedida del curso académico 2026-2027. | **Cierre Oficial de Curso y Actas** |
+| **25** | **31/03/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Devolución de la 2ª Evaluación**: Publicación de calificaciones, feedback individualizado del Plan de Sostenibilidad y balance pedagógico. | Publicación de Calificaciones 2ª Ev. |
+| **26** | **07/04/2027** | 15:45 - 16:40 | 🟢 Taller | **Taller de Ecodiseño Web en Proyectos DAW**: Aplicación práctica de métricas de compresión, optimización de DOM y hosting verde en proyectos reales. | Práctica de transferencia a DAW |
+| **27** | **14/04/2027** | 15:45 - 16:40 | 🟢 Taller | **Green Software Foundation y Estándares SCI**: Estudio de especificaciones técnicas de intensidad de carbono de software. | Análisis de especificación SCI |
+| **28** | **21/04/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Auditoría Ambiental Cruzada**: Evaluación entre pares de portafolios web sostenibles y resolución de casos de estudio. | Taller colaborativo |
+| **29** | **28/04/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Directivas CSRD y Memorias No Financieras**: Análisis de informes reales de pymes tecnológicas asturianas. | Estudio de casos reales |
+| **30** | **05/05/2027** | 15:45 - 16:40 | 🟢 Refuerzo | **Preparación Convocatoria Ordinaria (Bloque 1)**: Sesión de repaso y resolución de dudas sobre saberes de RA1, RA2 y RA3. | Repaso Bloque 1ª Evaluación |
+| **31** | **12/05/2027** | 15:45 - 16:40 | 🟢 Refuerzo | **Preparación Convocatoria Ordinaria (Bloque 2)**: Sesión de repaso y resolución de dudas sobre saberes de RA4, RA5 y RA6. | Repaso Bloque 2ª Evaluación |
+| **32** | **19/05/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Tutoría Individualizada Pre-Evaluación**: Atención personalizada de dudas para el alumnado con RAs pendientes. | Asesoramiento personalizado |
+| **33** | **26/05/2027** | 15:45 - 16:40 | 🟢 Tutoría | **Sesión de Cierre Ordinario**: Instrucciones para la prueba oficial ordinaria del 27/05/2027 en Moodle. | **Jueves 27/05/2027: 1ª Evaluación Final (Ordinaria)** |
+| **34** | **02/06/2027** | 15:45 - 16:40 | 🟢 Cierre | **Publicación de Calificaciones Ordinarias**: Notificación oficial de notas y orientación académica para la convocatoria extraordinaria. | **Cierre de Actas Ordinarias** |
+| **35** | **09/06/2027** | 15:45 - 16:40 | 🟢 Refuerzo | **Tutoría Extraordinaria de Junio**: Asesoramiento telemático intensivo para el alumnado que concurre a la prueba final del 16/06. | Preparación Convocatoria Extraordinaria |
+| **36** | **16/06/2027** | 15:45 - 16:40 | 🟢 Evaluación | 🎯 **2ª Evaluación Final (Convocatoria Extraordinaria)**: Prueba oficial en Moodle de RAs pendientes y cierre definitivo de actas. | **Examen Oficial 2ª Evaluación Final (16/06/2027)** |
 
 ---
 

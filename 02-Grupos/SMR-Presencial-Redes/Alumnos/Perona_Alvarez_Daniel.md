@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **7.65/10.0**. Notable bajo. Buen procedimiento en divisiones y sumas. Falta cerrar la cadena binaria final en Reto 4 y completar el apartado b) de Reto 6 (255 = FF).

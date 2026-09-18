@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **9.50/10.0**. Sobresaliente. Gran justificación en Reto 1 y 2. Atención en Reto 4: el 192 quedó en 1100000 (falta un 0) y el 77 en 1001101 (completar siempre los 8 bits).

@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **6.98/10.0**. Buen Reto 1 y 6. Error en Reto 5 al usar potencias desplazadas (256, 128.. en vez de 128, 64..); en Reto 4 192 es 11000000; la corriente alterna 230V es analógica senoidal.

@@ -24,15 +24,15 @@ $$\mathbf{Nota\ Final\ PI2} = \mathbf{(0.10 \times PIDM1)} + \mathbf{(0.90 \time
 - **Nota 2º DAM (90%)**:
   $$\text{Nota 2º DAM} = (0.50 \times \text{Software}) + (0.30 \times \text{Memoria}) + (0.20 \times \text{Vídeo})$$
   *(Exige calificación $\ge 5,0$ en cada uno de los tres bloques individuales).*
-- **Vías de Superación**:
-  1. *Evaluación Continua*: Superando la **1ª Entrega Parcial** (Anteproyecto/Diseño) y la **2ª Entrega Parcial** (Proyecto Completo). Quien apruebe ambas tiene el módulo aprobado antes de la 1ª convocatoria ordinaria.
-  2. *Convocatorias Ordinarias*: Si no se superan las parciales, se recupera en las dos convocatorias ordinarias oficiales presentando **todo el proyecto completo** (Software + Memoria + Vídeo).
+- **Vías de Superación y Calendario Oficial**:
+  1. *Evaluación Continua*: Superando la **1ª Entrega Parcial** (Diseño/Arquitectura - **16/12/2026**) y la **2ª Entrega Parcial** (Proyecto Completo - **25/02/2027**). Quien apruebe ambas tiene el módulo aprobado antes de la 1ª convocatoria ordinaria.
+  2. *Convocatorias Ordinarias*: Si no se superan las parciales, se recupera en las dos convocatorias ordinarias oficiales: **1ª Convocatoria Final (27/05/2027)** o **2ª Convocatoria Final (16/06/2027)** presentando **todo el proyecto completo** (Software + Memoria + Vídeo).
 
 ---
 
 ## 📋 Registro y Calificaciones del Alumnado (44 Alumnos)
 
-| Nº | Alumno / Alumna | PIDM1 (1º) | Aporte 10% | 1ª Parcial (Diseño) | 2ª Parcial (Proyecto) | Eval. Continua | 1ª Ordinaria (Todo Proy.) | 2ª Ordinaria / Extr. | Nota 2º (90%) | Nota Final PI2 |
+| Nº | Alumno / Alumna | PIDM1 (1º) | Aporte 10% | 1ª Parcial (16/12/26) | 2ª Parcial (25/02/27) | Eval. Continua | 1ª Ord. (27/05/27) | 2ª Ord. (16/06/27) | Nota 2º (90%) | Nota Final PI2 |
 | :-: | :--- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 1 | **Alonso Parrondo, Rocío Celeste** | 10.0 | **+1.00** | - | - | - | - | - | - | - |
 | 2 | **Alva Aguilar, Martín Alfredo** | 10.0 | **+1.00** | - | - | - | - | - | - | - |

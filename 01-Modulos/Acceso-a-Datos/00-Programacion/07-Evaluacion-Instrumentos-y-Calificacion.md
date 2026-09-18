@@ -10,12 +10,12 @@ titulo: "Evaluación, Instrumentos y Criterios de Calificación"
 ## 7.1. Estructura de Calificación del Módulo (2 Evaluaciones)
 Dado que en 2º curso el alumnado realiza la FCT durante el tercer trimestre, la calificación final del módulo se articula en torno a dos grandes bloques evaluativos independientes y complementarios:
 
-$$\text{Nota Final} = 0.60 \cdot \text{Nota 1ª Evaluación} + 0.40 \cdot \text{Nota 2ª Evaluación}$$
+> **Nota Final = (0,60 × Nota 1ª Evaluación) + (0,40 × Nota 2ª Evaluación)**
 
 > [!IMPORTANT]
 > **Condición indispensable de superación del módulo**:
 > Para calcular la nota final ponderada y aprobar el módulo, es **obligatorio obtener una calificación igual o superior a 5.0 puntos (sobre 10) en AMBAS evaluaciones de forma independiente**:
-> $$\text{Nota 1ª Evaluación} \ge 5.0 \quad \text{y} \quad \text{Nota 2ª Evaluación} \ge 5.0$$
+> **Nota 1ª Evaluación ≥ 5,0** &nbsp; y &nbsp; **Nota 2ª Evaluación ≥ 5,0**
 > Si alguna de las dos partes no alcanza el 5.0, el módulo quedará suspenso y el alumno deberá recuperar la parte o partes no superadas.
 
 ---

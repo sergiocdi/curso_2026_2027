@@ -43,3 +43,4 @@ observaciones: ""
 
 ## 📝 Diario de Seguimiento Individual
 - **2026-09-15**: Alta en el sistema del módulo de Redes Locales (Curso 2026-2027).
+- **2026-09-18**: Calificación Reto UT1.1 (Comprobación en Aula): **5.85/10.0**. Aprobado justo. Repasar: 192 en binario es 11000000; 10101000 en decimal suma 168 (128+32+8); en hexadecimal 13 es D (resultado DA) y 255 es FF.
